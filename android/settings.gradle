@@ -1,0 +1,3 @@
+rootProject.name = 'Ecdrn'
+
+include ':app'
