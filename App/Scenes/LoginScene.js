@@ -4,12 +4,14 @@ import {
   View,
   StyleSheet,
   TouchableHighlight,
+  Modal
 } from 'react-native'
 
 import Config from '../Config'
 import Routes from '../Routes'
 import NavBar from '../Components/NavBar'
 import LoginForm from '../Components/LoginForm'
+import WaitModal from '../Components/WaitModal'
 
 export default class MainScene extends Component {
 
@@ -21,6 +23,7 @@ export default class MainScene extends Component {
       password: props.password || '',
       loggedin: false,
       attempting: false,
+      modalOpen: false,
       error: null
     }
     console.log('MainScreen:Constructor.state',this.state)
@@ -47,6 +50,11 @@ export default class MainScene extends Component {
 
     return (
       <View style={styles.containerColumn}>
+        <WaitModal
+          text="Please wait"
+          visible={this.state.attempting}
+          ref="waitmodal"
+        />
         <NavBar
           navigator={ this.props.navigator }
           route={ this.props.route }
@@ -55,10 +63,10 @@ export default class MainScene extends Component {
         />
         <View style={ styles.containerColumn }>
           <LoginForm
-            onAttempt={() => this.attempt()}
+            onAttempt={ () => this.attempt() }
             navigator={ this.props.navigator }
             attempting={ this.state.attempting }
-            error={this.state.error}
+            error={ this.state.error }
             ref="loginform"
           />
         </View>
@@ -66,27 +74,53 @@ export default class MainScene extends Component {
     )
   }
 
-  attempt = () => {
 
+  // Network
+  attempt = () => {
+    let username = this.refs.loginform.state.username
+    let password = this.refs.loginform.state.password
+    let errors = []
+
+    if (password.length < 1) {
+      errors.push("Password cannot be empty")
+    }
+
+    if (username.length < 1) {
+      errors.push("Username cannot be empty")
+    }
+
+    if (errors.length > 0) {
+      this.setState({
+        error: errors.toString()
+      })
+      return
+    }
     var formData = new FormData()
-    formData.append('username', this.refs.loginform.state.username)
-    formData.append('password', this.refs.loginform.state.password)
+    formData.append('username', username)
+    formData.append('password', password)
+
+    if (this.state.loggedin) {
+      // Already logged in...
+      this.setState({
+        error: 'Already logged in'
+      })
+      return
+    }
+
+    // Bring up modal
+    this.setState({
+      attempting: true
+    })
 
     // Initialise request
     fetch('http://localhost:8989/', {
       method: 'POST',
       body: formData
     })
+
     // Response received
-    .then( (response) => {
-      if (!this.state.loggedin) {
-        this.setState({
-          attempting: true
-        })
-        return response.json()
-      } else {
-        return Promise.reject("Already logged in")
-      }
+    .then((response) => {
+      return response.json()
     })
     // Parse to JSON
     .then( (responseJson) => {

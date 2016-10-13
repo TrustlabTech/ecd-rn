@@ -1,5 +1,7 @@
 <?php
 require 'common.php';
+// Simulate latency
+sleep(1);
 // IN
 $stderr = fopen(STDERR,'w');
 $request = print_r($_REQUEST,true);
@@ -24,7 +26,7 @@ if( !$present ) {
     $errors[] = "Username/Password not in form data";
 } else {
 
-    $correct = $_REQUEST['username'] === 'test' &&
+    $correct = $_REQUEST['username'] === 'Test' &&
                $_REQUEST['password'] === '123';
 
     if(!$correct) {
