@@ -93,12 +93,14 @@ export default class MainScene extends Component {
       if (responseJson.authenticated === true) {
         this.setState({
           loggedin: true,
-          attempting: false
+          attempting: false,
+          error: null
         })
       } else {
         this.setState({
           loggedin: false,
-          attempting: false
+          attempting: false,
+          error: responseJson.error
         })
       }
     })
