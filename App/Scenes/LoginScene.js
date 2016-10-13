@@ -67,66 +67,49 @@ export default class MainScene extends Component {
   }
 
   attempt = () => {
-    console.log('====== ATTEMPT =======')
-    console.log( this.refs.loginform.state.username )
-    console.log(this.refs.loginform.state.password)
-    var oldRequest = {
-      method: 'POST',
-      headers: Config.httpClient.headers,
-      body: JSON.stringify({
-        username: this.refs.loginform.state.username,
-        password: this.refs.loginform.state.password
-      })
-    }
-    var request = new Request('http://localhost:8989',
-    {
-      method: 'POST',
-      headers: Config.httpClient.headers,
-      body: JSON.stringify({
-        username: this.refs.loginform.state.username,
-        password: this.refs.loginform.state.password
-      })
-      }).formData().then((data) => {
-        console.log(data)
-    })
 
+    var formData = new FormData()
+    formData.append('username', this.refs.loginform.state.username)
+    formData.append('password', this.refs.loginform.state.password)
+
+    // Initialise request
     fetch('http://localhost:8989/', {
       method: 'POST',
-      headers: Config.httpClient.headers,
-      body: JSON.stringify({
-        username: this.refs.loginform.state.username,
-        password: this.refs.loginform.state.password
-      })
-    }).then(
-      (response) => {
-        if (!this.state.loggedin) {
-          this.setState({
-            attempting: true
-          })
-          return response.json()
-        } else {
-          return Promise.reject("Already logged in")
-        }
-    }).then(
-      (responseJson) => {
-        if (responseJson.authenticated === true) {
-          this.setState({
-            loggedin: true,
-            attempting: false
-          })
-        } else {
-          this.setState({
-            loggedin: false,
-            attempting: false
-          })
-        }
-      }).catch((error) => {
-        console.log('LoginScene:attempt', error)
+      body: formData
+    })
+    // Response received
+    .then( (response) => {
+      if (!this.state.loggedin) {
         this.setState({
-          error: "Network error ",
+          attempting: true
+        })
+        return response.json()
+      } else {
+        return Promise.reject("Already logged in")
+      }
+    })
+    // Parse to JSON
+    .then( (responseJson) => {
+      if (responseJson.authenticated === true) {
+        this.setState({
+          loggedin: true,
           attempting: false
         })
+      } else {
+        this.setState({
+          loggedin: false,
+          attempting: false
+        })
+      }
+    })
+    // On reject
+    .catch( (error) => {
+      console.log('LoginScene:attempt', error)
+      this.setState({
+        error: "Network error ",
+        attempting: false
       })
+    })
   }
 }
 
