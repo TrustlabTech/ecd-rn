@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
-//http://colorschemedesigner.com/csd-3.5/#3d21Tw0w0w0w0
+// our colours
+// http://colorschemedesigner.com/csd-3.5/#3s21.tmE7FDYL
 export default StyleSheet.create({
   // Text
   h1: {

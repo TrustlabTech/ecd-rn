@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ff6700',
+    backgroundColor: '#ff9215',
     borderRadius: 3,
 
   },

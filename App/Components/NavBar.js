@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: Config.metrics.navBarHeight,
-        backgroundColor: '#00a287',
+        backgroundColor: '#1886BC',
     },
     titleBarBackground: {
         backgroundColor: '#cccccc',

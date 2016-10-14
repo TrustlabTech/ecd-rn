@@ -30,14 +30,12 @@ export default class WaitModal extends Component {
         visible={this.state.visible}
         onRequestClose={() => {alert("Modal has been closed.")}}
       >
-        <View style={styles.waitModalOuter}>
-          <View style={styles.waitModalInner}>
-            <Text>{this.props.text}</Text>
-            <TouchableHighlight onPress={() => {
-              alert('Hello world')
-            }}>
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
+        <View style={ styles.waitModalOuter }>
+          <View style={ styles.waitModalInner }>
+            <View style={ styles.textContainer }>
+              <Text>{this.props.text}</Text>
+              <Text>{this.props.subtext}</Text>
+            </View>
           </View>
         </View>
       </Modal>
@@ -53,9 +51,18 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   waitModalInner: {
-    padding: 15,
-    width: 200,
+    borderRadius: 2,
+    padding: 5,
+    width: 300,
     height: 350,
-    backgroundColor: 'white'
+    backgroundColor: 'gray'
+  },
+  textContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 2
   }
 })

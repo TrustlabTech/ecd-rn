@@ -51,7 +51,8 @@ export default class MainScene extends Component {
     return (
       <View style={styles.containerColumn}>
         <WaitModal
-          text="Please wait"
+          text="Logging in..."
+          subtext="Please wait..."
           visible={this.state.attempting}
           ref="waitmodal"
         />
@@ -77,10 +78,12 @@ export default class MainScene extends Component {
 
   // Network
   attempt = () => {
+
     let username = this.refs.loginform.state.username
     let password = this.refs.loginform.state.password
     let errors = []
 
+    // Prevent attempt if a field is empty
     if (password.length < 1) {
       errors.push("Password cannot be empty")
     }
@@ -95,12 +98,14 @@ export default class MainScene extends Component {
       })
       return
     }
+
+    // Create form data
     var formData = new FormData()
     formData.append('username', username)
     formData.append('password', password)
 
+    // Check if already logged in...
     if (this.state.loggedin) {
-      // Already logged in...
       this.setState({
         error: 'Already logged in'
       })
@@ -120,24 +125,39 @@ export default class MainScene extends Component {
 
     // Response received
     .then((response) => {
+      this.setState({
+        attempting: false
+      })
       return response.json()
     })
+
     // Parse to JSON
     .then( (responseJson) => {
       if (responseJson.authenticated === true) {
         this.setState({
           loggedin: true,
-          attempting: false,
           error: null
         })
+        return true
+        // Login complete, change scene
       } else {
         this.setState({
           loggedin: false,
           attempting: false,
           error: responseJson.error
         })
+        return false
+      }
+    }).then((success) => {
+      if (success) {
+        this.props.navigator.push(Routes.main)
+      } else {
+
+        //alert("Something went wrong :'(") // this is breaking react
+        // we may have to use a modal or not call it at this point in the lifecycle
       }
     })
+
     // On reject
     .catch( (error) => {
       console.log('LoginScene:attempt', error)
@@ -147,6 +167,7 @@ export default class MainScene extends Component {
       })
     })
   }
+
 }
 
 const styles = StyleSheet.create({
