@@ -31,17 +31,37 @@ export default class Both extends Component {
     console.log('Index:componentWillReceiveProps')
   }
 
+  createScene(route, navigator) {
+    return React.createElement(
+      route.component,
+      {route, navigator}
+    )
+  }
+
+  createDrawer(route, navigator) {
+    return React.createElement(
+      route.drawer,
+      {route, navigator}
+    )
+  }
+
   render() {
     return (
       <Navigator
         initialRoute={Routes.login}
         ref='navigator'
-        // initialRouteStack={routes} // broken  https://github.com/facebook/react-native/pull/3016
-        renderScene={(route, navigator) => {
-          return React.createElement(
-            route.component,
-            {route, navigator}
-          )
+        renderScene={ (route, navigator) => {
+          if(route.drawer !== null) {
+            return React.createElement(
+              route.drawer,
+              {route, navigator}
+            )
+          } else {
+            return React.createElement(
+              route.scene,
+              {route, navigator}
+            )
+          }
         }}
         />
     );

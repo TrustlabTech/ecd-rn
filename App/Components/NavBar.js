@@ -23,16 +23,16 @@ export default class NavBar extends Component {
 
 
   canGoBack() {
-    return this.state.navigator.getCurrentRoutes().length > 1 ?
+    return this.props.navigator.getCurrentRoutes().length > 1 ?
       true : false
   }
 
   render() {
 
-    var backButton
+    var leftButton
     if( this.props.leftButtonText &&
         this.props.leftButtonAction){
-      backButton =
+      leftButton =
       <TouchableHighlight
         underlayColor='silver'
         onPress={ this.props.leftButtonAction }
@@ -42,10 +42,10 @@ export default class NavBar extends Component {
         </View>
       </TouchableHighlight>
     } else if (this.canGoBack()) {
-      backButton =
+      leftButton =
         <TouchableHighlight
           underlayColor='silver'
-          onPress={ this.state.navigator.pop }
+          onPress={ this.props.navigator.pop }
         >
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>Back</Text>
@@ -54,7 +54,7 @@ export default class NavBar extends Component {
     } else {
       {/* This is a bit of a hack,
         for layout to render correctly */}
-      backButton =
+      leftButton =
         <TouchableHighlight>
           <View style={styles.sideButtonsViewWrapper}/>
         </TouchableHighlight>
@@ -81,7 +81,7 @@ export default class NavBar extends Component {
       <View>
         <SystemBar/>
         <View style={[styles.container]}>
-          {backButton}
+          {leftButton}
           {centerTitle}
           {rightButton}
         </View>
