@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   StyleSheet
 } from 'react-native'
-import GlobalStyles from '../GlobalStyles'
 
 import SceneHeading from '../Components/SceneHeading'
 import FormButton from '../Components/FormButton'
@@ -36,33 +35,36 @@ export default class LoginForm extends Component {
   render() {
     return (
       <View style={styles.loginContainer}>
+        <Text style={{height: 18,color: 'red' }}>{this.state.error}</Text>
 
-        <SceneHeading text="Login"/>
-
-        <FormLabel text="Username"/>
         <TextInput
-          style={GlobalStyles.textInput}
+          style={{height: 55, fontSize: 30, padding: 10}}
           onChangeText={ (username) => this.setState({ username }) }
           value={this.state.username}
+          placeholder="Username"
           />
 
-        <FormLabel text="Password"/>
         <TextInput
-          style={GlobalStyles.textInput}
+          style={{height: 55, fontSize: 30, padding: 10 }}
           onChangeText={(password) => this.setState({ password }) }
-          value={this.state.password} />
+          value={this.state.password}
+          placeholder="Password"
+          secureTextEntry />
 
-        <FormButton
-          height={50}
-          width={100}
-          text="Login"
-          onPress={ this.props.onAttempt }
-        />
-        <Text>Error: {this.state.error}</Text>
-        <Text>Don't have an account?</Text>
-        <TouchableHighlight onPress={() => this.props.navigator.push(Routes.register)}>
-            <Text>Register here</Text>
-        </TouchableHighlight>
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Text style={{ fontSize: 18, marginTop: 25, color: '#131313' }}>Don't have an account yet?</Text>
+          <FormButton
+            text="Register"
+            onPress={ () => this.props.navigator.push(Routes.register) }
+            height={50}
+            width={100}
+          />
+        </View>
       </View>
     )
   }

@@ -20,32 +20,13 @@ export default class RegisterScene extends Component {
     }
   }
 
-  componentWillMount() {
-    console.log('componentWillMount')
-  }
-
-  shouldComponentUpdate(props) {
-    console.log('shouldComponentUpdate')
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount')
-  }
-
-  componentWillReceiveProps() {
-    console.log('componentWillReceiveProps')
-  }
-
-  goToPage2() {
-    // this.state.navigator.push(route[1])
-  }
-
   render() {
     return (
       <View style={styles.containerColumn}>
         <NavBar
           navigator={this.state.navigator}
           route={this.state.route}
+          title="Register"
           rightButtonText="Next"
           />
         <View style={styles.containerColumn}>

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+
 // our colours
 // http://colorschemedesigner.com/csd-3.5/#3s21.tmE7FDYL
 export default StyleSheet.create({

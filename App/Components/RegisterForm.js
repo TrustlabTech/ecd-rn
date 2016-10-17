@@ -8,6 +8,7 @@ import {
 import SceneHeading from './SceneHeading'
 import FormLabel from './FormLabel'
 import GlobalStyles from '../GlobalStyles'
+
 export default class RegisterForm extends Component {
 
   constructor(props) {
@@ -31,8 +32,6 @@ export default class RegisterForm extends Component {
   render() {
     return (
       <View style={styles.registerContainer}>
-
-        <SceneHeading text="Register" />
 
         <FormLabel text="Username" />
         <TextInput

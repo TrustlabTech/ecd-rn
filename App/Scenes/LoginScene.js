@@ -13,55 +13,41 @@ import NavBar from '../Components/NavBar'
 import LoginForm from '../Components/LoginForm'
 import WaitModal from '../Components/WaitModal'
 
+/* Props:
+ * route: Route
+ * navigator: Navigator
+ */
 export default class MainScene extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      route: props.route,
-      username: props.username || '',
-      password: props.password || '',
+      username: '',
+      password: '',
       loggedin: false,
       attempting: false,
       modalOpen: false,
       error: null
     }
-    console.log('MainScreen:Constructor.state',this.state)
-  }
-
-  componentWillMount() {
-    console.log('MainScene:componentWillMount')
-  }
-
-  shouldComponentUpdate(props) {
-    return true;
-  }
-
-  componentDidMount() {
-    console.log('MainScene:componentDidMount')
-  }
-
-  componentWillReceiveProps() {
-    console.log('MainScene:componentWillReceiveProps')
   }
 
   render() {
-    console.log('MainScrene:render.state', this.state)
-
     return (
-      <View style={styles.containerColumn}>
-        <WaitModal
-          text="Logging in..."
+      <View style={ styles.containerColumn }>
+      <WaitModal text="Logging in"
           subtext="Please wait..."
-          visible={this.state.attempting}
+          visible={ this.state.attempting }
           ref="waitmodal"
         />
+
         <NavBar
           navigator={ this.props.navigator }
           route={ this.props.route }
           rightButtonText="Login"
+          title="ECD"
           rightButtonAction={ () => this.attempt() }
         />
+
         <View style={ styles.containerColumn }>
           <LoginForm
             onAttempt={ () => this.attempt() }
@@ -70,6 +56,25 @@ export default class MainScene extends Component {
             error={ this.state.error }
             ref="loginform"
           />
+        </View>
+
+        <View>
+          <TouchableHighlight
+            onPress={ () => this.props.navigator.push(Routes.registerConfirm) }
+          >
+            <Text>RegisterConfirmScene</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            onPress={ () => this.props.navigator.replace(Routes.main)}
+          >
+            <Text>MainScene</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={ () => alert('Test')}>
+            <Text>CentreScene</Text>
+          </TouchableHighlight>
+
         </View>
       </View>
     )
@@ -84,12 +89,12 @@ export default class MainScene extends Component {
     let errors = []
 
     // Prevent attempt if a field is empty
-    if (password.length < 1) {
-      errors.push("Password cannot be empty")
+    if (username.length < 1) {
+      errors.push("No username given")
     }
 
-    if (username.length < 1) {
-      errors.push("Username cannot be empty")
+    if (password.length < 1) {
+      errors.push("No password given")
     }
 
     if (errors.length > 0) {
@@ -139,7 +144,6 @@ export default class MainScene extends Component {
           error: null
         })
         return true
-        // Login complete, change scene
       } else {
         this.setState({
           loggedin: false,
@@ -148,11 +152,17 @@ export default class MainScene extends Component {
         })
         return false
       }
-    }).then((success) => {
-      if (success) {
-        this.props.navigator.push(Routes.main)
-      } else {
+    })
+    .then((success) => {
+        console.log("SUCCESS",success)
 
+      if (success) {
+        // Login complete, change scene
+        this.props.navigator.replace(Routes.main)
+      } else {
+        this.setState({
+          error: "Invalid Username or Password"
+        })
         //alert("Something went wrong :'(") // this is breaking react
         // we may have to use a modal or not call it at this point in the lifecycle
       }
@@ -167,7 +177,6 @@ export default class MainScene extends Component {
       })
     })
   }
-
 }
 
 const styles = StyleSheet.create({

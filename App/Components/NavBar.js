@@ -19,63 +19,60 @@ export default class NavBar extends Component {
       route: props.route,
       navigator: props.navigator
     }
-    console.log('NavBarConstructor',this.state)
   }
 
-  componentWillMount() {
-    console.log('Navbar:componentWillMount')
-  }
-
-  shouldComponentUpdate(props) {
-    return true;
-  }
-
-  componentDidMount() {
-    console.log('Navbar:componentDidMount')
-  }
-
-  componentWillReceiveProps() {
-    console.log('Navbar:componentWillReceiveProps')
-  }
-
-  pressBack() {
-    this.state.navigator.pop()
-  }
 
   canGoBack() {
-      if (this.state.navigator.getCurrentRoutes().length > 1) {
-          return true
-      } else {
-          return false
-      }
+    return this.state.navigator.getCurrentRoutes().length > 1 ?
+      true : false
   }
 
   render() {
 
     var backButton
-    if (this.canGoBack()) {
+    if( this.props.leftButtonText &&
+        this.props.leftButtonAction){
+      backButton =
+      <TouchableHighlight
+        underlayColor='silver'
+        onPress={ this.props.leftButtonAction }
+      >
+        <View style={styles.sideButtonsViewWrapper}>
+          <Text style={styles.navButtonText}>{this.props.leftButtonText}</Text>
+        </View>
+      </TouchableHighlight>
+    } else if (this.canGoBack()) {
       backButton =
         <TouchableHighlight
           underlayColor='silver'
-          onPress={this.pressBack.bind(this) }
+          onPress={ this.state.navigator.pop }
         >
-          <View style={styles.navButtonViewWrapper}>
-            <View/>
+          <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>Back</Text>
-            <View/>
           </View>
         </TouchableHighlight>
     } else {
+      {/* This is a bit of a hack,
+        for layout to render correctly */}
       backButton =
-        <View/>
+        <TouchableHighlight>
+          <View style={styles.sideButtonsViewWrapper}/>
+        </TouchableHighlight>
     }
+
+    var centerTitle =
+      <View style={styles.centerTitleViewWrapper}>
+        <Text style={[styles.navButtonText, { fontSize: 22 }]}>
+          {this.props.title}
+        </Text>
+      </View>
 
     var rightButton =
       <TouchableHighlight
-        underlayColor='silver'
-        onPress={ this.props.rightButtonAction }
+       underlayColor='silver'
+       onPress={this.props.rightButtonAction}
       >
-        <View style={styles.navButtonViewWrapper}>
+        <View style={styles.sideButtonsViewWrapper}>
           <Text style={styles.navButtonText}>{this.props.rightButtonText}</Text>
         </View>
       </TouchableHighlight>
@@ -85,7 +82,7 @@ export default class NavBar extends Component {
         <SystemBar/>
         <View style={[styles.container]}>
           {backButton}
-          <View/>
+          {centerTitle}
           {rightButton}
         </View>
       </View>
@@ -94,26 +91,41 @@ export default class NavBar extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: Config.metrics.navBarHeight,
-        backgroundColor: '#1886BC',
-    },
-    titleBarBackground: {
-        backgroundColor: '#cccccc',
-        height: Platform.OS === 'ios' ? 20 : 0
-    },
-    navButtonViewWrapper: {
+  container: {
       flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 10
-    },
-    navButtonText: {
-      fontSize: 16,
-      color: 'white'
-    }
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      height: Config.metrics.navBarHeight,
+      backgroundColor: '#1886BC',
+  },
+  titleBarBackground: {
+      backgroundColor: '#cccccc',
+      height: Platform.OS === 'ios' ? 20 : 0
+  },
+  navButtonViewWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10
+  },
+  navButtonText: {
+    fontSize: 16,
+    color: 'white'
+  },
+  centerTitleViewWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  sideButtonsViewWrapper: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    width: 50
+  }
 })

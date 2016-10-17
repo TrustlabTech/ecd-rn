@@ -6,9 +6,8 @@ import {
   StyleSheet
 } from 'react-native'
 
-/* Supported props
- *
- * text:string
+/* Props:
+ * text: string
  * onPress: function
  * height: number
  * width: number
