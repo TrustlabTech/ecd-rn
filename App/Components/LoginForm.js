@@ -20,7 +20,7 @@ export default class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
+      phoneNumber: '',
       password: '',
       attempting: false,
       // error: props.error || null // (will always come through componentWillReceiveProps)
@@ -41,9 +41,9 @@ export default class LoginForm extends Component {
 
         <TextInput
           style={{height: 55, fontSize: 30, padding: 10}}
-          onChangeText={ (username) => this.setState({ username }) }
-          value={ this.state.username }
-          placeholder="Username"
+          onChangeText={ (phoneNumber) => this.setState({ phoneNumber }) }
+          value={ this.state.phoneNumber }
+          placeholder="Phone Number"
           />
 
         <TextInput

@@ -70,8 +70,8 @@ export default class MainScene extends Component {
             <Text>MainScene</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={ () => alert('Test')}>
-            <Text>CentreScene</Text>
+          <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
+            <Text>Attendance Scene</Text>
           </TouchableHighlight>
         </View>
 

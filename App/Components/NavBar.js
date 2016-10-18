@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {
-    Text,
-    View,
-    StyleSheet,
-    Platform,
-    TouchableHighlight
+  Text,
+  View,
+  StyleSheet,
+  Platform,
+  TouchableHighlight,
+  StatusBar
 } from 'react-native'
 
 import Config from '../Config'
@@ -79,7 +80,10 @@ export default class NavBar extends Component {
 
     return (
       <View>
-        <SystemBar/>
+        <StatusBar
+          backgroundColor="silver"
+          barStyle="default"
+        />
         <View style={[styles.container]}>
           {leftButton}
           {centerTitle}

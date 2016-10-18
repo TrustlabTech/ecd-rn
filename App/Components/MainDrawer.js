@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native'
 
 import NavBar from './NavBar'
 import Drawer from 'react-native-drawer'
-//import Config from '../Config'
+import Routes from '../Routes'
 import DrawerMenuItem from './DrawerMenuItem'
 
 
@@ -18,7 +19,6 @@ export default class MainDrawer extends Component {
   }
 
   render() {
-    console.log("Rendering drawer..")
     return (
       <Drawer
         ref="drawer"
@@ -26,23 +26,25 @@ export default class MainDrawer extends Component {
         initializeOpen={false}
         tapToClose={true}
         content={
-          (<View style={{height:Dimensions.get('window').height, backgroundColor: 'white'}}>
+          (
+            <ScrollView>
+            <View style={{height:Dimensions.get('window').height, backgroundColor: 'white'}}>
 
             <View style={{justifyContent: 'center', alignItems: 'center', height: 200}}>
               <Text>Profile Picture</Text>
             </View>
-            <Text>Width {this.width}</Text>
-            <Text>Height {this.height}</Text>
-            <DrawerMenuItem text="Centre" onPress={ () => alert('Test') } />
-            <DrawerMenuItem text="Children" onPress={() => alert('Test')} />
-            <DrawerMenuItem text="Classes" onPress={() => alert('Test')} />
-            <DrawerMenuItem text="Staff" onPress={() => alert('Test')} />
+            <DrawerMenuItem text="Centre" onPress={ () => this.props.navigator.push(Routes.centre) } />
+            <DrawerMenuItem text="Children" onPress={() => this.props.navigator.push(Routes.child)} />
+            <DrawerMenuItem text="Classes" onPress={() => this.props.navigator.push(Routes.class) } />
+            <DrawerMenuItem text="Staff" onPress={() => this.props.navigator.push(Routes.staff) } />
             <View style={drawerStyles.seperator}/>
-            <DrawerMenuItem text="Attendance" onPress={() => alert('Test')} />
+            <DrawerMenuItem text="Attendance" onPress={() => this.props.navigator.push(Routes.attendance)} />
             <View style={drawerStyles.seperator}/>
-            <DrawerMenuItem text="Profile" onPress={() => alert('Test')} />
-            <DrawerMenuItem text="Settings" onPress={() => alert('Test')} />
-          </View>)
+            <DrawerMenuItem text="Profile" onPress={ () => this.props.navigator.push(Routes.profile) } />
+            <DrawerMenuItem text="Settings" onPress={ () => this.props.navigator.push(Routes.settings) } />
+          </View>
+          </ScrollView>
+          )
         }
         openDrawerOffset={ Dimensions.get('window').width - 200 } // 30% gap on the right side of drawer
         panCloseMask={0.2}
