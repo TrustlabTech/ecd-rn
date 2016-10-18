@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 
+//Scenes
 import LoginScene from './Scenes/LoginScene'
 import RegisterScene from './Scenes/RegisterScene'
 import RegisterConfirmScene from './Scenes/RegisterConfirmScene'
 import MainScene from './Scenes/MainScene'
 
+//Drawers
 import MainDrawer from './Components/MainDrawer'
 
 export default {

@@ -47,10 +47,6 @@ export default class GeoLocator extends Component {
         <View>
           <Text>Latitude: {latitude}</Text>
           <Text>Longitude: {latitude}</Text>
-          <MapView
-            style={{height: 300, margin: 5}}
-            showsUserLocation={true}
-          />
         </View>
       )
   }

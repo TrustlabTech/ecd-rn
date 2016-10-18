@@ -20,21 +20,24 @@ import WaitModal from '../Components/WaitModal'
 export default class MainScene extends Component {
 
   constructor(props) {
+
     super(props)
     this.state = {
-      username: '',
-      password: '',
-      loggedin: false,
+      username:   '',
+      password:   '',
+      loggedin:   false,
       attempting: false,
-      modalOpen: false,
-      error: null
+      modalOpen:  false,
+      error:      null
     }
+
   }
 
   render() {
     return (
       <View style={ styles.containerColumn }>
-      <WaitModal text="Logging in"
+
+        <WaitModal text="Logging in"
           subtext="Please wait..."
           visible={ this.state.attempting }
           ref="waitmodal"
@@ -45,12 +48,12 @@ export default class MainScene extends Component {
           route={ this.props.route }
           rightButtonText="Login"
           title="ECD"
-          rightButtonAction={ () => this.attempt() }
+          rightButtonAction={ () => this.attemptLogin() }
         />
 
         <View style={ styles.containerColumn }>
           <LoginForm
-            onAttempt={ () => this.attempt() }
+            onAttempt={ () => this.attemptLogin() }
             navigator={ this.props.navigator }
             attempting={ this.state.attempting }
             error={ this.state.error }
@@ -59,30 +62,26 @@ export default class MainScene extends Component {
         </View>
 
         <View>
-          <TouchableHighlight
-            onPress={ () => this.props.navigator.push(Routes.registerConfirm) }
-          >
+          <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.registerConfirm) } >
             <Text>RegisterConfirmScene</Text>
           </TouchableHighlight>
 
-          <TouchableHighlight
-            onPress={ () => this.props.navigator.replace(Routes.main)}
-          >
+          <TouchableHighlight onPress={ () => this.props.navigator.replace(Routes.main)} >
             <Text>MainScene</Text>
           </TouchableHighlight>
 
           <TouchableHighlight onPress={ () => alert('Test')}>
             <Text>CentreScene</Text>
           </TouchableHighlight>
-
         </View>
+
       </View>
     )
   }
 
 
   // Network
-  attempt = () => {
+  attemptLogin = () => {
 
     let username = this.refs.loginform.state.username
     let password = this.refs.loginform.state.password
@@ -153,8 +152,8 @@ export default class MainScene extends Component {
         return false
       }
     })
+
     .then((success) => {
-        console.log("SUCCESS",success)
 
       if (success) {
         // Login complete, change scene
@@ -163,9 +162,8 @@ export default class MainScene extends Component {
         this.setState({
           error: "Invalid Username or Password"
         })
-        //alert("Something went wrong :'(") // this is breaking react
-        // we may have to use a modal or not call it at this point in the lifecycle
       }
+
     })
 
     // On reject

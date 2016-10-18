@@ -14,11 +14,9 @@ export default class DrawerMenuItem extends Component {
 
   render() {
     return (
-      <View style={styles.drawerMenuItemView}>
-        <TouchableHighlight
-          onPress={this.props.onPress}
-        >
-        <Text style={styles.drawerMenuItemText}>{this.props.text}</Text>
+      <View style={ styles.drawerMenuItemView }>
+        <TouchableHighlight onPress={ this.props.onPress } >
+        <Text style={ styles.drawerMenuItemText }>{ this.props.text }</Text>
         </TouchableHighlight>
       </View>
     )

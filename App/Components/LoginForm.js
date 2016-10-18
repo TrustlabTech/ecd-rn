@@ -13,6 +13,8 @@ import FormLabel from '../Components/FormLabel'
 
 import Routes from '../Routes'
 
+import TextField from '../Components/TextField'
+
 export default class LoginForm extends Component {
 
   constructor(props) {
@@ -34,20 +36,20 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-      <View style={styles.loginContainer}>
-        <Text style={{height: 18,color: 'red' }}>{this.state.error}</Text>
+      <View style={ styles.loginContainer }>
+        <Text style={{height: 18,color: 'red' }}>{ this.state.error }</Text>
 
         <TextInput
           style={{height: 55, fontSize: 30, padding: 10}}
           onChangeText={ (username) => this.setState({ username }) }
-          value={this.state.username}
+          value={ this.state.username }
           placeholder="Username"
           />
 
         <TextInput
           style={{height: 55, fontSize: 30, padding: 10 }}
-          onChangeText={(password) => this.setState({ password }) }
-          value={this.state.password}
+          onChangeText={ (password) => this.setState({ password }) }
+          value={ this.state.password }
           placeholder="Password"
           secureTextEntry />
 
@@ -61,8 +63,8 @@ export default class LoginForm extends Component {
           <FormButton
             text="Register"
             onPress={ () => this.props.navigator.push(Routes.register) }
-            height={50}
-            width={100}
+            height={ 50 }
+            width={ 100 }
           />
         </View>
       </View>

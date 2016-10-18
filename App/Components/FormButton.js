@@ -18,7 +18,6 @@ export default class FormButton extends Component {
     super(props)
     this.height = props.height || null
     this.width = props.width || null
-    console.log('height', this.height, 'width', this.width)
   }
 
   render() {
@@ -26,12 +25,12 @@ export default class FormButton extends Component {
     if (this.width) tcStyles.push({ width: this.width })
     if (this.height) tcStyles.push({ height: this.height })
     return (
-      <View style={styles.view}>
+      <View style={ styles.view }>
         <TouchableHighlight
-          style={tcStyles}
-          onPress={this.props.onPress}
+          style={ tcStyles }
+          onPress={ this.props.onPress }
         >
-          <Text style={styles.text}>{this.props.text}</Text>
+          <Text style={ styles.text }>{ this.props.text }</Text>
         </TouchableHighlight>
       </View>
     )

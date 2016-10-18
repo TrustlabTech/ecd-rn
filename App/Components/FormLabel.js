@@ -4,8 +4,6 @@ import {
   StyleSheet
 } from 'react-native'
 
-import GlobalStyles from '../GlobalStyles'
-
 export default class FormLabel extends Component {
 
   constructor(props) {
@@ -14,8 +12,8 @@ export default class FormLabel extends Component {
 
   render() {
     return (
-      <Text style={styles.formLabel}>
-        {this.props.text}
+      <Text style={ styles.formLabel }>
+        { this.props.text }
       </Text>
     )
   }

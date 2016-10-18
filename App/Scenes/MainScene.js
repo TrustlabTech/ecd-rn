@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {
   Text,
-  View
+  View,
+  Dimensions
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
@@ -16,10 +17,6 @@ export default class MainScene extends Component {
       super(props)
   }
 
-  getOpenDrawerOffset(){
-
-  }
-
   render() {
     return (
       <View>
@@ -29,7 +26,8 @@ export default class MainScene extends Component {
             leftButtonText="|||"
             leftButtonAction={ this.props.leftButtonAction }
           />
-          <Text>Hello World</Text>
+          <Text>Height: { Dimensions.get('window').height }</Text>
+          <Text>Width: { Dimensions.get('window').width }</Text>
       </View>
 
     )
