@@ -30,6 +30,23 @@ export default class Both extends Component {
     )
   }
 
+  componentWillUnmout() {
+    BackAndroid.removeEventListener('hardwareBackPress', () => {
+      if(this.refs.navigator.getCurrentRoutes() > 1) {
+        this.navigator.pop()
+        return true
+      } else {
+        return false
+      }
+    })
+  }
+
+  // _navigate( navigator, route, params = []) {
+  //   // We're going to pass through this method instead of navigator
+  //   // So that we can also pass any variables into the Scene
+  //   navigator.push({...route, param: 'val'})
+  // }
+
   render() {
     return (
 
@@ -38,7 +55,14 @@ export default class Both extends Component {
           ref='navigator'
           renderScene={ (route, navigator) => {
           BackAndroid.addEventListener('hardwareBackPress', () => {
+            // This is triggered, but not preventing default
             console.log("Back button pressed")
+            if(navigator.getCurrentRoutes() > 1) {
+              navigator.pop()
+              return true
+            } else {
+              return false
+            }
           })
             if(route.drawer !== null) {
               return React.createElement(

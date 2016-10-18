@@ -11,8 +11,9 @@ export default class ClassScene extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
-      <Text>Good day!</Text>
+      <Text>{this.props.route.param}</Text>
     )
   }
 }

@@ -32,25 +32,26 @@ export default class MainScene extends Component {
             leftButtonText="|||"
             leftButtonAction={ this.props.leftButtonAction }
           />
-
-          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-            <Text style={{fontSize: 26}}>Happy Valley Preschool</Text>
-          </View>
-
-          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-            <Text style={{fontSize: 20}}>Whiteriver, Mpumulanga</Text>
-          </View>
-
-          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-          <Image source={require('../Images/preschool.jpg')}
-            style={{width: 380, height: 380}} />
-          </View>
-
-          <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 20}}>
-              <Text style={{fontSize: 26}}>Take Attendance</Text>
+          <ScrollView>
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+              <Text style={{fontSize: 24}}>Happy Valley Preschool</Text>
             </View>
-          </TouchableHighlight>
+
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+              <Text style={{fontSize: 18}}>Whiteriver, Mpumulanga</Text>
+            </View>
+
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+            <Image source={require('../Images/preschool.jpg')}
+              style={{width: 380, height: 380}} />
+            </View>
+
+            <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
+              <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 20}}>
+                <Text style={{fontSize: 26}}>Take Attendance</Text>
+              </View>
+            </TouchableHighlight>
+          </ScrollView>
         </View>
     )
   }
