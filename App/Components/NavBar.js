@@ -10,7 +10,6 @@ import {
 
 import Config from '../Config'
 import Routes from '../Routes'
-import SystemBar from './SystemBar'
 
 export default class NavBar extends Component {
 

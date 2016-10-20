@@ -11,7 +11,6 @@ import {
 import Config from '../Config'
 import Routes from '../Routes'
 import NavBar from '../Components/NavBar'
-import LoginForm from '../Components/LoginForm'
 import WaitModal from '../Components/WaitModal'
 
 export default class RegisterConfirmScene extends Component {

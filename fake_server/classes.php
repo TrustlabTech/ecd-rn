@@ -10,9 +10,9 @@ header('Content-Type: text/json');
 echo <<< JSON
 {
     "classes": [
-        {"name": "Class 1"},
-        {"name": "Class 2"},
-        {"name": "Class 3"}
+        {"id": 1, "name": "Class 1 - Miriam"},
+        {"id": 2, "name": "Class 2 - Smith"},
+        {"id": 3, "name": "Class 3 - Zulu"}
     ]
 }
 

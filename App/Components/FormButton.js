@@ -21,37 +21,31 @@ export default class FormButton extends Component {
   }
 
   render() {
-    var tcStyles = [styles.touchable]
-    if (this.width) tcStyles.push({ width: this.width })
-    if (this.height) tcStyles.push({ height: this.height })
+
     return (
-      <View style={ styles.view }>
+      <View style={{padding: 5}} >
         <TouchableHighlight
-          style={ tcStyles }
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#ff9215',
+            borderRadius: 3,
+            width: this.props.width || 120,
+            height: this.props.height || 50
+          }}
           onPress={ this.props.onPress }
         >
-          <Text style={ styles.text }>{ this.props.text }</Text>
+          <Text style={{
+            fontSize: 20 || props.fontSize,
+            color: 'white'
+          }}>
+            { this.props.text }
+          </Text>
+
         </TouchableHighlight>
       </View>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  view: {
-    padding: 5
-  },
-  touchable: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ff9215',
-    borderRadius: 3,
-
-  },
-  text: {
-    fontSize: 16,
-    color: 'white'
-  }
-})
