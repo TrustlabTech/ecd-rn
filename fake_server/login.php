@@ -16,7 +16,7 @@ if( !$present ) {
     $errors[] = "phoneNumber/Password not in form data";
 } else {
 
-    $correct = trim($_REQUEST['phoneNumber']) === 'Test' &&
+    $correct = trim($_REQUEST['phoneNumber']) === '911' &&
                trim($_REQUEST['pin']) === '123';
 
     if(!$correct) {

@@ -14,7 +14,7 @@ export default class TextField extends Component {
     super(props)
 
     this.state = {
-      // value: ''
+      value: ''
     }
   }
 
@@ -22,32 +22,42 @@ export default class TextField extends Component {
     return (
       <View
         style={{
-          padding: 10
-        }}
-      >
-      <View
-        style={{
-          height: this.props.height || 50,
-          width: this.props.width || null,
+          paddingLeft: 5,
+          paddingRight: 5,
+          flex: 1,
           justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: Colours.offWhite,
-          borderRadius: 5,
         }}
       >
-        <TextInput
-          onChangeText={ this.props.onChangeText }
-          value={ this.state.value }
-          placeholder={ this.props.placeholder || "..." }
-          secureTextEntry= { this.props.secureTextEntry || false }
-          maxLength={this.props.maxLength || 20 }
+        <Text style={{padding: 5,fontSize: 16, color: Colours.primaryLowlight}}>
+          { this.props.label }
+        </Text>
+        <View
           style={{
-            fontSize: this.props.fontSize || FontSizes.h3,
-            marginLeft: 10,
-            height: this.props.height || 50
+            flex: 1,
+            backgroundColor: Colours.offWhite,
+            borderRadius: 5,
           }}
-        />
-      </View>
+        >
+
+
+
+          <TextInput
+            style={{backgroundColor: 'red'}}
+            keyboardType={ this.props.keyboardType || "default" }
+            onChangeText={ (value) => this.setState({ value }) }
+            value={ this.state.value }
+            placeholder={ this.props.placeholder || null }
+            secureTextEntry= { this.props.secureTextEntry || false }
+            maxLength={this.props.maxLength || 20 }
+            autoFocus={ this.props.autoFocus || false }
+            style={{
+              marginLeft: 5,
+              marginRight: 5,
+              fontSize: this.props.fontSize || FontSizes.h5,
+              height: this.props.height || 50,
+            }}
+          />
+        </View>
       </View>
     )
   }

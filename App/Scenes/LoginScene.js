@@ -4,8 +4,8 @@ import {
   View,
   StyleSheet,
   TouchableHighlight,
-  Modal,
-  Image
+  Image,
+  TextInput
 } from 'react-native'
 
 import Config from '../Config'
@@ -15,6 +15,7 @@ import WaitModal from '../Components/WaitModal'
 import TextField from '../Components/TextField'
 import FormButton from '../Components/FormButton'
 import SceneView from '../Components/SceneView'
+import Scene from '../Components/Scene'
 
 const ConsentLogo = require('../Images/consent_logo.png')
 
@@ -43,7 +44,7 @@ export default class MainScene extends Component {
 
   render() {
     return (
-      <View>
+      <Scene>
 
         <WaitModal
           visible={ this.state.attempting }
@@ -54,7 +55,7 @@ export default class MainScene extends Component {
           navigator={ this.props.navigator }
           route={ this.props.route }
           rightButtonText="Login"
-          title="ECD"
+          title={ this.props.route.title }
           rightButtonAction={ () => this.attemptLogin() }
         />
 
@@ -67,20 +68,25 @@ export default class MainScene extends Component {
             />
           </View>
 
+
+
+          <TextField
+            ref="phoneNumber"
+            label="Phone Number"
+            maxLength={10}
+            keyboardType="phone-pad"
+          />
+
+          <TextField
+            ref="pin"
+            label="Pin"
+            maxLength={4}
+            keyboardType="phone-pad"
+          />
+
           <View style={{ height: 18, alignItems: 'center' }}>
             <Text style={{fontSize: 16, color: 'red' }}>{ this.state.error }</Text>
           </View>
-
-          <TextField
-            placeholder="Phone Number"
-            onChangeText={ (phoneNumber) => this.setState({ phoneNumber }) }
-          />
-
-          <TextField
-            placeholder="Pin"
-            onChangeText={ (pin) => this.setState({ pin }) }
-            maxLength={4}
-          />
 
           <View style={{padding: 10, alignItems: 'center'}}>
             <Text style={{fontSize: 28}} >or</Text>
@@ -96,6 +102,8 @@ export default class MainScene extends Component {
             />
           </View>
 
+
+
           <View>
             <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.registerConfirm) } >
               <Text>RegisterConfirmScene</Text>
@@ -109,9 +117,9 @@ export default class MainScene extends Component {
               <Text>Attendance Scene</Text>
             </TouchableHighlight>
           </View>
-        </SceneView>
 
-      </View>
+        </SceneView>
+      </Scene>
     )
   }
 
@@ -119,8 +127,8 @@ export default class MainScene extends Component {
   // Network
   attemptLogin = () => {
 
-    let phoneNumber = this.state.phoneNumber
-    let pin = this.state.pin
+    let phoneNumber = this.refs.phoneNumber.state.value
+    let pin = this.refs.pin.state.value
     let errors = []
 
     this.setState({
@@ -169,6 +177,7 @@ export default class MainScene extends Component {
 
     // Response received
     .then((response) => {
+      console.log("Response", response)
       return response.json()
     })
 

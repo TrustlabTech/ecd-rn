@@ -46,6 +46,10 @@ export default class WaitModal extends Component {
                 shadowRadius: 3
               }}
             >
+
+
+
+
               <View style={{
                 alignItems: 'center',
 

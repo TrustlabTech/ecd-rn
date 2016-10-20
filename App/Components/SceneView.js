@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
   ScrollView,
-  StyleSheet
+  View
 } from 'react-native'
 
 export default class SceneView extends Component {
@@ -13,19 +13,12 @@ export default class SceneView extends Component {
 
   render() {
     return (
-      <ScrollView style={{
-        flex: 1,
-        flexDirection: 'column',
-      }}
-        contentContainerStyle={pp.ppx}>
+
+      <ScrollView>
+        <View style={{flex: 1}}>
         {this.props.children}
+        </View>
       </ScrollView>
     )
   }
 }
-
-const pp = StyleSheet.create({
-  ppx: {
-  justifyContent: 'flex-start'
-  }
-})

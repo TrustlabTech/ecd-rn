@@ -19,7 +19,7 @@ import MainDrawer from './Components/MainDrawer'
 export default {
 
   login: {
-    title: 'Login',
+    title: 'Consent ECD',
     scene: LoginScene,
     drawer: null
   },
