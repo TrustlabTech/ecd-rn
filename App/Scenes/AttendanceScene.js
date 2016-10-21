@@ -11,6 +11,7 @@ import FormButton from '../Components/FormButton'
 import WaitModal from '../Components/WaitModal'
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
+import Config from '../Config'
 
 export default class AttendanceScene extends Component {
 
@@ -69,8 +70,10 @@ export default class AttendanceScene extends Component {
   }
 
   fetchClasses = () => {
-
-    fetch('http://localhost:8989/classes.php', {
+    this.setState({
+      fetching: true
+    })
+    fetch(Config.http.baseUrl + 'classes.php', {
       method: 'GET'
     })
 

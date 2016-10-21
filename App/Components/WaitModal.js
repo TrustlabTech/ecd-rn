@@ -8,60 +8,61 @@ import {
   ActivityIndicator
 } from 'react-native'
 
+import { Colours, FontSizes } from '../GlobalStyles'
+
 export default class WaitModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       visible: props.visible || false,
-      animating: true
+      animating: props.animating || true
     }
   }
 
   componentWillReceiveProps(props) {
     this.setState({
-      visible: props.visible
+      visible: props.visible,
+      animating: props.animating
     })
   }
 
   render() {
+    var centerComponent =
+      <ActivityIndicator
+        animating={this.state.animating}
+        style={{height: 80}}
+        size="large"
+      />
+    if(!this.state.animating) {
+      centerComponent =
+        <TouchableHighlight onPress={ () => this.setState({visible: false}) }>
+          <View style={{
+            padding: 15,
+            backgroundColor: Colours.secondary ,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 200
+          }}>
+            <Text style={{color: 'white'}}>Close</Text>
+          </View>
+        </TouchableHighlight>
+    }
     return (
       <Modal
+        ref="modal"
         animationType={"fade"}
         transparent={true}
-        visible={this.props.visible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
+        visible={this.state.visible}
+        onRequestClose={ () => {
+          console.log("Modal closed")
+        }}
       >
-        <View style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-            <View style={{
-                height: 250,
-                width: 250,
-                backgroundColor: '#0f0f0f',
-                justifyContent: 'center',
-                borderRadius: 8,
-                shadowColor: '#000000',
-                shadowOpacity: 0.8,
-                shadowRadius: 3
-              }}
-            >
-
-              <View style={{ alignItems: 'center' }}>
-                <Text style={{
-                  color: 'white',
-                  fontSize: 20
-                }}>
+        <View style={styles.entireModal}>
+            <View style={styles.visibleModal}>
+                <Text style={styles.text}>
                   {this.props.text || "Loading"}
                 </Text>
-              </View>
-
-              <ActivityIndicator
-                animating={this.state.animating}
-                style={{height: 80}}
-                size="large"
-              />
+                {centerComponent}
             </View>
         </View>
       </Modal>
@@ -70,22 +71,26 @@ export default class WaitModal extends Component {
 }
 
 var styles = StyleSheet.create({
-  waitModalOuter: {
-    flex: 1,
-    flexDirection: 'column',
+  entireModal: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#efefef",
-    borderRadius: 8,
-    margin: 15,
+    flex: 1,
+    flexDirection: 'column'
   },
-
-  textContainer: {
-    flex: 1,
-    flexDirection: 'column',
+  visibleModal: {
+    height: 250,
+    width: 250,
+    backgroundColor: '#0f0f0f',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor: 'white',
-    borderRadius: 2
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.8,
+    shadowRadius: 3
+  },
+  text: {
+    color: 'white',
+    fontSize: FontSizes.p,
+    textAlign: 'center'
   }
 })

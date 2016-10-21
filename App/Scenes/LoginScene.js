@@ -17,6 +17,7 @@ import SceneView from '../Components/SceneView'
 import Scene from '../Components/Scene'
 import Link from '../Components/Link'
 import { FontSizes } from '../GlobalStyles'
+import Config from '../Config'
 const ConsentLogo = require('../Images/consent_logo.png')
 
 export default class MainScene extends Component {
@@ -29,7 +30,7 @@ export default class MainScene extends Component {
       pin: '',
       loggedin: false,
       attempting: false,
-      modalOpen: false,
+      modalVisible: false,
       error: null
     }
 
@@ -43,11 +44,21 @@ export default class MainScene extends Component {
   }
 
   render() {
+    var modalText = ''
+    if(this.state.attempting) {
+      modalText = 'Loading'
+    } else {
+      if(this.state.error) {
+        modalText = this.state.error
+      }
+    }
     return (
       <Scene>
 
         <WaitModal
-          visible={ this.state.attempting }
+          animating={ this.state.attempting }
+          visible={ this.state.modalVisible }
+          text={modalText}
           ref="waitmodal"
         />
 
@@ -162,11 +173,13 @@ export default class MainScene extends Component {
 
     // Bring up modal
     this.setState({
-      attempting: true
+      attempting: true,
+      modalVisible: true
     })
 
+
     // Initialise request
-    fetch('http://localhost:8989/login.php', {
+    fetch(Config.http.baseUrl + 'login.php', {
       method: 'POST',
       body: formData
     })
@@ -199,7 +212,8 @@ export default class MainScene extends Component {
         // Login complete, change scene
         this.setState({
           loggedin: true,
-          attempting: false
+          attempting: false,
+          modalVisible: false
         })
         this.props.navigator.replace(Routes.main)
       } else {
