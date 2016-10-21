@@ -38,12 +38,13 @@ export default class WaitModal extends Component {
         <TouchableHighlight onPress={ () => this.setState({visible: false}) }>
           <View style={{
             padding: 15,
+            borderRadius: 5,
             backgroundColor: Colours.secondary ,
             alignItems: 'center',
             justifyContent: 'center',
             width: 200
           }}>
-            <Text style={{color: 'white'}}>Close</Text>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>Close</Text>
           </View>
         </TouchableHighlight>
     }
@@ -90,7 +91,8 @@ var styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontSize: FontSizes.p,
+    padding: 15,
+    fontSize: FontSizes.h5,
     textAlign: 'center'
   }
 })

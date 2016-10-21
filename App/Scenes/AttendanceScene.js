@@ -12,6 +12,7 @@ import WaitModal from '../Components/WaitModal'
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
 import Config from '../Config'
+import Routes from '../Routes'
 
 export default class AttendanceScene extends Component {
 
@@ -36,10 +37,19 @@ export default class AttendanceScene extends Component {
     let Buttons = null
     if(this.state.classes.length > 0) {
 
-      Buttons = this.state.classes.map( (result) => (
-        <FormButton key={result.id} text={result.name} width={200} height={50} onPress={ () => alert("Hah!") }/>
-      )
-      )
+      Buttons = this.state.classes.map( (result) => {
+        Routes.class.classId = result.id
+        Routes.class.className = result.name
+        return (
+          <FormButton
+            key={result.id}
+            text={result.name}
+            width={200}
+            height={50}
+            onPress={ () =>
+              this.props.navigator.push({...Routes.class, className: result.name, classId: result.id })
+            }/>
+      )})
       Heading = (
         <View style={{marginTop: 20, marginBottom: 20}}>
           <Text style={{fontSize: 22}}>Select Class</Text>
@@ -60,8 +70,10 @@ export default class AttendanceScene extends Component {
           leftButtonAction={ () => this.props.navigator.pop() }
         />
         <SceneView>
+          <View style={{alignItems: 'center'}}>
           {Heading}
           {Buttons}
+          </View>
         </SceneView>
 
 
@@ -91,7 +103,7 @@ export default class AttendanceScene extends Component {
     .catch( (error) => {
       console.log('AttendanceScene:fetchClasses', error)
       this.setState({
-        error: "Network error",
+        error: "Network Error",
         fetching: false
       })
     })

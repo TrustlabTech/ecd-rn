@@ -46,7 +46,7 @@ export default class MainScene extends Component {
   render() {
     var modalText = ''
     if(this.state.attempting) {
-      modalText = 'Loading'
+      modalText = 'Logging in'
     } else {
       if(this.state.error) {
         modalText = this.state.error
@@ -100,10 +100,6 @@ export default class MainScene extends Component {
             onSubmitEditing={ this.attemptLogin }
           />
 
-          <View style={{ height: 18, alignItems: 'center' }}>
-            <Text style={{fontSize: 16, color: 'red' }}>{ this.state.error }</Text>
-          </View>
-
           <View style={{flexDirection: 'column', padding: 10, alignItems: 'center'}}>
             <Link text="Forgot your pin?" onPress={ () => alert('Boom!') }/>
           <Link text="Not yet registered?" onPress={ () => this.props.navigator.push(Routes.register) }/>
@@ -144,16 +140,23 @@ export default class MainScene extends Component {
 
     // Prevent attempt if a field is empty
     if (phoneNumber.length < 1) {
-      errors.push("No phone number given")
+      errors.push("No phone number entered")
     }
 
     if (pin.length < 1) {
-      errors.push("No pin given")
+      errors.push("No pin entered")
     }
 
     if (errors.length > 0) {
+      let errorString = ''
+      errors.forEach( (error) => {
+        errorString = errorString + error + '. '
+      })
+
       this.setState({
-        error: errors.toString()
+        attempting: false,
+        modalVisible: true,
+        error: errorString.trim()
       })
       return
     }
