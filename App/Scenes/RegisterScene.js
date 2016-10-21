@@ -7,9 +7,10 @@ import {
   ScrollView
 } from 'react-native'
 
-import Config from '../Config'
 import NavBar from '../Components/NavBar'
 import TextField from '../Components/TextField'
+import Scene from '../Components/Scene'
+import SceneView from '../Components/SceneView'
 
 export default class RegisterScene extends Component {
 
@@ -27,10 +28,7 @@ export default class RegisterScene extends Component {
 
   render() {
     return (
-      <ScrollView style={{
-        flex: 1,
-        flexDirection: 'column'
-      }}>
+      <Scene>
 
         <NavBar
           navigator={ this.props.navigator }
@@ -40,48 +38,48 @@ export default class RegisterScene extends Component {
           rightButtonAction={ this.attemptRegister }
         />
 
-        <View
-        style={{
-          padding: 10,
-          flex: 1,
-          flexDirection: 'column'
-        }}
-        >
+        <SceneView>
           <View style={{height: 20}}>
             <Text>{this.state.error}</Text>
           </View>
 
           <TextField
-            placeholder="First Name"
-            onChangeText={ (firstName) => this.setState({ firstName }) }
+            ref="firstName"
+            label="First Name"
+            autoFocus={true}
+            autoCapitalize="sentences"
           />
 
           <TextField
-            placeholder="Last Name"
-            onChangeText={ (lastName) => this.setState({ lastName }) }
+            ref="lastName"
+            label="Last Name"
+            autoCapitalize="sentences"
           />
 
           <TextField
-            placeholder="Phone Number"
-            onChangeText={ (phoneNumber) => this.setState({ phoneNumber }) }
+            ref="phoneNumber"
+            label="Phone number"
+            keyboardType="phone-pad"
           />
 
           <TextField
-            placeholder="Pin"
-            onChangeText={ (pin) => this.setState({ pin }) }
+            ref="pin"
+            label="Pin"
             secureTextEntry={true}
             maxLength={4}
+            keyboardType="phone-pad"
           />
 
           <TextField
-            placeholder="Confirm Pin"
-            onChangeText={ (pinConfirm) => this.setState({ pinConfirm }) }
+            ref="confirmPin"
+            label="Confirm Pin"
             secureTextEntry={true}
             maxLength={4}
+            keyboardType="phone-pad"
           />
 
-        </View>
-      </ScrollView>
+        </SceneView>
+      </Scene>
     )
   }
 

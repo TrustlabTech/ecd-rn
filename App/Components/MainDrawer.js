@@ -29,20 +29,19 @@ export default class MainDrawer extends Component {
           (
             <ScrollView>
             <View style={{height:Dimensions.get('window').height, backgroundColor: 'white'}}>
-
-            <View style={{justifyContent: 'center', alignItems: 'center', height: 200}}>
-              <Text>Profile Picture</Text>
+              <View style={{justifyContent: 'center', alignItems: 'center', height: 200}}>
+                <Text>Profile Picture</Text>
+              </View>
+              <DrawerMenuItem text="Centre" onPress={ () => this.props.navigator.push(Routes.centre) } />
+              <DrawerMenuItem text="Children" onPress={() => this.props.navigator.push(Routes.child)} />
+              <DrawerMenuItem text="Classes" onPress={() => this.props.navigator.push(Routes.class) } />
+              <DrawerMenuItem text="Staff" onPress={() => this.props.navigator.push(Routes.staff) } />
+              <View style={drawerStyles.seperator}/>
+              <DrawerMenuItem text="Attendance" onPress={() => this.props.navigator.push(Routes.attendance)} />
+              <View style={drawerStyles.seperator}/>
+              <DrawerMenuItem text="Profile" onPress={ () => this.props.navigator.push(Routes.profile) } />
+              <DrawerMenuItem text="Settings" onPress={ () => this.props.navigator.push(Routes.settings) } />
             </View>
-            <DrawerMenuItem text="Centre" onPress={ () => this.props.navigator.push(Routes.centre) } />
-            <DrawerMenuItem text="Children" onPress={() => this.props.navigator.push(Routes.child)} />
-            <DrawerMenuItem text="Classes" onPress={() => this.props.navigator.push(Routes.class) } />
-            <DrawerMenuItem text="Staff" onPress={() => this.props.navigator.push(Routes.staff) } />
-            <View style={drawerStyles.seperator}/>
-            <DrawerMenuItem text="Attendance" onPress={() => this.props.navigator.push(Routes.attendance)} />
-            <View style={drawerStyles.seperator}/>
-            <DrawerMenuItem text="Profile" onPress={ () => this.props.navigator.push(Routes.profile) } />
-            <DrawerMenuItem text="Settings" onPress={ () => this.props.navigator.push(Routes.settings) } />
-          </View>
           </ScrollView>
           )
         }

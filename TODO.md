@@ -8,3 +8,6 @@
 # Make Link component for text links
 # Make a modal to display errors
 # Convert all scenes to use Scene and Scene view wrappers
+# Remove unused imports
+# Drawer tap on close only works when tapping far away
+# Bind back button to navigator.pop() and prevent default

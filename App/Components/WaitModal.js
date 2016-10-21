@@ -13,6 +13,7 @@ export default class WaitModal extends Component {
     super(props)
     this.state = {
       visible: props.visible || false,
+      animating: true
     }
   }
 
@@ -27,7 +28,7 @@ export default class WaitModal extends Component {
       <Modal
         animationType={"fade"}
         transparent={true}
-        visible={this.state.visible}
+        visible={this.props.visible}
         onRequestClose={() => {alert("Modal has been closed.")}}
       >
         <View style={{
@@ -47,13 +48,7 @@ export default class WaitModal extends Component {
               }}
             >
 
-
-
-
-              <View style={{
-                alignItems: 'center',
-
-              }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text style={{
                   color: 'white',
                   fontSize: 20
@@ -64,7 +59,7 @@ export default class WaitModal extends Component {
 
               <ActivityIndicator
                 animating={this.state.animating}
-                style={[styles.centering, {height: 80}]}
+                style={{height: 80}}
                 size="large"
               />
             </View>

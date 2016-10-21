@@ -6,28 +6,28 @@ import {
   TouchableHighlight
 } from 'react-native'
 
-import Routes from '../Routes'
 import NavBar from '../Components/NavBar'
 import FormButton from '../Components/FormButton'
 import WaitModal from '../Components/WaitModal'
+import Scene from '../Components/Scene'
+import SceneView from '../Components/SceneView'
 
 export default class AttendanceScene extends Component {
 
   constructor(props) {
     super(props)
-    console.log('CONSTRUCTOR')
 
     this.state = {
-      fetching: true,
+      fetching: false,
       classes: []
     }
   }
 
   componentWillMount() {
-    console.log("WILL MOUNT")
-    if(this.state.fetching) {
+    this.setState({
+      fetching: true
+    })
       this.fetchClasses()
-    }
   }
 
   render() {
@@ -47,27 +47,24 @@ export default class AttendanceScene extends Component {
     }
 
     return (
-      <View>
+      <Scene>
         <WaitModal
-          text="Loading"
-          subtext="Please wait..."
           visible={ this.state.fetching }
           ref="waitmodal"
         />
         <NavBar
           title="Attendance"
           navigator={ this.props.navigator }
-          route={ this.props.route }
           leftButtonText="Back"
           leftButtonAction={ () => this.props.navigator.pop() }
         />
-        <ScrollView contentContainerStyle={{alignItems: 'center'}} style={{flex: 1, flexDirection: 'column'}}>
+        <SceneView>
           {Heading}
           {Buttons}
-        </ScrollView>
+        </SceneView>
 
 
-      </View>
+      </Scene>
     )
   }
 

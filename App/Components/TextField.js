@@ -39,16 +39,18 @@ export default class TextField extends Component {
           }}
         >
 
-
-
           <TextInput
+            ref={ (ref) => this.textInput = ref }
             style={{backgroundColor: 'red'}}
+            onSubmitEditing={ this.props.onSubmitEditing || null }
+            returnKeyType={ this.props.returnKeyType || "done" }
+            autoCapitalize={ this.props.autoCapitalize || "none" }
             keyboardType={ this.props.keyboardType || "default" }
             onChangeText={ (value) => this.setState({ value }) }
             value={ this.state.value }
             placeholder={ this.props.placeholder || null }
             secureTextEntry= { this.props.secureTextEntry || false }
-            maxLength={this.props.maxLength || 20 }
+            maxLength={ this.props.maxLength || 20 }
             autoFocus={ this.props.autoFocus || false }
             style={{
               marginLeft: 5,

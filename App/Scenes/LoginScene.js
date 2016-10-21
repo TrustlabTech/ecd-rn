@@ -8,7 +8,6 @@ import {
   TextInput
 } from 'react-native'
 
-import Config from '../Config'
 import Routes from '../Routes'
 import NavBar from '../Components/NavBar'
 import WaitModal from '../Components/WaitModal'
@@ -16,7 +15,8 @@ import TextField from '../Components/TextField'
 import FormButton from '../Components/FormButton'
 import SceneView from '../Components/SceneView'
 import Scene from '../Components/Scene'
-
+import Link from '../Components/Link'
+import { FontSizes } from '../GlobalStyles'
 const ConsentLogo = require('../Images/consent_logo.png')
 
 export default class MainScene extends Component {
@@ -75,6 +75,10 @@ export default class MainScene extends Component {
             label="Phone Number"
             maxLength={10}
             keyboardType="phone-pad"
+            returnKeyType="next"
+            onSubmitEditing={ (event) => {
+              console.log(this.refs.pin.textInput.focus())
+            }}
           />
 
           <TextField
@@ -82,24 +86,16 @@ export default class MainScene extends Component {
             label="Pin"
             maxLength={4}
             keyboardType="phone-pad"
+            onSubmitEditing={ this.attemptLogin }
           />
 
           <View style={{ height: 18, alignItems: 'center' }}>
             <Text style={{fontSize: 16, color: 'red' }}>{ this.state.error }</Text>
           </View>
 
-          <View style={{padding: 10, alignItems: 'center'}}>
-            <Text style={{fontSize: 28}} >or</Text>
-          </View>
-
-          <View style={{alignItems: 'center'}}>
-            <FormButton
-              text="Register"
-              onPress={ () => this.props.navigator.push(Routes.register) }
-              height={ 70 }
-              width={ 150 }
-              fontSize={ 26 }
-            />
+          <View style={{flexDirection: 'column', padding: 10, alignItems: 'center'}}>
+            <Link text="Forgot your pin?" onPress={ () => alert('Boom!') }/>
+          <Link text="Not yet registered?" onPress={ () => this.props.navigator.push(Routes.register) }/>
           </View>
 
 

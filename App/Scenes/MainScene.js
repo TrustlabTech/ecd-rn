@@ -15,6 +15,8 @@ import Config from '../Config'
 import DrawerMenuItem from '../Components/DrawerMenuItem'
 import MainDrawer from '../Components/MainDrawer'
 import Routes from '../Routes'
+import Scene from '../Components/Scene'
+import SceneView from '../Components/SceneView'
 
 export default class MainScene extends Component {
 
@@ -24,40 +26,34 @@ export default class MainScene extends Component {
 
   render() {
     return (
-        <View>
+        <Scene>
           <NavBar
             title="My Centre"
             navigator={ this.props.navigator }
-            route={ this.props.route }
             leftButtonText="|||"
             leftButtonAction={ this.props.leftButtonAction }
           />
-          <ScrollView>
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+          <SceneView>
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
               <Text style={{fontSize: 24}}>Happy Valley Preschool</Text>
             </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
               <Text style={{fontSize: 18}}>Whiteriver, Mpumulanga</Text>
             </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
             <Image source={require('../Images/preschool.jpg')}
               style={{width: 380, height: 380}} />
             </View>
 
             <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
-              <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 20}}>
+              <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 20}}>
                 <Text style={{fontSize: 26}}>Take Attendance</Text>
               </View>
             </TouchableHighlight>
-          </ScrollView>
-        </View>
+          </SceneView>
+        </Scene>
     )
   }
-}
-
-const styles = {
-
-
 }

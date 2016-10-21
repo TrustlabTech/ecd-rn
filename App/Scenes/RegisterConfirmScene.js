@@ -12,6 +12,8 @@ import Config from '../Config'
 import Routes from '../Routes'
 import NavBar from '../Components/NavBar'
 import WaitModal from '../Components/WaitModal'
+import Scene from '../Components/Scene'
+import SceneView from '../Components/SceneView'
 
 export default class RegisterConfirmScene extends Component {
 
@@ -25,33 +27,27 @@ export default class RegisterConfirmScene extends Component {
 
   render() {
     return (
-      <View style={styles.containerColumn}>
+      <Scene>
         <NavBar
           navigator={this.props.navigator}
           route={this.props.route}
           title="Register"
           rightButtonText="Next"
         />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: 10
-          }}
-        >
+        <SceneView>
           <View style={{height: 100}}/>
           <Text style={{textAlign: 'center'}}>Check your SMS inbox for your OTP</Text>
-          <View>
+          <View style={{alignItems: 'center'}}>
             <TextInput
-              style={{width: 85, height: 65, fontSize: 30}}
+              style={{width: 85, height: 65, fontSize: 30, textAlign: 'center'}}
               keyboardType="numeric"
               placeholder="OTP"
               onChangeText={ (otp) => this.setState({ otp }) }
+              maxLength={4}
             />
           </View>
-        </View>
-      </View>
+        </SceneView>
+      </Scene>
     )
   }
 }

@@ -9,14 +9,12 @@ import {
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 import Config from '../Config'
-import Routes from '../Routes'
 
 export default class NavBar extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      route: props.route,
       navigator: props.navigator
     }
   }
@@ -112,6 +110,7 @@ export default class NavBar extends Component {
 
 const styles = StyleSheet.create({
   navButtonViewWrapper: {
+
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
