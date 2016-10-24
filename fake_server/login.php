@@ -1,7 +1,5 @@
 <?php
 require 'info.php';
-// Simulate latency
-sleep(1);
 // IN
 
 

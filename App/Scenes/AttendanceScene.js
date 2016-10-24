@@ -20,14 +20,18 @@ export default class AttendanceScene extends Component {
     super(props)
 
     this.state = {
-      fetching: false,
+      fetching: true,
+      modalVisible: true,
+      error: null,
       classes: []
     }
   }
 
   componentWillMount() {
     this.setState({
-      fetching: true
+      fetching: true,
+      error: null,
+      modalVisible: true
     })
       this.fetchClasses()
   }
@@ -38,8 +42,7 @@ export default class AttendanceScene extends Component {
     if(this.state.classes.length > 0) {
 
       Buttons = this.state.classes.map( (result) => {
-        Routes.class.classId = result.id
-        Routes.class.className = result.name
+        
         return (
           <FormButton
             key={result.id}
@@ -58,9 +61,14 @@ export default class AttendanceScene extends Component {
     }
 
     return (
+
       <Scene>
         <WaitModal
-          visible={ this.state.fetching }
+          animating= { this.state.fetching }
+          visible={ this.state.modalVisible }
+          text={ this.state.error ? this.state.error : "Loading" }
+          navigator={ this.props.navigator }
+          popOnClose={ true }
           ref="waitmodal"
         />
         <NavBar
@@ -83,7 +91,9 @@ export default class AttendanceScene extends Component {
 
   fetchClasses = () => {
     this.setState({
-      fetching: true
+      fetching: true,
+      modalVisible: true,
+      error: null
     })
     fetch(Config.http.baseUrl + 'classes.php', {
       method: 'GET'
@@ -96,6 +106,7 @@ export default class AttendanceScene extends Component {
     .then( (responseJson) => {
       this.setState({
         classes: responseJson.classes,
+        modalVisible: false,
         fetching: false
       })
     })

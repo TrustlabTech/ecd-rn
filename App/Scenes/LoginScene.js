@@ -44,21 +44,14 @@ export default class MainScene extends Component {
   }
 
   render() {
-    var modalText = ''
-    if(this.state.attempting) {
-      modalText = 'Logging in'
-    } else {
-      if(this.state.error) {
-        modalText = this.state.error
-      }
-    }
+
     return (
       <Scene>
 
         <WaitModal
           animating={ this.state.attempting }
           visible={ this.state.modalVisible }
-          text={modalText}
+          text={ this.state.error ? this.state.error : "Logging in" }
           ref="waitmodal"
         />
 

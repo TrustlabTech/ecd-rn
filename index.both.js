@@ -51,6 +51,7 @@ export default class Both extends Component {
     return (
 
         <Navigator
+          // initialRoute={{...Routes.class, className: 'Smith', classId: 2}}
           initialRoute={Routes.login}
           ref='navigator'
           renderScene={ (route, navigator) => {

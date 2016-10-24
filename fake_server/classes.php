@@ -2,8 +2,6 @@
 
 require 'info.php';
 
-// Simulate latency
-sleep(1);
 
 header('Content-Type: text/json');
 

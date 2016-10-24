@@ -9,7 +9,18 @@ import {
 } from 'react-native'
 
 import { Colours, FontSizes } from '../GlobalStyles'
+/*
+  Usage:
 
+  <WaitModal
+    animating= boolean
+    visible= boolean
+    text= string
+    ref= string
+    popOnclose= boolean
+  />
+
+*/
 export default class WaitModal extends Component {
   constructor(props) {
     super(props)
@@ -26,6 +37,15 @@ export default class WaitModal extends Component {
     })
   }
 
+  close(){
+    this.setState({
+      visible: false
+    })
+    if(this.props.popOnClose){
+      this.props.navigator.pop()
+    }
+  }
+
   render() {
     var centerComponent =
       <ActivityIndicator
@@ -35,7 +55,7 @@ export default class WaitModal extends Component {
       />
     if(!this.state.animating) {
       centerComponent =
-        <TouchableHighlight onPress={ () => this.setState({visible: false}) }>
+        <TouchableHighlight onPress={ () => this.close() }>
           <View style={{
             padding: 15,
             borderRadius: 5,
@@ -51,11 +71,12 @@ export default class WaitModal extends Component {
     return (
       <Modal
         ref="modal"
+        onClose={ this.props.onClose }
         animationType={"fade"}
         transparent={true}
         visible={this.state.visible}
         onRequestClose={ () => {
-          console.log("Modal closed")
+          console.log("This is required. But does this do anything?")
         }}
       >
         <View style={styles.entireModal}>

@@ -7,6 +7,10 @@ import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
 import NavBar from '../Components/NavBar'
 import Config from '../Config'
+import WaitModal from '../Components/WaitModal'
+import ChildCheckbox from '../Components/ChildCheckbox'
+import { FontSizes } from '../GlobalStyles'
+import DateText from '../Components/DateText'
 
 export default class ClassScene extends Component {
 
@@ -15,6 +19,7 @@ export default class ClassScene extends Component {
     this.state = {
       modalVisible: true,
       fetching: true,
+      error: null,
       children: []
     }
   }
@@ -22,24 +27,55 @@ export default class ClassScene extends Component {
   componentWillMount() {
     this.setState({
       fetching: true,
+      error: null,
       modalVisible: true
     })
-    this.fetchChildren()
+    this.fetchChildren(this.props.route.classId)
   }
 
   render() {
+    let Buttons = null
+    if(this.state.children.length > 0 ) {
+      Buttons = this.state.children.map( (result) => {
+        return (
+          <ChildCheckbox
+            key={result.id}
+            name={result.name}
+            image={result.imageUrl}
+          />
+        )
+      })
+    }
     return (
       <Scene>
         <WaitModal
-          visible= { this.state.modalVisible }
+          animating={ this.state.fetching }
+          visible={ this.state.modalVisible }
+          text={ this.state.error ? this.state.error : "Loading"}
+          navigator={ this.props.navigator }
+          popOnClose={ true }
+          ref="waitmodal"
         />
         <NavBar
-          title="Class"
+          title="Attendance"
           navigator={ this.props.navigator }
+          rightButtonText="Done"
+          rightButtonAction={ () => alert("Ask to confirm, then send data....")}
         />
         <SceneView>
-          <Text>Passed param:{this.props.route.className}</Text>
-          <Text>Title:{this.props.route.classId}</Text>
+          <View style={{alignItems: 'center', marginTop: 5, marginBottom: 5}}>
+            <Text style={{fontSize: FontSizes.h4}}>
+              {this.props.route.className}
+            </Text>
+            <DateText/>
+
+          </View>
+          <View style={{
+            marginLeft: 20,
+            marginRight: 20
+          }}>
+          {Buttons}
+          </View>
         </SceneView>
       </Scene>
     )
@@ -47,18 +83,24 @@ export default class ClassScene extends Component {
 
   fetchChildren = (classId) => {
     this.setState({
-      fetching: true
+      fetching: true,
+      modalVisible: true,
+      error: null
     })
-
-    fetch(Config.http.baseUrl + 'children.php?classId='+classId, {
+    console.log("About to fetch")
+    fetch(Config.http.baseUrl + "class.php?id=" + classId , {
       method: 'GET'
     })
 
-    .then( (response) =>
-      response.json()
+
+    .then( (response) =>{
+    console.log(response)
+      return response.json()
+    }
     )
 
-    .then( (repsoneJson) => {
+    .then( (responseJson) => {
+    console.log(responseJson)
       this.setState({
         children: responseJson.children,
         fetching: false,
@@ -69,7 +111,7 @@ export default class ClassScene extends Component {
     .catch( (error) => {
       console.log("ClassScene:fetchChildren")
       this.setState({
-        error: "Network Error",
+        error: error,
         fetching: false
       })
     })
