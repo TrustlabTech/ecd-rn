@@ -12,11 +12,9 @@ import Routes from '../Routes'
 import NavBar from '../Components/NavBar'
 import WaitModal from '../Components/WaitModal'
 import TextField from '../Components/TextField'
-import FormButton from '../Components/FormButton'
 import SceneView from '../Components/SceneView'
 import Scene from '../Components/Scene'
 import Link from '../Components/Link'
-import { FontSizes } from '../GlobalStyles'
 import Config from '../Config'
 const ConsentLogo = require('../Images/consent_logo.png')
 
@@ -38,7 +36,7 @@ export default class MainScene extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      error: props.error || null,
+      error: null,
       attempting: false
     })
   }
@@ -80,9 +78,9 @@ export default class MainScene extends Component {
             maxLength={10}
             keyboardType="phone-pad"
             returnKeyType="next"
-            onSubmitEditing={ (event) => {
-              console.log(this.refs.pin.textInput.focus())
-            }}
+            onSubmitEditing={ (event) =>
+              this.refs.pin.textInput.focus()
+            }
           />
 
           <TextField
@@ -189,9 +187,6 @@ export default class MainScene extends Component {
     // Parse to JSON
     .then( (responseJson) => {
       if (responseJson.authenticated === true) {
-        this.setState({
-          error: null
-        })
         return true
       } else {
         this.setState({
@@ -226,7 +221,8 @@ export default class MainScene extends Component {
       console.log('LoginScene:attempt', error)
       this.setState({
         error: "Network error ",
-        attempting: false
+        attempting: false,
+        modalVisible: false
       })
     })
   }

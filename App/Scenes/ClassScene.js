@@ -11,6 +11,7 @@ import WaitModal from '../Components/WaitModal'
 import ChildCheckbox from '../Components/ChildCheckbox'
 import { FontSizes } from '../GlobalStyles'
 import DateText from '../Components/DateText'
+import SceneHeading from '../Components/SceneHeading'
 
 export default class ClassScene extends Component {
 
@@ -63,13 +64,7 @@ export default class ClassScene extends Component {
           rightButtonAction={ () => alert("Ask to confirm, then send data....")}
         />
         <SceneView>
-          <View style={{alignItems: 'center', marginTop: 5, marginBottom: 5}}>
-            <Text style={{fontSize: FontSizes.h4}}>
-              {this.props.route.className}
-            </Text>
-            <DateText/>
-
-          </View>
+          <SceneHeading text={this.props.route.className}/>
           <View style={{
             marginLeft: 20,
             marginRight: 20

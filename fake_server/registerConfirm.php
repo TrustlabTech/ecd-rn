@@ -2,16 +2,14 @@
 
 require 'info.php';
 
+$stderr = fopen('php://stderr','w');
 
 // LOGIC
 $errors = [];
 
-$present = isset($_REQUEST['phoneNumber']) &&
-           isset($_REQUEST['pin']) &&
-           isset($_REQUEST['firstName']) &&
-           isset($_REQUEST['lastName']);
+$present = isset($_REQUEST['otp']);
 //
-if(!$present) $errors[] = "Missing values";
+if(!$present) $errors[] = "Missing value";
 
 header('Content-Type: text/json');
 
@@ -19,7 +17,7 @@ if( $errors ) {
 $error_string = implode(',',$errors);
 $output =  <<< JSON
 {
-    "authenticated": false,
+    "confirmed": false,
     "error": "{$error_string}"
 }
 JSON;
@@ -28,7 +26,7 @@ JSON;
 
 $output = <<< JSON
 {
-    "authenticated": true,
+    "confirmed": true,
     "error": null
 }
 JSON;

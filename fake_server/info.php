@@ -11,5 +11,4 @@ $info = <<< INFO
 
     Request: {$request}
 INFO;
-fputs($stderr, "\n {$info} \n");
-fclose($stderr);
+fputs($stderr, "INPUT:\n {$info} \n");

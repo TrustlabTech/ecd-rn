@@ -3,8 +3,6 @@ import {
   Platform
 } from 'react-native'
 
-const { width, height } = Dimensions.get('window')
-
 export default {
   metrics: {
       systemBarHeight: Platform.OS === 'ios' ? 20 : 0,

@@ -41,15 +41,9 @@ export default class Both extends Component {
     })
   }
 
-  // _navigate( navigator, route, params = []) {
-  //   // We're going to pass through this method instead of navigator
-  //   // So that we can also pass any variables into the Scene
-  //   navigator.push({...route, param: 'val'})
-  // }
-
   render() {
-    return (
 
+    return (
         <Navigator
           // initialRoute={{...Routes.class, className: 'Smith', classId: 2}}
           initialRoute={Routes.login}
@@ -85,23 +79,3 @@ export default class Both extends Component {
   }
 
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

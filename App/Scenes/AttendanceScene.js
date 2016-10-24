@@ -13,6 +13,8 @@ import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
 import Config from '../Config'
 import Routes from '../Routes'
+import SceneHeading from '../Components/SceneHeading'
+import { FontSizes } from '../GlobalStyles'
 
 export default class AttendanceScene extends Component {
 
@@ -42,7 +44,7 @@ export default class AttendanceScene extends Component {
     if(this.state.classes.length > 0) {
 
       Buttons = this.state.classes.map( (result) => {
-        
+
         return (
           <FormButton
             key={result.id}
@@ -51,13 +53,11 @@ export default class AttendanceScene extends Component {
             height={50}
             onPress={ () =>
               this.props.navigator.push({...Routes.class, className: result.name, classId: result.id })
-            }/>
+            }
+          />
+
       )})
-      Heading = (
-        <View style={{marginTop: 20, marginBottom: 20}}>
-          <Text style={{fontSize: 22}}>Select Class</Text>
-        </View>
-      )
+
     }
 
     return (
@@ -78,9 +78,9 @@ export default class AttendanceScene extends Component {
           leftButtonAction={ () => this.props.navigator.pop() }
         />
         <SceneView>
+          <SceneHeading text="Select Class"/>
           <View style={{alignItems: 'center'}}>
-          {Heading}
-          {Buttons}
+            {Buttons}
           </View>
         </SceneView>
 

@@ -46,3 +46,4 @@ JSON;
 
 }
 
+fclose($stderr);

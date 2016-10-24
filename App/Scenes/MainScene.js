@@ -10,10 +10,6 @@ import {
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
-import Drawer from 'react-native-drawer'
-import Config from '../Config'
-import DrawerMenuItem from '../Components/DrawerMenuItem'
-import MainDrawer from '../Components/MainDrawer'
 import Routes from '../Routes'
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'

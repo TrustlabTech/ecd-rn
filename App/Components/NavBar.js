@@ -42,6 +42,8 @@ export default class NavBar extends Component {
         </TouchableHighlight>
 
     } else if (this.canGoBack()) {
+      let text = this.props.leftButtonText ?
+        this.props.leftButtonText : "Back"
 
       leftButton =
         <TouchableHighlight
@@ -49,7 +51,7 @@ export default class NavBar extends Component {
           onPress={ this.props.navigator.pop }
         >
           <View style={styles.sideButtonsViewWrapper}>
-            <Text style={styles.navButtonText}>Back</Text>
+            <Text style={styles.navButtonText}>{text}</Text>
           </View>
         </TouchableHighlight>
 
