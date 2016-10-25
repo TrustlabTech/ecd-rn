@@ -6,6 +6,7 @@ import {
   StyleSheet
 } from 'react-native'
 
+import { Colours } from '../GlobalStyles'
 /* Props:
  * text: string
  * onPress: function
@@ -16,36 +17,40 @@ export default class FormButton extends Component {
 
   constructor(props) {
     super(props)
-    this.height = props.height || null
-    this.width = props.width || null
   }
 
   render() {
 
     return (
-      <View style={{padding: 5}} >
         <TouchableHighlight
           style={{
             flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#ff9215',
+            marginTop: 3,
+            marginBottom: 3,
+            backgroundColor: '#000000',
             borderRadius: 3,
             width: this.props.width || 120,
             height: this.props.height || 50
           }}
           onPress={ this.props.onPress }
         >
-          <Text style={{
-            fontSize: 20 || props.fontSize,
-            color: 'white'
+          <View style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: Colours.secondary,
+            padding: 5,
+            borderRadius: 3
           }}>
-            { this.props.text }
-          </Text>
+            <Text style={{
+              fontSize: 20 || props.fontSize,
+              color: 'white'
+            }}>
+              { this.props.text }
+            </Text>
+          </View>
 
         </TouchableHighlight>
-      </View>
     )
   }
 }

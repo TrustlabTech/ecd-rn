@@ -18,17 +18,19 @@ export default class ChildCheckbox extends Component {
     }
   }
 
+  onPress() {
+    this.setState({ checked: !this.state.checked })
+    this.props.onPress(this.props.id, this.state.checked)
+  }
+
   render() {
-    let d = new Date()
-    console.log(d.getDay())
+
     let Absent = this.state.checked ? 'Present' : 'Absent'
 
     let ContainerBackgroundColour = this.state.checked ? Colours.secondary : Colours.secondaryHighlight
 
     return (
-      <TouchableHighlight onPress={ () =>
-        this.setState({ checked: !this.state.checked })
-      }>
+      <TouchableHighlight style={styles.touchable} onPress={ () => this.onPress() }>
         <View style={[
           styles.containerView,
           {backgroundColor: ContainerBackgroundColour}
@@ -55,11 +57,14 @@ export default class ChildCheckbox extends Component {
 }
 
 const styles = StyleSheet.create({
+  touchable:{
+    marginTop: 3,
+    marginBottom: 3,
+    borderRadius: 3
+  },
   containerView: {
     flexDirection: 'column',
     padding: 5,
-    marginTop: 3,
-    marginBottom: 3,
     borderRadius: 3
   },
   debugBorder:{

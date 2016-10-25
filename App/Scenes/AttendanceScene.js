@@ -30,6 +30,7 @@ export default class AttendanceScene extends Component {
   }
 
   componentWillMount() {
+    console.log("Component will mount")
     this.setState({
       fetching: true,
       error: null,
@@ -90,6 +91,7 @@ export default class AttendanceScene extends Component {
   }
 
   fetchClasses = () => {
+    console.log("Fetching classess....")
     this.setState({
       fetching: true,
       modalVisible: true,
@@ -110,6 +112,7 @@ export default class AttendanceScene extends Component {
         fetching: false
       })
     })
+
 
     .catch( (error) => {
       console.log('AttendanceScene:fetchClasses', error)

@@ -222,7 +222,7 @@ export default class MainScene extends Component {
       this.setState({
         error: "Network error ",
         attempting: false,
-        modalVisible: false
+        modalVisible: true
       })
     })
   }

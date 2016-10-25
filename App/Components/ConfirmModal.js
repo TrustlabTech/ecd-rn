@@ -21,7 +21,7 @@ import { Colours, FontSizes } from '../GlobalStyles'
   />
 
 */
-export default class WaitModal extends Component {
+export default class ConfirmModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -48,7 +48,14 @@ export default class WaitModal extends Component {
     }
   }
 
-  render() {
+  okay() {
+    this.setState({
+      visible: false
+    })
+    this.props.onOkay()
+  }
+
+render() {
     console.log()
     var centerComponent =
       <ActivityIndicator
@@ -56,20 +63,46 @@ export default class WaitModal extends Component {
         style={{height: 80}}
         size="large"
       />
+    let cancelButton
     if(!this.state.animating) {
       centerComponent =
-        <TouchableHighlight onPress={ () => this.close() }>
-          <View style={{
-            padding: 15,
-            borderRadius: 5,
-            backgroundColor: Colours.secondary ,
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 200
-          }}>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>Close</Text>
-          </View>
-        </TouchableHighlight>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: 5
+        }}>
+
+        <TouchableHighlight onPress={ () => this.okay() }>
+            <View style={{
+              marginRight: 5,
+              padding: 15,
+              borderRadius: 5,
+              backgroundColor: Colours.secondary ,
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 50,
+              width: 100
+            }}>
+              <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>Okay</Text>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={ () => this.close() }>
+            <View style={{
+              marginLeft: 5,
+              padding: 15,
+              borderRadius: 5,
+              backgroundColor: Colours.secondary ,
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 50,
+              width: 100
+            }}>
+              <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>Cancel</Text>
+            </View>
+          </TouchableHighlight>
+
+        </View>
     }
     return (
       <Modal
