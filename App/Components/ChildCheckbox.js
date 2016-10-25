@@ -16,15 +16,17 @@ export default class ChildCheckbox extends Component {
     this.state = {
       checked: false
     }
+    console.log('CONSTRUCT',this.state.checked)
   }
 
   onPress() {
+    console.log("ONPRESS ",this.props.id, this.state.checked)
+    this.props.onPress(this.props.id, !this.state.checked)
     this.setState({ checked: !this.state.checked })
-    this.props.onPress(this.props.id, this.state.checked)
   }
 
   render() {
-
+    console.log("RENDER", this.props.id, this.state.checked)
     let Absent = this.state.checked ? 'Present' : 'Absent'
 
     let ContainerBackgroundColour = this.state.checked ? Colours.secondary : Colours.secondaryHighlight

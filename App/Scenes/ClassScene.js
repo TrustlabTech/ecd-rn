@@ -24,7 +24,8 @@ export default class ClassScene extends Component {
       fetching: true,
       attempting: false,
       error: null,
-      children: []
+      children: [],
+      attendance: []
     }
   }
 
@@ -46,21 +47,20 @@ export default class ClassScene extends Component {
   }
 
   handlePressChildCheckbox(childKey, checked) {
-    let children = this.state.children
-    let child = children[childKey]
-    if(!child.checked) {
-      child.checked = true
-    } else {
-      child.checked = !child.checked
-    }
-    children[childKey] = child
+
+    console.log("GOOO ", childKey,checked)
+    // this.state.attendance[childKey] = checked
+    let attendance = this.state.attendance
+
+    attendance[childKey + 1] = {id: childKey, checked: checked}
     this.setState({
-      children: children
+      attendance: attendance
     })
+
+    console.log(attendance)
   }
 
   render() {
-    console.log(this.state)
     let Buttons = null
     if(this.state.children.length > 0 ) {
       Buttons = this.state.children.map( (result) => {
@@ -112,8 +112,9 @@ export default class ClassScene extends Component {
       </Scene>
     )
   }
+
   submitAttendance = (classId) => {
-    console.log("Submitting attendance...")
+    console.log("Submitting attendance...",this.state.attendance)
     this.setState({
       attempting: true,
       waitModalVisible: true,
@@ -121,9 +122,10 @@ export default class ClassScene extends Component {
     })
     var formData = new FormData()
 
-    formData.append('children',this.state.children)
+    formData.append('attendance',this.state.attendance)
 
-    })
+
+    console.log(formData)
   }
 
   fetchChildren = (classId) => {
@@ -140,21 +142,27 @@ export default class ClassScene extends Component {
 
 
     .then( (response) =>{
-    console.log(response)
       return response.json()
     })
 
     .then( (responseJson) => {
-    console.log(responseJson)
       this.setState({
         children: responseJson.children,
         fetching: false,
         waitModalVisible: false
       })
+      // copy keys to outbound array
+      var attendance = []
+      this.state.children.forEach( (child) => {
+        attendance.push({id: child.id, checked: false})
+      })
+      this.setState({
+        attendance: attendance
+      })
     })
 
     .catch( (error) => {
-      console.log("ClassScene:fetchChildren")
+      console.log("ClassScene:fetchChildren", error)
       this.setState({
         error: error,
         fetching: false,
