@@ -36,7 +36,7 @@ export default class AttendanceScene extends Component {
       error: null,
       modalVisible: true
     })
-      this.fetchClasses()
+    this.fetchClasses()
   }
 
   render() {
