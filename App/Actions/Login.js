@@ -32,3 +32,9 @@ export function pinTextChange(text) {
     text: text
   }
 }
+
+export function closeModal() {
+  return {
+    type: 'LOGIN_CLOSE_MODAL'
+  }
+}

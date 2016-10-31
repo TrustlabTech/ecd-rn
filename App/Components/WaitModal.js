@@ -22,6 +22,7 @@ import { Colours, FontSizes } from '../GlobalStyles'
 
 */
 export default class WaitModal extends Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -40,16 +41,13 @@ export default class WaitModal extends Component {
   }
 
   close(){
-    this.setState({
-      visible: false
-    })
+    this.props.onPressClose()
     if(this.props.popOnClose){
       this.props.navigator.pop()
     }
   }
 
   render() {
-    console.log()
     var centerComponent =
       <ActivityIndicator
         animating={this.state.animating}
@@ -58,7 +56,7 @@ export default class WaitModal extends Component {
       />
     if(!this.state.animating) {
       centerComponent =
-        <TouchableHighlight onPress={ () => this.close() }>
+        <TouchableHighlight onPress={ () => {this.close()} }>
           <View style={{
             padding: 15,
             borderRadius: 5,

@@ -30,10 +30,10 @@ class LoginScene extends Component {
 
   login() {
     const { phoneNumber, pin } = this.props.state.Login
-
+    console.log(this.props.state.Login)
     this.props.actions.attempt(
-      phoneNumber.value,
-      pin.value
+      phoneNumber,
+      pin
     )
   }
 
@@ -48,7 +48,8 @@ class LoginScene extends Component {
 
     const actions = {
       phoneNumberTextChange,
-      pinTextChange
+      pinTextChange,
+      closeModal
     } = this.props.actions
 
     return (
@@ -57,6 +58,7 @@ class LoginScene extends Component {
         <WaitModal
           animating={ state.waitingForNetwork }
           visible={ state.showWaitModal }
+          onPressClose={ () => actions.closeModal() }
           text={ state.errorMessage ? state.errorMessage : "Logging in" }
           ref="waitmodal"
         />

@@ -19,7 +19,7 @@ export default (state = initialState, action = {}) => {
   switch (action.type) {
 
     case 'REGISTER_ATTEMPT':
-      console.log("REGISTER_ATTEMPT")
+
       return {
         ...initialState,
         waitingForNetwork: true,
@@ -44,15 +44,17 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'REGISTER_TEXT_CHANGE':
-      console.log("TEXT_CHANGE", action)
       const { textFieldValues } = state
-      console.log("TEXT FIELD NAME", action.textFieldName)
-      console.log("TEXT TEXT",action.text)
       textFieldValues[action.textFieldName] = action.text
-      console.log("TEXT FIELD VALUES",textFieldValues)
       return {
         ...state,
         textFieldValues: state.textFieldValues
+      }
+
+    case 'REGISTER_CLOSE_MODAL':
+      return {
+        ...state,
+        showWaitModal: false
       }
 
     default:

@@ -24,15 +24,36 @@ export default {
     })
   },
 
-  register: (phoneNumber, pin, pinConfirm, firstName, lastName) => {
-    const formData = new FormData()
-    formData.append('username', phoneNumber)
-    formData.append('password',pin)
+  register: (textFieldValues) => {
+    console.log('TEXT FIELD VALUES!!!',textFieldValues)
 
+    const formData = new FormData()
+    formData.append('phone_number', textFieldValues['phoneNumber'])
+    formData.append('password',textFieldValues['pin'])
+    formData.append('password_confirmation',textFieldValues['pinConfirm'])
+
+    formData.append('did','UNKNOWN')
+    formData.append('za_id_number','9106275014085')
+    formData.append('family_name', textFieldValues['lastName'])
+    formData.append('given_name',textFieldValues['firstName'])
+    formData.append('principle', 0)
+    formData.append('practitioner', 0)
+    formData.append('volunteer', 0)
+    formData.append('cook', 0)
+    formData.append('other',1)
+    formData.append('registration_latitude','31.71291600')
+    formData.append('registration_longitude','-168.07973000')
+    formData.append('ecd_qualification_id',1)
+    formData.append('centre_id',1)
+
+
+
+    console.log(formData)
     return fetch(Config.http.baseUrl + 'staff/register',{
       method: 'POST',
       body: formData
     }).then((response) => {
+      console.log(response)
       return response.json()
     }).catch( (error) => {
       console.log("API:register", error)

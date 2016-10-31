@@ -3,8 +3,7 @@ export function attempt(textFieldValues) {
 
   return {
     type: 'REGISTER_ATTEMPT',
-    phoneNumber: textFieldValues['phoneNumber'],
-    pin: textFieldValues['pin']
+    textFieldValues: textFieldValues
   }
 }
 
@@ -26,5 +25,11 @@ export function textChange(text, textFieldName) {
     type: 'REGISTER_TEXT_CHANGE',
     text: text,
     textFieldName: textFieldName
+  }
+}
+
+export function closeModal() {
+  return {
+    type: 'REGISTER_CLOSE_MODAL'
   }
 }

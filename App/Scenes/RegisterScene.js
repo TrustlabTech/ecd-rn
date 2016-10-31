@@ -24,7 +24,6 @@ class RegisterScene extends Component {
   }
 
   register() {
-
     this.props.actions.attempt(
       this.props.state.Register.textFieldValues
     )
@@ -49,8 +48,11 @@ class RegisterScene extends Component {
           animating={ state.waitingForNetwork }
           visible={ state.showWaitModal }
           text={ state.errorMessage ? state.errorMessage : "Registering" }
+          onPressClose={ () => actions.closeModal() }
+          popOnClose={true}
           ref="waitmodal"
         />
+        
         <NavBar
           navigator={ this.props.navigator }
           route={ this.props.route }

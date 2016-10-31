@@ -31,12 +31,7 @@ function* loginAttempt(action) {
 function* registerAttempt(action) {
   const { phoneNumber, pin, pinConfirm, firstName, lastName} = action
   try {
-    const data = yield call(Api.register,
-      phoneNumber,
-      pin,
-      pinConfirm,
-      firstName,
-      lastName)
+    const data = yield call(Api.register,action.textFieldValues)
 
     if(data.error) {
       yield put(registerActions.failed(data.error.toString()))

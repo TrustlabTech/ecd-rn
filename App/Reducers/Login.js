@@ -28,7 +28,7 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'LOGIN_FAILED':
-    console.log("LOGIN_FAILED",action)
+    console.log("LOGIN_FAILED")
       return {
         ...state,
         waitingForNetwork: false,
@@ -37,6 +37,7 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'PHONENUMBER_TEXT_CHANGE':
+      console.log("PHONENUMBER_TEXT_CHANGE")
       return {
         ...state,
         phoneNumber: action.text
@@ -49,6 +50,12 @@ export default (state = initialState, action = {}) => {
         pin: action.pin
       }
 
+    case 'LOGIN_CLOSE_MODAL':
+      console.log("LOGIN_CLOSE_MODAL")
+      return {
+        ...state,
+        showWaitModal: false
+      }
     default:
       return state
   }
