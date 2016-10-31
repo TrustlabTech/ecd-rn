@@ -1,19 +1,39 @@
 import React, { Component } from 'react'
+import Config from './App/Config'
 import {
-    Text,
-    View,
-    Navigator,
-    StyleSheet,
-    BackAndroid
+  Text,
+  View,
+  Navigator,
+  StyleSheet,
+  BackAndroid
 } from 'react-native'
+import {
+  createStore,
+  applyMiddleware,
+  combineReducers
+} from 'redux'
+import { Provider } from 'react-redux'
+import createSagaMiddleware from 'redux-saga'
 import Routes from './App/Routes'
+import * as Reducers from './App/Reducers'
+import rootSaga from './App/Sagas'
+
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(
+  combineReducers(Reducers),
+  applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga)
+
+store.subscribe(() => {
+  if(Config.debug) console.log("REDUX STORE UPDATED",store.getState())
+})
 
 export default class Both extends Component {
 
   constructor(props) {
     super(props)
     this.state = { ...props }
-
   }
 
   createScene(route, navigator) {
@@ -42,11 +62,12 @@ export default class Both extends Component {
   }
 
   render() {
-
     return (
+
+      <Provider store={store}>
         <Navigator
-          initialRoute={{...Routes.class, className: 'Smith', classId: 2}}
-          // initialRoute={Routes.login}
+          // initialRoute={{...Routes.class, className: 'Smith', classId: 2}}
+          initialRoute={Routes.login}
           ref='navigator'
           renderScene={ (route, navigator) => {
             BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -75,7 +96,9 @@ export default class Both extends Component {
             Navigator.SceneConfigs.FadeAndroid
           }
         />
-    );
+      </Provider>
+
+    )
   }
 
 }
