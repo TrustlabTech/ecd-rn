@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import {
   Text,
   View,
@@ -13,33 +14,41 @@ import SceneView from '../Components/SceneView'
 import WaitModal from '../Components/WaitModal'
 import Config from '../Config'
 import Routes from '../Routes'
+import { connect } from 'react-redux'
+import * as registerActions from '../Actions/Register'
 
-export default class RegisterScene extends Component {
+class RegisterScene extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      error: null,
-      attempting: false,
-      modalVisible: false
-    }
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      error: null,
-      attempting: false
-    })
+  register() {
+
+    this.props.actions.attempt(
+      this.props.state.Register.textFieldValues
+    )
   }
 
   render() {
+    const state = {
+      waitingForNetwork,
+      showWaitModal,
+      errorMessage,
+      textFieldValues
+    } = this.props.state.Register
+
+    const actions = {
+      textChange
+    } = this.props.actions
+
     return (
       <Scene>
 
         <WaitModal
-          animating={ this.state.attempting }
-          visible={ this.state.modalVisible }
-          text={ this.state.error ? this.state.error : "Registering" }
+          animating={ state.waitingForNetwork }
+          visible={ state.showWaitModal }
+          text={ state.errorMessage ? state.errorMessage : "Registering" }
           ref="waitmodal"
         />
         <NavBar
@@ -47,16 +56,15 @@ export default class RegisterScene extends Component {
           route={ this.props.route }
           title="Register"
           rightButtonText="Next"
-          rightButtonAction={ this.attemptRegister }
+          rightButtonAction={ () => this.register() }
         />
 
         <SceneView>
-          <View style={{height: 20}}>
-            <Text>{this.state.error}</Text>
-          </View>
 
           <TextField
+            value={ state.firstName }
             ref="firstName"
+            onChangeText={ (text) => actions.textChange(text, 'firstName') }
             label="First Name"
             autoFocus={true}
             autoCapitalize="sentences"
@@ -67,7 +75,9 @@ export default class RegisterScene extends Component {
           />
 
           <TextField
+            value={ state.lastName }
             ref="lastName"
+            onChangeText={ (text) => actions.textChange(text, 'lastName') }
             label="Last Name"
             autoCapitalize="sentences"
             returnKeyType="next"
@@ -77,7 +87,9 @@ export default class RegisterScene extends Component {
           />
 
           <TextField
+            value={ state.phoneNumber }
             ref="phoneNumber"
+            onChangeText={ (text) => actions.textChange(text, 'phoneNumber') }
             label="Phone number"
             keyboardType="phone-pad"
             returnKeyType="next"
@@ -87,7 +99,9 @@ export default class RegisterScene extends Component {
           />
 
           <TextField
+            value={ state.pin }
             ref="pin"
+            onChangeText={ (text) => actions.textChange(text, 'pin') }
             label="Pin"
             secureTextEntry={true}
             maxLength={4}
@@ -99,12 +113,14 @@ export default class RegisterScene extends Component {
           />
 
           <TextField
+            value={ state.pinConfirm }
             ref="pinConfirm"
+            onChangeText={ (text) => actions.textChange(text, 'pinConfirm') }
             label="Confirm Pin"
             secureTextEntry={true}
             maxLength={4}
             keyboardType="phone-pad"
-            onSubmitEditing={ this.attemptRegister }
+            onSubmitEditing={ () => this.register() }
           />
 
         </SceneView>
@@ -112,92 +128,13 @@ export default class RegisterScene extends Component {
     )
   }
 
-  attemptRegister = () => {
-    let phoneNumber = this.refs.phoneNumber.state.value
-    let pin = this.refs.pin.state.value
-    let pinConfirm = this.refs.pinConfirm.state.value
-    let firstName = this.refs.firstName.state.value
-    let lastName = this.refs.lastName.state.value
-    let errors = []
-
-    this.setState({
-      error: null
-    })
-
-    // Prevent attempt if a field is empty
-    if(phoneNumber.length < 1) errors.push("Phone Number empty")
-    if(pin.length < 1) errors.push("Pin empty")
-    if(pinConfirm.length < 1) errors.push("Confirm Pin empty")
-    if(firstName.length < 1) errors.push("First Name empty")
-    if(lastName.length < 1) errors.push("Last Name empty")
-    if(pin !== pinConfirm) errors.push("Pins do not match")
-
-    if (errors.length > 0) {
-      this.setState({
-        error: errors.toString()
-      })
-      return
-    }
-
-    // Create form data
-    var formData = new FormData()
-    formData.append('phoneNumber',phoneNumber)
-    formData.append('pin', pin)
-    formData.append('firstName', firstName)
-    formData.append('lastName', lastName)
-
-    // Show the modal
-    this.setState({
-      attempting: true,
-      modalVisible: true,
-      error: null
-    })
-
-    fetch(Config.http.baseUrl + 'register.php',{
-      method: 'POST',
-      body: formData
-    })
-
-    .then((response) => {
-      return response.json()
-    })
-
-    .then( (responseJson) => {
-      console.log(responseJson)
-      if(responseJson.authenticated === true) {
-        return true
-      } else {
-        this.setState({
-          error: responseJson.error
-        })
-        return false
-      }
-    })
-
-    .then( (success) => {
-      if(success) {
-        console.log("Success")
-        this.setState({
-          attempting: false,
-          modalVisible: false
-        })
-        this.props.navigator.replace(Routes.registerConfirm)
-      } else {
-        console.log("Failure")
-        this.setState({
-          attempting: false,
-          error: "Registration invalid"
-        })
-      }
-    })
-
-    // On reject
-    .catch( (error) => {
-      console.log('RegisterScene:attempt', error)
-      this.setState({
-        error: "Network error",
-        attempting: false
-      })
-    })
-  }
 }
+
+export default connect(
+  (state) => ({
+    state: state
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(registerActions,dispatch)
+  })
+)(RegisterScene)

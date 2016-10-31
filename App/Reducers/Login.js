@@ -1,8 +1,11 @@
 import Config from '../Config'
 const initialState = {
   waitingForNetwork: false,
+  showWaitModal: false,
   error: false,
-  errorMessage: null
+  errorMessage: null,
+  phoneNumber: '',
+  pin: ''
 }
 
 export default (state = initialState, action = {}) => {
@@ -33,7 +36,20 @@ export default (state = initialState, action = {}) => {
         errorMessage: action.error
       }
 
-      default:
-        return state
+    case 'PHONENUMBER_TEXT_CHANGE':
+      return {
+        ...state,
+        phoneNumber: action.text
+      }
+
+    case 'PIN_TEXT_CHANGE':
+      console.log("PIN_TEXT_CHANGE")
+      return {
+        ...state,
+        pin: action.pin
+      }
+
+    default:
+      return state
   }
 }

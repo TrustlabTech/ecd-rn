@@ -12,7 +12,7 @@ export default {
 
   http: {
     // baseUrl: 'http://d98e103b.ngrok.io/',
-    baseUrl: 'http://localhost:8787/api/v1/',
+    baseUrl: 'http://localhost:8000/api/v1/',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

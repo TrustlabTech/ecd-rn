@@ -17,40 +17,47 @@ import SceneView from '../Components/SceneView'
 import Scene from '../Components/Scene'
 import Link from '../Components/Link'
 import Config from '../Config'
-const ConsentLogo = require('../Images/consent_logo.png')
 import { connect } from 'react-redux'
 import * as loginActions from '../Actions/Login'
+
+const ConsentLogo = require('../Images/consent_logo.png')
 
 class LoginScene extends Component {
 
   constructor(props) {
-
     super(props)
-    this.state = {
-      phoneNumber: '',
-      pin: ''
-    }
-
   }
 
   login() {
-    // Redux
+    const { phoneNumber, pin } = this.props.state.Login
+
     this.props.actions.attempt(
-      this.refs.phoneNumber.state.value,
-      this.refs.pin.state.value
+      phoneNumber.value,
+      pin.value
     )
   }
 
   render() {
-    const { state } = this.props
+    const state = {
+      waitingForNetwork,
+      showWaitModal,
+      errorMessage,
+      phoneNumber,
+      pin
+    } = this.props.state.Login
+
+    const actions = {
+      phoneNumberTextChange,
+      pinTextChange
+    } = this.props.actions
 
     return (
       <Scene>
 
         <WaitModal
-          animating={ state.Login.waitingForNetwork }
-          visible={ state.Login.showWaitModal }
-          text={ state.Login.errorMessage ? state.Login.errorMessage : "Logging in" }
+          animating={ state.waitingForNetwork }
+          visible={ state.showWaitModal }
+          text={ state.errorMessage ? state.errorMessage : "Logging in" }
           ref="waitmodal"
         />
 
@@ -66,7 +73,7 @@ class LoginScene extends Component {
 
           <View style={{alignItems: 'center'}}>
             <Image
-              source={ConsentLogo}
+              source={ ConsentLogo }
               style={{width: 246, height: 273}}
             />
           </View>
@@ -74,18 +81,21 @@ class LoginScene extends Component {
 
 
           <TextField
+            value={ state.phoneNumber }
             ref="phoneNumber"
+            onChangeText={ (text) => actions.phoneNumberTextChange(text) }
             label="Phone Number"
             maxLength={10}
             keyboardType="phone-pad"
             returnKeyType="next"
-            onSubmitEditing={ (event) =>
+            onSubmitEditing={ () =>
               this.refs.pin.textInput.focus()
             }
           />
 
           <TextField
-            ref="pin"
+            value={ state.pin }
+            onChangeText={ (text) => actions.pinTextChange(text) }
             label="Pin"
             maxLength={4}
             keyboardType="phone-pad"
@@ -100,10 +110,6 @@ class LoginScene extends Component {
 
 
           <View>
-
-            <TouchableHighlight onPress={ () => this.login() } >
-              <Text>TEST BUTTON</Text>
-            </TouchableHighlight>
 
             <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.registerConfirm) } >
               <Text>RegisterConfirmScene</Text>

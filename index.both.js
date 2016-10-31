@@ -66,7 +66,7 @@ export default class Both extends Component {
 
       <Provider store={store}>
         <Navigator
-          // initialRoute={{...Routes.class, className: 'Smith', classId: 2}}
+          // initialRoute={Routes.register}
           initialRoute={Routes.login}
           ref='navigator'
           renderScene={ (route, navigator) => {
@@ -92,7 +92,7 @@ export default class Both extends Component {
               )
             }
           }}
-          configureScene={ (route, routeStack) =>
+          configureScene={ (route, routeStack ) =>
             Navigator.SceneConfigs.FadeAndroid
           }
         />

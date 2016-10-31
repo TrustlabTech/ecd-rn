@@ -18,3 +18,17 @@ export function failed(error) {
     error: error
   }
 }
+
+export function phoneNumberTextChange(text) {
+  return {
+    type: 'PHONENUMBER_TEXT_CHANGE',
+    text: text
+  }
+}
+
+export function pinTextChange(text) {
+  return {
+    type: 'PIN_TEXT_CHANGE',
+    text: text
+  }
+}
