@@ -25,7 +25,6 @@ export default {
   },
 
   register: (textFieldValues) => {
-    console.log('TEXT FIELD VALUES!!!',textFieldValues)
 
     const formData = new FormData()
     formData.append('phone_number', textFieldValues['phoneNumber'])
