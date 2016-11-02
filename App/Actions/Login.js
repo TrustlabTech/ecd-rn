@@ -1,14 +1,17 @@
-export function attempt(phoneNumber, pin) {
+export function attempt(phoneNumber, pin, navigator) {
   return {
     type: 'LOGIN_ATTEMPT',
     phoneNumber: phoneNumber,
-    pin: pin
+    pin: pin,
+    navigator: navigator
   }
 }
 
-export function succeeded() {
+export function succeeded(navigator) {
+
   return {
-    type: 'LOGIN_SUCCEEDED'
+    type: 'LOGIN_SUCCEEDED',
+    navigator: navigator
   }
 }
 

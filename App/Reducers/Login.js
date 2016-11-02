@@ -1,4 +1,5 @@
 import Config from '../Config'
+import Routes from '../Routes'
 const initialState = {
   waitingForNetwork: false,
   showWaitModal: false,
@@ -21,6 +22,7 @@ export default (state = initialState, action = {}) => {
 
     case 'LOGIN_SUCCEEDED':
       console.log("LOGIN_SUCCEEDED")
+      action.navigator.push(Routes.main)
       return {
         ...state,
         waitingForNetwork: false,
@@ -47,7 +49,7 @@ export default (state = initialState, action = {}) => {
       console.log("PIN_TEXT_CHANGE")
       return {
         ...state,
-        pin: action.pin
+        pin: action.text
       }
 
     case 'LOGIN_CLOSE_MODAL':

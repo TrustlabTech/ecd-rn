@@ -30,10 +30,11 @@ class LoginScene extends Component {
 
   login() {
     const { phoneNumber, pin } = this.props.state.Login
-    console.log(this.props.state.Login)
+    console.log("Attempting to login as",phoneNumber,pin)
     this.props.actions.attempt(
       phoneNumber,
-      pin
+      pin,
+      this.props.navigator
     )
   }
 
@@ -100,6 +101,7 @@ class LoginScene extends Component {
             onChangeText={ (text) => actions.pinTextChange(text) }
             label="Pin"
             maxLength={4}
+            secureTextEntry={true}
             keyboardType="phone-pad"
             onSubmitEditing={ () => this.login() }
           />

@@ -10,6 +10,7 @@ import * as registerActions from './Actions/Register'
 export default function* rootSaga() {
     yield takeEvery('LOGIN_ATTEMPT',loginAttempt)
     yield takeEvery('REGISTER_ATTEMPT',registerAttempt)
+    yield takeEvery('REGISTER_FETCH_CENTRES', registerFetchCentres)
 }
 
 function* loginAttempt(action) {
@@ -19,7 +20,7 @@ function* loginAttempt(action) {
     if(data.error) {
       yield put(loginActions.failed(data.error.toString()))
     } else {
-      yield put(loginActions.succeeded())
+      yield put(loginActions.succeeded(action.navigator))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:loginAttempt ERROR",error)
@@ -36,10 +37,25 @@ function* registerAttempt(action) {
     if(data.error) {
       yield put(registerActions.failed(data.error.toString()))
     } else {
-      yield put(registerActions.succeeded())
+      yield put(registerActions.succeeded(action.navigator))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:registerAttempt ERROR", error)
     yield put(registerActions.failed(error.toString()))
+  }
+}
+
+function* registerFetchCentres() {
+  try {
+    const data = yield call(Api.fetchCentres)
+
+    if(data.error) {
+      yield put(registerActions.fetchCentresFailed(data.error.toString()))
+    } else {
+      yield put(registerActions.fetchCentresSucceeded(data))
+    }
+  } catch (error) {
+    if(Config.debug) console.log("Sagas:registerFetchCentres ERROR", error)
+    yield put(registerActions.fetchCentresFailed(error.toString()))
   }
 }

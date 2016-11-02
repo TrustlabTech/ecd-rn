@@ -47,12 +47,10 @@ export default {
 
 
 
-    console.log(formData)
     return fetch(Config.http.baseUrl + 'staff/register',{
       method: 'POST',
       body: formData
     }).then((response) => {
-      console.log(response)
       return response.json()
     }).catch( (error) => {
       console.log("API:register", error)
@@ -60,5 +58,16 @@ export default {
     })
 
 
+  },
+
+  fetchCentres: () => {
+    return fetch(Config.http.baseUrl + 'centre',{
+      method: 'GET'
+    }).then((response) => {
+      return response.json()
+    }).catch( (error) => {
+      console.log("API:fetchCentres",error)
+      throw error.toString()
+    })
   }
 }

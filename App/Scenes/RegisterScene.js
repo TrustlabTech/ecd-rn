@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  Picker
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
@@ -21,11 +22,24 @@ class RegisterScene extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {language: 'java'}
+
+  }
+
+  componentWillMount() {
+    // fetch centres
+    console.log("ComponentWillMount, FETCHING CENTRES")
+  }
+
+  componentDidMount() {
+    this.props.actions.fetchCentres()
+    console.log("ComponentDidMount, FETCHING CENTRES")
   }
 
   register() {
     this.props.actions.attempt(
-      this.props.state.Register.textFieldValues
+      this.props.state.Register.textFieldValues,
+      this.props.navigator
     )
   }
 
@@ -33,13 +47,28 @@ class RegisterScene extends Component {
     const state = {
       waitingForNetwork,
       showWaitModal,
-      errorMessage,
-      textFieldValues
+      modalText,
+      waitMessage,
+      textFieldValues,
+      centreSelectValues,
+      centreSelectSelected
     } = this.props.state.Register
 
     const actions = {
       textChange
     } = this.props.actions
+
+    const picker =
+      <Picker
+        selectedValue={state.centreSelectSelected}
+        onValueChange={(selection) => actions.centreSelectionChanged(selection) }>
+          {state.centreSelectValues.map((val,i) => <Picker.Item label={val} key={val} value={i} />)}
+
+
+      </Picker>
+    // centreSelectValues.forEach((val, va) => {
+    //   console.log(val,va)
+    // })
 
     return (
       <Scene>
@@ -47,12 +76,11 @@ class RegisterScene extends Component {
         <WaitModal
           animating={ state.waitingForNetwork }
           visible={ state.showWaitModal }
-          text={ state.errorMessage ? state.errorMessage : "Registering" }
+          text={ state.modalText }
           onPressClose={ () => actions.closeModal() }
-          popOnClose={true}
           ref="waitmodal"
         />
-        
+
         <NavBar
           navigator={ this.props.navigator }
           route={ this.props.route }
@@ -62,7 +90,9 @@ class RegisterScene extends Component {
         />
 
         <SceneView>
+          <Text>Select Centre</Text>
 
+          {picker}
           <TextField
             value={ state.firstName }
             ref="firstName"
