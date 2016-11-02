@@ -71,9 +71,7 @@ export default class Both extends Component {
           ref='navigator'
           renderScene={ (route, navigator) => {
             BackAndroid.addEventListener('hardwareBackPress', () => {
-              // This is triggered, but not preventing default
-              console.log("Back button pressed")
-              if(navigator.getCurrentRoutes() > 1) {
+              if(navigator.getCurrentRoutes().length > 1) {
                 navigator.pop()
                 return true
               } else {
