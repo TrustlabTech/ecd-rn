@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import {
   Text,
   View,
@@ -16,40 +17,50 @@ import SceneView from '../Components/SceneView'
 import Scene from '../Components/Scene'
 import Link from '../Components/Link'
 import Config from '../Config'
+import { connect } from 'react-redux'
+import * as loginActions from '../Actions/Login'
+
 const ConsentLogo = require('../Images/consent_logo.png')
 
-export default class MainScene extends Component {
+class LoginScene extends Component {
 
   constructor(props) {
-
     super(props)
-    this.state = {
-      phoneNumber: '',
-      pin: '',
-      loggedin: false,
-      attempting: false,
-      modalVisible: false,
-      error: null
-    }
-
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      error: null,
-      attempting: false
-    })
+  login() {
+    const { phoneNumber, pin } = this.props.state.Login
+    console.log("Attempting to login as",phoneNumber,pin)
+    this.props.actions.attempt(
+      phoneNumber,
+      pin,
+      this.props.navigator
+    )
   }
 
   render() {
+    const state = {
+      waitingForNetwork,
+      showWaitModal,
+      errorMessage,
+      phoneNumber,
+      pin
+    } = this.props.state.Login
+
+    const actions = {
+      phoneNumberTextChange,
+      pinTextChange,
+      closeModal
+    } = this.props.actions
 
     return (
       <Scene>
 
         <WaitModal
-          animating={ this.state.attempting }
-          visible={ this.state.modalVisible }
-          text={ this.state.error ? this.state.error : "Logging in" }
+          animating={ state.waitingForNetwork }
+          visible={ state.showWaitModal }
+          onPressClose={ () => actions.closeModal() }
+          text={ state.errorMessage ? state.errorMessage : "Logging in" }
           ref="waitmodal"
         />
 
@@ -58,14 +69,14 @@ export default class MainScene extends Component {
           route={ this.props.route }
           rightButtonText="Login"
           title={ this.props.route.title }
-          rightButtonAction={ () => this.attemptLogin() }
+          rightButtonAction={ () => this.login() }
         />
 
         <SceneView>
 
           <View style={{alignItems: 'center'}}>
             <Image
-              source={ConsentLogo}
+              source={ ConsentLogo }
               style={{width: 246, height: 273}}
             />
           </View>
@@ -73,22 +84,27 @@ export default class MainScene extends Component {
 
 
           <TextField
+            value={ state.phoneNumber }
             ref="phoneNumber"
+            onChangeText={ (text) => actions.phoneNumberTextChange(text) }
             label="Phone Number"
             maxLength={10}
             keyboardType="phone-pad"
             returnKeyType="next"
-            onSubmitEditing={ (event) =>
+            onSubmitEditing={ () =>
               this.refs.pin.textInput.focus()
             }
           />
 
           <TextField
+            value={ state.pin }
             ref="pin"
+            onChangeText={ (text) => actions.pinTextChange(text) }
             label="Pin"
             maxLength={4}
+            secureTextEntry={true}
             keyboardType="phone-pad"
-            onSubmitEditing={ this.attemptLogin }
+            onSubmitEditing={ () => this.login() }
           />
 
           <View style={{flexDirection: 'column', padding: 10, alignItems: 'center'}}>
@@ -99,6 +115,7 @@ export default class MainScene extends Component {
 
 
           <View>
+
             <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.registerConfirm) } >
               <Text>RegisterConfirmScene</Text>
             </TouchableHighlight>
@@ -116,114 +133,13 @@ export default class MainScene extends Component {
       </Scene>
     )
   }
-
-
-  // Network
-  attemptLogin = () => {
-
-    let phoneNumber = this.refs.phoneNumber.state.value
-    let pin = this.refs.pin.state.value
-    let errors = []
-
-    this.setState({
-      error: null
-    })
-
-    // Prevent attempt if a field is empty
-    if (phoneNumber.length < 1) {
-      errors.push("No phone number entered")
-    }
-
-    if (pin.length < 1) {
-      errors.push("No pin entered")
-    }
-
-    if (errors.length > 0) {
-      let errorString = ''
-      errors.forEach( (error) => {
-        errorString = errorString + error + '. '
-      })
-
-      this.setState({
-        attempting: false,
-        modalVisible: true,
-        error: errorString.trim()
-      })
-      return
-    }
-
-    // Create form data
-    var formData = new FormData()
-    formData.append('phoneNumber', phoneNumber)
-    formData.append('pin', pin)
-
-    // Check if already logged in...
-    if (this.state.loggedin) {
-      this.setState({
-        error: 'Already logged in'
-      })
-      return
-    }
-
-    // Bring up modal
-    this.setState({
-      attempting: true,
-      modalVisible: true
-    })
-
-
-    // Initialise request
-    fetch(Config.http.baseUrl + 'login.php', {
-      method: 'POST',
-      body: formData
-    })
-
-    // Response received
-    .then((response) => {
-      console.log("Response", response)
-      return response.json()
-    })
-
-    // Parse to JSON
-    .then( (responseJson) => {
-      if (responseJson.authenticated === true) {
-        return true
-      } else {
-        this.setState({
-          loggedin: false,
-          error: responseJson.error
-        })
-        return false
-      }
-    })
-
-    .then((success) => {
-
-      if (success) {
-        // Login complete, change scene
-        this.setState({
-          loggedin: true,
-          attempting: false,
-          modalVisible: false
-        })
-        this.props.navigator.replace(Routes.main)
-      } else {
-        this.setState({
-          attempting: false,
-          error: "Invalid Phone Number or Pin"
-        })
-      }
-
-    })
-
-    // On reject
-    .catch( (error) => {
-      console.log('LoginScene:attempt', error)
-      this.setState({
-        error: "Network error ",
-        attempting: false,
-        modalVisible: true
-      })
-    })
-  }
 }
+
+export default connect(
+  (state) => ({
+    state: state
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(loginActions, dispatch)
+  })
+)(LoginScene)

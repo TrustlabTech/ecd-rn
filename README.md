@@ -5,3 +5,9 @@
 ### Run
 `emulator -avd Nexus_S_API_22`
 `react-native run-android`
+
+
+## RN Issues affecting the project
+
+* secureTextEntry is broken for *phonePadText* and *emailAddressText* [Github Issue](https://github.com/facebook/react-native/issues/10678)
+* Orientation change cannot be detected between renders. [This package](https://github.com/yamill/react-native-orientation) solves the problem but has been abandoned and does not work with RN 0.35 only up to 0.29

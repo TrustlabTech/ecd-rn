@@ -12,10 +12,10 @@ export default class TextField extends Component {
 
   constructor(props) {
     super(props)
+  }
 
-    this.state = {
-      value: ''
-    }
+  componentWillReceiveProps(nextProps, nextState) {
+
   }
 
   render() {
@@ -46,10 +46,11 @@ export default class TextField extends Component {
             returnKeyType={ this.props.returnKeyType || "done" }
             autoCapitalize={ this.props.autoCapitalize || "none" }
             keyboardType={ this.props.keyboardType || "default" }
-            onChangeText={ (value) => this.setState({ value }) }
-            value={ this.state.value }
+            onChangeText={ (text) => this.props.onChangeText(text) || null }
+            value={ this.props.value }
             placeholder={ this.props.placeholder || null }
-            secureTextEntry= { this.props.secureTextEntry || false }
+            secureTextEntry={ this.props.secureTextEntry || false }
+            blurOnSubmit={ this.props.blurOnSubmit || false }
             maxLength={ this.props.maxLength || 20 }
             autoFocus={ this.props.autoFocus || false }
             style={{
