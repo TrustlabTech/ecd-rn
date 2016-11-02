@@ -32,8 +32,10 @@ class RegisterScene extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.fetchCentres()
-    console.log("ComponentDidMount, FETCHING CENTRES")
+    // Don't refetch the centres
+    if(!this.props.state.Register.centreSelectValuesFetched) {
+      this.props.actions.fetchCentres()
+    }
   }
 
   register() {
@@ -153,6 +155,7 @@ class RegisterScene extends Component {
             maxLength={4}
             keyboardType="phone-pad"
             onSubmitEditing={ () => this.register() }
+            blurOnSubmit={true}
           />
 
         </SceneView>

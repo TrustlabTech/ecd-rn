@@ -98,6 +98,7 @@ class LoginScene extends Component {
 
           <TextField
             value={ state.pin }
+            ref="pin"
             onChangeText={ (text) => actions.pinTextChange(text) }
             label="Pin"
             maxLength={4}

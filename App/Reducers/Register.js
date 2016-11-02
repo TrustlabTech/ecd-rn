@@ -14,7 +14,8 @@ const initialState = {
   modalText: "Please wait",
   textFieldValues: initialTextFieldValues,
   centreSelectValues: ["..."],
-  centreSelectSelected: "Your mom"
+  centreSelectSelected: "Your mom",
+  centreSelectValuesFetched: false
 }
 
 export default (state = initialState, action = {}) => {
@@ -74,7 +75,9 @@ export default (state = initialState, action = {}) => {
       return {
         ...state,
         waitingForNetwork: true,
-        showWaitModal: true
+        showWaitModal: true,
+        centreSelectValuesFetched: true,
+        modalText: initialState.modalText
       }
 
     case 'REGISTER_FETCH_CENTRES_FAILED':

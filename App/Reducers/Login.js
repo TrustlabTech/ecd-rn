@@ -23,6 +23,7 @@ export default (state = initialState, action = {}) => {
     case 'LOGIN_SUCCEEDED':
       console.log("LOGIN_SUCCEEDED")
       action.navigator.push(Routes.main)
+      // 
       return {
         ...state,
         waitingForNetwork: false,

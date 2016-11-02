@@ -3,6 +3,7 @@ import { takeEvery, delay } from 'redux-saga'
 import { call, put } from 'redux-saga/effects'
 import Api from './Api'
 import Config from './Config'
+import * as appActions from './Actions/App'
 import * as loginActions from './Actions/Login'
 import * as registerActions from './Actions/Register'
 
@@ -11,6 +12,8 @@ export default function* rootSaga() {
     yield takeEvery('LOGIN_ATTEMPT',loginAttempt)
     yield takeEvery('REGISTER_ATTEMPT',registerAttempt)
     yield takeEvery('REGISTER_FETCH_CENTRES', registerFetchCentres)
+    yield takeEvery('LOGIN_SUCCEEDED', setAppUser)
+    yield takeEvery('REGISTER_SUCCEEDED',setAppCentre)
 }
 
 function* loginAttempt(action) {
@@ -20,7 +23,7 @@ function* loginAttempt(action) {
     if(data.error) {
       yield put(loginActions.failed(data.error.toString()))
     } else {
-      yield put(loginActions.succeeded(action.navigator))
+      yield put(loginActions.succeeded(action.navigator, data))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:loginAttempt ERROR",error)
@@ -58,4 +61,13 @@ function* registerFetchCentres() {
     if(Config.debug) console.log("Sagas:registerFetchCentres ERROR", error)
     yield put(registerActions.fetchCentresFailed(error.toString()))
   }
+}
+
+
+function* setAppUser(action) {
+  yield put(appActions.setUser(action.userData))
+}
+
+function* setAppCentre(action) {
+  yield put(appActions.setCentre(action.centreData))
 }

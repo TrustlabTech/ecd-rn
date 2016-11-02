@@ -1,4 +1,5 @@
 // Actions
+
 export function attempt(textFieldValues, navigator) {
   return {
     type: 'REGISTER_ATTEMPT',

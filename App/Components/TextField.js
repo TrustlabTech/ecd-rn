@@ -49,7 +49,8 @@ export default class TextField extends Component {
             onChangeText={ (text) => this.props.onChangeText(text) || null }
             value={ this.props.value }
             placeholder={ this.props.placeholder || null }
-            secureTextEntry= { this.props.secureTextEntry || false }
+            secureTextEntry={ this.props.secureTextEntry || false }
+            blurOnSubmit={ this.props.blurOnSubmit || false }
             maxLength={ this.props.maxLength || 20 }
             autoFocus={ this.props.autoFocus || false }
             style={{
