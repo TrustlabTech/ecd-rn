@@ -22,6 +22,7 @@ export function failed(error) {
 }
 
 export function phoneNumberTextChange(text) {
+  console.log("-ACTION", text)
   return {
     type: 'PHONENUMBER_TEXT_CHANGE',
     text: text

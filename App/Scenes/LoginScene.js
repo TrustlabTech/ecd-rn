@@ -25,13 +25,17 @@ const ConsentLogo = require('../Images/consent_logo.png')
 
 class LoginScene extends Component {
 
+
+
   constructor(props) {
     super(props)
   }
 
   login() {
     const { phoneNumber, pin } = this.props.state.Login
-    if(Config.debug) console.log("Attempting to login as",phoneNumber,pin)
+
+    if(Config.debug) console.debug("Attempting to login as",phoneNumber,pin)
+
     this.props.actions.attempt(
       phoneNumber,
       pin,
@@ -40,29 +44,18 @@ class LoginScene extends Component {
   }
 
   render() {
-
-    const state = {
-      waitingForNetwork,
-      showWaitModal,
-      modalText,
-      phoneNumber,
-      pin
-    } = this.props.state.Login
-
-    const actions = {
-      phoneNumberTextChange,
-      pinTextChange,
-      closeModal
-    } = this.props.actions
+    const { phoneNumber, pin } = this.props.state.Login;
+    const { modalWait, modalVisible, modalText } = this.props.state.App
+    const actions = this.props.actions
 
     return (
       <Scene>
 
         <WaitModal
-          animating={ state.waitingForNetwork }
-          visible={ state.showWaitModal }
+          animating={ modalWait }
+          visible={ modalVisible }
           onPressClose={ () => actions.closeModal() }
-          text={ state.modalText }
+          text={ modalText }
           ref="waitmodal"
         />
 
@@ -83,10 +76,8 @@ class LoginScene extends Component {
             />
           </View>
 
-
-
           <TextField
-            value={ state.phoneNumber }
+            value={ phoneNumber }
             ref="phoneNumber"
             onChangeText={ (text) => actions.phoneNumberTextChange(text) }
             label="Phone Number"
@@ -99,7 +90,7 @@ class LoginScene extends Component {
           />
 
           <TextField
-            value={ state.pin }
+            value={ pin }
             ref="pin"
             onChangeText={ (text) => actions.pinTextChange(text) }
             label="Pin"

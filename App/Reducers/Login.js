@@ -31,7 +31,7 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'LOGIN_FAILED':
-    console.log("@@@LOGIN_FAILED")
+    console.log("LOGIN_FAILED")
       return {
         ...state,
         waitingForNetwork: false,
@@ -40,7 +40,7 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'PHONENUMBER_TEXT_CHANGE':
-      console.log("PHONENUMBER_TEXT_CHANGE")
+      console.log("PHONENUMBER_TEXT_CHANGE",action.text)
       return {
         ...state,
         phoneNumber: action.text
