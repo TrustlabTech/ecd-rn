@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 import Config from './App/Config'
 import {
-  Text,
-  View,
   Navigator,
-  StyleSheet,
   BackAndroid
 } from 'react-native'
 import {
@@ -36,20 +33,6 @@ export default class Both extends Component {
     this.state = { ...props }
   }
 
-  createScene(route, navigator) {
-    return React.createElement(
-      route.component,
-      {route, navigator}
-    )
-  }
-
-  createDrawer(route, navigator) {
-    return React.createElement(
-      route.drawer,
-      {route, navigator}
-    )
-  }
-
   componentWillUnmout() {
     BackAndroid.removeEventListener('hardwareBackPress', () => {
       if(this.refs.navigator.getCurrentRoutes() > 1) {
@@ -66,7 +49,6 @@ export default class Both extends Component {
 
       <Provider store={store}>
         <Navigator
-          // initialRoute={Routes.register}
           initialRoute={Routes.login}
           ref='navigator'
           renderScene={ (route, navigator) => {
@@ -100,3 +82,4 @@ export default class Both extends Component {
   }
 
 }
+

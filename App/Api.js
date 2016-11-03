@@ -14,6 +14,8 @@ export default {
 
     // Response received
     .then((response) => {
+      console.log("************",response)
+
       return response.json()
     })
 
@@ -68,6 +70,23 @@ export default {
     }).catch( (error) => {
       console.log("API:fetchCentres",error)
       throw error.toString()
+    })
+  },
+
+
+  fetchClasses: (centreId) => {
+
+    return fetch(Config.http.baseUrl + 'classes', {
+      method: 'GET'
+    })
+
+    .then((response) => {
+      return response.json()
+    })
+
+    .catch( (error) => {
+      console.log('AttendanceScene:fetchClasses', error)
+
     })
   }
 }

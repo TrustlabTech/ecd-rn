@@ -19,6 +19,7 @@ import Link from '../Components/Link'
 import Config from '../Config'
 import { connect } from 'react-redux'
 import * as loginActions from '../Actions/Login'
+import * as appActions from '../Actions/App'
 
 const ConsentLogo = require('../Images/consent_logo.png')
 
@@ -30,7 +31,7 @@ class LoginScene extends Component {
 
   login() {
     const { phoneNumber, pin } = this.props.state.Login
-    console.log("Attempting to login as",phoneNumber,pin)
+    if(Config.debug) console.log("Attempting to login as",phoneNumber,pin)
     this.props.actions.attempt(
       phoneNumber,
       pin,
@@ -39,10 +40,11 @@ class LoginScene extends Component {
   }
 
   render() {
+
     const state = {
       waitingForNetwork,
       showWaitModal,
-      errorMessage,
+      modalText,
       phoneNumber,
       pin
     } = this.props.state.Login

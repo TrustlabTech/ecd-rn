@@ -16,30 +16,32 @@ import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
 import { FontSizes } from '../GlobalStyles'
 
-export default class AttendanceScene extends Component {
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as attendanceActions from '../Actions/Attendance'
+
+class AttendanceScene extends Component {
 
   constructor(props) {
     super(props)
-
-    this.state = {
-      fetching: true,
-      modalVisible: true,
-      error: null,
-      classes: []
-    }
   }
 
   componentWillMount() {
     console.log("Component will mount")
-    this.setState({
-      fetching: true,
-      error: null,
-      modalVisible: true
-    })
-    this.fetchClasses()
+    this.props.actions.fetchClasses()
   }
 
   render() {
+    const state = {
+      modalText,
+      waitingForNetwork,
+      showWaitModal
+    }
+
+    // const actions = {
+    //   close
+    // }
+
     let Heading = null
     let Buttons = null
     if(this.state.classes.length > 0) {
@@ -65,9 +67,9 @@ export default class AttendanceScene extends Component {
 
       <Scene>
         <WaitModal
-          animating= { this.state.fetching }
-          visible={ this.state.modalVisible }
-          text={ this.state.error ? this.state.error : "Loading" }
+          animating= { state.waitingForNetwork }
+          visible={ state.showWaitModal }
+          text={ state.modalText }
           navigator={ this.props.navigator }
           popOnClose={ true }
           ref="waitmodal"
@@ -90,36 +92,13 @@ export default class AttendanceScene extends Component {
     )
   }
 
-  fetchClasses = (centreId) => {
-    console.log("Fetching classess....")
-    this.setState({
-      fetching: true,
-      modalVisible: true,
-      error: null
-    })
-    fetch(Config.http.baseUrl + 'classes.php', {
-      method: 'GET'
-    })
-
-    .then((response) => {
-      return response.json()
-    })
-
-    .then( (responseJson) => {
-      this.setState({
-        classes: responseJson.classes,
-        modalVisible: false,
-        fetching: false
-      })
-    })
-
-
-    .catch( (error) => {
-      console.log('AttendanceScene:fetchClasses', error)
-      this.setState({
-        error: "Network Error",
-        fetching: false
-      })
-    })
-  }
 }
+
+export default connect(
+  (state) => ({
+    state: state
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(attendanceActions,dispatch)
+  })
+)(AttendanceScene)

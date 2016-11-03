@@ -4,7 +4,7 @@ const initialState = {
   waitingForNetwork: false,
   showWaitModal: false,
   error: false,
-  errorMessage: null,
+  modalText: null,
   phoneNumber: '',
   pin: ''
 }
@@ -31,12 +31,12 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'LOGIN_FAILED':
-    console.log("LOGIN_FAILED")
+    console.log("@@@LOGIN_FAILED")
       return {
         ...state,
         waitingForNetwork: false,
         error: true,
-        errorMessage: action.error
+        modalText: action.error || "Unknown Error"
       }
 
     case 'PHONENUMBER_TEXT_CHANGE':

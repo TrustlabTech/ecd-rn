@@ -12,12 +12,29 @@ export default function* rootSaga() {
     yield takeEvery('LOGIN_ATTEMPT',loginAttempt)
     yield takeEvery('REGISTER_ATTEMPT',registerAttempt)
     yield takeEvery('REGISTER_FETCH_CENTRES', registerFetchCentres)
+    yield takeEvery('ATTENDANCE_FETCH_CLASSES', fetchClasses)
 }
+
+function* fetchClasses (action) {
+  const { centreId } = action
+  try{
+    const data = yield call(Api.fetchClasses,action.centreId)
+
+    if(data.error) {
+      // yield put(attendanceActions.)
+    }
+  } catch (error) {
+    if(Config.debug) console.log("Sagas:fetchClasses ERROR", error)
+  }
+
+}
+
 
 function* loginAttempt(action) {
   const { phoneNumber, pin, navigator } = action
   try {
     const data = yield call(Api.login,phoneNumber,pin)
+
     if(data.error) {
       yield put(loginActions.failed(data.error.toString()))
     } else {
