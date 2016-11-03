@@ -1,6 +1,7 @@
 
 const initialState = {
-  userData: null
+  userData: null,
+  centreData: null
 }
 
 export default (state = initialState, action = {}) => {
@@ -13,6 +14,11 @@ export default (state = initialState, action = {}) => {
         userData: action.userData
       }
 
+    case 'APP_SET_CENTRE':
+      return {
+        ...state,
+        centreData: action.centreData
+      }
     default:
       return state
   }

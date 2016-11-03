@@ -12,18 +12,17 @@ export default function* rootSaga() {
     yield takeEvery('LOGIN_ATTEMPT',loginAttempt)
     yield takeEvery('REGISTER_ATTEMPT',registerAttempt)
     yield takeEvery('REGISTER_FETCH_CENTRES', registerFetchCentres)
-    yield takeEvery('LOGIN_SUCCEEDED', setAppUser)
-    yield takeEvery('REGISTER_SUCCEEDED',setAppCentre)
 }
 
 function* loginAttempt(action) {
-  const { phoneNumber, pin } = action
+  const { phoneNumber, pin, navigator } = action
   try {
     const data = yield call(Api.login,phoneNumber,pin)
     if(data.error) {
       yield put(loginActions.failed(data.error.toString()))
     } else {
-      yield put(loginActions.succeeded(action.navigator, data))
+      yield put(loginActions.succeeded(navigator))
+      yield put(appActions.setUser(data))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:loginAttempt ERROR",error)
@@ -41,6 +40,7 @@ function* registerAttempt(action) {
       yield put(registerActions.failed(data.error.toString()))
     } else {
       yield put(registerActions.succeeded(action.navigator))
+      yield put(appActions.setCentre(action.centreSelectSelected))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:registerAttempt ERROR", error)
@@ -61,13 +61,4 @@ function* registerFetchCentres() {
     if(Config.debug) console.log("Sagas:registerFetchCentres ERROR", error)
     yield put(registerActions.fetchCentresFailed(error.toString()))
   }
-}
-
-
-function* setAppUser(action) {
-  yield put(appActions.setUser(action.userData))
-}
-
-function* setAppCentre(action) {
-  yield put(appActions.setCentre(action.centreData))
 }

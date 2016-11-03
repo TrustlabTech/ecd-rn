@@ -40,6 +40,7 @@ class RegisterScene extends Component {
 
   register() {
     this.props.actions.attempt(
+      this.props.state.Register.centreSelectSelected,
       this.props.state.Register.textFieldValues,
       this.props.navigator
     )

@@ -7,11 +7,10 @@ export function attempt(phoneNumber, pin, navigator) {
   }
 }
 
-export function succeeded(navigator,userData) {
+export function succeeded(navigator) {
   return {
     type: 'LOGIN_SUCCEEDED',
-    navigator: navigator,
-    userData: userData
+    navigator: navigator
   }
 }
 

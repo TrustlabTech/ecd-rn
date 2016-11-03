@@ -90,7 +90,7 @@ export default class AttendanceScene extends Component {
     )
   }
 
-  fetchClasses = () => {
+  fetchClasses = (centreId) => {
     console.log("Fetching classess....")
     this.setState({
       fetching: true,

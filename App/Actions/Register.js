@@ -1,8 +1,9 @@
 // Actions
 
-export function attempt(textFieldValues, navigator) {
+export function attempt(centreSelectSelected, textFieldValues, navigator) {
   return {
     type: 'REGISTER_ATTEMPT',
+    centreSelectSelected: centreSelectSelected,
     textFieldValues: textFieldValues,
     navigator: navigator
   }
@@ -56,10 +57,10 @@ export function fetchCentresFailed(error) {
   }
 }
 
-export function fetchCentresSucceeded(data) {
+export function fetchCentresSucceeded(centreData) {
   return {
     type: 'REGISTER_FETCH_CENTRES_SUCCEEDED',
-    data: data
+    centreData: centreData
   }
 }
 

@@ -14,7 +14,7 @@ const initialState = {
   modalText: "Please wait",
   textFieldValues: initialTextFieldValues,
   centreSelectValues: ["..."],
-  centreSelectSelected: "Your mom",
+  centreSelectSelected: 1,
   centreSelectValuesFetched: false
 }
 
@@ -76,7 +76,6 @@ export default (state = initialState, action = {}) => {
         ...state,
         waitingForNetwork: true,
         showWaitModal: true,
-        centreSelectValuesFetched: true,
         modalText: initialState.modalText
       }
 
@@ -93,13 +92,14 @@ export default (state = initialState, action = {}) => {
       //action.data
       const { centreSelectValues } = state
       // centreSelectValues
-      action.data.forEach((item, index) => {
+      action.centreData.forEach((item, index) => {
         centreSelectValues[index] = item.name
       })
       return {
         ...state,
-        waitingFornetwork: false,
+        waitingForNetwork: false,
         showWaitModal: false,
+        centreSelectValuesFetched: true,
         centreSelectValues: centreSelectValues,
         modalText: initialState.modalText
       }

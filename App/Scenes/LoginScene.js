@@ -60,7 +60,7 @@ class LoginScene extends Component {
           animating={ state.waitingForNetwork }
           visible={ state.showWaitModal }
           onPressClose={ () => actions.closeModal() }
-          text={ state.errorMessage ? state.errorMessage : "Logging in" }
+          text={ state.modalText }
           ref="waitmodal"
         />
 

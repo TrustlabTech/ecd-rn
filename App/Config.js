@@ -11,7 +11,7 @@ export default {
   },
 
   http: {
-    baseUrl: 'http://258698af.ngrok.io/api/v1/',
+    baseUrl: 'http://b19124ab.ngrok.io/api/v1/',
     // baseUrl: 'http://localhost:8000/api/v1/',
     headers: {
       'Accept': 'application/json',
