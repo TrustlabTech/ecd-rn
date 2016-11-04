@@ -4,7 +4,7 @@ const initialState = {
   centreData: null,
   modalVisible: false,
   modalText: "Please wait",
-  modalWait: false
+  modalWaiting: false
 }
 
 export default (state = initialState, action = {}) => {
@@ -23,23 +23,48 @@ export default (state = initialState, action = {}) => {
         centreData: action.centreData
       }
 
-    case 'APP_MODAL_SHOW':
+    case 'APP_SET_MODAL':
+      const {
+        modalVisible,
+        modalText,
+        modalWaiting
+      } = action.modalOptions
+      // true
+      // false
+      // undefined//null
+      
+
+      if(modalVisible === undefined || modalVisible === null)
+        modalVisible = state.modalVisible
+
+      if(modalWaiting === undefined || modalWaiting === null)
+        modalWaiting = state.modalWaiting
+
+
       return {
         ...state,
-        modalVisible: action.modalVisible
+        modalVisible: modalVisible,
+        modalText: modalText,
+        modalWaiting: modalWaiting
       }
 
-    case 'APP_MODAL_SET_TEXT':
-      return {
-        ...state,
-        modalText: action.modalText
-      }
+    // case 'APP_MODAL_SHOW':
+    //   return {
+    //     ...state,
+    //     modalVisible: action.modalVisible
+    //   }
 
-    case 'APP_MODAL_WAIT':
-      return {
-        ...state,
-        modalWait: action.modalWait
-      }
+    // case 'APP_MODAL_SET_TEXT':
+    //   return {
+    //     ...state,
+    //     modalText: action.modalText
+    //   }
+
+    // case 'APP_MODAL_WAITING':
+    //   return {
+    //     ...state,
+    //     modalWaiting: action.modalWaiting
+    //   }
 
     default:
       return state

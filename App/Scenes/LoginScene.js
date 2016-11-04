@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+import { store, bindActionCreators } from 'redux'
 import {
   Text,
   View,
@@ -25,10 +25,13 @@ const ConsentLogo = require('../Images/consent_logo.png')
 
 class LoginScene extends Component {
 
-
-
   constructor(props) {
     super(props)
+    // For future terseness
+    this.dispatch = this.props.store.dispatch
+    this.actions = this.props.actions
+    this.navigator = this.props.navigator
+    this.route = this.props.route
   }
 
   login() {
@@ -36,34 +39,38 @@ class LoginScene extends Component {
 
     if(Config.debug) console.debug("Attempting to login as",phoneNumber,pin)
 
+    this.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalText: "Loading",
+      modalWaiting: true
+    }))
     this.props.actions.attempt(
       phoneNumber,
       pin,
-      this.props.navigator
+      this.navigator
     )
   }
 
   render() {
     const { phoneNumber, pin } = this.props.state.Login;
-    const { modalWait, modalVisible, modalText } = this.props.state.App
-    const actions = this.props.actions
+    const { modalWaiting, modalVisible, modalText } = this.props.state.App
 
     return (
       <Scene>
 
         <WaitModal
-          animating={ modalWait }
+          animating={ modalWaiting }
           visible={ modalVisible }
-          onPressClose={ () => actions.closeModal() }
+          onPressClose={ () => this.dispatch(appActions.setModal({modalVisible:false})) }
           text={ modalText }
           ref="waitmodal"
         />
 
         <NavBar
-          navigator={ this.props.navigator }
-          route={ this.props.route }
+          navigator={ this.navigator }
+          route={ this.route }
           rightButtonText="Login"
-          title={ this.props.route.title }
+          title={ this.route.title }
           rightButtonAction={ () => this.login() }
         />
 
@@ -79,7 +86,7 @@ class LoginScene extends Component {
           <TextField
             value={ phoneNumber }
             ref="phoneNumber"
-            onChangeText={ (text) => actions.phoneNumberTextChange(text) }
+            onChangeText={ (text) => this.actions.phoneNumberTextChange(text) }
             label="Phone Number"
             maxLength={10}
             keyboardType="phone-pad"
@@ -92,7 +99,7 @@ class LoginScene extends Component {
           <TextField
             value={ pin }
             ref="pin"
-            onChangeText={ (text) => actions.pinTextChange(text) }
+            onChangeText={ (text) => this.actions.pinTextChange(text) }
             label="Pin"
             maxLength={4}
             secureTextEntry={true}
@@ -102,26 +109,26 @@ class LoginScene extends Component {
 
           <View style={{flexDirection: 'column', padding: 10, alignItems: 'center'}}>
             <Link text="Forgot your pin?" onPress={ () => alert('Boom!') }/>
-          <Link text="Not yet registered?" onPress={ () => this.props.navigator.push(Routes.register) }/>
+          <Link text="Not yet registered?" onPress={ () => this.navigator.push(Routes.register) }/>
           </View>
 
 
-
+          {/*
           <View>
 
-            <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.registerConfirm) } >
+            <TouchableHighlight onPress={ () => this.navigator.push(Routes.registerConfirm) } >
               <Text>RegisterConfirmScene</Text>
             </TouchableHighlight>
 
-            <TouchableHighlight onPress={ () => this.props.navigator.replace(Routes.main)} >
+            <TouchableHighlight onPress={ () => this.navigator.replace(Routes.main)} >
               <Text>MainScene</Text>
             </TouchableHighlight>
 
-            <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
+            <TouchableHighlight onPress={ () => this.navigator.push(Routes.attendance) }>
               <Text>Attendance Scene</Text>
             </TouchableHighlight>
           </View>
-
+          */}
         </SceneView>
       </Scene>
     )

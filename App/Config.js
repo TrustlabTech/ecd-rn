@@ -11,11 +11,9 @@ export default {
   },
 
   http: {
-    baseUrl: 'http://b19124ab.ngrok.io/api/v1/',
+    baseUrl: 'http://747b7e43.ngrok.io/api/v1/',
     // baseUrl: 'http://localhost:8000/api/v1/',
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
       'X-Client-Platform': 'Ecdrn ' + Platform.OS
     }
   }

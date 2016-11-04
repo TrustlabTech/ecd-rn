@@ -27,4 +27,7 @@ export const FontSizes = {
   h5: 22,
   h6: 18,
   p: 16,
+  small: 14,
+  xSmall: 12,
+  xXSmall: 10
 }

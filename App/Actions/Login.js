@@ -22,7 +22,6 @@ export function failed(error) {
 }
 
 export function phoneNumberTextChange(text) {
-  console.log("-ACTION", text)
   return {
     type: 'PHONENUMBER_TEXT_CHANGE',
     text: text
@@ -36,8 +35,8 @@ export function pinTextChange(text) {
   }
 }
 
-export function closeModal() {
-  return {
-    type: 'LOGIN_CLOSE_MODAL'
-  }
-}
+// export function closeModal() {
+//   return {
+//     type: 'LOGIN_CLOSE_MODAL'
+//   }
+// }

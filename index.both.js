@@ -63,12 +63,12 @@ export default class Both extends Component {
             if(route.drawer !== null) {
               return React.createElement(
                 route.drawer,
-                {route, navigator}
+                {route, navigator, store } // props
               )
             } else {
               return React.createElement(
                 route.scene,
-                {route, navigator}
+                {route, navigator, store} // props
               )
             }
           }}

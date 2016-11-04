@@ -1,10 +1,7 @@
 import Config from '../Config'
 import Routes from '../Routes'
+
 const initialState = {
-  waitingForNetwork: false,
-  showWaitModal: false,
-  error: false,
-  modalText: null,
   phoneNumber: '',
   pin: ''
 }

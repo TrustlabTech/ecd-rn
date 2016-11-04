@@ -34,16 +34,17 @@ function* loginAttempt(action) {
   const { phoneNumber, pin, navigator } = action
   try {
     const data = yield call(Api.login,phoneNumber,pin)
-
     if(data.error) {
       yield put(loginActions.failed(data.error.toString()))
+      yield put(appActions.setModal({modalText: data.error, modalWaiting: false}))
     } else {
       yield put(loginActions.succeeded(navigator))
       yield put(appActions.setUser(data))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:loginAttempt ERROR",error)
-    yield put(loginActions.failed(error.toString()))
+    // yield put(loginActions.failed(error.toString()))
+    yield put(appActions.setModal({modalText: data.error, modalWaiting: false}))
 
   }
 }

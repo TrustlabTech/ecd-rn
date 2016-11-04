@@ -25,6 +25,7 @@ export default class WaitModal extends Component {
 
   constructor(props) {
     super(props)
+    console.debug("WTFFFFFFF",props)
     this.state = {
       visible: props.visible || false,
       animating: props.animating || true,
@@ -47,14 +48,25 @@ export default class WaitModal extends Component {
     }
   }
 
+  okay(){
+    // coming soon...
+  }
+
+  cancel(){
+    // coming soon...
+  }
+
   render() {
+    const { animating, visible, text} = this.props
+
     var centerComponent =
       <ActivityIndicator
-        animating={this.state.animating}
+        animating={ animating }
         style={{height: 80}}
         size="large"
       />
-    if(!this.state.animating) {
+
+    if(!animating) {
       centerComponent =
         <TouchableHighlight onPress={ () => {this.close()} }>
           <View style={{
@@ -114,7 +126,7 @@ var styles = StyleSheet.create({
   text: {
     color: 'white',
     padding: 15,
-    fontSize: FontSizes.h5,
+    fontSize: FontSizes.h6,
     textAlign: 'center'
   }
 })

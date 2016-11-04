@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import {
   Text,
-  View,
   TouchableHighlight,
   ScrollView,
   Picker
@@ -13,28 +12,29 @@ import TextField from '../Components/TextField'
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
 import WaitModal from '../Components/WaitModal'
-import Config from '../Config'
-import Routes from '../Routes'
+// import Config from '../Config'
+// import Routes from '../Routes'
 import { connect } from 'react-redux'
 import * as registerActions from '../Actions/Register'
+import * as appActions from '../Actions/App'
 
 class RegisterScene extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {language: 'java'}
+
+    this.dispatch = this.props.store.dispatch
+    this.actions = this.props.actions
+    this.navigator = this.props.navigator
+    this.route = this.props.route
 
   }
 
-  componentWillMount() {
-    // fetch centres
-    console.log("ComponentWillMount, FETCHING CENTRES")
-  }
 
   componentDidMount() {
     // Don't refetch the centres
     if(!this.props.state.Register.centreSelectValuesFetched) {
-      this.props.actions.fetchCentres()
+      this.actions.fetchCentres()
     }
   }
 
@@ -42,45 +42,42 @@ class RegisterScene extends Component {
     this.props.actions.attempt(
       this.props.state.Register.centreSelectSelected,
       this.props.state.Register.textFieldValues,
-      this.props.navigator
+      this.navigator
     )
   }
 
   render() {
-    const state = {
-      waitingForNetwork,
-      showWaitModal,
-      modalText,
-      waitMessage,
+
+
+    const {
       textFieldValues,
       centreSelectValues,
       centreSelectSelected
     } = this.props.state.Register
 
-    const actions = {
-      textChange
-    } = this.props.actions
+    const {
+      modalWaiting, modalVisible, modalText
+    } = this.props.state.App
 
     const picker =
       <Picker
-        selectedValue={state.centreSelectSelected}
-        onValueChange={(selection) => actions.centreSelectionChanged(selection) }>
-          {state.centreSelectValues.map((val,i) => <Picker.Item label={val} key={val} value={i} />)}
+        selectedValue={centreSelectSelected}
+        onValueChange={(selection) => this.actions.centreSelectionChanged(selection) }>
 
+          {centreSelectValues.map( (val,i) =>
+            <Picker.Item label={val} key={val} value={i} />
+          )}
 
       </Picker>
-    // centreSelectValues.forEach((val, va) => {
-    //   console.log(val,va)
-    // })
 
     return (
       <Scene>
 
         <WaitModal
-          animating={ state.waitingForNetwork }
-          visible={ state.showWaitModal }
-          text={ state.modalText }
-          onPressClose={ () => actions.closeModal() }
+          animating={ modalWaiting }
+          visible={ modalVisible }
+          text={ modalText }
+          onPressClose={ () => this.actions.closeModal() }
           ref="waitmodal"
         />
 
@@ -97,9 +94,9 @@ class RegisterScene extends Component {
 
           {picker}
           <TextField
-            value={ state.firstName }
+            value={ textFieldValues['firstName'] }
             ref="firstName"
-            onChangeText={ (text) => actions.textChange(text, 'firstName') }
+            onChangeText={ (text) => this.actions.textChange(text, 'firstName') }
             label="First Name"
             autoFocus={true}
             autoCapitalize="sentences"
@@ -110,9 +107,9 @@ class RegisterScene extends Component {
           />
 
           <TextField
-            value={ state.lastName }
+            value={ textFieldValues['lastName'] }
             ref="lastName"
-            onChangeText={ (text) => actions.textChange(text, 'lastName') }
+            onChangeText={ (text) => this.actions.textChange(text, 'lastName') }
             label="Last Name"
             autoCapitalize="sentences"
             returnKeyType="next"
@@ -122,9 +119,9 @@ class RegisterScene extends Component {
           />
 
           <TextField
-            value={ state.phoneNumber }
+            value={ textFieldValues['phoneNumber'] }
             ref="phoneNumber"
-            onChangeText={ (text) => actions.textChange(text, 'phoneNumber') }
+            onChangeText={ (text) => this.actions.textChange(text, 'phoneNumber') }
             label="Phone number"
             keyboardType="phone-pad"
             returnKeyType="next"
@@ -134,9 +131,9 @@ class RegisterScene extends Component {
           />
 
           <TextField
-            value={ state.pin }
+            value={ textFieldValues['pin'] }
             ref="pin"
-            onChangeText={ (text) => actions.textChange(text, 'pin') }
+            onChangeText={ (text) => this.actions.textChange(text, 'pin') }
             label="Pin"
             secureTextEntry={true}
             maxLength={4}
@@ -148,9 +145,9 @@ class RegisterScene extends Component {
           />
 
           <TextField
-            value={ state.pinConfirm }
+            value={ textFieldValues['pinConfirm'] }
             ref="pinConfirm"
-            onChangeText={ (text) => actions.textChange(text, 'pinConfirm') }
+            onChangeText={ (text) => this.actions.textChange(text, 'pinConfirm') }
             label="Confirm Pin"
             secureTextEntry={true}
             maxLength={4}

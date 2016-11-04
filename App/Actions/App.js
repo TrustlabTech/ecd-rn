@@ -28,9 +28,17 @@ export function setModalText(text) {
   }
 }
 
-export function setModalWait(wait) {
+export function modalWaiting(waiting) {
   return {
-    type: 'APP_MODAL_SET_WAIT',
-    modalWait: wait
+    type: 'APP_MODAL_SET_WAITING',
+    modalWaiting: waiting
+  }
+}
+
+export function setModal(modalOptions = {}) {
+  console.debug("@@ SET MODAL")
+  return {
+    type: 'APP_SET_MODAL',
+    modalOptions: modalOptions
   }
 }
