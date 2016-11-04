@@ -34,7 +34,14 @@ class RegisterScene extends Component {
   componentDidMount() {
     // Don't refetch the centres
     if(!this.props.state.Register.centreSelectValuesFetched) {
+      this.dispatch(appActions.setModal({
+        modalVisible: true,
+        modalText: "Bring dich um",
+        modalWaiting: true
+      }))
+      // fetch centres
       this.actions.fetchCentres()
+
     }
   }
 
@@ -77,7 +84,7 @@ class RegisterScene extends Component {
           animating={ modalWaiting }
           visible={ modalVisible }
           text={ modalText }
-          onPressClose={ () => this.actions.closeModal() }
+          onPressClose={ () => this.dispatch(appActions.setModal({modalVisible:false})) }
           ref="waitmodal"
         />
 

@@ -44,7 +44,7 @@ class LoginScene extends Component {
       modalText: "Loading",
       modalWaiting: true
     }))
-    this.props.actions.attempt(
+    this.actions.attempt(
       phoneNumber,
       pin,
       this.navigator

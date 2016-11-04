@@ -1,5 +1,6 @@
 import Config from '../Config'
 import Routes from '../Routes'
+
 const initialTextFieldValues = []
 initialTextFieldValues['firstName'] = ''
 initialTextFieldValues['lastName'] = ''
@@ -8,10 +9,6 @@ initialTextFieldValues['pin'] = ''
 initialTextFieldValues['pinConfirm'] = ''
 
 const initialState = {
-  waitingForNetwork: false,
-  showWaitModal: false,
-  error: false,
-  modalText: "Please wait",
   textFieldValues: initialTextFieldValues,
   centreSelectValues: ["..."],
   centreSelectSelected: 1,
@@ -73,19 +70,12 @@ export default (state = initialState, action = {}) => {
     case 'REGISTER_FETCH_CENTRES':
 
       return {
-        ...state,
-        waitingForNetwork: true,
-        showWaitModal: true,
-        modalText: initialState.modalText
+        ...state
       }
 
     case 'REGISTER_FETCH_CENTRES_FAILED':
       return {
-        ...state,
-        waitingForNetwork: false,
-        error: true,
-        modalText: action.error,
-        showWaitModal: true
+        ...state
       }
 
     case 'REGISTER_FETCH_CENTRES_SUCCEEDED':
@@ -97,9 +87,6 @@ export default (state = initialState, action = {}) => {
       })
       return {
         ...state,
-        waitingForNetwork: false,
-        showWaitModal: false,
-        centreSelectValuesFetched: true,
         centreSelectValues: centreSelectValues,
         modalText: initialState.modalText
       }

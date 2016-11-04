@@ -31,12 +31,6 @@ export function textChange(text, textFieldName) {
   }
 }
 
-// export function closeModal() {
-//   return {
-//     type: 'REGISTER_CLOSE_MODAL'
-//   }
-// }
-
 export function pickerChange(text) {
   return {
     type: 'REGISTER_PICKER_CHANGE',

@@ -43,7 +43,6 @@ function* loginAttempt(action) {
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:loginAttempt ERROR",error)
-    // yield put(loginActions.failed(error.toString()))
     yield put(appActions.setModal({modalText: data.error, modalWaiting: false}))
 
   }

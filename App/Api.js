@@ -1,7 +1,8 @@
 import Config from './Config'
 
+//
 function request(route, options = {method: 'GET'} ) {
-
+  console.log(options)
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
@@ -10,7 +11,7 @@ function request(route, options = {method: 'GET'} ) {
   })
 
   .then((json) => {
-    console.log('RESONSE JSON')
+
     if(json.error) {
       if(json.error instanceof Array) {
         const errorMessage = ''
@@ -18,6 +19,8 @@ function request(route, options = {method: 'GET'} ) {
           errorMessage += item + "\n "
         })
         return { error: errorMessage.trim() }
+      } else {
+        return { error: json.error}
       }
 
     } else {
@@ -41,10 +44,15 @@ export default {
       const formData = new FormData()
       formData.append('username', phoneNumber)
       formData.append('password', pin)
-      resolve(request('staff/login',{
-        formData: formData,
+      console.debug("before",formData)
+      request('staff/login',{
+        body: formData,
         method: 'POST'
-      }))
+      }).then((data) => {
+        resolve(data)
+      }).catch((error) => {
+        resolve({error: error})
+      })
     })
   },
 
@@ -76,7 +84,13 @@ export default {
 
   fetchCentres: () => {
     return new Promise((resolve,reject) => {
-      resolve(request('centre'))
+      request('centre')
+      .then( (data) => {
+        resolve(data)
+      })
+      .catch((error) => {
+        resolve({error: error})
+      })
     })
   },
 

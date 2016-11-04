@@ -13,7 +13,7 @@ import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import Routes from './App/Routes'
 import * as Reducers from './App/Reducers'
-import rootSaga from './App/Sagas'
+import rootSaga from './App/Sagas/Root'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
