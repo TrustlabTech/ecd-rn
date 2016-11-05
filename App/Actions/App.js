@@ -36,7 +36,6 @@ export function modalWaiting(waiting) {
 }
 
 export function setModal(modalOptions = {}) {
-  console.debug("@@ SET MODAL")
   return {
     type: 'APP_SET_MODAL',
     modalOptions: modalOptions

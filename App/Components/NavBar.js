@@ -101,9 +101,7 @@ export default class NavBar extends Component {
           backgroundColor: Colours.primary,
 
         }}>
-          {leftButton}
           {centerTitle}
-          {rightButton}
         </View>
       </View>
     )

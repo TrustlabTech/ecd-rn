@@ -19,12 +19,14 @@ export default (state = initialState, action = {}) => {
 
     case 'LOGIN_SUCCEEDED':
       console.log("LOGIN_SUCCEEDED")
-      action.navigator.push(Routes.main)
-      //
+      console.log("ACTION",action)
+      console.log("Routes",Routes)
+      // debugger
+      action.navigator.replace(Routes.main)
+
+      // debugger
       return {
-        ...state,
-        waitingForNetwork: false,
-        showWaitModal: false
+        ...state
       }
 
     case 'LOGIN_FAILED':

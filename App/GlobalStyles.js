@@ -5,10 +5,12 @@ import { StyleSheet } from 'react-native'
 // 8bd7fd
 // e0f3fd
 export const Colours = {
-  primary: '#1886BC',         // Consent Blue
-  primaryHighlight: '#8bd7fd', // Highlight
-  primaryLowlight: '#34667d',
-  secondary: '#ff9215',       // Consent Orange
+  primary: '#393939',           //Consent Gray
+  consentBlue: '#1886BC',       // Consent Blue
+  primaryHighlight: '#8bd7fd',  // Highlight
+  primaryLowlight: '#353535',
+  consentOrange: '#ff9215',
+  secondary: '#393939',
   secondaryHighlight: '#ffc786',
   secondaryLowlight: '#aa7a42',
   lightText: '#fefefe',

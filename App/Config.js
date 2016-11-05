@@ -11,10 +11,11 @@ export default {
   },
 
   http: {
-    baseUrl: 'http://1a2c3925.ngrok.io/api/v1/',
+    baseUrl: 'http://d12f049b.ngrok.io/api/v1/',
     // baseUrl: 'http://localhost:8000/api/v1/',
     headers: {
-      'X-Client-Platform': 'Ecdrn ' + Platform.OS
+      'X-Client-Platform': 'Ecdrn ' + Platform.OS,
+      'X-Requested-With': 'XMLHttpRequest'
     }
   }
 }

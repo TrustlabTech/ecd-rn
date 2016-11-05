@@ -25,7 +25,6 @@ export default class WaitModal extends Component {
 
   constructor(props) {
     super(props)
-    console.debug("WTFFFFFFF",props)
     this.state = {
       visible: props.visible || false,
       animating: props.animating || true,
@@ -90,6 +89,7 @@ export default class WaitModal extends Component {
         visible={this.state.visible}
         onRequestClose={ () => {
           console.log("This is required. But does this do anything?")
+          return
         }}
       >
         <View style={styles.entireModal}>

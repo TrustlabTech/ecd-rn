@@ -16,39 +16,34 @@ import SceneView from '../Components/SceneView'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as mainActions from '../Actions/Main'
+import * as appActions from '../Actions/App'
 import WaitModal from '../Components/WaitModal'
 
 class MainScene extends Component {
 
   constructor(props) {
-      super(props)
+    super(props)
+    // For future terseness
+    this.dispatch = this.props.store.dispatch
+    this.actions = this.props.actions
+    this.navigator = this.props.navigator
+    this.route = this.props.route
   }
 
+  componentDidMount() {
+    this.dispatch(appActions.setModal({
+      modalVisible: false,
+      modalText: "Loading",
+      modalWaiting: true
+    }))
+  }
   render() {
-    const state = {
-      waitingForNetwork,
-      showWaitModal,
-      modalText
-    } = this.props.state.Main
-
-    const actions = {
-      textChange,
-      closeModal
-    } = this.props.actions
 
     return (
-        <Scene>
-
-          <WaitModal
-            animating={ state.waitingForNetwork }
-            visible={ state.showWaitModal }
-            onPressClose={ () => actions.closeModal() }
-            text={ state.modalText }
-            ref="waitmodal"
-          />
+        <Scene dispatch={this.props.store.dispatch}>
 
           <NavBar
-            title="My Centre"
+            title="ECD APP"
             navigator={ this.props.navigator }
             leftButtonText="|||"
             leftButtonAction={ this.props.leftButtonAction }
@@ -56,25 +51,12 @@ class MainScene extends Component {
 
 
           <SceneView>
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-              <Text style={{fontSize: 24}}>Happy Valley Preschool</Text>
-            </View>
-
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-              <Text style={{fontSize: 18}}>Whiteriver, Mpumulanga</Text>
-            </View>
 
             <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
               <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 20}}>
                 <Text style={{fontSize: 26}}>Take Attendance</Text>
               </View>
             </TouchableHighlight>
-
-            <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-            <Image source={require('../Images/preschool.jpg')}
-              style={{width: 380, height: 380}} />
-            </View>
-
 
           </SceneView>
         </Scene>

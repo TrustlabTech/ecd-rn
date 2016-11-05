@@ -14,10 +14,10 @@ export default class SceneView extends Component {
   render() {
     return (
 
-      <ScrollView>
-        <View style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
+
         {this.props.children}
-        </View>
+
       </ScrollView>
     )
   }

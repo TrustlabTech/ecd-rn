@@ -6,7 +6,7 @@ import * as registerSagas from './Register'
 export default function* rootSaga() {
     yield takeEvery('LOGIN_ATTEMPT',loginSagas.attempt)
     // yield takeEvery('REGISTER_ATTEMPT',registerAttempt)
-    yield takeEvery('REGISTER_FETCH_CENTRES', registerSagas.fetchCentres)
+    // yield takeEvery('REGISTER_FETCH_CENTRES', registerSagas.fetchCentres)
     // yield takeEvery('ATTENDANCE_FETCH_CLASSES', fetchClasses)
 }
 

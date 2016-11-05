@@ -7,11 +7,12 @@ function request(route, options = {method: 'GET'} ) {
 
   // Response received
   .then((response) => {
+    console.log('API RESPONSE:',response)
     return response.json()
   })
 
   .then((json) => {
-
+    console.log('JSON RESPONSE', json)
     if(json.error) {
       if(json.error instanceof Array) {
         const errorMessage = ''
@@ -30,8 +31,9 @@ function request(route, options = {method: 'GET'} ) {
 
   // On reject
   .catch( (error) => {
-    console.log('API:login', error)
-    return Promise.reject(error.toString())
+    console.log('API:ERROR', error)
+    if(Config.debug) return Promise.reject(error.toString())
+    else return Promise.reject("A network error occured")
   })
 
 }
@@ -44,7 +46,6 @@ export default {
       const formData = new FormData()
       formData.append('username', phoneNumber)
       formData.append('password', pin)
-      console.debug("before",formData)
       request('staff/login',{
         body: formData,
         method: 'POST'

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View
-} from 'react-native';
+} from 'react-native'
 
 import Both from './index.both.js'
 
@@ -16,4 +16,4 @@ export default class Ecdrn extends Component {
   }
 }
 
-AppRegistry.registerComponent('Ecdrn', () => Ecdrn);
+AppRegistry.registerComponent('Ecdrn', () => Ecdrn)

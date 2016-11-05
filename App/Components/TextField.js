@@ -19,23 +19,37 @@ export default class TextField extends Component {
   }
 
   render() {
+    var label = null
+    if(this.props.label) {
+      label =
+      <Text style={{padding: 5,fontSize: 16, color: Colours.primaryLowlight}}>
+        { this.props.label }
+      </Text>
+    }
+
     return (
       <View
         style={{
           paddingLeft: 5,
           paddingRight: 5,
-          flex: 1,
           justifyContent: 'center',
+          marginLeft: 20,
+          marginRight: 20,
+          marginTop: 8,
+          marginBottom: 8
+
         }}
       >
-        <Text style={{padding: 5,fontSize: 16, color: Colours.primaryLowlight}}>
-          { this.props.label }
-        </Text>
+        {label}
         <View
           style={{
-            flex: 1,
-            backgroundColor: Colours.offWhite,
+            borderColor: Colours.primaryLowlight,
+            backgroundColor: 'white',
             borderRadius: 5,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            height: this.props.height || 50,
+            width: this.props.width || null,
           }}
         >
 
@@ -57,7 +71,7 @@ export default class TextField extends Component {
               marginLeft: 5,
               marginRight: 5,
               fontSize: this.props.fontSize || FontSizes.h5,
-              height: this.props.height || 50,
+
             }}
           />
         </View>
