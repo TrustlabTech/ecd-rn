@@ -13,17 +13,15 @@ export default (state = initialState, action = {}) => {
       console.log("LOGIN_ATTEMPT")
       return {
         ...initialState,
-        waitingForNetwork: true,
-        showWaitModal: true
+        // waitingForNetwork: true,
+        // showWaitModal: true
       }
 
     case 'LOGIN_SUCCEEDED':
-      console.log("LOGIN_SUCCEEDED")
-      console.log("ACTION",action)
-      console.log("Routes",Routes)
-      // debugger
-      action.navigator.replace(Routes.main)
 
+      // debugger
+      setTimeout(function(){action.navigator.replace(Routes.main)},0)
+      // action.navigator.replace(Routes.main)
       // debugger
       return {
         ...state
@@ -52,12 +50,6 @@ export default (state = initialState, action = {}) => {
         pin: action.text
       }
 
-    case 'LOGIN_CLOSE_MODAL':
-      console.log("LOGIN_CLOSE_MODAL")
-      return {
-        ...state,
-        showWaitModal: false
-      }
     default:
       return state
   }

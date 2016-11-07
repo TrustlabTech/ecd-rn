@@ -2,7 +2,7 @@ import Config from './Config'
 
 //
 function request(route, options = {method: 'GET'} ) {
-  console.log(options)
+  console.log('API REQUEST',options)
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
@@ -12,7 +12,7 @@ function request(route, options = {method: 'GET'} ) {
   })
 
   .then((json) => {
-    console.log('JSON RESPONSE', json)
+    // console.log('JSON RESPONSE', json)
     if(json.error) {
       if(json.error instanceof Array) {
         const errorMessage = ''
@@ -33,7 +33,7 @@ function request(route, options = {method: 'GET'} ) {
   .catch( (error) => {
     console.log('API:ERROR', error)
     if(Config.debug) return Promise.reject(error.toString())
-    else return Promise.reject("A network error occured")
+    else return Promise.reject("A network error occured. Please check your connection.")
   })
 
 }
@@ -48,10 +48,13 @@ export default {
       formData.append('password', pin)
       request('staff/login',{
         body: formData,
-        method: 'POST'
+        method: 'POST',
+        headers: Config.http.headers
       }).then((data) => {
+        console.log('API LOGIN 1')
         resolve(data)
       }).catch((error) => {
+        console.log('API LOGIN CATCH')
         resolve({error: error})
       })
     })
@@ -83,9 +86,12 @@ export default {
 
   },
 
-  fetchCentres: () => {
+  fetchCentres: (token) => {
     return new Promise((resolve,reject) => {
-      request('centre')
+      console.log('TOKEN',token)
+      request('centre',{
+        headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      })
       .then( (data) => {
         resolve(data)
       })

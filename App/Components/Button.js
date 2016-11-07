@@ -22,9 +22,8 @@ export default class Button extends Component {
             marginTop: 8,
             marginBottom: 8,
             borderRadius: 5,
-            width: 140,
-            height: 45,
-
+            width: this.props.width || 140,
+            height: this.props.height || 45
           }}
           onPress={ () => this.props.onPress() }
         >
@@ -43,7 +42,8 @@ export default class Button extends Component {
             }}>
               <Text style={{
                 color: Colours.primary,
-                fontSize: FontSizes.h5
+                fontSize: FontSizes.h5,
+                textAlign: 'center'
               }}>
                 {this.props.text}
               </Text>

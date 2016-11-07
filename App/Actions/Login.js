@@ -8,6 +8,7 @@ export function attempt(phoneNumber, pin, navigator) {
 }
 
 export function succeeded(navigator) {
+  console.log('Login:Actions:succeeded')
   return {
     type: 'LOGIN_SUCCEEDED',
     navigator: navigator

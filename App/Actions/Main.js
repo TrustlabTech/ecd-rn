@@ -1,12 +1,8 @@
-export function fetchCentres() {
+export function fetchCentres(token) {
+  console.log('THE DATA',token)
   return {
-    type: 'MAIN_FETCH_CENTRES'
+    type: 'MAIN_FETCH_CENTRES',
+    token: token
   }
 }
 
-export function closeModal() {
-  console.log('MAIN_CLOSE_MODAL ACTION')
-  return {
-    type: 'MAIN_CLOSE_MODAL'
-  }
-}

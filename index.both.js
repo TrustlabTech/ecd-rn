@@ -23,7 +23,7 @@ const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
-  if(Config.debug) console.log("REDUX STORE UPDATED",store.getState())
+  // if(Config.debug) console.log("REDUX STORE UPDATED",store.getState())
 })
 
 export default class Both extends Component {
@@ -33,7 +33,11 @@ export default class Both extends Component {
     this.state = { ...props }
   }
 
-  componentWillUnmout() {
+  componentWillMount() {
+
+  }
+
+  componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => {
       if(this.refs.navigator.getCurrentRoutes() > 1) {
         this.navigator.pop()
@@ -60,17 +64,11 @@ export default class Both extends Component {
                 return false
               }
             })
-            if(route.drawer !== null) {
-              return React.createElement(
-                route.drawer,
-                {route, navigator, store } // props
-              )
-            } else {
-              return React.createElement(
-                route.scene,
-                {route, navigator, store} // props
-              )
-            }
+            return React.createElement(
+              route.scene, //store.state.scene
+              {route, navigator, store } // props (remove store when done)
+            )
+
           }}
           configureScene={ (route, routeStack ) =>
             Navigator.SceneConfigs.FadeAndroid

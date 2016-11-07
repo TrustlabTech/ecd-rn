@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
+import Button from '../Components/Button'
 import Routes from '../Routes'
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
@@ -17,7 +18,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
-import WaitModal from '../Components/WaitModal'
 
 class MainScene extends Component {
 
@@ -30,15 +30,8 @@ class MainScene extends Component {
     this.route = this.props.route
   }
 
-  componentDidMount() {
-    this.dispatch(appActions.setModal({
-      modalVisible: false,
-      modalText: "Loading",
-      modalWaiting: true
-    }))
-  }
   render() {
-
+    let mainBtnText = "Take\nAttendance"
     return (
         <Scene dispatch={this.props.store.dispatch}>
 
@@ -46,19 +39,31 @@ class MainScene extends Component {
             title="ECD APP"
             navigator={ this.props.navigator }
             leftButtonText="|||"
-            leftButtonAction={ this.props.leftButtonAction }
+
           />
 
 
-          <SceneView>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
 
-            <TouchableHighlight onPress={ () => this.props.navigator.push(Routes.attendance) }>
+            {/*<TouchableHighlight onPress={ () => this.props.navigator.push(Routes.class) }>
               <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 20}}>
                 <Text style={{fontSize: 26}}>Take Attendance</Text>
               </View>
-            </TouchableHighlight>
+            </TouchableHighlight>*/}
+            <Button
+              text={mainBtnText}
+              onPress={() => this.props.navigator.push(Routes.class)}
+              width={250}
+              height={100}
+            />
 
-          </SceneView>
+          </View>
+          <View style={{padding: 20}}>
+            <Button
+              text="Log Out"
+              onPress={() => this.props.navigator.push(Routes.login)}
+            />
+          </View>
         </Scene>
     )
   }

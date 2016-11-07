@@ -55,7 +55,6 @@ export default class TextField extends Component {
 
           <TextInput
             ref={ (ref) => this.textInput = ref }
-            style={{backgroundColor: 'red'}}
             onSubmitEditing={ this.props.onSubmitEditing || null }
             returnKeyType={ this.props.returnKeyType || "done" }
             autoCapitalize={ this.props.autoCapitalize || "none" }

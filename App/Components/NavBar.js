@@ -28,22 +28,27 @@ export default class NavBar extends Component {
   render() {
 
     var leftButton, centerTitle, rightButton,  iOSSpacer = null
+    let { leftButtonAction, leftButtonText } = this.props
+    if( leftButtonText ) {
 
-    if( this.props.leftButtonText && this.props.leftButtonAction ) {
+      if( !leftButtonAction)
+        leftButtonAction = () => alert(" No action specified")
 
       leftButton =
         <TouchableHighlight
           underlayColor='silver'
-          onPress={ this.props.leftButtonAction }
+          onPress={ leftButtonAction }
         >
           <View style={styles.sideButtonsViewWrapper}>
-            <Text style={styles.navButtonText}>{this.props.leftButtonText}</Text>
+            <Text style={styles.navButtonText}>{leftButtonText}</Text>
           </View>
+
         </TouchableHighlight>
 
     } else if (this.canGoBack()) {
-      let text = this.props.leftButtonText ?
-        this.props.leftButtonText : "Back"
+
+      let text = leftButtonText ?
+        leftButtonText : "Back"
 
       leftButton =
         <TouchableHighlight
@@ -101,7 +106,9 @@ export default class NavBar extends Component {
           backgroundColor: Colours.primary,
 
         }}>
+          {leftButton}
           {centerTitle}
+          {rightButton}
         </View>
       </View>
     )
