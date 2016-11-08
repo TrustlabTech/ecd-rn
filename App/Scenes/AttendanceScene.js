@@ -16,7 +16,7 @@ import Config from '../Config'
 import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
 import { FontSizes } from '../GlobalStyles'
-import CheckBox from 'react-native-checkbox'
+import CheckBox from '../Components/Checkbox'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -49,9 +49,8 @@ class AttendanceScene extends Component {
         return (
           <CheckBox
             key={result.id}
-            labelBefore={true}
-            label={result.given_name + ' ' + result.family_name}
-            onChange={ (checked) =>
+            text={result.given_name + ' ' + result.family_name}
+            onPress={ (checked) =>
               this.checked[result.id] = checked
             }
           />

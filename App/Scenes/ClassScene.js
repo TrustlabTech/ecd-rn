@@ -16,7 +16,6 @@ import Button from '../Components/Button'
 import Config from '../Config'
 import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
-import ConfirmModal from '../Components/ConfirmModal'
 import * as classActions from '../Actions/Class'
 
 class ClassScene extends Component {

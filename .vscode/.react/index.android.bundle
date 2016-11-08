@@ -87137,7 +87137,6 @@ var _Button=require(698 /* ../Components/Button */);var _Button2=babelHelpers.in
 var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
 var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
 var _SceneHeading=require(704 /* ../Components/SceneHeading */);var _SceneHeading2=babelHelpers.interopRequireDefault(_SceneHeading);
-var _ConfirmModal=require(719 /* ../Components/ConfirmModal */);var _ConfirmModal2=babelHelpers.interopRequireDefault(_ConfirmModal);
 var _Class=require(742 /* ../Actions/Class */);var classActions=babelHelpers.interopRequireWildcard(_Class);var
 
 ClassScene=function(_Component){babelHelpers.inherits(ClassScene,_Component);
@@ -87205,160 +87204,6 @@ actions:(0,_redux.bindActionCreators)(classActions,dispatch)};})(
 
 ClassScene);
 });
-__d(719 /* Ecdrn/App/Components/ConfirmModal.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);
-
-
-
-
-
-
-
-
-var _GlobalStyles=require(696 /* ../GlobalStyles */);var
-
-
-
-
-
-
-
-
-
-
-
-
-ConfirmModal=function(_Component){babelHelpers.inherits(ConfirmModal,_Component);
-function ConfirmModal(props){babelHelpers.classCallCheck(this,ConfirmModal);var _this=babelHelpers.possibleConstructorReturn(this,(ConfirmModal.__proto__||Object.getPrototypeOf(ConfirmModal)).call(this,
-props));
-_this.state={
-visible:props.visible||false,
-animating:props.animating||true,
-error:null};return _this;
-
-}babelHelpers.createClass(ConfirmModal,[{key:'componentWillReceiveProps',value:function componentWillReceiveProps(
-
-props){
-this.setState({
-visible:props.visible,
-animating:props.animating,
-error:props.error||null});
-
-}},{key:'close',value:function close()
-
-{
-this.setState({
-visible:false});
-
-if(this.props.popOnClose){
-this.props.navigator.pop();
-}
-}},{key:'okay',value:function okay()
-
-{
-this.setState({
-visible:false});
-
-this.props.onOkay();
-}},{key:'render',value:function render()
-
-{var _this2=this;
-console.log();
-var centerComponent=
-_react2.default.createElement(_reactNative.ActivityIndicator,{
-animating:this.state.animating,
-style:{height:80},
-size:'large'});
-
-var cancelButton=void 0;
-if(!this.state.animating){
-centerComponent=
-_react2.default.createElement(_reactNative.View,{style:{
-flexDirection:'row',
-justifyContent:'space-between',
-padding:5}},
-
-
-_react2.default.createElement(_reactNative.TouchableHighlight,{onPress:function onPress(){return _this2.okay();}},
-_react2.default.createElement(_reactNative.View,{style:{
-marginRight:5,
-padding:15,
-borderRadius:5,
-backgroundColor:_GlobalStyles.Colours.secondary,
-alignItems:'center',
-justifyContent:'center',
-height:50,
-width:100}},
-
-_react2.default.createElement(_reactNative.Text,{style:{color:'white',fontWeight:'bold',fontSize:_GlobalStyles.FontSizes.p}},'Okay'))),
-
-
-
-_react2.default.createElement(_reactNative.TouchableHighlight,{onPress:function onPress(){return _this2.close();}},
-_react2.default.createElement(_reactNative.View,{style:{
-marginLeft:5,
-padding:15,
-borderRadius:5,
-backgroundColor:_GlobalStyles.Colours.secondary,
-alignItems:'center',
-justifyContent:'center',
-height:50,
-width:100}},
-
-_react2.default.createElement(_reactNative.Text,{style:{color:'white',fontWeight:'bold',fontSize:_GlobalStyles.FontSizes.p}},'Cancel'))));
-
-
-
-
-}
-return(
-_react2.default.createElement(_reactNative.Modal,{
-ref:'modal',
-onClose:this.props.onClose,
-animationType:"fade",
-transparent:true,
-visible:this.state.visible,
-onRequestClose:function onRequestClose(){
-console.log("This is required. But does this do anything?");
-}},
-
-_react2.default.createElement(_reactNative.View,{style:styles.entireModal},
-_react2.default.createElement(_reactNative.View,{style:[styles.visibleModal]},
-_react2.default.createElement(_reactNative.Text,{style:styles.text},
-this.props.text||"Loading"),
-
-centerComponent))));
-
-
-
-
-}}]);return ConfirmModal;}(_react.Component);exports.default=ConfirmModal;
-
-
-var styles=_reactNative.StyleSheet.create({
-entireModal:{
-justifyContent:'center',
-alignItems:'center',
-flex:1,
-flexDirection:'column'},
-
-visibleModal:{
-borderColor:_GlobalStyles.Colours.secondary,
-borderWidth:1,
-elevation:3,
-height:250,
-width:250,
-backgroundColor:'#0f0f0f',
-justifyContent:'space-around',
-alignItems:'center',
-borderRadius:8},
-
-text:{
-color:'white',
-padding:15,
-fontSize:_GlobalStyles.FontSizes.h5,
-textAlign:'center'}});
-});
 __d(742 /* Ecdrn/App/Actions/Class.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.doAttendance=doAttendance;function doAttendance(classId){
 return{
 type:'CLASS_ATTENDANCE_DO',
@@ -87384,7 +87229,7 @@ var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequir
 var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
 var _SceneHeading=require(704 /* ../Components/SceneHeading */);var _SceneHeading2=babelHelpers.interopRequireDefault(_SceneHeading);
 var _GlobalStyles=require(696 /* ../GlobalStyles */);
-var _reactNativeCheckbox=require(745 /* react-native-checkbox */);var _reactNativeCheckbox2=babelHelpers.interopRequireDefault(_reactNativeCheckbox);
+var _Checkbox=require(748 /* ../Components/Checkbox */);var _Checkbox2=babelHelpers.interopRequireDefault(_Checkbox);
 
 var _redux=require(654 /* redux */);
 var _reactRedux=require(668 /* react-redux */);
@@ -87415,11 +87260,10 @@ if(this.state.classData){
 Buttons=this.state.classData.map(function(result){
 
 return(
-_react2.default.createElement(_reactNativeCheckbox2.default,{
+_react2.default.createElement(_Checkbox2.default,{
 key:result.id,
-labelBefore:true,
-label:result.given_name+' '+result.family_name,
-onChange:function onChange(checked){return(
+text:result.given_name+' '+result.family_name,
+onPress:function onPress(checked){return(
 _this2.checked[result.id]=checked);}}));
 
 
@@ -87461,114 +87305,74 @@ actions:(0,_redux.bindActionCreators)(attendanceActions,dispatch)};})(
 
 AttendanceScene);
 });
-__d(745 /* react-native-checkbox/checkbox.js */, function(global, require, module, exports) {'use strict';
-
-var React=require(12 /* react */);
-var ReactNative=require(44 /* react-native */);
-var PropTypes=React.PropTypes;var
-
-
-StyleSheet=
+__d(748 /* Ecdrn/App/Components/Checkbox.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);
 
 
 
 
-ReactNative.StyleSheet,Image=ReactNative.Image,Text=ReactNative.Text,View=ReactNative.View,TouchableHighlight=ReactNative.TouchableHighlight;
 
-var CheckBox=React.createClass({displayName:'CheckBox',
-propTypes:{
-label:PropTypes.string,
-labelStyle:PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
-checkboxStyle:PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
-containerStyle:PropTypes.oneOfType([PropTypes.object,PropTypes.number]),
-checked:PropTypes.bool,
-checkedImage:PropTypes.number,
-uncheckedImage:PropTypes.number,
-underlayColor:PropTypes.string,
-onChange:PropTypes.func},
+var _GlobalStyles=require(696 /* ../GlobalStyles */);
+var _reactNativeLinearGradient=require(699 /* react-native-linear-gradient */);var _reactNativeLinearGradient2=babelHelpers.interopRequireDefault(_reactNativeLinearGradient);var
 
+Checkbox=function(_Component){babelHelpers.inherits(Checkbox,_Component);
 
-getDefaultProps:function getDefaultProps(){
-return{
-label:'Label',
-labelBefore:false,
-checked:false,
-checkedImage:require(746 /* ./cb_enabled.png */),
-uncheckedImage:require(747 /* ./cb_disabled.png */),
-underlayColor:'white'};
+function Checkbox(props){babelHelpers.classCallCheck(this,Checkbox);var _this=babelHelpers.possibleConstructorReturn(this,(Checkbox.__proto__||Object.getPrototypeOf(Checkbox)).call(this,
+props));
+_this.state={
+checked:false};return _this;
 
-},
+}babelHelpers.createClass(Checkbox,[{key:'render',value:function render()
 
-onChange:function onChange(){
-if(this.props.onChange){
-this.props.onChange(!this.props.checked);
-}
-},
-
-render:function render(){
-var source=this.props.uncheckedImage;
-
-if(this.props.checked){
-source=this.props.checkedImage;
-}
-
-var container=
-React.createElement(View,{style:this.props.containerStyle||styles.container},
-React.createElement(Image,{
-style:this.props.checkboxStyle||styles.checkbox,
-source:source}),
-React.createElement(View,{style:styles.labelContainer},
-React.createElement(Text,{style:[styles.label,this.props.labelStyle]},this.props.label)));
-
-
-
-
-if(this.props.labelBefore){
-container=
-React.createElement(View,{style:this.props.containerStyle||styles.container},
-React.createElement(View,{style:styles.labelContainer},
-React.createElement(Text,{style:[styles.label,this.props.labelStyle]},this.props.label)),
-
-React.createElement(Image,{
-style:this.props.checkboxStyle||styles.checkbox,
-source:source}));
-
-
-}
+{var _this2=this;
+var checked=this.state.checked?'X':'O';
 
 return(
-React.createElement(TouchableHighlight,{onPress:this.onChange,underlayColor:this.props.underlayColor},
-container));
+_react2.default.createElement(_reactNative.View,null,
+
+_react2.default.createElement(_reactNative.TouchableHighlight,{style:{
+marginTop:8,
+marginBottom:8,
+borderRadius:5,
+width:this.props.width||null,
+height:this.props.height||45},
+
+onPress:function onPress(){return _this2.props.onPress();}},
+
+_react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'row'}},
+
+_react2.default.createElement(_reactNative.View,{style:{
+flex:1}},
 
 
-}});
+_react2.default.createElement(_reactNative.Text,{style:{
+color:_GlobalStyles.Colours.primary,
+fontSize:_GlobalStyles.FontSizes.h5,
+textAlign:'center'}},
+
+this.props.text)),
 
 
-var styles=StyleSheet.create({
-container:{
-flexDirection:'row',
+
+_react2.default.createElement(_reactNative.View,{style:{
+flex:1,
 alignItems:'center',
-marginBottom:5},
+borderColor:_GlobalStyles.Colours.primaryLowlight,
+borderWidth:1,
+borderStyle:'solid',
+borderRadius:5,
+padding:1}},
 
-checkbox:{
-width:26,
-height:26},
-
-labelContainer:{
-marginLeft:10,
-marginRight:10},
-
-label:{
-fontSize:15,
-color:'grey'}});
+_react2.default.createElement(_reactNative.View,null,
+_react2.default.createElement(_reactNative.Text,null,checked)))))));
 
 
 
-module.exports=CheckBox;
-});
-__d(746 /* react-native-checkbox/cb_enabled.png */, function(global, require, module, exports) {module.exports = require(172 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/node_modules/react-native-checkbox","width":26,"height":26,"scales":[1],"hash":"5c41e136c59edd37b1e070e275a999f6","name":"cb_enabled","type":"png"});
-});
-__d(747 /* react-native-checkbox/cb_disabled.png */, function(global, require, module, exports) {module.exports = require(172 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/node_modules/react-native-checkbox","width":26,"height":26,"scales":[1],"hash":"a9b8f026785d2361460fda2616107a13","name":"cb_disabled","type":"png"});
+
+
+
+
+}}]);return Checkbox;}(_react.Component);exports.default=Checkbox;
 });
 __d(722 /* Ecdrn/App/Actions/Attendance.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.fetchClasses=fetchClasses;exports.
 
