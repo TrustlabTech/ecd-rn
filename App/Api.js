@@ -88,7 +88,6 @@ export default {
 
   fetchCentres: (token) => {
     return new Promise((resolve,reject) => {
-      console.log('TOKEN',token)
       request('centre',{
         headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
       })
@@ -102,9 +101,59 @@ export default {
   },
 
 
-  fetchClasses: (centreId) => {
-    return new Promise((resolve, reject) => {
-      resolve(request('centre/'+centreId))
+  fetchClasses: (staffId, token) => {
+    return new Promise((resolve,reject) => {
+      request('class/attendance/' + staffId,{
+        method: 'GET',
+        headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      }).then((data) => {
+        resolve(data)
+      }).catch((error) => {
+        resolve({error: error})
+      })
     })
   }
 }
+
+/*
+
+function fetch(url, options) {
+
+    return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest
+
+        xhr.onload = function(e) {
+            resolve({
+                json: function() {
+                    return new Promise(function(resolve2, reject2) {
+                        var j
+                        try {
+                            j = JSON.parse(e.responseText)
+                        } catch (e) {
+                            return reject2(e)
+                        }
+                        return resolve2(j)
+                    })
+                }
+            })
+        }
+
+        xhr.onerror = function(e) {
+            return reject(e)
+        }
+
+        xhr.open(options.method, url, true, options.username, options.password)
+
+        if (options.headers) {
+            Object.keys(options.headers).forEach(function(key) {
+                xhr.setRequestHeader(key, options.headers[key])
+            })
+        }
+
+        xhr.send(options.body || null)
+    })
+
+
+}
+
+*/

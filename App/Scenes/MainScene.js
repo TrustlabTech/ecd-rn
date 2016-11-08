@@ -18,6 +18,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
+import * as navigationActions from '../Actions/Navigation'
 
 class MainScene extends Component {
 
@@ -28,6 +29,21 @@ class MainScene extends Component {
     this.actions = this.props.actions
     this.navigator = this.props.navigator
     this.route = this.props.route
+  }
+
+  takeAttendance() {
+    // change scene
+    //begin fetch
+    const token = this.props.state.App.userData._token
+    const staffId = this.props.state.App.userData.user.id
+
+    console.log(token, staffId)
+    this.dispatch(navigationActions.push(Routes.class, this.navigator))
+    this.actions.fetchClasses( staffId, token )
+  }
+
+  logout() {
+    this.navigator.push(Routes.login)
   }
 
   render() {
@@ -45,14 +61,9 @@ class MainScene extends Component {
 
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
 
-            {/*<TouchableHighlight onPress={ () => this.props.navigator.push(Routes.class) }>
-              <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 20}}>
-                <Text style={{fontSize: 26}}>Take Attendance</Text>
-              </View>
-            </TouchableHighlight>*/}
             <Button
               text={mainBtnText}
-              onPress={() => this.props.navigator.push(Routes.class)}
+              onPress={() => this.takeAttendance()}
               width={250}
               height={100}
             />
@@ -61,7 +72,7 @@ class MainScene extends Component {
           <View style={{padding: 20}}>
             <Button
               text="Log Out"
-              onPress={() => this.props.navigator.push(Routes.login)}
+              onPress={() => this.logout() }
             />
           </View>
         </Scene>

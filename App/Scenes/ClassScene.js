@@ -5,14 +5,20 @@ import {
   TouchableHighlight
 } from 'react-native'
 
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
 import NavBar from '../Components/NavBar'
+import FormHeading from '../Components/FormHeading'
+import Button from '../Components/Button'
 import Config from '../Config'
 import SceneHeading from '../Components/SceneHeading'
 import ConfirmModal from '../Components/ConfirmModal'
+import * as classActions from '../Actions/Class'
 
-export default class ClassScene extends Component {
+class ClassScene extends Component {
 
   constructor(props) {
     super(props)
@@ -23,6 +29,27 @@ export default class ClassScene extends Component {
   }
 
   render() {
+    var items = null
+
+    // Check if data is available yet
+    if( this.props.state.App.centreData ) {
+
+      items =
+      <View style={{flex: 1, alignItems: 'center'}}>
+      {this.props.state.App.centreData.map((val,i) =>
+        <Button
+        width={250}
+        key={i}
+        text={val.name}
+        onPress={ () => {
+          alert('test')
+          // do attendance for class val.id
+          // this.actions.selectClass(val.id)
+        }}
+        />
+      )}
+      </View>
+    }
 
     return (
       <Scene>
@@ -32,11 +59,13 @@ export default class ClassScene extends Component {
           navigator={ this.navigator }
         />
         <SceneView>
-          <SceneHeading text="Hi!"/>
+          <SceneHeading text="Take Attendance"/>
+          <FormHeading text="Select Class"/>
           <View style={{
             marginLeft: 20,
             marginRight: 20
           }}>
+            {items}
           </View>
         </SceneView>
       </Scene>
@@ -44,3 +73,12 @@ export default class ClassScene extends Component {
   }
 
 }
+
+export default connect(
+  (state) => ({
+    state: state
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(classActions,dispatch)
+  })
+)(ClassScene)

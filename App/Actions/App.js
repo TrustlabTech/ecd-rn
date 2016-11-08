@@ -13,28 +13,6 @@ export function setCentre(centreData) {
   }
 }
 
-// Modal
-export function showModal(visible) {
-  return {
-    type: 'APP_MODAL_SHOW',
-    modalVisible: visible
-  }
-}
-
-export function setModalText(text) {
-  return {
-    type: 'APP_MODAL_SET_TEXT',
-    modalText: text
-  }
-}
-
-export function modalWaiting(waiting) {
-  return {
-    type: 'APP_MODAL_SET_WAITING',
-    modalWaiting: waiting
-  }
-}
-
 export function setModal(modalOptions = {}) {
   return {
     type: 'APP_SET_MODAL',

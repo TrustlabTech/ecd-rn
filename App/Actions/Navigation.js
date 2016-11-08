@@ -1,7 +1,16 @@
-export function push(route) {
+export function push(route, navigator) {
   return {
-    type: 'NAV_PUSH',
-    route
+    type: 'NAV_PUSH_REQUEST',
+    route,
+    navigator
+  }
+}
+
+export function doPush(route, navigator) {
+  return {
+    type: 'NAV_PUSH_DO',
+    route,
+    navigator
   }
 }
 
