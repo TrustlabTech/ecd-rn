@@ -112,6 +112,19 @@ export default {
         resolve({error: error})
       })
     })
+  },
+
+  fetchClass: (classId, token) => {
+    return new Promise((resolve,reject) => {
+      request('child/class/' + classId ,{
+        method: 'GET',
+        headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      }).then((data) => {
+        resolve(data)
+      }).catch((error) => {
+        resolve({error: error})
+      })
+    })
   }
 }
 

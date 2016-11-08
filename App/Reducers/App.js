@@ -17,6 +17,11 @@ export default (state = initialState, action = {}) => {
         userData: action.userData
       }
 
+    case 'APP_SET_CLASS':
+      return {
+        ...state,
+        classData: action.classData
+      }
     case 'APP_SET_CENTRE':
       return {
         ...state,
@@ -32,7 +37,7 @@ export default (state = initialState, action = {}) => {
       // true
       // false
       // undefined//null
-      
+
 
       if(modalVisible === undefined || modalVisible === null)
         modalVisible = state.modalVisible

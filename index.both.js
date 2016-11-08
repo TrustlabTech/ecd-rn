@@ -71,7 +71,7 @@ export default class Both extends Component {
 
           }}
           configureScene={ (route, routeStack ) =>
-            Navigator.SceneConfigs.FadeAndroid
+            Navigator.SceneConfigs.FloatFromRight
           }
         />
       </Provider>

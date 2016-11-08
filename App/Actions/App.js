@@ -13,6 +13,13 @@ export function setCentre(centreData) {
   }
 }
 
+export function setClass(classData) {
+  return {
+    type: 'APP_SET_CLASS',
+    classData: classData
+  }
+}
+
 export function setModal(modalOptions = {}) {
   return {
     type: 'APP_SET_MODAL',

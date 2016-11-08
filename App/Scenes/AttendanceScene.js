@@ -7,14 +7,16 @@ import {
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
-import FormButton from '../Components/FormButton'
+import Button from '../Components/Button'
 import WaitModal from '../Components/WaitModal'
 import Scene from '../Components/Scene'
 import SceneView from '../Components/SceneView'
+import FormHeading from '../Components/FormHeading'
 import Config from '../Config'
 import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
 import { FontSizes } from '../GlobalStyles'
+import CheckBox from 'react-native-checkbox'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -24,64 +26,52 @@ class AttendanceScene extends Component {
 
   constructor(props) {
     super(props)
+    this.dispatch = this.props.store.dispatch
+    this.actions = this.props.actions
+    this.navigator = this.props.navigator
+    this.route = this.props.route
+
+    this.checked = []
   }
 
   componentWillMount() {
-    console.log("Component will mount")
-    this.props.actions.fetchClasses()
+    const classId = this.route.classId
+    const token = this.props.state.App.userData._token
+    this.actions.fetchClass(classId,token)
   }
 
   render() {
-    const state = {
-      modalText,
-      waitingForNetwork,
-      showWaitModal
-    }
-
-    // const actions = {
-    //   close
-    // }
-
-    let Heading = null
+    this.state = this.props.state.App
     let Buttons = null
-    if(this.state.classes.length > 0) {
-
-      Buttons = this.state.classes.map( (result) => {
+    if( this.state.classData) {
+      Buttons = this.state.classData.map( (result) => {
 
         return (
-          <FormButton
+          <CheckBox
             key={result.id}
-            text={result.name}
-            width={200}
-            height={50}
-            onPress={ () =>
-              this.props.navigator.push({...Routes.class, className: result.name, classId: result.id })
+            labelBefore={true}
+            label={result.given_name + ' ' + result.family_name}
+            onChange={ (checked) =>
+              this.checked[result.id] = checked
             }
           />
 
       )})
-
     }
 
     return (
 
       <Scene>
-        <WaitModal
-          animating= { state.waitingForNetwork }
-          visible={ state.showWaitModal }
-          text={ state.modalText }
-          navigator={ this.props.navigator }
-          popOnClose={ true }
-          ref="waitmodal"
-        />
+
         <NavBar
-          title="Attendance"
+          title="ECD APP"
           navigator={ this.props.navigator }
           leftButtonText="Back"
           leftButtonAction={ () => this.props.navigator.pop() }
         />
         <SceneView>
-          <SceneHeading text="Select Class"/>
+          <SceneHeading text="Attendance"/>
+          <FormHeading text="CLASS NAME HERE"/>
           <View style={{alignItems: 'center'}}>
             {Buttons}
           </View>

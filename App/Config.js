@@ -11,7 +11,7 @@ export default {
   },
 
   http: {
-    baseUrl: 'http://bae51946.ngrok.io/api/v1/',
+    baseUrl: 'http://93bfd48e.ngrok.io/api/v1/',
     // baseUrl: 'http://localhost:8000/api/v1/',
     headers: {
       'X-Client-Platform': 'Ecdrn ' + Platform.OS,

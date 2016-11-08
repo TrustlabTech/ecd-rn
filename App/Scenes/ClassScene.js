@@ -14,6 +14,7 @@ import NavBar from '../Components/NavBar'
 import FormHeading from '../Components/FormHeading'
 import Button from '../Components/Button'
 import Config from '../Config'
+import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
 import ConfirmModal from '../Components/ConfirmModal'
 import * as classActions from '../Actions/Class'
@@ -42,7 +43,7 @@ class ClassScene extends Component {
         key={i}
         text={val.name}
         onPress={ () => {
-          alert('test')
+          this.navigator.push({...Routes.attendance, classId: val.id})
           // do attendance for class val.id
           // this.actions.selectClass(val.id)
         }}
