@@ -16,7 +16,7 @@ import Config from '../Config'
 import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
 import { FontSizes } from '../GlobalStyles'
-import CheckBox from '../Components/Checkbox'
+import Checkbox from '../Components/Checkbox'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -31,28 +31,47 @@ class AttendanceScene extends Component {
     this.navigator = this.props.navigator
     this.route = this.props.route
 
-    this.checked = []
+    this.classId = this.route.classId
+    this.token = this.props.state.App.userData._token
+    this.attendanceData = []
   }
 
   componentWillMount() {
-    const classId = this.route.classId
-    const token = this.props.state.App.userData._token
-    this.actions.fetchClass(classId,token)
+    const coken = this.props.state.App.userData._token
+    this.actions.fetchClass(
+      this.classId,
+      this.token
+    )
+  }
+
+  pressCheckBox(id) {
+    this.attendanceData[id] = !this.attendanceData[id]
+    this.forceUpdate()
+  }
+
+  submit() {
+    
+    attendanceActions.submit(
+      this.classId,
+      this.attendanceData,
+      this.token
+    )
   }
 
   render() {
-    this.state = this.props.state.App
+    this.classData = this.props.state.App.classData
+
     let Buttons = null
-    if( this.state.classData) {
-      Buttons = this.state.classData.map( (result) => {
+    if( this.classData) {
+      Buttons = this.classData.map( (result) => {
 
         return (
-          <CheckBox
+          <Checkbox
             key={result.id}
+            width={300}
             text={result.given_name + ' ' + result.family_name}
-            onPress={ (checked) =>
-              this.checked[result.id] = checked
-            }
+            onPress={ () => this.pressCheckBox(result.id) }
+            checked={this.attendanceData[result.id]}
           />
 
       )})
@@ -67,11 +86,13 @@ class AttendanceScene extends Component {
           navigator={ this.props.navigator }
           leftButtonText="Back"
           leftButtonAction={ () => this.props.navigator.pop() }
+          rightButtonText="Submit"
+          rightButtonAction={ () => this.submit() }
         />
         <SceneView>
           <SceneHeading text="Attendance"/>
-          <FormHeading text="CLASS NAME HERE"/>
-          <View style={{alignItems: 'center'}}>
+          <FormHeading text={this.route.className}/>
+          <View style={{flex: 1, flexDirection: 'column'}}>
             {Buttons}
           </View>
         </SceneView>

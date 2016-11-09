@@ -12,16 +12,13 @@ export default class Checkbox extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      checked: false
-    }
   }
 
   render() {
-    const checked = this.state.checked ? 'X' : 'O'
+    const checked = this.props.checked ? 'X' : 'O'
 
     return (
-      <View>
+      <View style={{flex: 1}}>
 
         <TouchableHighlight style={{
             marginTop: 8,
@@ -30,7 +27,7 @@ export default class Checkbox extends Component {
             width: this.props.width || null,
             height: this.props.height || 45
           }}
-          onPress={ () => this.props.onPress() }
+          onPress={ () => this.props.onPress(!this.props.checked) }
         >
           <View style={{flex: 1, flexDirection: 'row'}}>
             {/* Text */}
@@ -41,22 +38,27 @@ export default class Checkbox extends Component {
                 <Text style={{
                   color: Colours.primary,
                   fontSize: FontSizes.h5,
-                  textAlign: 'center'
+                  textAlign: 'left',
+                  marginLeft: 10
                 }}>
                   {this.props.text}
                 </Text>
             </View>
             {/* Checkbox */}
             <View style={{
-              flex:1 ,
-              alignItems: 'center',
+
               borderColor: Colours.primaryLowlight,
               borderWidth: 1,
               borderStyle: 'solid',
               borderRadius: 5,
-              padding: 1
+              padding: 1,
+              width: this.props.height || 45
             }}>
-              <View>
+              <View style={{
+                flex:1,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
                 <Text>{checked}</Text>
               </View>
             </View>

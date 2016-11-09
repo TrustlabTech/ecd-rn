@@ -24,7 +24,8 @@ import { connect } from 'react-redux'
 import * as loginActions from '../Actions/Login'
 import * as appActions from '../Actions/App'
 import { FontSizes } from '../GlobalStyles'
-const ConsentLogo = require('../Images/consent_logo.png')
+
+import Checkbox from '../Components/Checkbox'
 
 class LoginScene extends Component {
 
@@ -72,7 +73,6 @@ class LoginScene extends Component {
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
             <View style={{flex: 1}}/>
             <View style={{height: 330}}>
-
               <SceneHeading text="ECD APP"/>
 
               <FormHeading text="Login"/>

@@ -20,3 +20,17 @@ export function* fetchClass(action) {
     yield put(appActions.setModal({modalText: error, modalWaiting: false}))
   }
 }
+
+export function* submit(action) {
+  const { classId, attendanceData, token } = action
+  try {
+    yield put(appActions.setModal({modalVisible: true, modalWaiting: true}))
+
+    let data = yield call(Api.submitAttendance,classId,attendanceData, token)
+    if(data && !data.error) {
+      yield put(appActions.setModal({modalText: data.error, modalWaiting: false}))
+    }
+  } catch (error) {
+    yield put(appActions.setModal({modalText: error, modalWaiting: false}))
+  }
+}

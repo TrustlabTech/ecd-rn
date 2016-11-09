@@ -32,18 +32,16 @@ class MainScene extends Component {
   }
 
   takeAttendance() {
-    // change scene
-    //begin fetch
+
     const token = this.props.state.App.userData._token
     const staffId = this.props.state.App.userData.user.id
 
-    console.log(token, staffId)
     this.dispatch(navigationActions.push(Routes.class, this.navigator))
     this.actions.fetchClasses( staffId, token )
   }
 
   logout() {
-    this.navigator.push(Routes.login)
+    this.navigator.replace(Routes.login)
   }
 
   render() {

@@ -85727,7 +85727,8 @@ var _reactRedux=require(668 /* react-redux */);
 var _Login=require(707 /* ../Actions/Login */);var loginActions=babelHelpers.interopRequireWildcard(_Login);
 var _App=require(702 /* ../Actions/App */);var appActions=babelHelpers.interopRequireWildcard(_App);
 var _GlobalStyles=require(696 /* ../GlobalStyles */);
-var ConsentLogo=require(708 /* ../Images/consent_logo.png */);var
+
+var _Checkbox=require(748 /* ../Components/Checkbox */);var _Checkbox2=babelHelpers.interopRequireDefault(_Checkbox);var
 
 LoginScene=function(_Component){babelHelpers.inherits(LoginScene,_Component);
 
@@ -85775,7 +85776,6 @@ _react2.default.createElement(_Scene2.default,{dispatch:this.props.store.dispatc
 _react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column',justifyContent:'space-between'}},
 _react2.default.createElement(_reactNative.View,{style:{flex:1}}),
 _react2.default.createElement(_reactNative.View,{style:{height:330}},
-
 _react2.default.createElement(_SceneHeading2.default,{text:'ECD APP'}),
 
 _react2.default.createElement(_FormHeading2.default,{text:'Login'}),
@@ -86541,7 +86541,76 @@ text:text};
 
 }
 });
-__d(708 /* Ecdrn/App/Images/consent_logo.png */, function(global, require, module, exports) {module.exports = require(172 /* react-native/Libraries/Image/AssetRegistry */).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/App/Images","width":290,"height":318,"scales":[1],"hash":"58e7d6f6bfce7251b40664f3f9eed71d","name":"consent_logo","type":"png"});
+__d(748 /* Ecdrn/App/Components/Checkbox.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);
+
+
+
+
+
+var _GlobalStyles=require(696 /* ../GlobalStyles */);
+var _reactNativeLinearGradient=require(699 /* react-native-linear-gradient */);var _reactNativeLinearGradient2=babelHelpers.interopRequireDefault(_reactNativeLinearGradient);var
+
+Checkbox=function(_Component){babelHelpers.inherits(Checkbox,_Component);
+
+function Checkbox(props){babelHelpers.classCallCheck(this,Checkbox);return babelHelpers.possibleConstructorReturn(this,(Checkbox.__proto__||Object.getPrototypeOf(Checkbox)).call(this,
+props));
+}babelHelpers.createClass(Checkbox,[{key:'render',value:function render()
+
+{var _this2=this;
+var checked=this.props.checked?'X':'O';
+
+return(
+_react2.default.createElement(_reactNative.View,{style:{flex:1}},
+
+_react2.default.createElement(_reactNative.TouchableHighlight,{style:{
+marginTop:8,
+marginBottom:8,
+borderRadius:5,
+width:this.props.width||null,
+height:this.props.height||45},
+
+onPress:function onPress(){return _this2.props.onPress(!_this2.props.checked);}},
+
+_react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'row'}},
+
+_react2.default.createElement(_reactNative.View,{style:{
+flex:1}},
+
+
+_react2.default.createElement(_reactNative.Text,{style:{
+color:_GlobalStyles.Colours.primary,
+fontSize:_GlobalStyles.FontSizes.h5,
+textAlign:'left',
+marginLeft:10}},
+
+this.props.text)),
+
+
+
+_react2.default.createElement(_reactNative.View,{style:{
+
+borderColor:_GlobalStyles.Colours.primaryLowlight,
+borderWidth:1,
+borderStyle:'solid',
+borderRadius:5,
+padding:1,
+width:this.props.height||45}},
+
+_react2.default.createElement(_reactNative.View,{style:{
+flex:1,
+alignItems:'center',
+justifyContent:'center'}},
+
+_react2.default.createElement(_reactNative.Text,null,checked)))))));
+
+
+
+
+
+
+
+}}]);return Checkbox;}(_react.Component);exports.default=Checkbox;
 });
 __d(709 /* Ecdrn/App/Scenes/RegisterScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
 var _redux=require(654 /* redux */);
@@ -86969,17 +87038,15 @@ _this.route=_this.props.route;return _this;
 
 {
 
-
 var token=this.props.state.App.userData._token;
 var staffId=this.props.state.App.userData.user.id;
 
-console.log(token,staffId);
 this.dispatch(navigationActions.push(_Routes2.default.class,this.navigator));
 this.actions.fetchClasses(staffId,token);
 }},{key:'logout',value:function logout()
 
 {
-this.navigator.push(_Routes2.default.login);
+this.navigator.replace(_Routes2.default.login);
 }},{key:'render',value:function render()
 
 {var _this2=this;
@@ -87163,9 +87230,7 @@ width:250,
 key:i,
 text:val.name,
 onPress:function onPress(){
-_this2.navigator.push(babelHelpers.extends({},_Routes2.default.attendance,{classId:val.id}));
-
-
+_this2.navigator.push(babelHelpers.extends({},_Routes2.default.attendance,{classId:val.id,className:val.name}));
 }}));}));
 
 
@@ -87251,6 +87316,11 @@ _this.checked=[];return _this;
 var classId=this.route.classId;
 var token=this.props.state.App.userData._token;
 this.actions.fetchClass(classId,token);
+}},{key:'pressCheckBox',value:function pressCheckBox(
+
+id){
+this.checked[id]=!this.checked[id];
+this.forceUpdate();
 }},{key:'render',value:function render()
 
 {var _this2=this;
@@ -87262,10 +87332,10 @@ Buttons=this.state.classData.map(function(result){
 return(
 _react2.default.createElement(_Checkbox2.default,{
 key:result.id,
+width:300,
 text:result.given_name+' '+result.family_name,
-onPress:function onPress(checked){return(
-_this2.checked[result.id]=checked);}}));
-
+onPress:function onPress(){return _this2.pressCheckBox(result.id);},
+checked:_this2.checked[result.id]}));
 
 
 });
@@ -87283,8 +87353,8 @@ leftButtonAction:function leftButtonAction(){return _this2.props.navigator.pop()
 
 _react2.default.createElement(_SceneView2.default,null,
 _react2.default.createElement(_SceneHeading2.default,{text:'Attendance'}),
-_react2.default.createElement(_FormHeading2.default,{text:'CLASS NAME HERE'}),
-_react2.default.createElement(_reactNative.View,{style:{alignItems:'center'}},
+_react2.default.createElement(_FormHeading2.default,{text:this.route.className}),
+_react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column'}},
 Buttons))));
 
 
@@ -87304,75 +87374,6 @@ function(dispatch){return{
 actions:(0,_redux.bindActionCreators)(attendanceActions,dispatch)};})(
 
 AttendanceScene);
-});
-__d(748 /* Ecdrn/App/Components/Checkbox.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);
-
-
-
-
-
-var _GlobalStyles=require(696 /* ../GlobalStyles */);
-var _reactNativeLinearGradient=require(699 /* react-native-linear-gradient */);var _reactNativeLinearGradient2=babelHelpers.interopRequireDefault(_reactNativeLinearGradient);var
-
-Checkbox=function(_Component){babelHelpers.inherits(Checkbox,_Component);
-
-function Checkbox(props){babelHelpers.classCallCheck(this,Checkbox);var _this=babelHelpers.possibleConstructorReturn(this,(Checkbox.__proto__||Object.getPrototypeOf(Checkbox)).call(this,
-props));
-_this.state={
-checked:false};return _this;
-
-}babelHelpers.createClass(Checkbox,[{key:'render',value:function render()
-
-{var _this2=this;
-var checked=this.state.checked?'X':'O';
-
-return(
-_react2.default.createElement(_reactNative.View,null,
-
-_react2.default.createElement(_reactNative.TouchableHighlight,{style:{
-marginTop:8,
-marginBottom:8,
-borderRadius:5,
-width:this.props.width||null,
-height:this.props.height||45},
-
-onPress:function onPress(){return _this2.props.onPress();}},
-
-_react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'row'}},
-
-_react2.default.createElement(_reactNative.View,{style:{
-flex:1}},
-
-
-_react2.default.createElement(_reactNative.Text,{style:{
-color:_GlobalStyles.Colours.primary,
-fontSize:_GlobalStyles.FontSizes.h5,
-textAlign:'center'}},
-
-this.props.text)),
-
-
-
-_react2.default.createElement(_reactNative.View,{style:{
-flex:1,
-alignItems:'center',
-borderColor:_GlobalStyles.Colours.primaryLowlight,
-borderWidth:1,
-borderStyle:'solid',
-borderRadius:5,
-padding:1}},
-
-_react2.default.createElement(_reactNative.View,null,
-_react2.default.createElement(_reactNative.Text,null,checked)))))));
-
-
-
-
-
-
-
-}}]);return Checkbox;}(_react.Component);exports.default=Checkbox;
 });
 __d(722 /* Ecdrn/App/Actions/Attendance.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.fetchClasses=fetchClasses;exports.
 

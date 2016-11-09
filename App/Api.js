@@ -125,8 +125,29 @@ export default {
         resolve({error: error})
       })
     })
+  },
+
+  submitAttendance: (classId, attendanceData, token) => {
+    return new Promise((resolve,reject) => {
+      const formData = new FormData()
+      attendanceData.forEach((data) => {
+        console.log('SUBMIT DATA',data)
+      })
+      formData.append(attendanceData) // might not work
+      request('attendance' + classId ,{
+        method: 'POST',
+        body: formData
+        headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      }).then((data) => {
+        resolve(data)
+      }).catch((error) => {
+        resolve({error: error})
+      })
+    })
   }
 }
+
+
 
 /*
 

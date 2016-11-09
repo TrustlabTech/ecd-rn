@@ -42,9 +42,7 @@ class ClassScene extends Component {
         key={i}
         text={val.name}
         onPress={ () => {
-          this.navigator.push({...Routes.attendance, classId: val.id})
-          // do attendance for class val.id
-          // this.actions.selectClass(val.id)
+          this.navigator.push({...Routes.attendance, classId: val.id, className: val.name})
         }}
         />
       )}

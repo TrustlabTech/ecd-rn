@@ -13,8 +13,17 @@ export function fetchClass(classId, token) {
   }
 }
 
-export function fetchClassesSucceeded() {
+// export function fetchClassesSucceeded() {
+//   return {
+//     type: 'ATTENDANCE_FETCH_CLASSES_SUCCEEDED'
+//   }
+// }
+
+export function submit(classId, attendanceData, token) {
   return {
-    type: 'ATTENDANCE_FETCH_CLASSES_SUCCEEDED'
+    type: 'ATTENENDANCE_SUBMIT',
+    classId,
+    attendanceData,
+    token
   }
 }
