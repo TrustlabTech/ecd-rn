@@ -81994,9 +81994,8 @@ systemBarHeight:_reactNative.Platform.OS==='ios'?20:0,
 navBarHeight:_reactNative.Platform.OS==='ios'?60:60},
 
 http:{
+baseUrl:'http://ecd.cnsnt.io/api/v1/',
 
-
-baseUrl:'http://128.199.57.211/api/v1/',
 
 headers:{
 'X-Client-Platform':'Ecdrn '+_reactNative.Platform.OS,
@@ -86568,7 +86567,7 @@ props));
 }babelHelpers.createClass(Checkbox,[{key:'render',value:function render()
 
 {var _this2=this;
-var checked=this.props.checked?'X':'O';
+var checked=this.props.checked?'X':'';
 
 return(
 _react2.default.createElement(_reactNative.View,{style:{flex:1}},
@@ -88220,7 +88219,7 @@ centreId:val.centre_id}));
 }
 
 return(
-_react2.default.createElement(_Scene2.default,null,
+_react2.default.createElement(_Scene2.default,{dispatch:this.props.store.dispatch},
 
 _react2.default.createElement(_NavBar2.default,{
 title:'ECD APP',
@@ -88307,8 +88306,9 @@ this.token);
 }},{key:'pressCheckBox',value:function pressCheckBox(
 
 id){
+var checkStatus=this.attendanceData[id].checked||false;
 this.attendanceData[id]={
-checked:!this.attendanceData[id].checked||true,
+checked:!checkStatus,
 id:id};
 
 
@@ -88360,7 +88360,7 @@ checked:checked}));
 
 return(
 
-_react2.default.createElement(_Scene2.default,null,
+_react2.default.createElement(_Scene2.default,{dispatch:this.props.store.dispatch},
 
 _react2.default.createElement(_NavBar2.default,{
 title:'ECD APP',
@@ -89059,11 +89059,13 @@ location=action.location,centreId=action.centreId,classId=action.classId,attenda
 (0,_effects.put)(appActions.setModal({modalVisible:true,modalWaiting:true})));case 4:_context2.next=6;return(
 
 (0,_effects.call)(_Api2.default.submitAttendance,location,centreId,classId,attendanceData,token));case 6:data=_context2.sent;if(!(
-data&&!data.error)){_context2.next=10;break;}_context2.next=10;return(
-(0,_effects.put)(appActions.setModal({modalText:data.error,modalWaiting:false})));case 10:_context2.next=16;break;case 12:_context2.prev=12;_context2.t0=_context2['catch'](1);_context2.next=16;return(
+data&&!data.error)){_context2.next=12;break;}_context2.next=10;return(
+(0,_effects.put)(appActions.setModal({modalWaiting:false,modalText:'Upload complete'})));case 10:_context2.next=14;break;case 12:_context2.next=14;return(
+
+(0,_effects.put)(appActions.setModal({modalText:data.error,modalWaiting:false})));case 14:_context2.next=20;break;case 16:_context2.prev=16;_context2.t0=_context2['catch'](1);_context2.next=20;return(
 
 
-(0,_effects.put)(appActions.setModal({modalText:_context2.t0,modalWaiting:false})));case 16:case'end':return _context2.stop();}}},_marked[1],this,[[1,12]]);}
+(0,_effects.put)(appActions.setModal({modalText:_context2.t0,modalWaiting:false})));case 20:case'end':return _context2.stop();}}},_marked[1],this,[[1,16]]);}
 });
 ;require(195);
 ;require(0);

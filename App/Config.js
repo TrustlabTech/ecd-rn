@@ -11,9 +11,8 @@ export default {
       navBarHeight: (Platform.OS === 'ios') ? 60 : 60
   },
   http: {
-    // baseUrl: 'http://ecd.cnsnt.io/api/v1/',
-
-    baseUrl: 'http://128.199.57.211/api/v1/',
+    baseUrl: 'http://ecd.cnsnt.io/api/v1/',
+    // baseUrl: 'http://128.199.57.211/api/v1/',
     // baseUrl: 'http://0a88e035.ngrok.io/api/v1/',
     headers: {
       'X-Client-Platform': 'Ecdrn ' + Platform.OS,

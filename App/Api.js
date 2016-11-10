@@ -50,10 +50,8 @@ export default {
         method: 'POST',
         headers: Config.http.headers
       }).then((data) => {
-        console.log('API LOGIN 1')
         resolve(data)
       }).catch((error) => {
-        console.log('API LOGIN CATCH')
         resolve({error: error})
       })
     })
