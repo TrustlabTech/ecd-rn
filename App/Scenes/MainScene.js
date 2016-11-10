@@ -19,13 +19,13 @@ import { connect } from 'react-redux'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
 import * as navigationActions from '../Actions/Navigation'
+import MainDrawer from '../Components/MainDrawer'
 
 class MainScene extends Component {
 
   constructor(props) {
     super(props)
     // For future terseness
-    this.dispatch = this.props.store.dispatch
     this.actions = this.props.actions
     this.navigator = this.props.navigator
     this.route = this.props.route
@@ -36,7 +36,7 @@ class MainScene extends Component {
     const token = this.props.state.App.userData._token
     const staffId = this.props.state.App.userData.user.id
 
-    this.dispatch(navigationActions.push(Routes.class, this.navigator))
+    this.props.store.dispatch(navigationActions.push(Routes.class, this.navigator))
     this.actions.fetchClasses( staffId, token )
   }
 

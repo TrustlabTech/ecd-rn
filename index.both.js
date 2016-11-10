@@ -23,7 +23,7 @@ const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
-  // if(Config.debug) console.log("REDUX STORE UPDATED",store.getState())
+  if(Config.debug) console.log("REDUX STORE UPDATED",store.getState())
 })
 
 export default class Both extends Component {
@@ -64,10 +64,18 @@ export default class Both extends Component {
                 return false
               }
             })
-            return React.createElement(
-              route.scene, //store.state.scene
-              {route, navigator, store } // props (remove store when done)
-            )
+            if(route.drawer) {
+              return React.createElement(
+                route.scene, //store.state.scene
+                {route, navigator, store } // props (remove store when done)
+              )
+            } else {
+              return React.createElement(
+                route.scene, //store.state.scene
+                {route, navigator, store } // props (remove store when done)
+              )
+            }
+
 
           }}
           configureScene={ (route, routeStack ) =>

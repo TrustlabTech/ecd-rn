@@ -16,18 +16,20 @@ export function* fetchClass(action) {
       yield put(appActions.setModal({modalText: data.error || "Unknown error", modalWaiting: false}))
     }
   } catch (error) {
-    if(Config.debug) console.log("Sagas:fetchClasses ERROR",error)
+    if(Config.debug) console.log("Sagas:fetchClass ERROR",error)
     yield put(appActions.setModal({modalText: error, modalWaiting: false}))
   }
 }
 
 export function* submit(action) {
-  const { classId, attendanceData, token } = action
+  const { location, centreId, classId, attendanceData, token } = action
   try {
     yield put(appActions.setModal({modalVisible: true, modalWaiting: true}))
 
-    let data = yield call(Api.submitAttendance,classId,attendanceData, token)
+    const data = yield call(Api.submitAttendance, location, centreId, classId,attendanceData, token)
     if(data && !data.error) {
+      yield put(appActions.setModal({modalWaiting: false, modalText: 'Upload complete'}))
+    } else {
       yield put(appActions.setModal({modalText: data.error, modalWaiting: false}))
     }
   } catch (error) {

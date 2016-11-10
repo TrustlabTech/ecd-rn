@@ -45,7 +45,7 @@ class LoginScene extends Component {
   login() {
     const { phoneNumber, pin } = this.props.state.Login
 
-    this.dispatch(appActions.setModal({
+    this.props.store.dispatch(appActions.setModal({
       modalVisible: true,
       modalText: "Loading",
       modalWaiting: true
@@ -108,7 +108,7 @@ class LoginScene extends Component {
 
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
-              <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>v0.2.4</Text>
+              <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>v{Config.version}</Text>
             </View>
           </View>
       </Scene>

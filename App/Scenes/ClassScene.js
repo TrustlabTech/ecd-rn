@@ -42,7 +42,12 @@ class ClassScene extends Component {
         key={i}
         text={val.name}
         onPress={ () => {
-          this.navigator.push({...Routes.attendance, classId: val.id, className: val.name})
+          this.navigator.push({
+            ...Routes.attendance,
+            classId: val.id,
+            className: val.name,
+            centreId: val.centre_id
+          })
         }}
         />
       )}
@@ -50,7 +55,7 @@ class ClassScene extends Component {
     }
 
     return (
-      <Scene>
+      <Scene dispatch={this.props.store.dispatch}>
 
         <NavBar
           title="ECD APP"

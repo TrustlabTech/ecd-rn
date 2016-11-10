@@ -1,8 +1,7 @@
 import Config from './Config'
 
-//
 function request(route, options = {method: 'GET'} ) {
-  console.log('API REQUEST',options)
+  console.log('API REQUEST',route, options)
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
@@ -127,17 +126,31 @@ export default {
     })
   },
 
-  submitAttendance: (classId, attendanceData, token) => {
+  submitAttendance: (location, centreId, classId, attendanceData, token) => {
     return new Promise((resolve,reject) => {
-      const formData = new FormData()
+
+      let children = []
       attendanceData.forEach((data) => {
-        console.log('SUBMIT DATA',data)
+        if( data.id) {
+          children.push({
+            children_id: data.id,
+            latitude: location.coords.latitude.toString(),
+            longitude: location.coords.longitude.toString(),
+            attended: data.attended || false
+          })
+        }
       })
-      formData.append(attendanceData) // might not work
-      request('attendance' + classId ,{
+
+      let jsonData = {
+        centre_id: centreId,
+        centre_class_id: classId,
+        children: children
+      }
+      console.log(JSON.stringify(jsonData))
+      request('attendance/bulk' ,{
         method: 'POST',
-        body: formData
-        headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+        body: JSON.stringify(jsonData),
+        headers: {...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer: ' + token.trim() }
       }).then((data) => {
         resolve(data)
       }).catch((error) => {

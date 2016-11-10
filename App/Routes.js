@@ -39,7 +39,7 @@ export default {
   main: {
     title: 'Main',
     scene: MainScene,
-    drawer: MainDrawer
+    drawer: null
   },
 
   centre: {

@@ -1,4 +1,4 @@
 {
-   "sourceMaps": true,
+  //  "sourceMaps": true,
   "presets": ["react-native"]
 }

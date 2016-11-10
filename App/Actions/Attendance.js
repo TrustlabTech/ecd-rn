@@ -19,9 +19,11 @@ export function fetchClass(classId, token) {
 //   }
 // }
 
-export function submit(classId, attendanceData, token) {
+export function submit(location, centreId, classId, attendanceData, token) {
   return {
-    type: 'ATTENENDANCE_SUBMIT',
+    type: 'ATTENDANCE_SUBMIT',
+    location,
+    centreId,
     classId,
     attendanceData,
     token

@@ -20,7 +20,7 @@ class Scene extends Component {
         <WaitModal
           animating={ modalWaiting }
           visible={ modalVisible }
-          onPressClose={ () => this.dispatch(appActions.setModal({modalVisible:false})) }
+          onPressClose={ () => this.props.dispatch(appActions.setModal({modalVisible:false})) }
           text={ modalText }
           ref="waitmodal"
         />

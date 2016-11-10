@@ -15,7 +15,7 @@ export default class Checkbox extends Component {
   }
 
   render() {
-    const checked = this.props.checked ? 'X' : 'O'
+    const checked = this.props.checked ? 'X' : ''
 
     return (
       <View style={{flex: 1}}>

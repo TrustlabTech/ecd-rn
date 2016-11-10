@@ -81906,7 +81906,7 @@ var _redux=require(654 /* redux */);
 var _reactRedux=require(668 /* react-redux */);
 var _reduxSaga=require(681 /* redux-saga */);var _reduxSaga2=babelHelpers.interopRequireDefault(_reduxSaga);
 var _Routes=require(693 /* ./App/Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
-var _Reducers=require(729 /* ./App/Reducers */);var Reducers=babelHelpers.interopRequireWildcard(_Reducers);
+var _Reducers=require(728 /* ./App/Reducers */);var Reducers=babelHelpers.interopRequireWildcard(_Reducers);
 var _Root=require(734 /* ./App/Sagas/Root */);var _Root2=babelHelpers.interopRequireDefault(_Root);
 
 var sagaMiddleware=(0,_reduxSaga2.default)();
@@ -81917,7 +81917,7 @@ var store=(0,_redux.createStore)(
 sagaMiddleware.run(_Root2.default);
 
 store.subscribe(function(){
-
+if(_Config2.default.debug)console.log("REDUX STORE UPDATED",store.getState());
 });var
 
 Both=function(_Component){babelHelpers.inherits(Both,_Component);
@@ -81958,9 +81958,17 @@ return true;
 return false;
 }
 });
+if(route.drawer){
 return _react2.default.createElement(
 route.scene,
 {route:route,navigator:navigator,store:store});
+
+}else{
+return _react2.default.createElement(
+route.scene,
+{route:route,navigator:navigator,store:store});
+
+}
 
 
 },
@@ -81980,13 +81988,15 @@ __d(653 /* Ecdrn/App/Config.js */, function(global, require, module, exports) {O
 
 {
 debug:true,
+version:"0.0.1",
 metrics:{
 systemBarHeight:_reactNative.Platform.OS==='ios'?20:0,
 navBarHeight:_reactNative.Platform.OS==='ios'?60:60},
 
-
 http:{
-baseUrl:'http://93bfd48e.ngrok.io/api/v1/',
+
+
+baseUrl:'http://128.199.57.211/api/v1/',
 
 headers:{
 'X-Client-Platform':'Ecdrn '+_reactNative.Platform.OS,
@@ -85629,16 +85639,16 @@ var _LoginScene=require(694 /* ./Scenes/LoginScene */);var _LoginScene2=babelHel
 var _RegisterScene=require(709 /* ./Scenes/RegisterScene */);var _RegisterScene2=babelHelpers.interopRequireDefault(_RegisterScene);
 var _RegisterConfirmScene=require(711 /* ./Scenes/RegisterConfirmScene */);var _RegisterConfirmScene2=babelHelpers.interopRequireDefault(_RegisterConfirmScene);
 var _MainScene=require(712 /* ./Scenes/MainScene */);var _MainScene2=babelHelpers.interopRequireDefault(_MainScene);
-var _CentreScene=require(715 /* ./Scenes/CentreScene */);var _CentreScene2=babelHelpers.interopRequireDefault(_CentreScene);
-var _ChildScene=require(716 /* ./Scenes/ChildScene */);var _ChildScene2=babelHelpers.interopRequireDefault(_ChildScene);
-var _StaffScene=require(717 /* ./Scenes/StaffScene */);var _StaffScene2=babelHelpers.interopRequireDefault(_StaffScene);
-var _ClassScene=require(718 /* ./Scenes/ClassScene */);var _ClassScene2=babelHelpers.interopRequireDefault(_ClassScene);
-var _AttendanceScene=require(720 /* ./Scenes/AttendanceScene */);var _AttendanceScene2=babelHelpers.interopRequireDefault(_AttendanceScene);
-var _ProfileScene=require(723 /* ./Scenes/ProfileScene */);var _ProfileScene2=babelHelpers.interopRequireDefault(_ProfileScene);
+var _CentreScene=require(720 /* ./Scenes/CentreScene */);var _CentreScene2=babelHelpers.interopRequireDefault(_CentreScene);
+var _ChildScene=require(721 /* ./Scenes/ChildScene */);var _ChildScene2=babelHelpers.interopRequireDefault(_ChildScene);
+var _StaffScene=require(722 /* ./Scenes/StaffScene */);var _StaffScene2=babelHelpers.interopRequireDefault(_StaffScene);
+var _ClassScene=require(723 /* ./Scenes/ClassScene */);var _ClassScene2=babelHelpers.interopRequireDefault(_ClassScene);
+var _AttendanceScene=require(725 /* ./Scenes/AttendanceScene */);var _AttendanceScene2=babelHelpers.interopRequireDefault(_AttendanceScene);
+var _ProfileScene=require(727 /* ./Scenes/ProfileScene */);var _ProfileScene2=babelHelpers.interopRequireDefault(_ProfileScene);
 
 
 
-var _MainDrawer=require(724 /* ./Components/MainDrawer */);var _MainDrawer2=babelHelpers.interopRequireDefault(_MainDrawer);exports.default=
+var _MainDrawer=require(715 /* ./Components/MainDrawer */);var _MainDrawer2=babelHelpers.interopRequireDefault(_MainDrawer);exports.default=
 
 {
 
@@ -85663,7 +85673,7 @@ drawer:null},
 main:{
 title:'Main',
 scene:_MainScene2.default,
-drawer:_MainDrawer2.default},
+drawer:null},
 
 
 centre:{
@@ -85728,7 +85738,7 @@ var _Login=require(707 /* ../Actions/Login */);var loginActions=babelHelpers.int
 var _App=require(702 /* ../Actions/App */);var appActions=babelHelpers.interopRequireWildcard(_App);
 var _GlobalStyles=require(696 /* ../GlobalStyles */);
 
-var _Checkbox=require(748 /* ../Components/Checkbox */);var _Checkbox2=babelHelpers.interopRequireDefault(_Checkbox);var
+var _Checkbox=require(708 /* ../Components/Checkbox */);var _Checkbox2=babelHelpers.interopRequireDefault(_Checkbox);var
 
 LoginScene=function(_Component){babelHelpers.inherits(LoginScene,_Component);
 
@@ -85748,7 +85758,7 @@ this.screenWidth=_reactNative.Dimensions.get('window').width;
 {var _props$state$Login=
 this.props.state.Login,phoneNumber=_props$state$Login.phoneNumber,pin=_props$state$Login.pin;
 
-this.dispatch(appActions.setModal({
+this.props.store.dispatch(appActions.setModal({
 modalVisible:true,
 modalText:"Loading",
 modalWaiting:true}));
@@ -85811,7 +85821,7 @@ _react2.default.createElement(_Button2.default,{text:'Login',onPress:function on
 
 
 _react2.default.createElement(_reactNative.View,{style:{flex:1,justifyContent:'flex-end',alignItems:'center',padding:10}},
-_react2.default.createElement(_reactNative.Text,{style:{fontStyle:'italic',fontSize:_GlobalStyles.FontSizes.p}},'v0.2.4')))));
+_react2.default.createElement(_reactNative.Text,{style:{fontStyle:'italic',fontSize:_GlobalStyles.FontSizes.p}},'v',_Config2.default.version)))));
 
 
 
@@ -86258,7 +86268,7 @@ _react2.default.createElement(_reactNative.View,{style:{flex:1,backgroundColor:'
 _react2.default.createElement(_WaitModal2.default,{
 animating:modalWaiting,
 visible:modalVisible,
-onPressClose:function onPressClose(){return _this2.dispatch(appActions.setModal({modalVisible:false}));},
+onPressClose:function onPressClose(){return _this2.props.dispatch(appActions.setModal({modalVisible:false}));},
 text:modalText,
 ref:'waitmodal'}),
 
@@ -86541,7 +86551,7 @@ text:text};
 
 }
 });
-__d(748 /* Ecdrn/App/Components/Checkbox.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+__d(708 /* Ecdrn/App/Components/Checkbox.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
 var _reactNative=require(44 /* react-native */);
 
 
@@ -87023,14 +87033,14 @@ var _redux=require(654 /* redux */);
 var _reactRedux=require(668 /* react-redux */);
 var _Main=require(713 /* ../Actions/Main */);var mainActions=babelHelpers.interopRequireWildcard(_Main);
 var _App=require(702 /* ../Actions/App */);var appActions=babelHelpers.interopRequireWildcard(_App);
-var _Navigation=require(714 /* ../Actions/Navigation */);var navigationActions=babelHelpers.interopRequireWildcard(_Navigation);var
+var _Navigation=require(714 /* ../Actions/Navigation */);var navigationActions=babelHelpers.interopRequireWildcard(_Navigation);
+var _MainDrawer=require(715 /* ../Components/MainDrawer */);var _MainDrawer2=babelHelpers.interopRequireDefault(_MainDrawer);var
 
 MainScene=function(_Component){babelHelpers.inherits(MainScene,_Component);
 
 function MainScene(props){babelHelpers.classCallCheck(this,MainScene);var _this=babelHelpers.possibleConstructorReturn(this,(MainScene.__proto__||Object.getPrototypeOf(MainScene)).call(this,
 props));
 
-_this.dispatch=_this.props.store.dispatch;
 _this.actions=_this.props.actions;
 _this.navigator=_this.props.navigator;
 _this.route=_this.props.route;return _this;
@@ -87041,7 +87051,7 @@ _this.route=_this.props.route;return _this;
 var token=this.props.state.App.userData._token;
 var staffId=this.props.state.App.userData.user.id;
 
-this.dispatch(navigationActions.push(_Routes2.default.class,this.navigator));
+this.props.store.dispatch(navigationActions.push(_Routes2.default.class,this.navigator));
 this.actions.fetchClasses(staffId,token);
 }},{key:'logout',value:function logout()
 
@@ -87132,289 +87142,7 @@ route:route};
 
 }
 });
-__d(715 /* Ecdrn/App/Scenes/CentreScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);var
-
-
-
-
-CentreScene=function(_Component){babelHelpers.inherits(CentreScene,_Component);
-
-function CentreScene(props){babelHelpers.classCallCheck(this,CentreScene);return babelHelpers.possibleConstructorReturn(this,(CentreScene.__proto__||Object.getPrototypeOf(CentreScene)).call(this,
-props));
-}babelHelpers.createClass(CentreScene,[{key:'render',value:function render()
-
-{
-return(
-_react2.default.createElement(_reactNative.Text,null,'Good day!'));
-
-}}]);return CentreScene;}(_react.Component);exports.default=CentreScene;
-});
-__d(716 /* Ecdrn/App/Scenes/ChildScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);var
-
-
-
-
-ChildScene=function(_Component){babelHelpers.inherits(ChildScene,_Component);
-
-function ChildScene(props){babelHelpers.classCallCheck(this,ChildScene);return babelHelpers.possibleConstructorReturn(this,(ChildScene.__proto__||Object.getPrototypeOf(ChildScene)).call(this,
-props));
-}babelHelpers.createClass(ChildScene,[{key:'render',value:function render()
-
-{
-return(
-_react2.default.createElement(_reactNative.Text,null,'Good day!'));
-
-}}]);return ChildScene;}(_react.Component);exports.default=ChildScene;
-});
-__d(717 /* Ecdrn/App/Scenes/StaffScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);var
-
-
-
-
-StaffScene=function(_Component){babelHelpers.inherits(StaffScene,_Component);
-
-function StaffScene(props){babelHelpers.classCallCheck(this,StaffScene);return babelHelpers.possibleConstructorReturn(this,(StaffScene.__proto__||Object.getPrototypeOf(StaffScene)).call(this,
-props));
-}babelHelpers.createClass(StaffScene,[{key:'render',value:function render()
-
-{
-return(
-_react2.default.createElement(_reactNative.Text,null,'Good day!'));
-
-}}]);return StaffScene;}(_react.Component);exports.default=StaffScene;
-});
-__d(718 /* Ecdrn/App/Scenes/ClassScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);
-
-
-
-
-
-var _redux=require(654 /* redux */);
-var _reactRedux=require(668 /* react-redux */);
-
-var _Scene=require(701 /* ../Components/Scene */);var _Scene2=babelHelpers.interopRequireDefault(_Scene);
-var _SceneView=require(700 /* ../Components/SceneView */);var _SceneView2=babelHelpers.interopRequireDefault(_SceneView);
-var _NavBar=require(695 /* ../Components/NavBar */);var _NavBar2=babelHelpers.interopRequireDefault(_NavBar);
-var _FormHeading=require(705 /* ../Components/FormHeading */);var _FormHeading2=babelHelpers.interopRequireDefault(_FormHeading);
-var _Button=require(698 /* ../Components/Button */);var _Button2=babelHelpers.interopRequireDefault(_Button);
-var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
-var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
-var _SceneHeading=require(704 /* ../Components/SceneHeading */);var _SceneHeading2=babelHelpers.interopRequireDefault(_SceneHeading);
-var _Class=require(742 /* ../Actions/Class */);var classActions=babelHelpers.interopRequireWildcard(_Class);var
-
-ClassScene=function(_Component){babelHelpers.inherits(ClassScene,_Component);
-
-function ClassScene(props){babelHelpers.classCallCheck(this,ClassScene);var _this=babelHelpers.possibleConstructorReturn(this,(ClassScene.__proto__||Object.getPrototypeOf(ClassScene)).call(this,
-props));
-_this.dispatch=_this.props.store.dispatch;
-_this.actions=_this.props.actions;
-_this.navigator=_this.props.navigator;
-_this.route=_this.props.route;return _this;
-}babelHelpers.createClass(ClassScene,[{key:'render',value:function render()
-
-{var _this2=this;
-var items=null;
-
-
-if(this.props.state.App.centreData){
-
-items=
-_react2.default.createElement(_reactNative.View,{style:{flex:1,alignItems:'center'}},
-this.props.state.App.centreData.map(function(val,i){return(
-_react2.default.createElement(_Button2.default,{
-width:250,
-key:i,
-text:val.name,
-onPress:function onPress(){
-_this2.navigator.push(babelHelpers.extends({},_Routes2.default.attendance,{classId:val.id,className:val.name}));
-}}));}));
-
-
-
-}
-
-return(
-_react2.default.createElement(_Scene2.default,null,
-
-_react2.default.createElement(_NavBar2.default,{
-title:'ECD APP',
-navigator:this.navigator}),
-
-_react2.default.createElement(_SceneView2.default,null,
-_react2.default.createElement(_SceneHeading2.default,{text:'Take Attendance'}),
-_react2.default.createElement(_FormHeading2.default,{text:'Select Class'}),
-_react2.default.createElement(_reactNative.View,{style:{
-marginLeft:20,
-marginRight:20}},
-
-items))));
-
-
-
-
-}}]);return ClassScene;}(_react.Component);exports.default=
-
-
-
-(0,_reactRedux.connect)(
-function(state){return{
-state:state};},
-
-function(dispatch){return{
-actions:(0,_redux.bindActionCreators)(classActions,dispatch)};})(
-
-ClassScene);
-});
-__d(742 /* Ecdrn/App/Actions/Class.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.doAttendance=doAttendance;function doAttendance(classId){
-return{
-type:'CLASS_ATTENDANCE_DO',
-classId:classId};
-
-}
-});
-__d(720 /* Ecdrn/App/Scenes/AttendanceScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);
-
-
-
-
-
-
-var _NavBar=require(695 /* ../Components/NavBar */);var _NavBar2=babelHelpers.interopRequireDefault(_NavBar);
-var _Button=require(698 /* ../Components/Button */);var _Button2=babelHelpers.interopRequireDefault(_Button);
-var _WaitModal=require(703 /* ../Components/WaitModal */);var _WaitModal2=babelHelpers.interopRequireDefault(_WaitModal);
-var _Scene=require(701 /* ../Components/Scene */);var _Scene2=babelHelpers.interopRequireDefault(_Scene);
-var _SceneView=require(700 /* ../Components/SceneView */);var _SceneView2=babelHelpers.interopRequireDefault(_SceneView);
-var _FormHeading=require(705 /* ../Components/FormHeading */);var _FormHeading2=babelHelpers.interopRequireDefault(_FormHeading);
-var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
-var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
-var _SceneHeading=require(704 /* ../Components/SceneHeading */);var _SceneHeading2=babelHelpers.interopRequireDefault(_SceneHeading);
-var _GlobalStyles=require(696 /* ../GlobalStyles */);
-var _Checkbox=require(748 /* ../Components/Checkbox */);var _Checkbox2=babelHelpers.interopRequireDefault(_Checkbox);
-
-var _redux=require(654 /* redux */);
-var _reactRedux=require(668 /* react-redux */);
-var _Attendance=require(722 /* ../Actions/Attendance */);var attendanceActions=babelHelpers.interopRequireWildcard(_Attendance);var
-
-AttendanceScene=function(_Component){babelHelpers.inherits(AttendanceScene,_Component);
-
-function AttendanceScene(props){babelHelpers.classCallCheck(this,AttendanceScene);var _this=babelHelpers.possibleConstructorReturn(this,(AttendanceScene.__proto__||Object.getPrototypeOf(AttendanceScene)).call(this,
-props));
-_this.dispatch=_this.props.store.dispatch;
-_this.actions=_this.props.actions;
-_this.navigator=_this.props.navigator;
-_this.route=_this.props.route;
-
-_this.checked=[];return _this;
-}babelHelpers.createClass(AttendanceScene,[{key:'componentWillMount',value:function componentWillMount()
-
-{
-var classId=this.route.classId;
-var token=this.props.state.App.userData._token;
-this.actions.fetchClass(classId,token);
-}},{key:'pressCheckBox',value:function pressCheckBox(
-
-id){
-this.checked[id]=!this.checked[id];
-this.forceUpdate();
-}},{key:'render',value:function render()
-
-{var _this2=this;
-this.state=this.props.state.App;
-var Buttons=null;
-if(this.state.classData){
-Buttons=this.state.classData.map(function(result){
-
-return(
-_react2.default.createElement(_Checkbox2.default,{
-key:result.id,
-width:300,
-text:result.given_name+' '+result.family_name,
-onPress:function onPress(){return _this2.pressCheckBox(result.id);},
-checked:_this2.checked[result.id]}));
-
-
-});
-}
-
-return(
-
-_react2.default.createElement(_Scene2.default,null,
-
-_react2.default.createElement(_NavBar2.default,{
-title:'ECD APP',
-navigator:this.props.navigator,
-leftButtonText:'Back',
-leftButtonAction:function leftButtonAction(){return _this2.props.navigator.pop();}}),
-
-_react2.default.createElement(_SceneView2.default,null,
-_react2.default.createElement(_SceneHeading2.default,{text:'Attendance'}),
-_react2.default.createElement(_FormHeading2.default,{text:this.route.className}),
-_react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column'}},
-Buttons))));
-
-
-
-
-
-
-}}]);return AttendanceScene;}(_react.Component);exports.default=
-
-
-
-(0,_reactRedux.connect)(
-function(state){return{
-state:state};},
-
-function(dispatch){return{
-actions:(0,_redux.bindActionCreators)(attendanceActions,dispatch)};})(
-
-AttendanceScene);
-});
-__d(722 /* Ecdrn/App/Actions/Attendance.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.fetchClasses=fetchClasses;exports.
-
-
-
-
-
-
-fetchClass=fetchClass;exports.
-
-
-
-
-
-
-
-fetchClassesSucceeded=fetchClassesSucceeded;function fetchClasses(centreId){return{type:'ATTENDANCE_FETCH_CLASSES',centreId:centreId};}function fetchClass(classId,token){return{type:'ATTENDANCE_FETCH_CLASS',classId:classId,token:token};}function fetchClassesSucceeded(){
-return{
-type:'ATTENDANCE_FETCH_CLASSES_SUCCEEDED'};
-
-}
-});
-__d(723 /* Ecdrn/App/Scenes/ProfileScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
-var _reactNative=require(44 /* react-native */);var
-
-
-
-
-ProfileScene=function(_Component){babelHelpers.inherits(ProfileScene,_Component);
-
-function ProfileScene(props){babelHelpers.classCallCheck(this,ProfileScene);return babelHelpers.possibleConstructorReturn(this,(ProfileScene.__proto__||Object.getPrototypeOf(ProfileScene)).call(this,
-props));
-}babelHelpers.createClass(ProfileScene,[{key:'render',value:function render()
-
-{
-return(
-_react2.default.createElement(_reactNative.Text,null,'Good day!'));
-
-}}]);return ProfileScene;}(_react.Component);exports.default=ProfileScene;
-});
-__d(724 /* Ecdrn/App/Components/MainDrawer.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+__d(715 /* Ecdrn/App/Components/MainDrawer.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
 var _reactNative=require(44 /* react-native */);
 
 
@@ -87423,9 +87151,9 @@ var _reactNative=require(44 /* react-native */);
 
 
 var _NavBar=require(695 /* ./NavBar */);var _NavBar2=babelHelpers.interopRequireDefault(_NavBar);
-var _reactNativeDrawer=require(725 /* react-native-drawer */);var _reactNativeDrawer2=babelHelpers.interopRequireDefault(_reactNativeDrawer);
+var _reactNativeDrawer=require(716 /* react-native-drawer */);var _reactNativeDrawer2=babelHelpers.interopRequireDefault(_reactNativeDrawer);
 var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
-var _DrawerMenuItem=require(728 /* ./DrawerMenuItem */);var _DrawerMenuItem2=babelHelpers.interopRequireDefault(_DrawerMenuItem);var
+var _DrawerMenuItem=require(719 /* ./DrawerMenuItem */);var _DrawerMenuItem2=babelHelpers.interopRequireDefault(_DrawerMenuItem);var
 
 
 MainDrawer=function(_Component){babelHelpers.inherits(MainDrawer,_Component);
@@ -87496,10 +87224,10 @@ padding:5},
 menuItemText:{
 fontSize:25}};
 });
-__d(725 /* react-native-drawer/index.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+__d(716 /* react-native-drawer/index.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
 var _reactNative=require(44 /* react-native */);
 
-var _tweener=require(726 /* ./tweener */);var _tweener2=babelHelpers.interopRequireDefault(_tweener);
+var _tweener=require(717 /* ./tweener */);var _tweener2=babelHelpers.interopRequireDefault(_tweener);
 
 var deviceScreen=_reactNative.Dimensions.get('window');
 var DOUBLE_TAP_INTERVAL=500;
@@ -88060,7 +87788,7 @@ bottom:0,
 position:'absolute',
 backgroundColor:'transparent'}});
 });
-__d(726 /* react-native-drawer/tweener.js */, function(global, require, module, exports) {var easingTypes=require(727 /* tween-functions */);
+__d(717 /* react-native-drawer/tweener.js */, function(global, require, module, exports) {var easingTypes=require(718 /* tween-functions */);
 
 module.exports=function(config){
 return new Tween(config);
@@ -88098,7 +87826,7 @@ Tween.prototype.terminate=function(){
 this._break=true;
 };
 });
-__d(727 /* tween-functions/index.js */, function(global, require, module, exports) {'use strict';
+__d(718 /* tween-functions/index.js */, function(global, require, module, exports) {'use strict';
 
 
 var tweenFunctions={
@@ -88348,7 +88076,7 @@ return v*0.5+c*0.5+b;
 
 module.exports=tweenFunctions;
 });
-__d(728 /* Ecdrn/App/Components/DrawerMenuItem.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+__d(719 /* Ecdrn/App/Components/DrawerMenuItem.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
 var _reactNative=require(44 /* react-native */);var
 
 
@@ -88381,11 +88109,346 @@ padding:5},
 drawerMenuItemText:{
 fontSize:25}});
 });
-__d(729 /* Ecdrn/App/Reducers/index.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.Navigation=exports.Main=exports.App=exports.Register=exports.Login=undefined;var _Login=require(730 /* ./Login */);var _Login2=babelHelpers.interopRequireDefault(_Login);
-var _Register=require(731 /* ./Register */);var _Register2=babelHelpers.interopRequireDefault(_Register);
-var _App=require(732 /* ./App */);var _App2=babelHelpers.interopRequireDefault(_App);
-var _Main=require(733 /* ./Main */);var _Main2=babelHelpers.interopRequireDefault(_Main);
-var _Navigation=require(741 /* ./Navigation */);var _Navigation2=babelHelpers.interopRequireDefault(_Navigation);exports.
+__d(720 /* Ecdrn/App/Scenes/CentreScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);var
+
+
+
+
+CentreScene=function(_Component){babelHelpers.inherits(CentreScene,_Component);
+
+function CentreScene(props){babelHelpers.classCallCheck(this,CentreScene);return babelHelpers.possibleConstructorReturn(this,(CentreScene.__proto__||Object.getPrototypeOf(CentreScene)).call(this,
+props));
+}babelHelpers.createClass(CentreScene,[{key:'render',value:function render()
+
+{
+return(
+_react2.default.createElement(_reactNative.Text,null,'Good day!'));
+
+}}]);return CentreScene;}(_react.Component);exports.default=CentreScene;
+});
+__d(721 /* Ecdrn/App/Scenes/ChildScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);var
+
+
+
+
+ChildScene=function(_Component){babelHelpers.inherits(ChildScene,_Component);
+
+function ChildScene(props){babelHelpers.classCallCheck(this,ChildScene);return babelHelpers.possibleConstructorReturn(this,(ChildScene.__proto__||Object.getPrototypeOf(ChildScene)).call(this,
+props));
+}babelHelpers.createClass(ChildScene,[{key:'render',value:function render()
+
+{
+return(
+_react2.default.createElement(_reactNative.Text,null,'Good day!'));
+
+}}]);return ChildScene;}(_react.Component);exports.default=ChildScene;
+});
+__d(722 /* Ecdrn/App/Scenes/StaffScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);var
+
+
+
+
+StaffScene=function(_Component){babelHelpers.inherits(StaffScene,_Component);
+
+function StaffScene(props){babelHelpers.classCallCheck(this,StaffScene);return babelHelpers.possibleConstructorReturn(this,(StaffScene.__proto__||Object.getPrototypeOf(StaffScene)).call(this,
+props));
+}babelHelpers.createClass(StaffScene,[{key:'render',value:function render()
+
+{
+return(
+_react2.default.createElement(_reactNative.Text,null,'Good day!'));
+
+}}]);return StaffScene;}(_react.Component);exports.default=StaffScene;
+});
+__d(723 /* Ecdrn/App/Scenes/ClassScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);
+
+
+
+
+
+var _redux=require(654 /* redux */);
+var _reactRedux=require(668 /* react-redux */);
+
+var _Scene=require(701 /* ../Components/Scene */);var _Scene2=babelHelpers.interopRequireDefault(_Scene);
+var _SceneView=require(700 /* ../Components/SceneView */);var _SceneView2=babelHelpers.interopRequireDefault(_SceneView);
+var _NavBar=require(695 /* ../Components/NavBar */);var _NavBar2=babelHelpers.interopRequireDefault(_NavBar);
+var _FormHeading=require(705 /* ../Components/FormHeading */);var _FormHeading2=babelHelpers.interopRequireDefault(_FormHeading);
+var _Button=require(698 /* ../Components/Button */);var _Button2=babelHelpers.interopRequireDefault(_Button);
+var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
+var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
+var _SceneHeading=require(704 /* ../Components/SceneHeading */);var _SceneHeading2=babelHelpers.interopRequireDefault(_SceneHeading);
+var _Class=require(724 /* ../Actions/Class */);var classActions=babelHelpers.interopRequireWildcard(_Class);var
+
+ClassScene=function(_Component){babelHelpers.inherits(ClassScene,_Component);
+
+function ClassScene(props){babelHelpers.classCallCheck(this,ClassScene);var _this=babelHelpers.possibleConstructorReturn(this,(ClassScene.__proto__||Object.getPrototypeOf(ClassScene)).call(this,
+props));
+_this.dispatch=_this.props.store.dispatch;
+_this.actions=_this.props.actions;
+_this.navigator=_this.props.navigator;
+_this.route=_this.props.route;return _this;
+}babelHelpers.createClass(ClassScene,[{key:'render',value:function render()
+
+{var _this2=this;
+var items=null;
+
+
+if(this.props.state.App.centreData){
+
+items=
+_react2.default.createElement(_reactNative.View,{style:{flex:1,alignItems:'center'}},
+this.props.state.App.centreData.map(function(val,i){return(
+_react2.default.createElement(_Button2.default,{
+width:250,
+key:i,
+text:val.name,
+onPress:function onPress(){
+_this2.navigator.push(babelHelpers.extends({},
+_Routes2.default.attendance,{
+classId:val.id,
+className:val.name,
+centreId:val.centre_id}));
+
+}}));}));
+
+
+
+}
+
+return(
+_react2.default.createElement(_Scene2.default,null,
+
+_react2.default.createElement(_NavBar2.default,{
+title:'ECD APP',
+navigator:this.navigator}),
+
+_react2.default.createElement(_SceneView2.default,null,
+_react2.default.createElement(_SceneHeading2.default,{text:'Take Attendance'}),
+_react2.default.createElement(_FormHeading2.default,{text:'Select Class'}),
+_react2.default.createElement(_reactNative.View,{style:{
+marginLeft:20,
+marginRight:20}},
+
+items))));
+
+
+
+
+}}]);return ClassScene;}(_react.Component);exports.default=
+
+
+
+(0,_reactRedux.connect)(
+function(state){return{
+state:state};},
+
+function(dispatch){return{
+actions:(0,_redux.bindActionCreators)(classActions,dispatch)};})(
+
+ClassScene);
+});
+__d(724 /* Ecdrn/App/Actions/Class.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.doAttendance=doAttendance;function doAttendance(classId){
+return{
+type:'CLASS_ATTENDANCE_DO',
+classId:classId};
+
+}
+});
+__d(725 /* Ecdrn/App/Scenes/AttendanceScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);
+
+
+
+
+
+
+var _NavBar=require(695 /* ../Components/NavBar */);var _NavBar2=babelHelpers.interopRequireDefault(_NavBar);
+var _Button=require(698 /* ../Components/Button */);var _Button2=babelHelpers.interopRequireDefault(_Button);
+var _WaitModal=require(703 /* ../Components/WaitModal */);var _WaitModal2=babelHelpers.interopRequireDefault(_WaitModal);
+var _Scene=require(701 /* ../Components/Scene */);var _Scene2=babelHelpers.interopRequireDefault(_Scene);
+var _SceneView=require(700 /* ../Components/SceneView */);var _SceneView2=babelHelpers.interopRequireDefault(_SceneView);
+var _FormHeading=require(705 /* ../Components/FormHeading */);var _FormHeading2=babelHelpers.interopRequireDefault(_FormHeading);
+var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
+var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
+var _SceneHeading=require(704 /* ../Components/SceneHeading */);var _SceneHeading2=babelHelpers.interopRequireDefault(_SceneHeading);
+var _GlobalStyles=require(696 /* ../GlobalStyles */);
+var _Checkbox=require(708 /* ../Components/Checkbox */);var _Checkbox2=babelHelpers.interopRequireDefault(_Checkbox);
+
+var _redux=require(654 /* redux */);
+var _reactRedux=require(668 /* react-redux */);
+var _Attendance=require(726 /* ../Actions/Attendance */);var attendanceActions=babelHelpers.interopRequireWildcard(_Attendance);var
+
+AttendanceScene=function(_Component){babelHelpers.inherits(AttendanceScene,_Component);
+
+function AttendanceScene(props){babelHelpers.classCallCheck(this,AttendanceScene);var _this=babelHelpers.possibleConstructorReturn(this,(AttendanceScene.__proto__||Object.getPrototypeOf(AttendanceScene)).call(this,
+props));
+_this.dispatch=_this.props.store.dispatch;
+_this.actions=_this.props.actions;
+_this.navigator=_this.props.navigator;
+_this.route=_this.props.route;
+
+_this.classId=_this.route.classId;
+_this.centreId=_this.route.centreId;
+_this.token=_this.props.state.App.userData._token;
+_this.attendanceData=[];return _this;
+}babelHelpers.createClass(AttendanceScene,[{key:'componentWillMount',value:function componentWillMount()
+
+
+
+{
+this.actions.fetchClass(
+this.classId,
+this.token);
+
+}},{key:'pressCheckBox',value:function pressCheckBox(
+
+id){
+this.attendanceData[id]={
+checked:!this.attendanceData[id].checked||true,
+id:id};
+
+
+this.forceUpdate();
+}},{key:'submit',value:function submit()
+
+{var _this2=this;
+navigator.geolocation.getCurrentPosition(function(location){
+_this2.actions.submit(
+location,
+_this2.centreId,
+_this2.classId,
+_this2.attendanceData,
+_this2.token);
+},function(error){
+console.log('GPS things didn\'t work');
+},{
+timeout:5000});
+
+
+}},{key:'render',value:function render()
+
+{var _this3=this;
+this.classData=this.props.state.App.classData;
+
+var Buttons=null;
+if(this.classData){
+
+Buttons=this.classData.map(function(result){
+
+var checked=null;
+if(typeof _this3.attendanceData[result.id]==='undefined'){
+_this3.attendanceData[result.id]={checked:false};
+checked=_this3.attendanceData[result.id].checked;
+}else{
+checked=_this3.attendanceData[result.id].checked||false;
+}
+return(
+_react2.default.createElement(_Checkbox2.default,{
+key:result.id,
+width:300,
+text:result.given_name+' '+result.family_name,
+onPress:function onPress(){return _this3.pressCheckBox(result.id);},
+checked:checked}));
+
+
+});
+}
+
+return(
+
+_react2.default.createElement(_Scene2.default,null,
+
+_react2.default.createElement(_NavBar2.default,{
+title:'ECD APP',
+navigator:this.props.navigator,
+leftButtonText:'Back',
+leftButtonAction:function leftButtonAction(){return _this3.props.navigator.pop();},
+rightButtonText:'Submit',
+rightButtonAction:function rightButtonAction(){return _this3.submit();}}),
+
+_react2.default.createElement(_SceneView2.default,null,
+_react2.default.createElement(_SceneHeading2.default,{text:'Attendance'}),
+_react2.default.createElement(_FormHeading2.default,{text:this.route.className}),
+_react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column'}},
+Buttons))));
+
+
+
+
+
+
+}}]);return AttendanceScene;}(_react.Component);exports.default=
+
+
+
+(0,_reactRedux.connect)(
+function(state){return{
+state:state};},
+
+function(dispatch){return{
+actions:(0,_redux.bindActionCreators)(attendanceActions,dispatch)};})(
+
+AttendanceScene);
+});
+__d(726 /* Ecdrn/App/Actions/Attendance.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.fetchClasses=fetchClasses;exports.
+
+
+
+
+
+
+fetchClass=fetchClass;exports.
+
+
+
+
+
+
+
+
+
+
+
+
+
+submit=submit;function fetchClasses(centreId){return{type:'ATTENDANCE_FETCH_CLASSES',centreId:centreId};}function fetchClass(classId,token){return{type:'ATTENDANCE_FETCH_CLASS',classId:classId,token:token};}function submit(location,centreId,classId,attendanceData,token){
+return{
+type:'ATTENDANCE_SUBMIT',
+location:location,
+centreId:centreId,
+classId:classId,
+attendanceData:attendanceData,
+token:token};
+
+}
+});
+__d(727 /* Ecdrn/App/Scenes/ProfileScene.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _react=require(12 /* react */);var _react2=babelHelpers.interopRequireDefault(_react);
+var _reactNative=require(44 /* react-native */);var
+
+
+
+
+ProfileScene=function(_Component){babelHelpers.inherits(ProfileScene,_Component);
+
+function ProfileScene(props){babelHelpers.classCallCheck(this,ProfileScene);return babelHelpers.possibleConstructorReturn(this,(ProfileScene.__proto__||Object.getPrototypeOf(ProfileScene)).call(this,
+props));
+}babelHelpers.createClass(ProfileScene,[{key:'render',value:function render()
+
+{
+return(
+_react2.default.createElement(_reactNative.Text,null,'Good day!'));
+
+}}]);return ProfileScene;}(_react.Component);exports.default=ProfileScene;
+});
+__d(728 /* Ecdrn/App/Reducers/index.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.Navigation=exports.Main=exports.App=exports.Register=exports.Login=undefined;var _Login=require(729 /* ./Login */);var _Login2=babelHelpers.interopRequireDefault(_Login);
+var _Register=require(730 /* ./Register */);var _Register2=babelHelpers.interopRequireDefault(_Register);
+var _App=require(731 /* ./App */);var _App2=babelHelpers.interopRequireDefault(_App);
+var _Main=require(732 /* ./Main */);var _Main2=babelHelpers.interopRequireDefault(_Main);
+var _Navigation=require(733 /* ./Navigation */);var _Navigation2=babelHelpers.interopRequireDefault(_Navigation);exports.
 
 
 Login=_Login2.default;exports.
@@ -88394,7 +88457,7 @@ App=_App2.default;exports.
 Main=_Main2.default;exports.
 Navigation=_Navigation2.default;
 });
-__d(730 /* Ecdrn/App/Reducers/Login.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
+__d(729 /* Ecdrn/App/Reducers/Login.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
 var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
 
 var initialState={
@@ -88451,7 +88514,7 @@ return state;}
 
 };
 });
-__d(731 /* Ecdrn/App/Reducers/Register.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
+__d(730 /* Ecdrn/App/Reducers/Register.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
 var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
 
 var initialTextFieldValues=[];
@@ -88555,7 +88618,7 @@ return{v:state};}}();if(typeof _ret==="object")return _ret.v;
 
 };
 });
-__d(732 /* Ecdrn/App/Reducers/App.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});
+__d(731 /* Ecdrn/App/Reducers/App.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});
 var initialState={
 userData:null,
 centreData:null,
@@ -88633,7 +88696,7 @@ return state;}
 
 };
 });
-__d(733 /* Ecdrn/App/Reducers/Main.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var initialState={
+__d(732 /* Ecdrn/App/Reducers/Main.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var initialState={
 waitingForNetwork:false,
 showWaitModal:false};exports.default=
 
@@ -88648,7 +88711,7 @@ state);}
 
 };
 });
-__d(741 /* Ecdrn/App/Reducers/Navigation.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
+__d(733 /* Ecdrn/App/Reducers/Navigation.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
 var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);
 
 var initialState={
@@ -88687,14 +88750,15 @@ __d(734 /* Ecdrn/App/Sagas/Root.js */, function(global, require, module, exports
 
 
 
-rootSaga;var _reduxSaga=require(681 /* redux-saga */);var _Login=require(735 /* ./Login */);var loginSagas=babelHelpers.interopRequireWildcard(_Login);var _Register=require(738 /* ./Register */);var registerSagas=babelHelpers.interopRequireWildcard(_Register);var _Main=require(739 /* ./Main */);var mainSagas=babelHelpers.interopRequireWildcard(_Main);var _Navigation=require(740 /* ./Navigation */);var navigationSagas=babelHelpers.interopRequireWildcard(_Navigation);var _Attendance=require(743 /* ./Attendance */);var attendanceSagas=babelHelpers.interopRequireWildcard(_Attendance);var _marked=[rootSaga].map(regeneratorRuntime.mark);function rootSaga(){return regeneratorRuntime.wrap(function rootSaga$(_context){while(1){switch(_context.prev=_context.next){case 0:_context.prev=0;_context.next=3;return(
+rootSaga;var _reduxSaga=require(681 /* redux-saga */);var _Login=require(735 /* ./Login */);var loginSagas=babelHelpers.interopRequireWildcard(_Login);var _Register=require(738 /* ./Register */);var registerSagas=babelHelpers.interopRequireWildcard(_Register);var _Main=require(739 /* ./Main */);var mainSagas=babelHelpers.interopRequireWildcard(_Main);var _Navigation=require(740 /* ./Navigation */);var navigationSagas=babelHelpers.interopRequireWildcard(_Navigation);var _Attendance=require(741 /* ./Attendance */);var attendanceSagas=babelHelpers.interopRequireWildcard(_Attendance);var _marked=[rootSaga].map(regeneratorRuntime.mark);function rootSaga(){return regeneratorRuntime.wrap(function rootSaga$(_context){while(1){switch(_context.prev=_context.next){case 0:_context.prev=0;_context.next=3;return(
 
 (0,_reduxSaga.takeEvery)('LOGIN_ATTEMPT',loginSagas.attempt));case 3:_context.next=5;return(
 (0,_reduxSaga.takeEvery)('MAIN_FETCH_CLASSES',mainSagas.fetchClasses));case 5:_context.next=7;return(
 (0,_reduxSaga.takeEvery)('NAV_PUSH_REQUEST',navigationSagas.push));case 7:_context.next=9;return(
-(0,_reduxSaga.takeEvery)('ATTENDANCE_FETCH_CLASS',attendanceSagas.fetchClass));case 9:_context.next=14;break;case 11:_context.prev=11;_context.t0=_context['catch'](0);
+(0,_reduxSaga.takeEvery)('ATTENDANCE_FETCH_CLASS',attendanceSagas.fetchClass));case 9:_context.next=11;return(
+(0,_reduxSaga.takeEvery)('ATTENDANCE_SUBMIT',attendanceSagas.submit));case 11:_context.next=16;break;case 13:_context.prev=13;_context.t0=_context['catch'](0);
 
-console.log('SAGA ERROR',_context.t0);case 14:case'end':return _context.stop();}}},_marked[0],this,[[0,11]]);}
+console.log('SAGA ERROR',_context.t0);case 16:case'end':return _context.stop();}}},_marked[0],this,[[0,13]]);}
 });
 __d(735 /* Ecdrn/App/Sagas/Login.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.
 
@@ -88730,9 +88794,8 @@ __d(736 /* redux-saga/effects.js */, function(global, require, module, exports) 
 });
 __d(737 /* Ecdrn/App/Api.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});var _Config=require(653 /* ./Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);
 
-
 function request(route){var options=arguments.length>1&&arguments[1]!==undefined?arguments[1]:{method:'GET'};
-console.log('API REQUEST',options);
+console.log('API REQUEST',route,options);
 return fetch(_Config2.default.http.baseUrl+route,options).
 
 
@@ -88855,6 +88918,39 @@ resolve(data);
 resolve({error:error});
 });
 });
+},
+
+submitAttendance:function submitAttendance(location,centreId,classId,attendanceData,token){
+return new Promise(function(resolve,reject){
+
+var children=[];
+attendanceData.forEach(function(data){
+if(data.id){
+children.push({
+children_id:data.id,
+latitude:location.coords.latitude.toString(),
+longitude:location.coords.longitude.toString(),
+attended:data.attended||false});
+
+}
+});
+
+var jsonData={
+centre_id:centreId,
+centre_class_id:classId,
+children:children};
+
+console.log(JSON.stringify(jsonData));
+request('attendance/bulk',{
+method:'POST',
+body:JSON.stringify(jsonData),
+headers:babelHelpers.extends({},_Config2.default.http.headers,{'Content-Type':'application/json','Authorization':'Bearer: '+token.trim()})}).
+then(function(data){
+resolve(data);
+}).catch(function(error){
+resolve({error:error});
+});
+});
 }};
 });
 __d(738 /* Ecdrn/App/Sagas/Register.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.
@@ -88934,26 +89030,40 @@ push=push;var _effects=require(736 /* redux-saga/effects */);var _Api=require(73
 
 (0,_effects.put)(appActions.setModal({modalVisible:true,modalText:_context.t0,modalWaiting:false})));case 9:case'end':return _context.stop();}}},_marked[0],this,[[0,5]]);}
 });
-__d(743 /* Ecdrn/App/Sagas/Attendance.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.
+__d(741 /* Ecdrn/App/Sagas/Attendance.js */, function(global, require, module, exports) {Object.defineProperty(exports,"__esModule",{value:true});exports.
 
 
 
 
 
 
-fetchClass=fetchClass;var _effects=require(736 /* redux-saga/effects */);var _Api=require(737 /* ../Api */);var _Api2=babelHelpers.interopRequireDefault(_Api);var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);var _App=require(702 /* ../Actions/App */);var appActions=babelHelpers.interopRequireWildcard(_App);var _Attendance=require(722 /* ../Actions/Attendance */);var attendanceActions=babelHelpers.interopRequireWildcard(_Attendance);var _marked=[fetchClass].map(regeneratorRuntime.mark);function fetchClass(action){var data;return regeneratorRuntime.wrap(function fetchClass$(_context){while(1){switch(_context.prev=_context.next){case 0:_context.prev=0;_context.next=3;return(
-
-(0,_effects.put)(appActions.setModal({modalVisible:true})));case 3:_context.next=5;return(
-(0,_effects.call)(_Api2.default.fetchClass,action.classId,action.token));case 5:data=_context.sent;if(!(
-data&&!data.error)){_context.next=13;break;}_context.next=9;return(
-(0,_effects.put)(appActions.setClass(data)));case 9:_context.next=11;return(
-(0,_effects.put)(appActions.setModal({modalVisible:false})));case 11:_context.next=15;break;case 13:_context.next=15;return(
-
-(0,_effects.put)(appActions.setModal({modalText:data.error||"Unknown error",modalWaiting:false})));case 15:_context.next=22;break;case 17:_context.prev=17;_context.t0=_context['catch'](0);
+fetchClass=fetchClass;exports.
 
 
-if(_Config2.default.debug)console.log("Sagas:fetchClasses ERROR",_context.t0);_context.next=22;return(
-(0,_effects.put)(appActions.setModal({modalText:_context.t0,modalWaiting:false})));case 22:case'end':return _context.stop();}}},_marked[0],this,[[0,17]]);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+submit=submit;var _effects=require(736 /* redux-saga/effects */);var _Api=require(737 /* ../Api */);var _Api2=babelHelpers.interopRequireDefault(_Api);var _Config=require(653 /* ../Config */);var _Config2=babelHelpers.interopRequireDefault(_Config);var _Routes=require(693 /* ../Routes */);var _Routes2=babelHelpers.interopRequireDefault(_Routes);var _App=require(702 /* ../Actions/App */);var appActions=babelHelpers.interopRequireWildcard(_App);var _Attendance=require(726 /* ../Actions/Attendance */);var attendanceActions=babelHelpers.interopRequireWildcard(_Attendance);var _marked=[fetchClass,submit].map(regeneratorRuntime.mark);function fetchClass(action){var data;return regeneratorRuntime.wrap(function fetchClass$(_context){while(1){switch(_context.prev=_context.next){case 0:_context.prev=0;_context.next=3;return(0,_effects.put)(appActions.setModal({modalVisible:true}));case 3:_context.next=5;return(0,_effects.call)(_Api2.default.fetchClass,action.classId,action.token);case 5:data=_context.sent;if(!(data&&!data.error)){_context.next=13;break;}_context.next=9;return(0,_effects.put)(appActions.setClass(data));case 9:_context.next=11;return(0,_effects.put)(appActions.setModal({modalVisible:false}));case 11:_context.next=15;break;case 13:_context.next=15;return(0,_effects.put)(appActions.setModal({modalText:data.error||"Unknown error",modalWaiting:false}));case 15:_context.next=22;break;case 17:_context.prev=17;_context.t0=_context['catch'](0);if(_Config2.default.debug)console.log("Sagas:fetchClass ERROR",_context.t0);_context.next=22;return(0,_effects.put)(appActions.setModal({modalText:_context.t0,modalWaiting:false}));case 22:case'end':return _context.stop();}}},_marked[0],this,[[0,17]]);}function submit(action){var location,centreId,classId,attendanceData,token,data;return regeneratorRuntime.wrap(function submit$(_context2){while(1){switch(_context2.prev=_context2.next){case 0:
+location=action.location,centreId=action.centreId,classId=action.classId,attendanceData=action.attendanceData,token=action.token;_context2.prev=1;_context2.next=4;return(
+
+(0,_effects.put)(appActions.setModal({modalVisible:true,modalWaiting:true})));case 4:_context2.next=6;return(
+
+(0,_effects.call)(_Api2.default.submitAttendance,location,centreId,classId,attendanceData,token));case 6:data=_context2.sent;if(!(
+data&&!data.error)){_context2.next=10;break;}_context2.next=10;return(
+(0,_effects.put)(appActions.setModal({modalText:data.error,modalWaiting:false})));case 10:_context2.next=16;break;case 12:_context2.prev=12;_context2.t0=_context2['catch'](1);_context2.next=16;return(
+
+
+(0,_effects.put)(appActions.setModal({modalText:_context2.t0,modalWaiting:false})));case 16:case'end':return _context2.stop();}}},_marked[1],this,[[1,12]]);}
 });
 ;require(195);
 ;require(0);

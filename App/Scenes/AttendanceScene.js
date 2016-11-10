@@ -32,12 +32,14 @@ class AttendanceScene extends Component {
     this.route = this.props.route
 
     this.classId = this.route.classId
+    this.centreId = this.route.centreId
     this.token = this.props.state.App.userData._token
     this.attendanceData = []
   }
 
+
+
   componentWillMount() {
-    const coken = this.props.state.App.userData._token
     this.actions.fetchClass(
       this.classId,
       this.token
@@ -45,17 +47,29 @@ class AttendanceScene extends Component {
   }
 
   pressCheckBox(id) {
-    this.attendanceData[id] = !this.attendanceData[id]
+    let checkStatus = this.attendanceData[id].checked || false
+    this.attendanceData[id] = {
+      checked: !checkStatus,
+      id: id
+    }
+
     this.forceUpdate()
   }
 
   submit() {
-    
-    attendanceActions.submit(
-      this.classId,
-      this.attendanceData,
-      this.token
-    )
+    navigator.geolocation.getCurrentPosition((location) =>{
+      this.actions.submit(
+        location,
+        this.centreId,
+        this.classId,
+        this.attendanceData,
+        this.token
+    )}, (error) => {
+      console.log('GPS things didn\'t work')
+    },{
+      timeout: 5000
+    })
+
   }
 
   render() {
@@ -63,15 +77,23 @@ class AttendanceScene extends Component {
 
     let Buttons = null
     if( this.classData) {
+
       Buttons = this.classData.map( (result) => {
 
+        let checked = null
+        if(typeof this.attendanceData[result.id] === 'undefined'){
+          this.attendanceData[result.id] = {checked: false}
+          checked = this.attendanceData[result.id].checked
+        } else {
+          checked = this.attendanceData[result.id].checked || false
+        }
         return (
           <Checkbox
             key={result.id}
             width={300}
             text={result.given_name + ' ' + result.family_name}
             onPress={ () => this.pressCheckBox(result.id) }
-            checked={this.attendanceData[result.id]}
+            checked={checked}
           />
 
       )})
@@ -79,7 +101,7 @@ class AttendanceScene extends Component {
 
     return (
 
-      <Scene>
+      <Scene dispatch={this.props.store.dispatch}>
 
         <NavBar
           title="ECD APP"

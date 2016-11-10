@@ -12,6 +12,7 @@ export default function* rootSaga() {
         yield takeEvery('MAIN_FETCH_CLASSES',mainSagas.fetchClasses)
         yield takeEvery('NAV_PUSH_REQUEST',navigationSagas.push)
         yield takeEvery('ATTENDANCE_FETCH_CLASS',attendanceSagas.fetchClass)
+        yield takeEvery('ATTENDANCE_SUBMIT',attendanceSagas.submit)
     } catch(error) {
         console.log('SAGA ERROR',error)
     }
