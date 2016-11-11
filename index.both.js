@@ -23,7 +23,8 @@ const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
-  if(Config.debug) console.log("REDUX STORE UPDATED",store.getState())
+  if(Config.debug && Config.debugState)
+    console.log("REDUX STORE UPDATED",store.getState())
 })
 
 export default class Both extends Component {

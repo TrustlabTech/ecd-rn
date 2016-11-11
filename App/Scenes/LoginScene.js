@@ -65,7 +65,7 @@ class LoginScene extends Component {
 
   render() {
     const { phoneNumber, pin } = this.props.state.Login;
-    const screenWidth = this.screenWidth//Dimensions.get('window').width
+    const screenWidth = this.screenWidth //Dimensions.get('window').width
 
     return (
       <Scene dispatch={this.props.store.dispatch}>

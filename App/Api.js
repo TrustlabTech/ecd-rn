@@ -1,7 +1,14 @@
 import Config from './Config'
 
 function request(route, options = {method: 'GET'} ) {
-  console.log('API REQUEST',route, options)
+  var currentdate = new Date();
+  var datetime = "Time: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+  console.log('API REQUEST',datetime,Config.http.baseUrl + route, options)
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
@@ -11,7 +18,6 @@ function request(route, options = {method: 'GET'} ) {
   })
 
   .then((json) => {
-    // console.log('JSON RESPONSE', json)
     if(json.error) {
       if(json.error instanceof Array) {
         const errorMessage = ''
@@ -134,7 +140,7 @@ export default {
             children_id: data.id,
             latitude: location.coords.latitude.toString(),
             longitude: location.coords.longitude.toString(),
-            attended: data.attended || false
+            attended: data.checked || false
           })
         }
       })

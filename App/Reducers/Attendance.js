@@ -10,20 +10,26 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
+
     case 'ATTENDANCE_FETCH_CLASSES':
       return {
-        ..state,
+        ...state,
         waitingForNetwork: true,
         showWaitModal: true,
         modalText: "Loading"
       }
+
+      case 'ATTENDANCE_SET':
+        return {
+          ...state,
+          attendanceData: action.attendanceData
+        }
 
       case 'ATTENDANCE_FETCH_CLASSES_SUCCEEDED':
         return {
           ...state,
           waitingForNetwork: false,
           showWaitModal: false
-
         }
 
       case 'ATTENDANCE_FETCH_CLASSES_FAILED':
@@ -33,7 +39,8 @@ export default (state = initialState, action = {}) => {
           showWaitModal: false,
           error: action.error
         }
-    default:
-      return state
+
+      default:
+        return state
   }
 }

@@ -34,6 +34,7 @@ class AttendanceScene extends Component {
     this.classId = this.route.classId
     this.centreId = this.route.centreId
     this.token = this.props.state.App.userData._token
+    this.hasInit = false
     this.attendanceData = []
   }
 
@@ -47,12 +48,8 @@ class AttendanceScene extends Component {
   }
 
   pressCheckBox(id) {
-    let checkStatus = this.attendanceData[id].checked || false
-    this.attendanceData[id] = {
-      checked: !checkStatus,
-      id: id
-    }
-
+    const checked = this.attendanceData[id].checked
+    this.attendanceData[id].checked = !checked
     this.forceUpdate()
   }
 
@@ -69,34 +66,31 @@ class AttendanceScene extends Component {
     },{
       timeout: 5000
     })
-
   }
 
   render() {
     this.classData = this.props.state.App.classData
 
-    let Buttons = null
-    if( this.classData) {
-
-      Buttons = this.classData.map( (result) => {
-
-        let checked = null
-        if(typeof this.attendanceData[result.id] === 'undefined'){
-          this.attendanceData[result.id] = {checked: false}
-          checked = this.attendanceData[result.id].checked
-        } else {
-          checked = this.attendanceData[result.id].checked || false
+    var Checkboxes = null
+    if(this.classData) {
+      Checkboxes = this.classData.map( (result, i) => {
+        if(!this.hasInit) {
+          this.attendanceData[i] = {
+            checked: false,
+            id: result.id
+          }
         }
         return (
           <Checkbox
-            key={result.id}
+            key={i}
             width={300}
             text={result.given_name + ' ' + result.family_name}
-            onPress={ () => this.pressCheckBox(result.id) }
-            checked={checked}
+            onPress={ () => this.pressCheckBox(i) }
+            checked={this.attendanceData[i].checked}
           />
-
-      )})
+        )
+      })
+      this.hasInit = true
     }
 
     return (
@@ -115,7 +109,7 @@ class AttendanceScene extends Component {
           <SceneHeading text="Attendance"/>
           <FormHeading text={this.route.className}/>
           <View style={{flex: 1, flexDirection: 'column'}}>
-            {Buttons}
+            {Checkboxes}
           </View>
         </SceneView>
 

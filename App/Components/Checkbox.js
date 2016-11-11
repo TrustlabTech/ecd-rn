@@ -18,55 +18,30 @@ export default class Checkbox extends Component {
     const checked = this.props.checked ? 'X' : ''
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1, marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 5, height: 45 }}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
 
-        <TouchableHighlight style={{
-            marginTop: 8,
-            marginBottom: 8,
-            borderRadius: 5,
-            width: this.props.width || null,
-            height: this.props.height || 45
-          }}
-          onPress={ () => this.props.onPress(!this.props.checked) }
-        >
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            {/* Text */}
-            <View style={{
-              flex: 1
-            }}>
+          {/* Text */}
+          <View style={{ flex: 1 }}>
 
-                <Text style={{
-                  color: Colours.primary,
-                  fontSize: FontSizes.h5,
-                  textAlign: 'left',
-                  marginLeft: 10
-                }}>
-                  {this.props.text}
-                </Text>
-            </View>
-            {/* Checkbox */}
-            <View style={{
-
-              borderColor: Colours.primaryLowlight,
-              borderWidth: 1,
-              borderStyle: 'solid',
-              borderRadius: 5,
-              padding: 1,
-              width: this.props.height || 45
-            }}>
-              <View style={{
-                flex:1,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Text>{checked}</Text>
-              </View>
-            </View>
+            <Text style={{ color: Colours.primary, fontSize: FontSizes.h5, textAlign: 'left', marginLeft: 10 }}>
+              {this.props.text}
+            </Text>
           </View>
 
-        </TouchableHighlight>
+          {/* Checkbox */}
+          <TouchableHighlight
+            onPress={ () => this.props.onPress(!this.props.checked) }
+            style={{
+              borderRadius: 5
+            }}
+          >
+            <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderColor: Colours.primaryLowlight, borderWidth: 1, borderStyle: 'solid', borderRadius: 5, padding: 1, width: this.props.height || 45, height: 45 }}>
+              <Text>{checked}</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     )
   }
 }
-
