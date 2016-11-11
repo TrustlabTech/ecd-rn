@@ -82003,7 +82003,7 @@ headers:{
 }, "ecd-rn/App/Config.js");
 __d(743 /* ecd-rn/package.json */, function(global, require, module, exports) {module.exports = {
 "name":"ecd-rn",
-"version":"0.0.1",
+"version":"0.0.3",
 "private":true,
 "scripts":{
 "start":"node node_modules/react-native/local-cli/cli.js start"},
@@ -88302,16 +88302,22 @@ id){
 var checked=this.attendanceData[id].checked;
 this.attendanceData[id].checked=!checked;
 this.forceUpdate();
-}},{key:'submit',value:function submit()
+}},{key:'selectAll',value:function selectAll()
 
 {var _this2=this;
+this.attendanceData.forEach(function(result,i){
+_this2.result.checked=true;
+});
+}},{key:'submit',value:function submit()
+
+{var _this3=this;
 navigator.geolocation.getCurrentPosition(function(location){
-_this2.actions.submit(
+_this3.actions.submit(
 location,
-_this2.centreId,
-_this2.classId,
-_this2.attendanceData,
-_this2.token);
+_this3.centreId,
+_this3.classId,
+_this3.attendanceData,
+_this3.token);
 },function(error){
 console.log('GPS things didn\'t work');
 },{
@@ -88319,14 +88325,14 @@ timeout:5000});
 
 }},{key:'render',value:function render()
 
-{var _this3=this;
+{var _this4=this;
 this.classData=this.props.state.App.classData;
 
 var Checkboxes=null;
 if(this.classData){
 Checkboxes=this.classData.map(function(result,i){
-if(!_this3.hasInit){
-_this3.attendanceData[i]={
+if(!_this4.hasInit){
+_this4.attendanceData[i]={
 checked:false,
 id:result.id};
 
@@ -88336,8 +88342,8 @@ _react2.default.createElement(_Checkbox2.default,{
 key:i,
 width:300,
 text:result.given_name+' '+result.family_name,
-onPress:function onPress(){return _this3.pressCheckBox(i);},
-checked:_this3.attendanceData[i].checked}));
+onPress:function onPress(){return _this4.pressCheckBox(i);},
+checked:_this4.attendanceData[i].checked}));
 
 
 });
@@ -88352,15 +88358,16 @@ _react2.default.createElement(_NavBar2.default,{
 title:'ECD APP',
 navigator:this.props.navigator,
 leftButtonText:'Back',
-leftButtonAction:function leftButtonAction(){return _this3.props.navigator.pop();},
+leftButtonAction:function leftButtonAction(){return _this4.props.navigator.pop();},
 rightButtonText:'Submit',
-rightButtonAction:function rightButtonAction(){return _this3.submit();}}),
+rightButtonAction:function rightButtonAction(){return _this4.submit();}}),
 
 _react2.default.createElement(_SceneView2.default,null,
 _react2.default.createElement(_SceneHeading2.default,{text:'Attendance'}),
 _react2.default.createElement(_FormHeading2.default,{text:this.route.className}),
 _react2.default.createElement(_reactNative.View,{style:{flex:1,flexDirection:'column'}},
-Checkboxes))));
+Checkboxes,
+_react2.default.createElement(_Button2.default,{text:'Select All',onPress:function onPress(){return _this4.selectAll();}})))));
 
 
 

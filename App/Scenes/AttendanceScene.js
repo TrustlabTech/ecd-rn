@@ -53,6 +53,13 @@ class AttendanceScene extends Component {
     this.forceUpdate()
   }
 
+  selectAll() {
+    this.attendanceData.forEach((result, i) => {
+      result.checked = true
+    })
+    this.forceUpdate()
+  }
+
   submit() {
     navigator.geolocation.getCurrentPosition((location) =>{
       this.actions.submit(
@@ -110,6 +117,14 @@ class AttendanceScene extends Component {
           <FormHeading text={this.route.className}/>
           <View style={{flex: 1, flexDirection: 'column'}}>
             {Checkboxes}
+            <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              paddingRight: 10
+            }}>
+              <Button text="Select All" onPress={ () => this.selectAll() }/>
+            </View>
           </View>
         </SceneView>
 
