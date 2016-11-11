@@ -18,6 +18,12 @@ export default (state = initialState, action = {}) => {
         modalText: "Loading"
       }
 
+      case 'ATTENDANCE_SET':
+        return {
+          ...state,
+          attendanceData: action.attendanceData
+        }
+
       case 'ATTENDANCE_FETCH_CLASSES_SUCCEEDED':
         return {
           ...state,

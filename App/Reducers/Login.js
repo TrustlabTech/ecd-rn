@@ -44,7 +44,7 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'PIN_TEXT_CHANGE':
-      console.log("PIN_TEXT_CHANGE")
+      console.log("PIN_TEXT_CHANGE",action.text)
       return {
         ...state,
         pin: action.text
