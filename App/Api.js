@@ -140,7 +140,7 @@ export default {
             children_id: data.id,
             latitude: location.coords.latitude.toString(),
             longitude: location.coords.longitude.toString(),
-            attended: data.attended || false
+            attended: data.checked || false
           })
         }
       })

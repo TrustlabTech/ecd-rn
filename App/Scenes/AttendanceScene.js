@@ -35,6 +35,7 @@ class AttendanceScene extends Component {
     this.centreId = this.route.centreId
     this.token = this.props.state.App.userData._token
     this.hasInit = false
+    this.attendanceData = []
   }
 
 
@@ -47,12 +48,9 @@ class AttendanceScene extends Component {
   }
 
   pressCheckBox(id) {
-    let attendanceData = this.props.state.attendanceData
-    attendanceData[id] = {
-      checked: !attendanceData[id].attended,
-      id: attendanceData[id].id
-    }
-    this.actions.setAttendance(attendanceData)
+    const checked = this.attendanceData[id].checked
+    this.attendanceData[id].checked = !checked
+    this.forceUpdate()
   }
 
   submit() {
@@ -70,23 +68,17 @@ class AttendanceScene extends Component {
     })
   }
 
-  selectAll() {
-
-  }
-
   render() {
     this.classData = this.props.state.App.classData
-    var attendanceData = this.props.state.attendanceData
+
     var Checkboxes = null
     if(this.classData) {
-      let i = 0
-      Checkboxes = this.classData.map( (result ) => {
+      Checkboxes = this.classData.map( (result, i) => {
         if(!this.hasInit) {
-          attendanceData[i] = {
+          this.attendanceData[i] = {
             checked: false,
             id: result.id
           }
-          this.hasInit = true
         }
         return (
           <Checkbox
@@ -94,10 +86,11 @@ class AttendanceScene extends Component {
             width={300}
             text={result.given_name + ' ' + result.family_name}
             onPress={ () => this.pressCheckBox(i) }
-            checked={attendanceData[i++].checked}
+            checked={this.attendanceData[i].checked}
           />
         )
       })
+      this.hasInit = true
     }
 
     return (
