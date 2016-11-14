@@ -22,7 +22,7 @@ export default class Button extends Component {
   }
 
   onPress(id) {
-    if(!this.props.disabled) {
+    if(this.props.disabled !== true) {
       this.props.onPress()
     }
   }
