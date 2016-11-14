@@ -93,7 +93,9 @@ export default class WaitModal extends Component {
                 width: 110,
                 marginLeft: 10
               }}>
-                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>{this.props.modalPositiveText}</Text>
+                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>
+                  {this.props.modalPositiveText || "Yes"}
+                </Text>
               </View>
             </TouchableHighlight>
 
@@ -107,7 +109,9 @@ export default class WaitModal extends Component {
                 width: 110,
                 marginRight: 10
               }}>
-                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>{this.props.modalNegativeText}</Text>
+                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>
+                  {this.props.modalNegativeText || "No"}
+                </Text>
               </View>
             </TouchableHighlight>
           </View>

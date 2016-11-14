@@ -68,14 +68,12 @@ class AttendanceScene extends Component {
       modalText: "Are you sure you want to submit?",
       modalMode: ModalMode.CONFIRM,
       modalOnPositive: () => {
-        console.log("MODAL ON POSITIVE 1")
         this.props.dispatch(appActions.setModal({
           modalVisible: true,
           modalText: "Getting location",
           modalMode: ModalMode.WAITING
         }))
         navigator.geolocation.getCurrentPosition((location) => {
-          console.log('INSIDE GEOLOCATOR')
           this.actions.submit(
             location,
             this.centreId,
@@ -84,15 +82,12 @@ class AttendanceScene extends Component {
             this.token,
             this.props.navigator
           )
-          console.log('AFTER SUBMIT')
           this.props.dispatch(appActions.setModal({
             modalVisible: true,
             modalText: "Uploading Data",
             modalMode: ModalMode.WAITING
           }))
-          console.log('AFTER LAST SET MODAL')
         }, (error) => {
-          console.log('GPS things didn\'t work')
           this.props.dispatch(appActions.setModal({
             modalText: "Uploading failed. Please ensure GPS is enabled",
             modalMode: ModalMode.OKAY,
