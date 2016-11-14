@@ -23,6 +23,7 @@ const store = createStore(
   combineReducers(Reducers),
   applyMiddleware(sagaMiddleware)
 )
+
 sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
@@ -35,10 +36,6 @@ export default class Both extends Component {
   constructor(props) {
     super(props)
     this.state = { ...props }
-  }
-
-  componentWillMount() {
-
   }
 
   componentWillUnmount() {

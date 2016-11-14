@@ -27,6 +27,16 @@ export default class Button extends Component {
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if(this.props.disabled){
+      this.bgColour1 = Colours.offWhite
+      this.bgColour2 = '#bfbfbf'
+    } else {
+      this.bgColour1 = '#fefefe'
+      this.bgColour2 = Colours.offWhite
+    }
+  }
+
   render() {
     return (
       <View>
