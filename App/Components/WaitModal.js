@@ -35,16 +35,8 @@ export default class WaitModal extends Component {
 
   constructor(props) {
     super(props)
-    // this.state = {
-    //   visible: props.visible || false
-    // }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('kok',nextProps)
-  //   if(nextProps.visible !== this.state.visible )
-  //     this.setState({ visible: nextProps.visible })
-  // }
 
   close() {
     this.props.dispatch(appActions.setModal({'modalVisible': false}))
@@ -83,15 +75,20 @@ export default class WaitModal extends Component {
               alignItems: 'center'
             }}
           >
-            <TouchableHighlight onPress={ () => this.onPositive() }>
+            <TouchableHighlight
+              style={{
+                borderRadius: 5,
+                marginLeft: 10
+              }}
+              onPress={ () => this.onPositive() }
+            >
               <View style={{
                 padding: 15,
                 borderRadius: 5,
-                backgroundColor: Colours.secondary ,
+                backgroundColor: Colours.primary ,
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: 110,
-                marginLeft: 10
               }}>
                 <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>
                   {this.props.modalPositiveText || "Yes"}
@@ -99,17 +96,22 @@ export default class WaitModal extends Component {
               </View>
             </TouchableHighlight>
 
-            <TouchableHighlight onPress={ () => this.onNegative() }>
+            <TouchableHighlight
+              style={{
+                marginRight: 10,
+                borderRadius: 5,
+              }}
+              onPress={ () => this.onNegative() }
+            >
               <View style={{
                 padding: 15,
                 borderRadius: 5,
-                backgroundColor: Colours.secondary ,
+                backgroundColor: Colours.primary ,
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: 110,
-                marginRight: 10
               }}>
-                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>
+                <Text style={{color: Colours.offWhite, fontWeight: 'bold', fontSize: FontSizes.p}}>
                   {this.props.modalNegativeText || "No"}
                 </Text>
               </View>
@@ -128,11 +130,15 @@ export default class WaitModal extends Component {
               alignItems: 'center'
             }}
           >
-            <TouchableHighlight onPress={ () => this.onPositive() }>
+            <TouchableHighlight style={{
+                borderRadius: 5,
+                padding: 15
+            }}
+            onPress={ () => this.onPositive() }>
               <View style={{
                 padding: 15,
                 borderRadius: 5,
-                backgroundColor: Colours.secondary ,
+                backgroundColor: Colours.primary ,
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: 200
@@ -175,15 +181,15 @@ export default class WaitModal extends Component {
         <View style={ styles.entireModal }>
             <View style={ [styles.visibleModal] }>
               <View style={ { flex: 1, justifyContent: 'space-between'} }>
-
-                <Text style={ styles.text }>
-                  { this.props.text || "NO_TEXT_GIVEN" }
-                </Text>
-
-                {SpinnyThing}
-
-                {Buttons}
-
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <Text style={ [styles.text] }>
+                    { this.props.text || "NO_TEXT_GIVEN" }
+                  </Text>
+                </View>
+                  {SpinnyThing}
+                <View style={{flex: 1}}>
+                  {Buttons}
+                </View>
               </View>
             </View>
         </View>
@@ -197,15 +203,16 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    padding: 20
   },
   visibleModal: {
     borderColor: Colours.secondary,
     borderWidth: 1,
     elevation: 3,
-    height: 250,
+    height: 240,
     width: 250,
-    backgroundColor: '#5f5f5f',
+    backgroundColor: Colours.secondary,
     justifyContent: 'space-around',
     alignItems: 'center',
     borderRadius: 8

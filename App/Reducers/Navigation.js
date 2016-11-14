@@ -8,17 +8,19 @@ const initialState = {
 export default (state = initialState, action = {}) => {
   switch (action.type) {
 
-    case 'NAV_PUSH_DO':
-      action.navigator.push(action.route)
-
+    case 'NAV_PUSH':
+      setTimeout(function(){
+        action.navigator.push(action.route)
+      },0)
       return {
         ...state,
         route: action.route
       }
 
-    case 'NAV_REPLACE_DO':
-      if(Config.debug) console.log("NAV_REPLACE")
-      action.navigator.replace(action.route)
+    case 'NAV_REPLACE':
+      setTimeout(function(){
+        action.navigator.replace(action.route)
+      },0)
       return {
         ...state,
         route: action.route

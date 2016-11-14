@@ -61,11 +61,20 @@ class AttendanceScene extends Component {
     this.forceUpdate()
   }
 
+  getSummaryString() {
+    let absent = 0
+    let total = this.attendanceData.length
+    this.attendanceData.forEach((result)=> {
+      if(result.checked == false) absent++
+    })
+    return (total - absent) + " of " + total
+  }
+
   submit() {
     var i = 0
     this.props.dispatch(appActions.setModal({
       modalVisible: true,
-      modalText: "Are you sure you want to submit?",
+      modalText: "Are you sure you want to submit attendance with "+ this.getSummaryString() + " children present?",
       modalMode: ModalMode.CONFIRM,
       modalOnPositive: () => {
         this.props.dispatch(appActions.setModal({

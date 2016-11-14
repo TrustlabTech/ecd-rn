@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  View
+  View,
+  Text,
+  DrawerLayoutAndroid
 } from 'react-native'
 import WaitModal from './Components/WaitModal'
 import * as appActions from './Actions/App'
@@ -41,7 +43,7 @@ class App extends Component {
         />
 
         <View style={{flex: 1}}>
-          {this.props.children}
+            {this.props.children}
         </View>
 
       </View>
