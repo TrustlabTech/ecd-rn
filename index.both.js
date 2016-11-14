@@ -4,7 +4,8 @@ import {
   Navigator,
   BackAndroid,
   Text,
-  View
+  View,
+  DrawerLayoutAndroid
 } from 'react-native'
 import {
   createStore,
@@ -49,6 +50,7 @@ export default class Both extends Component {
     })
   }
 
+
   render() {
     return (
 
@@ -65,12 +67,18 @@ export default class Both extends Component {
                 return false
               }
             })
+
             return (
-              <App dispatch={ store.dispatch }>
-                {React.createElement(
-                  route.scene,
-                  { route, navigator, dispatch: store.dispatch }
-                )}
+              <App
+                dispatch={ store.dispatch }
+                route={route}
+                navigator={navigator}
+              >
+
+                  {React.createElement(
+                    route.scene,
+                    { route, navigator, dispatch: store.dispatch }
+                  )}
               </App>
             )
           }}

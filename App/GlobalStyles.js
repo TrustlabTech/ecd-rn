@@ -10,7 +10,7 @@ export const Colours = {
   primaryHighlight: '#8bd7fd',  // Highlight
   primaryLowlight: '#353535',
   consentOrange: '#ff9215',
-  secondary: '#393939',
+  secondary: '#5b5b5b',
   secondaryHighlight: '#ffc786',
   secondaryLowlight: '#aa7a42',
   lightText: '#fefefe',

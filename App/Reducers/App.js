@@ -6,9 +6,9 @@ const initialState = {
   modalVisible: false,
   modalText: "Please wait",
   modalMode: ModalMode.OKAY,
-  modalOnPositive: function() {},
+  modalOnPositive: function() { console.log('DEFAULT POSITIVE')},
   modalPositiveText: 'Yes',
-  modalOnNegative: function() {},
+  modalOnNegative: function() { console.log('DEFAULT NEGATIVE')},
   modalNegativeText: 'No'
 }
 
@@ -66,10 +66,10 @@ export default (state = initialState, action = {}) => {
         nextState.modalNegativeText = opts.modalNegativeText
       else
         nextState.modalNegativeText = initialState.modalNegativeText
-        
+
       return {
         ...state,
-        ...nextState
+        ...nextState,
       }
 
     default:
