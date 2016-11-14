@@ -1,10 +1,15 @@
+import { ModalMode } from '../Components/WaitModal'
 
 const initialState = {
   userData: null,
   centreData: null,
   modalVisible: false,
   modalText: "Please wait",
-  modalWaiting: false
+  modalMode: ModalMode.OKAY,
+  modalOnPositive: function() {},
+  modalPositiveText: 'Yes',
+  modalOnNegative: function() {},
+  modalNegativeText: 'No'
 }
 
 export default (state = initialState, action = {}) => {
@@ -29,47 +34,43 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'APP_SET_MODAL':
-      const {
-        modalVisible,
-        modalText,
-        modalWaiting
-      } = action.modalOptions
-      // true
-      // false
-      // undefined//null
 
+      const opts = action.modalOptions
+      const nextState = {}
 
-      if(modalVisible === undefined || modalVisible === null)
-        modalVisible = state.modalVisible
+      if(typeof opts.modalVisible !== 'undefined')
+        nextState.modalVisible = opts.modalVisible
 
-      if(modalWaiting === undefined || modalWaiting === null)
-        modalWaiting = state.modalWaiting
+      if(typeof opts.modalText !== 'undefined')
+        nextState.modalText = opts.modalText
 
+      if(typeof opts.modalMode !== 'undefined')
+        nextState.modalMode = opts.modalMode
 
+      if(typeof opts.modalOnPositive !== 'undefined')
+        nextState.modalOnPositive = opts.modalOnPositive
+      else
+        nextState.modalOnPositive = initialState.modalOnPositive
+
+      if(typeof opts.modalOnNegative !== 'undefined')
+        nextState.modalOnNegative = opts.modalOnNegative
+      else
+        nextState.modalOnNegative = initialState.modalOnNegative
+
+      if(typeof opts.modalPositiveText !== 'undefined')
+        nextState.modalPositiveText = opts.modalPositiveText
+      else
+        nextState.modalPositiveText = initialState.modalPositiveText
+
+      if(typeof opts.modalNegativeText !== 'undefined')
+        nextState.modalNegativeText = opts.modalNegativeText
+      else
+        nextState.modalNegativeText = initialState.modalNegativeText
+        
       return {
         ...state,
-        modalVisible: modalVisible,
-        modalText: modalText,
-        modalWaiting: modalWaiting
+        ...nextState
       }
-
-    // case 'APP_MODAL_SHOW':
-    //   return {
-    //     ...state,
-    //     modalVisible: action.modalVisible
-    //   }
-
-    // case 'APP_MODAL_SET_TEXT':
-    //   return {
-    //     ...state,
-    //     modalText: action.modalText
-    //   }
-
-    // case 'APP_MODAL_WAITING':
-    //   return {
-    //     ...state,
-    //     modalWaiting: action.modalWaiting
-    //   }
 
     default:
       return state

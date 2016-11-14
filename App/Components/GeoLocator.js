@@ -36,12 +36,9 @@ export default class GeoLocator extends Component {
   }
   render() {
     var longitude, latitude
-    console.log('LAST',this.state.lastPosition)
-    console.log('INIT',this.state.initialPosition)
     if(this.state.lastPosition.coords !== undefined) {
       longitude = this.state.lastPosition.coords.longitude
       latitude = this.state.lastPosition.coords.latitude
-      console.log('DEBUG',this.state.lastPosition.coords.longitude)
     }
       return (
         <View>

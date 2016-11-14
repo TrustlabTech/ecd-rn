@@ -33,11 +33,10 @@ class MainScene extends Component {
 
   takeAttendance() {
 
-    const token = this.props.state.App.userData._token
-    const staffId = this.props.state.App.userData.user.id
 
-    this.props.store.dispatch(navigationActions.push(Routes.class, this.navigator))
-    this.actions.fetchClasses( staffId, token )
+
+    // this.props.dispatch(navigationActions.push(Routes.class, this.navigator))
+    this.navigator.push(Routes.class)
   }
 
   logout() {
@@ -47,7 +46,7 @@ class MainScene extends Component {
   render() {
     let mainBtnText = "Take\nAttendance"
     return (
-        <Scene dispatch={this.props.store.dispatch}>
+        <View style={{flex: 1}}>
 
           <NavBar
             title="ECD APP"
@@ -73,7 +72,7 @@ class MainScene extends Component {
               onPress={() => this.logout() }
             />
           </View>
-        </Scene>
+        </View>
     )
   }
 }

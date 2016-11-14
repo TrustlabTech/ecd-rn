@@ -6,6 +6,7 @@ import {
 export default {
   debug: true,
   debugState: false,
+  debugNetwork: false,
   version: require('../package.json').version,
   metrics: {
       systemBarHeight: Platform.OS === 'ios' ? 20 : 0,

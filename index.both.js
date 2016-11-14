@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import Config from './App/Config'
 import {
   Navigator,
-  BackAndroid
+  BackAndroid,
+  Text,
+  View
 } from 'react-native'
 import {
   createStore,
@@ -14,6 +16,7 @@ import createSagaMiddleware from 'redux-saga'
 import Routes from './App/Routes'
 import * as Reducers from './App/Reducers'
 import rootSaga from './App/Sagas/Root'
+import App from './App/App'
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
@@ -65,19 +68,14 @@ export default class Both extends Component {
                 return false
               }
             })
-            if(route.drawer) {
-              return React.createElement(
-                route.scene, //store.state.scene
-                {route, navigator, store } // props (remove store when done)
-              )
-            } else {
-              return React.createElement(
-                route.scene, //store.state.scene
-                {route, navigator, store } // props (remove store when done)
-              )
-            }
-
-
+            return (
+              <App dispatch={ store.dispatch }>
+                {React.createElement(
+                  route.scene,
+                  { route, navigator, dispatch: store.dispatch }
+                )}
+              </App>
+            )
           }}
           configureScene={ (route, routeStack ) =>
             Navigator.SceneConfigs.FloatFromRight
@@ -89,4 +87,3 @@ export default class Both extends Component {
   }
 
 }
-

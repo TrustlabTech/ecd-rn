@@ -7,97 +7,180 @@ import {
   StyleSheet,
   ActivityIndicator
 } from 'react-native'
-
+import * as appActions from '../Actions/App'
 import { Colours, FontSizes } from '../GlobalStyles'
 /*
   Usage:
 
   <WaitModal
-    animating= boolean
-    visible= boolean
+    mode= enum (WAITING, OKAY, CONFIRM)
     text= string
-    ref= string
-    popOnclose= boolean
+    onPositive= function
+    onNegative= function
+    textPositive= string
+    textNegative= string
   />
 
 */
+
+export const ModalMode = {
+  WAITING: 3,
+  OKAY: 1,
+  CONFIRM: 2
+}
+
 export default class WaitModal extends Component {
+
+
 
   constructor(props) {
     super(props)
-    this.state = {
-      visible: props.visible || false,
-      animating: props.animating || true,
-      error: null
-    }
+    // this.state = {
+    //   visible: props.visible || false
+    // }
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      visible: props.visible,
-      animating: props.animating,
-      error: props.error || null
-    })
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('kok',nextProps)
+  //   if(nextProps.visible !== this.state.visible )
+  //     this.setState({ visible: nextProps.visible })
+  // }
+
+  close() {
+    this.props.dispatch(appActions.setModal({'modalVisible': false}))
   }
 
-  close(){
-    this.props.onPressClose()
-    if(this.props.popOnClose){
-      this.props.navigator.pop()
-    }
+  onPositive(){
+    if(this.props.onPositive())
+      this.props.onPositive()
+
+    this.close()
   }
 
-  okay(){
-    // coming soon...
+  onNegative(){
+    if(this.props.onNegative)
+      this.props.onNegative()
+    this.close()
   }
 
-  cancel(){
-    // coming soon...
-  }
 
   render() {
-    const { animating, visible, text} = this.props
 
-    var centerComponent =
-      <ActivityIndicator
-        animating={ animating }
-        style={{height: 80}}
-        size="large"
-      />
+    var SpinnyThing = null
 
-    if(!animating) {
-      centerComponent =
-        <TouchableHighlight onPress={ () => {this.close()} }>
-          <View style={{
-            padding: 15,
-            borderRadius: 5,
-            backgroundColor: Colours.secondary ,
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 200
-          }}>
-            <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>Close</Text>
+    var Buttons = null
+
+    switch(this.props.mode) {
+
+      case ModalMode.CONFIRM:
+
+        Buttons =
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <TouchableHighlight onPress={ () => this.onPositive() }>
+              <View style={{
+                padding: 15,
+                borderRadius: 5,
+                backgroundColor: Colours.secondary ,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 110,
+                marginLeft: 10
+              }}>
+                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>{this.props.modalPositiveText}</Text>
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={ () => this.onNegative() }>
+              <View style={{
+                padding: 15,
+                borderRadius: 5,
+                backgroundColor: Colours.secondary ,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 110,
+                marginRight: 10
+              }}>
+                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>{this.props.modalNegativeText}</Text>
+              </View>
+            </TouchableHighlight>
           </View>
-        </TouchableHighlight>
+
+          break
+
+      case ModalMode.OKAY:
+
+        Buttons =
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <TouchableHighlight onPress={ () => this.onPositive() }>
+              <View style={{
+                padding: 15,
+                borderRadius: 5,
+                backgroundColor: Colours.secondary ,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 200
+              }}>
+                <Text style={{color: 'white', fontWeight: 'bold', fontSize: FontSizes.p}}>Okay</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+
+          break
+
+      case ModalMode.WAITING:
+
+        SpinnyThing =
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <ActivityIndicator
+              animating={ true }
+              style={{height: 80}}
+              size="large"
+            />
+          </View>
+
+        break
     }
+
     return (
       <Modal
         ref="modal"
-        onClose={ this.props.onClose }
         animationType={"fade"}
         transparent={true}
-        visible={this.state.visible}
-        onRequestClose={ () => {
-          console.log("This is required. But does this do anything?")
-          return
-        }}
+        visible={this.props.visible}
+        onRequestClose={ this.close }
       >
-        <View style={styles.entireModal}>
-            <View style={[styles.visibleModal] }>
-                <Text style={styles.text}>
-                  {this.props.text || "Loading"}
+        <View style={ styles.entireModal }>
+            <View style={ [styles.visibleModal] }>
+              <View style={ { flex: 1, justifyContent: 'space-between'} }>
+
+                <Text style={ styles.text }>
+                  { this.props.text || "NO_TEXT_GIVEN" }
                 </Text>
-                {centerComponent}
+
+                {SpinnyThing}
+
+                {Buttons}
+
+              </View>
             </View>
         </View>
       </Modal>
@@ -118,7 +201,7 @@ var styles = StyleSheet.create({
     elevation: 3,
     height: 250,
     width: 250,
-    backgroundColor: '#0f0f0f',
+    backgroundColor: '#5f5f5f',
     justifyContent: 'space-around',
     alignItems: 'center',
     borderRadius: 8

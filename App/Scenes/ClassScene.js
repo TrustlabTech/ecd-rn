@@ -22,10 +22,15 @@ class ClassScene extends Component {
 
   constructor(props) {
     super(props)
-    this.dispatch = this.props.store.dispatch
     this.actions = this.props.actions
     this.navigator = this.props.navigator
     this.route = this.props.route
+  }
+
+  componentWillMount() {
+    const token = this.props.state.App.userData._token
+    const staffId = this.props.state.App.userData.user.id
+    this.props.actions.fetchClasses( staffId, token )
   }
 
   render() {
@@ -38,6 +43,7 @@ class ClassScene extends Component {
       <View style={{flex: 1, alignItems: 'center'}}>
       {this.props.state.App.centreData.map((val,i) =>
         <Button
+        disabled={val.attended}
         width={250}
         key={i}
         text={val.name}
@@ -55,8 +61,7 @@ class ClassScene extends Component {
     }
 
     return (
-      <Scene dispatch={this.props.store.dispatch}>
-
+      <View style={{flex: 1}}>
         <NavBar
           title="ECD APP"
           navigator={ this.navigator }
@@ -71,7 +76,7 @@ class ClassScene extends Component {
             {items}
           </View>
         </SceneView>
-      </Scene>
+      </View>
     )
   }
 

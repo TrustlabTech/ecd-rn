@@ -12,20 +12,35 @@ export default class Button extends Component {
 
   constructor(props) {
     super(props)
+    if(this.props.disabled){
+      this.bgColour1 = Colours.offWhite
+      this.bgColour2 = '#bfbfbf'
+    } else {
+      this.bgColour1 = '#fefefe'
+      this.bgColour2 = Colours.offWhite
+    }
+  }
+
+  onPress(id) {
+    if(!this.props.disabled) {
+      this.props.onPress()
+    }
   }
 
   render() {
     return (
       <View>
 
-        <TouchableHighlight style={{
+        <TouchableHighlight
+          activeOpacity={this.props.disabled ? 1: 0.2}
+          style={{
             marginTop: 8,
             marginBottom: 8,
             borderRadius: 5,
             width: this.props.width || 140,
             height: this.props.height || 45
           }}
-          onPress={ () => this.props.onPress() }
+          onPress={ () => this.onPress() }
         >
           <View style={{
             flex: 1,
@@ -35,7 +50,7 @@ export default class Button extends Component {
             borderRadius: 5,
             padding: 1
           }}>
-            <LinearGradient colors={['#fefefe', Colours.offWhite ]} style={{
+            <LinearGradient colors={[this.bgColour1, this.bgColour2 ]} style={{
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',

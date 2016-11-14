@@ -14,16 +14,10 @@ class Scene extends Component {
   }
 
   render() {
-    const { modalWaiting, modalVisible, modalText } = this.props.state.App
+    const { modalVisible, modalMode, modalText, modalOnPositive, modalOnNegative } = this.props.state.App
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <WaitModal
-          animating={ modalWaiting }
-          visible={ modalVisible }
-          onPressClose={ () => this.props.dispatch(appActions.setModal({modalVisible:false})) }
-          text={ modalText }
-          ref="waitmodal"
-        />
+
           <View style={{flex: 1}}>
             {this.props.children}
           </View>

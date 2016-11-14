@@ -21,12 +21,13 @@ import Checkbox from '../Components/Checkbox'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as attendanceActions from '../Actions/Attendance'
+import * as appActions from '../Actions/App'
+import { ModalMode } from '../Components/WaitModal'
 
 class AttendanceScene extends Component {
 
   constructor(props) {
     super(props)
-    this.dispatch = this.props.store.dispatch
     this.actions = this.props.actions
     this.navigator = this.props.navigator
     this.route = this.props.route
@@ -61,18 +62,49 @@ class AttendanceScene extends Component {
   }
 
   submit() {
-    navigator.geolocation.getCurrentPosition((location) =>{
-      this.actions.submit(
-        location,
-        this.centreId,
-        this.classId,
-        this.attendanceData,
-        this.token
-    )}, (error) => {
-      console.log('GPS things didn\'t work')
-    },{
-      timeout: 5000
-    })
+    var i = 0
+    this.props.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalText: "Are you sure you want to submit?",
+      modalMode: ModalMode.CONFIRM,
+      modalOnPositive: () => {
+        console.log("MODAL ON POSITIVE 1")
+        this.props.dispatch(appActions.setModal({
+          modalVisible: true,
+          modalText: "Getting location",
+          modalMode: ModalMode.WAITING
+        }))
+        navigator.geolocation.getCurrentPosition((location) => {
+          console.log('INSIDE GEOLOCATOR')
+          this.actions.submit(
+            location,
+            this.centreId,
+            this.classId,
+            this.attendanceData,
+            this.token,
+            this.props.navigator
+          )
+          console.log('AFTER SUBMIT')
+          this.props.dispatch(appActions.setModal({
+            modalVisible: true,
+            modalText: "Uploading Data",
+            modalMode: ModalMode.WAITING
+          }))
+          console.log('AFTER LAST SET MODAL')
+        }, (error) => {
+          console.log('GPS things didn\'t work')
+          this.props.dispatch(appActions.setModal({
+            modalText: "Uploading failed. Please ensure GPS is enabled",
+            modalMode: ModalMode.OKAY,
+            modalVisible: true,
+            modalOnPositive: () => {}
+          }))
+        },{
+          timeout: 5000
+        })
+      }
+    }))
+
   }
 
   render() {
@@ -102,14 +134,14 @@ class AttendanceScene extends Component {
 
     return (
 
-      <Scene dispatch={this.props.store.dispatch}>
+      <View style={{flex: 1}}>
 
         <NavBar
           title="ECD APP"
           navigator={ this.props.navigator }
           leftButtonText="Back"
           leftButtonAction={ () => this.props.navigator.pop() }
-          rightButtonText="Submit"
+          rightButtonText="Done"
           rightButtonAction={ () => this.submit() }
         />
         <SceneView>
@@ -129,7 +161,7 @@ class AttendanceScene extends Component {
         </SceneView>
 
 
-      </Scene>
+      </View>
     )
   }
 

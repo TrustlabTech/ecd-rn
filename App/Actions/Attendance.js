@@ -21,13 +21,14 @@ export function setAttendance(attendanceData) {
   }
 }
 
-export function submit(location, centreId, classId, attendanceData, token) {
+export function submit(location, centreId, classId, attendanceData, token, navigator) {
   return {
     type: 'ATTENDANCE_SUBMIT',
     location,
     centreId,
     classId,
     attendanceData,
-    token
+    token,
+    navigator
   }
 }

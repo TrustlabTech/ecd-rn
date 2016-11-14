@@ -1,23 +1,32 @@
 import Config from './Config'
 
+function timestamp(currentDate) {
+  return "Time: " + currentDate.getDate() + "/"
+                  + (currentDate.getMonth()+1)  + "/"
+                  + currentDate.getFullYear() + " @ "
+                  + currentDate.getHours() + ":"
+                  + currentDate.getMinutes() + ":"
+                  + currentDate.getSeconds()
+}
+
 function request(route, options = {method: 'GET'} ) {
-  var currentdate = new Date();
-  var datetime = "Time: " + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/"
-                + currentdate.getFullYear() + " @ "
-                + currentdate.getHours() + ":"
-                + currentdate.getMinutes() + ":"
-                + currentdate.getSeconds();
-  console.log('API REQUEST',datetime,Config.http.baseUrl + route, options)
+
+  if(Config.debug && Config.debugNetwork)
+    console.log('API REQUEST',timestamp(new Date()),Config.http.baseUrl + route, options)
+
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
   .then((response) => {
-    console.log('API RESPONSE:',response)
+
+    if(Config.debug && Config.debugNetwork)
+      console.log('API RESPONSE:',response)
+
     return response.json()
   })
 
   .then((json) => {
+
     if(json.error) {
       if(json.error instanceof Array) {
         const errorMessage = ''
@@ -36,9 +45,13 @@ function request(route, options = {method: 'GET'} ) {
 
   // On reject
   .catch( (error) => {
-    console.log('API:ERROR', error)
-    if(Config.debug) return Promise.reject(error.toString())
-    else return Promise.reject("A network error occured. Please check your connection.")
+
+    if(Config.debug && Config.debugNetwork){
+      console.log('API:ERROR', error)
+      return Promise.reject(error.toString())
+    } else {
+      return Promise.reject("A network error occured. Please check your connection.")
+    }
   })
 
 }

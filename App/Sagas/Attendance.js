@@ -4,6 +4,9 @@ import Config from '../Config'
 import Routes from '../Routes'
 import * as appActions from '../Actions/App'
 import * as attendanceActions from '../Actions/Attendance'
+import * as navigationActions from '../Actions/Navigation'
+
+import { ModalMode } from '../Components/WaitModal'
 
 export function* fetchClass(action) {
   try {
@@ -14,26 +17,29 @@ export function* fetchClass(action) {
       yield put(appActions.setModal({modalVisible: false}))
       yield put(attendanceActions.setAttendance(data))
     } else {
-      yield put(appActions.setModal({modalText: data.error || "Unknown error", modalWaiting: false}))
+      yield put(appActions.setModal({modalText: data.error || "Unknown error"}))
     }
   } catch (error) {
     if(Config.debug) console.log("Sagas:fetchClass ERROR",error)
-    yield put(appActions.setModal({modalText: error, modalWaiting: false}))
+    yield put(appActions.setModal({modalText: error}))
   }
 }
 
 export function* submit(action) {
-  const { location, centreId, classId, attendanceData, token } = action
+  const { location, centreId, classId, attendanceData, token, navigator } = action
   try {
-    yield put(appActions.setModal({modalVisible: true, modalWaiting: true}))
 
     const data = yield call(Api.submitAttendance, location, centreId, classId,attendanceData, token)
     if(data && !data.error) {
-      yield put(appActions.setModal({modalWaiting: false, modalText: 'Upload complete'}))
+      yield put(appActions.setModal({
+        modalText: 'Upload complete',
+        modalMode: ModalMode.OKAY,
+        modalOnPositive: () => {navigator.popN(2)}
+      }))
     } else {
-      yield put(appActions.setModal({modalText: data.error, modalWaiting: false}))
+      yield put(appActions.setModal({modalText: data.error, modalMode: ModalMode.OKAY}))
     }
   } catch (error) {
-    yield put(appActions.setModal({modalText: error, modalWaiting: false}))
+    yield put(appActions.setModal({modalText: error, modalMode: ModalMode.OKAY}))
   }
 }
