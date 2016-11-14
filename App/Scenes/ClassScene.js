@@ -17,6 +17,8 @@ import Config from '../Config'
 import Routes from '../Routes'
 import SceneHeading from '../Components/SceneHeading'
 import * as classActions from '../Actions/Class'
+import * as appActions from '../Actions/App'
+import { ModalMode } from '../Components/WaitModal'
 
 class ClassScene extends Component {
 
@@ -31,6 +33,11 @@ class ClassScene extends Component {
     const token = this.props.state.App.userData._token
     const staffId = this.props.state.App.userData.user.id
     this.props.actions.fetchClasses( staffId, token )
+    this.props.dispatch(appActions.setModal({
+      modalMode: ModalMode.WAITING,
+      modalText: 'Please wait',
+      modalVisible: true
+    }))
   }
 
   render() {

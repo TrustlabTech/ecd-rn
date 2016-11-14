@@ -6,7 +6,7 @@ import * as appActions from '../Actions/App'
 
 export function* fetchClasses(action) {
   try {
-    yield put(appActions.setModal({modalVisible: true}))
+    // yield put(appActions.setModal({modalVisible: true}))
     const data = yield call(Api.fetchClasses, action.staffId, action.token)
     if(data && !data.error) {
       yield put(appActions.setCentre(data))

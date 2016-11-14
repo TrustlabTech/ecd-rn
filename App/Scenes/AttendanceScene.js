@@ -102,6 +102,13 @@ class AttendanceScene extends Component {
 
   }
 
+  goBack() {
+    this.props.dispatch(appActions.setClass(null))
+    this.props.navigator.popN(2)
+    // first set app.classData = null
+    // Then go back
+  }
+
   render() {
     this.classData = this.props.state.App.classData
 
@@ -135,7 +142,7 @@ class AttendanceScene extends Component {
           title="ECD APP"
           navigator={ this.props.navigator }
           leftButtonText="Back"
-          leftButtonAction={ () => this.props.navigator.pop() }
+          leftButtonAction={ () => this.goBack() }
           rightButtonText="Done"
           rightButtonAction={ () => this.submit() }
         />

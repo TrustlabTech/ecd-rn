@@ -15,7 +15,7 @@ export function* fetchClass(action) {
     if(data && !data.error) {
       yield put(appActions.setClass(data))
       yield put(appActions.setModal({modalVisible: false}))
-      yield put(attendanceActions.setAttendance(data))
+      // yield put(attendanceActions.setAttendance(data))
     } else {
       yield put(appActions.setModal({modalText: data.error || "Unknown error"}))
     }
@@ -36,6 +36,8 @@ export function* submit(action) {
         modalMode: ModalMode.OKAY,
         modalOnPositive: () => {navigator.popN(2)}
       }))
+      // Clear classData from app state (avoid premature renders)
+      yield put(appActions.setClass(null))
     } else {
       yield put(appActions.setModal({modalText: data.error, modalMode: ModalMode.OKAY}))
     }
