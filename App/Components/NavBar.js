@@ -25,19 +25,37 @@ export default class NavBar extends Component {
       true : false
   }
 
+  goBack() {
+    setTimeout(() => this.props.navigator.pop(),0 )
+  }
+
+  pressRightButton() {
+    if(this.props.rightButtonAction)
+      setTimeout(() => this.props.rightButtonAction(),0 )
+  }
+
+  pressLeftButton() {
+    if(this.props.leftButtonAction)
+      setTimeout(() => this.props.leftButtonAction(),0 )
+  }
+
   render() {
 
     var leftButton, centerTitle, rightButton,  iOSSpacer = null
-    let { leftButtonAction, leftButtonText } = this.props
+    let { leftButtonAction,
+          leftButtonText,
+          rightButtonAction,
+          rightButtonText } = this.props
+
     if( leftButtonText ) {
 
-      if( !leftButtonAction)
+      if( !leftButtonAction )
         leftButtonAction = () => alert(" No action specified")
 
       leftButton =
         <TouchableHighlight
           underlayColor='silver'
-          onPress={ leftButtonAction }
+          onPress={ () => this.pressLeftButton() }
         >
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>{leftButtonText}</Text>
@@ -53,7 +71,7 @@ export default class NavBar extends Component {
       leftButton =
         <TouchableHighlight
           underlayColor='silver'
-          onPress={ this.props.navigator.pop }
+          onPress={ () => this.goBack() }
         >
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>{text}</Text>
@@ -81,7 +99,7 @@ export default class NavBar extends Component {
     rightButton =
       <TouchableHighlight
        underlayColor={Colours.touchableUnderLay}
-       onPress={this.props.rightButtonAction}
+       onPress={ () => this.pressRightButton() }
       >
         <View style={styles.sideButtonsViewWrapper}>
           <Text style={styles.navButtonText}>{this.props.rightButtonText}</Text>

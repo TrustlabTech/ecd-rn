@@ -21,9 +21,9 @@ export default class Button extends Component {
     }
   }
 
-  onPress(id) {
+  onPress() {
     if(this.props.disabled !== true) {
-      this.props.onPress()
+      setTimeout(() => this.props.onPress(),0)
     }
   }
 
