@@ -1,10 +1,14 @@
 # Consent ECD
-## Run
-```
-react-native start-android
-```
+## Development Cycle
+2 week sprint cycle
+* Tuesday 1 - Release / Begin sprint
+* Friday 1 - Feature request lock
+* Tuesday 2 - RN upgrade
+* Friday 2 - Feature freeze
+* Monday 1 - Testing and building
+* Tuesday 1 - Release / Begin spring
+
 ## RN Issues affecting the project
- 
 
 ### Major
 * Items in a ScrollView only respond to second touch [Github Issue](https://github.com/facebook/react-native/issues/8075)

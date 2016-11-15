@@ -92,7 +92,8 @@ class LoginScene extends Component {
 
         </View>
         <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
-          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>v{Config.version}</Text>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>RN v{Config.rnVersion}</Text>
         </View>
       </View>
     )

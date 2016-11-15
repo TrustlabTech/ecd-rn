@@ -71,10 +71,13 @@ class AttendanceScene extends Component {
   }
 
   submit() {
-    var i = 0
-    this.props.dispatch(appActions.setModal({
+    // var i = 0
+    var summary = "Are you sure you want to submit attendance with "+this.getSummaryString()+ " children present?"
+
+    this.props.dispatch(
+      appActions.setModal({
       modalVisible: true,
-      modalText: "Are you sure you want to submit attendance with "+ this.getSummaryString() + " children present?",
+      modalText:  summary ,
       modalMode: ModalMode.CONFIRM,
       modalOnPositive: () => {
         this.props.dispatch(appActions.setModal({
@@ -112,10 +115,10 @@ class AttendanceScene extends Component {
   }
 
   goBack() {
+    // first set app.classData = null to prevent crash
     this.props.dispatch(appActions.setClass(null))
-    this.props.navigator.popN(2)
-    // first set app.classData = null
     // Then go back
+    setTimeout(() => this.props.navigator.popN(2))
   }
 
   render() {

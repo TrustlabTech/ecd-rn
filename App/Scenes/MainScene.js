@@ -45,7 +45,7 @@ class MainScene extends Component {
       modalVisible: true,
       modalMode: ModalMode.CONFIRM,
       modalText: "Are you sure you want to logout?",
-      modalOnPositive: ()=> {
+      modalOnPositive: () => {
         setTimeout(() => this.props.navigator.pop() ,0)
         // Delay for better animation
         setTimeout(() => this._drawer.closeDrawer() ,100)
@@ -63,7 +63,6 @@ class MainScene extends Component {
   }
 
   render() {
-
     // This ensures the newline is interpolated
     let mainBtnText = "Take\nAttendance"
     let loggedInAs = "Logged in as\n" +
