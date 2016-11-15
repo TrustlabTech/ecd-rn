@@ -36,13 +36,20 @@ class MainScene extends Component {
   }
 
   takeAttendance() {
-    this.navigator.push(Routes.class)
+    setTimeout(() => this.navigator.push(Routes.class),0)
     this._drawer.closeDrawer()
   }
 
   logout() {
-    this.navigator.pop()
-    this._drawer.closeDrawer()
+    this.props.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalMode: ModalMode.CONFIRM,
+      modalText: "Are you sure you want to logout?",
+      modalOnPositive: ()=> {
+        setTimeout(() => this.props.navigator.pop() ,0)
+        // Delay for better animation
+        setTimeout(() => this._drawer.closeDrawer() ,100)
+    }}))
   }
 
   toggleDrawer() {
@@ -97,19 +104,7 @@ class MainScene extends Component {
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => {
-                      this.props.dispatch(appActions.setModal({
-                        modalVisible: true,
-                        modalMode: ModalMode.CONFIRM,
-                        modalText: "Are you sure you want to logout?",
-                        modalOnPositive: ()=> {
-                           this.props.navigator.pop()
-                          // Delay for better animation
-                          setTimeout(() => {
-                            this._drawer.closeDrawer()
-                          },100)
-                      }}))
-                    }}>
+                    <TouchableHighlight onPress={ () => this.logout }>
                       <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Logout</Text>
                     </TouchableHighlight>
                   </View>

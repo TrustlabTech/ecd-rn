@@ -55,12 +55,13 @@ class ClassScene extends Component {
         key={i}
         text={val.name}
         onPress={ () => {
-          this.navigator.push({
+          setTimeout(() =>
+            this.navigator.push({
             ...Routes.attendance,
             classId: val.id,
             className: val.name,
             centreId: val.centre_id
-          })
+          }),0)
         }}
         />
       )}

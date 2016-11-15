@@ -102,7 +102,7 @@ export default class NavBar extends Component {
           flex:1,
           flexDirection: 'row',
           justifyContent: 'space-between',
-          height: Config.metrics.navBarHeight,
+          height: 60,
           backgroundColor: Colours.primary,
 
         }}>

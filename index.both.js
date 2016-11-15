@@ -42,7 +42,7 @@ export default class Both extends Component {
   componentWillUnmount() {
     BackAndroid.removeEventListener('hardwareBackPress', () => {
       if(this.refs.navigator.getCurrentRoutes() > 1) {
-        this.navigator.pop()
+        setTimeout( () => this.navigator.pop(), 0)
         return true
       } else {
         return false
@@ -74,7 +74,6 @@ export default class Both extends Component {
                 route={route}
                 navigator={navigator}
               >
-
                   {React.createElement(
                     route.scene,
                     { route, navigator, dispatch: store.dispatch }
@@ -82,9 +81,7 @@ export default class Both extends Component {
               </App>
             )
           }}
-          configureScene={ (route, routeStack ) =>
-            Navigator.SceneConfigs.FloatFromRight
-          }
+          configureScene={ (route, routeStack ) => Config.sceneConfig }
         />
       </Provider>
 

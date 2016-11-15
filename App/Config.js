@@ -1,6 +1,7 @@
 import {
   Dimensions,
-  Platform
+  Platform,
+  Navigator
 } from 'react-native'
 
 export default {
@@ -8,10 +9,7 @@ export default {
   debugState: false,
   debugNetwork: false,
   version: require('../package.json').version,
-  metrics: {
-      systemBarHeight: Platform.OS === 'ios' ? 20 : 0,
-      navBarHeight: (Platform.OS === 'ios') ? 60 : 60
-  },
+  sceneConfig: Navigator.SceneConfigs.FadeAndroid,
   http: {
     baseUrl: 'http://ecd.cnsnt.io/api/v1/',
     headers: {

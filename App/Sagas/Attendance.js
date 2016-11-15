@@ -34,7 +34,7 @@ export function* submit(action) {
       yield put(appActions.setModal({
         modalText: 'Upload complete',
         modalMode: ModalMode.OKAY,
-        modalOnPositive: () => {navigator.popN(2)}
+        modalOnPositive: () => { setTimeout(() => navigator.popN(2))}
       }))
       // Clear classData from app state (avoid premature renders)
       yield put(appActions.setClass(null))
