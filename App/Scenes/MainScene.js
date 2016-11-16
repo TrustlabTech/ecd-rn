@@ -20,7 +20,6 @@ import { connect } from 'react-redux'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
 import * as navigationActions from '../Actions/Navigation'
-import MainDrawer from '../Components/MainDrawer'
 import { Colours, FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 
@@ -45,7 +44,7 @@ class MainScene extends Component {
       modalVisible: true,
       modalMode: ModalMode.CONFIRM,
       modalText: "Are you sure you want to logout?",
-      modalOnPositive: ()=> {
+      modalOnPositive: () => {
         setTimeout(() => this.props.navigator.pop() ,0)
         // Delay for better animation
         setTimeout(() => this._drawer.closeDrawer() ,100)
@@ -63,7 +62,6 @@ class MainScene extends Component {
   }
 
   render() {
-
     // This ensures the newline is interpolated
     let mainBtnText = "Take\nAttendance"
     let loggedInAs = "Logged in as\n" +

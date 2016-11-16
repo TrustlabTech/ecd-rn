@@ -7,20 +7,6 @@ export function attempt(phoneNumber, pin, navigator) {
   }
 }
 
-export function succeeded(navigator) {
-  return {
-    type: 'LOGIN_SUCCEEDED',
-    navigator: navigator
-  }
-}
-
-export function failed(error) {
-  return {
-    type: 'LOGIN_FAILED',
-    error: error
-  }
-}
-
 export function phoneNumberTextChange(text) {
   return {
     type: 'PHONENUMBER_TEXT_CHANGE',
@@ -34,9 +20,3 @@ export function pinTextChange(text) {
     text: text
   }
 }
-
-// export function closeModal() {
-//   return {
-//     type: 'LOGIN_CLOSE_MODAL'
-//   }
-// }
