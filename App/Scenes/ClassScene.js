@@ -62,6 +62,7 @@ class ClassScene extends Component {
       {this.props.state.App.centreData.map((val,i) =>
         <Button
         disabled={val.attended}
+        disabledText={"Attendance has already been submitted for "+val.name+" today."}
         width={250}
         key={i}
         text={val.name}

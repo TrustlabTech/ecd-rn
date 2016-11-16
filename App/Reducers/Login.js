@@ -8,13 +8,10 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
-
     case 'LOGIN_ATTEMPT':
-      console.log("LOGIN_ATTEMPT")
       return {
-        ...initialState,
-        // waitingForNetwork: true,
-        // showWaitModal: true
+        ...state,
+        pin: initialState.pin
       }
 
     case 'PHONENUMBER_TEXT_CHANGE':

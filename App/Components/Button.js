@@ -3,7 +3,8 @@ import {
   View,
   Text,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
+  ToastAndroid
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 import LinearGradient from 'react-native-linear-gradient'
@@ -24,6 +25,11 @@ export default class Button extends Component {
   onPress() {
     if(this.props.disabled !== true) {
       setTimeout(() => this.props.onPress(),0)
+    } else {
+      if(this.props.disabledText)
+        // alert(this.props.disabledText)git
+        ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT);
+
     }
   }
 
@@ -42,7 +48,8 @@ export default class Button extends Component {
       <View>
 
         <TouchableHighlight
-          activeOpacity={this.props.disabled ? 1: 0.2}
+          underlayColor={Colours.offWhite}
+          activeOpacity={this.props.disabled ? 0.4: 0.2}
           style={{
             marginTop: 8,
             marginBottom: 8,

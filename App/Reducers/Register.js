@@ -29,7 +29,6 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'REGISTER_SUCCEEDED':
-      console.log("REGISTER_SUCCEEDED")
       // Need register success message before pop
       action.navigator.push(Routes.registerConfirm)
       return {
@@ -39,7 +38,6 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'REGISTER_FAILED':
-      console.log("REGISTER_FAILED",action)
       return {
         ...state,
         waitingForNetwork: false,

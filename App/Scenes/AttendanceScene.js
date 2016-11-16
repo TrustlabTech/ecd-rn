@@ -71,7 +71,7 @@ class AttendanceScene extends Component {
   }
 
   submit() {
-    // var i = 0
+
     var summary = "Are you sure you want to submit attendance with "+this.getSummaryString()+ " children present?"
 
     this.props.dispatch(
@@ -135,6 +135,7 @@ class AttendanceScene extends Component {
         }
         return (
           <Checkbox
+            style={'switch'}
             key={i}
             width={300}
             text={result.given_name + ' ' + result.family_name}
@@ -155,8 +156,7 @@ class AttendanceScene extends Component {
           navigator={ this.props.navigator }
           leftButtonText="Back"
           leftButtonAction={ () => this.goBack() }
-          rightButtonText="Done"
-          rightButtonAction={ () => this.submit() }
+
         />
         <SceneView>
           <SceneHeading text="Attendance"/>
@@ -169,7 +169,7 @@ class AttendanceScene extends Component {
               justifyContent: 'flex-end',
               paddingRight: 10
             }}>
-              <Button text="Select All" onPress={ () => this.selectAll() }/>
+              <Button text="Submit" onPress={ () => this.submit() }/>
             </View>
           </View>
         </SceneView>

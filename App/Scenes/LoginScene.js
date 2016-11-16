@@ -3,29 +3,20 @@ import { bindActionCreators } from 'redux'
 import {
   Text,
   View,
-  StyleSheet,
   TouchableHighlight,
-  Image,
-  TextInput,
-  Dimensions
+  AsyncStorage
 } from 'react-native'
 
-import Routes from '../Routes'
-import NavBar from '../Components/NavBar'
 import TextField from '../Components/TextField'
 import Button from '../Components/Button'
-import SceneView from '../Components/SceneView'
-import Scene from '../Components/Scene'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
-import Link from '../Components/Link'
 import Config from '../Config'
 import { connect } from 'react-redux'
 import * as loginActions from '../Actions/Login'
 import * as appActions from '../Actions/App'
 import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
-import Checkbox from '../Components/Checkbox'
 
 class LoginScene extends Component {
 
@@ -36,6 +27,17 @@ class LoginScene extends Component {
     this.dispatch = this.props.dispatch
     this.navigator = this.props.navigator
     this.route = this.props.route
+  }
+
+  componentWillMount() {
+    this.loadPersistedPhoneNumber()
+  }
+
+  loadPersistedPhoneNumber() {
+    AsyncStorage.getItem('@phoneNumber',(error, result) => {
+      if(!error)
+        this.actions.phoneNumberTextChange(result)
+    })
   }
 
   login() {
@@ -50,19 +52,40 @@ class LoginScene extends Component {
       pin,
       this.navigator
     )
+    AsyncStorage.setItem('@phoneNumber',phoneNumber,(error) => {
+      if(error) {
+        console.log('Could not store phone number')
+      } else {
+        console.log('Phone number stored '+phoneNumber)
+      }
+
+    })
   }
 
   render() {
-    const { phoneNumber, pin } = this.props.state.Login;
+    const { phoneNumber, pin } = this.props.state.Login
+    let footer = <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
+
+    if(Config.debug) {
+      footer =
+        <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>RN v{Config.rnVersion}</Text>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
+        </View>
+    } else {
+      footer =
+        <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
+        </View>
+    }
 
     return (
       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
-        <View style={{flex: 1}}/>
-        <View style={{height: 330}}>
+        <View style={{height: 20}}/>
+        <View style={{height: 320}}>
           <SceneHeading text="ECD APP"/>
 
           <FormHeading text="Login"/>
-
           <TextField
             value={ phoneNumber }
             ref="phoneNumber"
@@ -85,16 +108,11 @@ class LoginScene extends Component {
             onSubmitEditing={ () => this.login() }
             width={ this.screenWidth * 0.6 }
           />
-
           <View style={{flex: 1, alignItems: 'center'}}>
             <Button text="Login" onPress={() => this.login()}/>
           </View>
-
         </View>
-        <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
-          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
-          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>RN v{Config.rnVersion}</Text>
-        </View>
+        {footer}
       </View>
     )
   }

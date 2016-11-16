@@ -45,13 +45,13 @@ export default class WaitModal extends Component {
   onPositive(){
     if(this.props.onPositive())
       setTimeout(() => this.props.onPositive(),0)
-    this.close()
+    setTimeout(() => this.close(),50)
   }
 
   onNegative(){
     if(this.props.onNegative)
       setTimeout(() => this.props.onNegative(),0)
-    this.close()
+    setTimeout(() => this.close(),50)
   }
 
 
@@ -77,7 +77,7 @@ export default class WaitModal extends Component {
             <TouchableHighlight
               style={{ borderRadius: 5, marginLeft: 10 }}
               underlayColor={'white'}
-              onPress={ () => this.onPositive() }
+              onPress={ () => setTimeout(() =>this.onPositive(),0) }
             >
               <View style={{
                 padding: 15,
@@ -96,7 +96,7 @@ export default class WaitModal extends Component {
             <TouchableHighlight
               style={{ marginRight: 10, borderRadius: 5 }}
               underlayColor={'white'}
-              onPress={ () => this.onNegative() }
+              onPress={ () => setTimeout(() =>this.onNegative(),0) }
             >
               <View style={{
                 padding: 15,
