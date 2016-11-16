@@ -20,7 +20,6 @@ import { connect } from 'react-redux'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
 import * as navigationActions from '../Actions/Navigation'
-import MainDrawer from '../Components/MainDrawer'
 import { Colours, FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 

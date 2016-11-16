@@ -10,7 +10,7 @@ export default class SceneHeading extends Component {
 
   render() {
     return (
-      <View style={{alignItems: 'center', marginTop: 20, marginBottom: 20}}>
+      <View style={{alignItems: 'center', marginTop: 8, marginBottom: 5}}>
         <Text style={{fontSize: FontSizes.h4, fontWeight: 'bold'}}>{this.props.text}</Text>
       </View>
     )
