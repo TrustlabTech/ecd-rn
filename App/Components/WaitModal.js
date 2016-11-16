@@ -44,15 +44,14 @@ export default class WaitModal extends Component {
 
   onPositive(){
     if(this.props.onPositive())
-      this.props.onPositive()
-
-    this.close()
+      setTimeout(() => this.props.onPositive(),0)
+    setTimeout(() => this.close(),50)
   }
 
   onNegative(){
     if(this.props.onNegative)
-      this.props.onNegative()
-    this.close()
+      setTimeout(() => this.props.onNegative(),0)
+    setTimeout(() => this.close(),50)
   }
 
 
@@ -76,11 +75,9 @@ export default class WaitModal extends Component {
             }}
           >
             <TouchableHighlight
-              style={{
-                borderRadius: 5,
-                marginLeft: 10
-              }}
-              onPress={ () => this.onPositive() }
+              style={{ borderRadius: 5, marginLeft: 10 }}
+              underlayColor={'white'}
+              onPress={ () => setTimeout(() =>this.onPositive(),0) }
             >
               <View style={{
                 padding: 15,
@@ -97,11 +94,9 @@ export default class WaitModal extends Component {
             </TouchableHighlight>
 
             <TouchableHighlight
-              style={{
-                marginRight: 10,
-                borderRadius: 5,
-              }}
-              onPress={ () => this.onNegative() }
+              style={{ marginRight: 10, borderRadius: 5 }}
+              underlayColor={'white'}
+              onPress={ () => setTimeout(() =>this.onNegative(),0) }
             >
               <View style={{
                 padding: 15,
@@ -130,11 +125,10 @@ export default class WaitModal extends Component {
               alignItems: 'center'
             }}
           >
-            <TouchableHighlight style={{
-                borderRadius: 5,
-                padding: 15
-            }}
-            onPress={ () => this.onPositive() }>
+            <TouchableHighlight style={{ borderRadius: 5 }}
+              underlayColor={'white'}
+              onPress={ () => setTimeout(() =>this.onPositive(),0) }
+            >
               <View style={{
                 padding: 15,
                 borderRadius: 5,

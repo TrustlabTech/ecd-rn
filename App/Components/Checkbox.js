@@ -3,7 +3,7 @@ import {
   View,
   Text,
   TouchableHighlight,
-  StyleSheet
+  Switch
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 import LinearGradient from 'react-native-linear-gradient'
@@ -14,22 +14,14 @@ export default class Checkbox extends Component {
     super(props)
   }
 
+
   render() {
-    const checked = this.props.checked ? 'X' : ''
 
-    return (
-      <View style={{ flex: 1, marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 5, height: 45 }}>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+    let checkbox = null
+    switch(this.props.style) {
 
-          {/* Text */}
-          <View style={{ flex: 1 }}>
-
-            <Text style={{ color: Colours.primary, fontSize: FontSizes.h5, textAlign: 'left', marginLeft: 10 }}>
-              {this.props.text}
-            </Text>
-          </View>
-
-          {/* Checkbox */}
+      case 'classic':
+        checkbox =
           <TouchableHighlight
             onPress={ () => this.props.onPress(!this.props.checked) }
             style={{
@@ -37,9 +29,34 @@ export default class Checkbox extends Component {
             }}
           >
             <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderColor: Colours.primaryLowlight, borderWidth: 1, borderStyle: 'solid', borderRadius: 5, padding: 1, width: this.props.height || 45, height: 45 }}>
-              <Text>{checked}</Text>
+              <Text>{this.props.checked ? 'X' : ''}</Text>
             </View>
           </TouchableHighlight>
+        break
+
+      case 'switch':
+        checkbox =
+          <Switch value={this.props.checked} ref={(ref) => this._switch = ref} onValueChange={() => this.props.onPress()}/>
+          break
+
+      default:
+        checkbox =
+          <Switch value={this.props.checked} ref={(ref) => this._switch = ref} onValueChange={() => this.props.onPress()}/>
+          break
+    }
+
+    return (
+      <View style={{ flex: 1, marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 5, height: 45 }}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+
+          <View style={{ flex: 1 }}>
+
+            <Text style={{ color: Colours.primary, fontSize: FontSizes.h5, textAlign: 'left', marginLeft: 10 }}>
+              {this.props.text}
+            </Text>
+          </View>
+          {checkbox}
+
         </View>
       </View>
     )

@@ -25,19 +25,38 @@ export default class NavBar extends Component {
       true : false
   }
 
+  goBack() {
+    setTimeout(() => this.props.navigator.pop(),0 )
+  }
+
+  pressRightButton() {
+    if(this.props.rightButtonAction)
+      setTimeout(() => this.props.rightButtonAction(),0 )
+  }
+
+  pressLeftButton() {
+    if(this.props.leftButtonAction)
+      setTimeout(() => this.props.leftButtonAction(),0 )
+  }
+
   render() {
 
     var leftButton, centerTitle, rightButton,  iOSSpacer = null
-    let { leftButtonAction, leftButtonText } = this.props
+    let { leftButtonAction,
+          leftButtonText,
+          rightButtonAction,
+          rightButtonText } = this.props
+
     if( leftButtonText ) {
 
-      if( !leftButtonAction)
+      if( !leftButtonAction )
         leftButtonAction = () => alert(" No action specified")
 
       leftButton =
         <TouchableHighlight
-          underlayColor='silver'
-          onPress={ leftButtonAction }
+          underlayColor={Colours.offWhite}
+          activeOpacity={0.9}
+          onPress={ () => this.pressLeftButton() }
         >
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>{leftButtonText}</Text>
@@ -52,8 +71,9 @@ export default class NavBar extends Component {
 
       leftButton =
         <TouchableHighlight
-          underlayColor='silver'
-          onPress={ this.props.navigator.pop }
+          underlayColor={Colours.offWhite}
+          activeOpacity={0.9}
+          onPress={ () => this.goBack() }
         >
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>{text}</Text>
@@ -78,15 +98,23 @@ export default class NavBar extends Component {
         </Text>
       </View>
 
-    rightButton =
-      <TouchableHighlight
-       underlayColor={Colours.touchableUnderLay}
-       onPress={this.props.rightButtonAction}
-      >
-        <View style={styles.sideButtonsViewWrapper}>
-          <Text style={styles.navButtonText}>{this.props.rightButtonText}</Text>
-        </View>
-      </TouchableHighlight>
+    if(rightButtonText) {
+      rightButton =
+        <TouchableHighlight
+          underlayColor={Colours.offWhite}
+          activeOpacity={0.9}
+          onPress={ () => this.pressRightButton() }
+        >
+          <View style={styles.sideButtonsViewWrapper}>
+            <Text style={styles.navButtonText}>{this.props.rightButtonText}</Text>
+          </View>
+        </TouchableHighlight>
+    } else {
+      rightButton =
+        <TouchableHighlight>
+          <View style={styles.sideButtonsViewWrapper}/>
+        </TouchableHighlight>
+    }
 
     if(Platform.OS === 'ios')
       iOSSpacer = <View style={{height: 20}}/>
@@ -137,10 +165,10 @@ const styles = StyleSheet.create({
   },
   sideButtonsViewWrapper: {
     flex: 1,
+    backgroundColor: Colours.primary,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
-    width: 50
+    width: 60
   }
 })

@@ -40,6 +40,17 @@ class ClassScene extends Component {
     }))
   }
 
+  takeAttendance(val) {
+    setTimeout(() =>
+      this.navigator.push({
+        ...Routes.attendance,
+        classId: val.id,
+        className: val.name,
+        centreId: val.centre_id
+      })
+    ,0)
+  }
+
   render() {
     var items = null
 
@@ -51,18 +62,13 @@ class ClassScene extends Component {
       {this.props.state.App.centreData.map((val,i) =>
         <Button
         disabled={val.attended}
+        disabledText={"Attendance has already been submitted for "+val.name+" today."}
         width={250}
         key={i}
         text={val.name}
-        onPress={ () => {
-          setTimeout(() =>
-            this.navigator.push({
-            ...Routes.attendance,
-            classId: val.id,
-            className: val.name,
-            centreId: val.centre_id
-          }),0)
-        }}
+        onPress={
+          () => this.takeAttendance(val)
+        }
         />
       )}
       </View>

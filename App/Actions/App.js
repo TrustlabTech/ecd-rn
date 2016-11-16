@@ -1,4 +1,3 @@
-// Global State
 export function setUser(userData) {
   return {
     type: 'APP_SET_USER',
