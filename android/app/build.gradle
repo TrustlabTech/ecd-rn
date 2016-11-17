@@ -2,14 +2,18 @@ apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
+project.ext.react = [
+    bundleAssetName: "index.android.bundle",
+    entryFile: "index.android.js",
+    bundleInRelease: true,
+    jsBundleDirRelease: "$buildDir/intermediates/assets/release",
+    resourcesDirRelease: "$buildDir/intermediates/res/merged/release"
+]
+
 apply from: "../../node_modules/react-native/react.gradle"
 
-def enableSeparateBuildPerCPUArchitecture = false
-
-/**
- * Run Proguard to shrink the Java bytecode in release builds.
- */
-def enableProguardInReleaseBuilds = false
+def enableSeparateBuildPerCPUArchitecture = true
+def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 23
@@ -27,10 +31,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            storeFile file(System.env.ECDRN_RELEASE_STORE_FILE)
+            storePassword System.env.ECDRN_RELEASE_STORE_PASSWORD
+            keyAlias System.env.ECDRN_RELEASE_STORE_KEY_ALIAS
+            keyPassword System.env.ECDRN_RELEASE_STORE_KEY_PASSWORD
         }
     }
     splits {
