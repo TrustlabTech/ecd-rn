@@ -36,6 +36,12 @@ android {
             keyAlias System.env.ECDRN_RELEASE_STORE_KEY_ALIAS
             keyPassword System.env.ECDRN_RELEASE_STORE_KEY_PASSWORD
         }
+        debug {
+            storeFile file('ECDRN.keystore')
+            storePassword 'ECDRN_RELEASE'
+            keyAlias 'shantaram'
+            keyPassword 'shantaram'
+        }
     }
     splits {
         abi {
