@@ -101,7 +101,7 @@ class AttendanceScene extends Component {
           }))
         }, (error) => {
           this.props.dispatch(appActions.setModal({
-            modalText: "Uploading failed. Please ensure GPS is enabled",
+            modalText: "Could not get location. Please ensure location is enabled on your phone.",
             modalMode: ModalMode.OKAY,
             modalVisible: true,
             modalOnPositive: () => {}

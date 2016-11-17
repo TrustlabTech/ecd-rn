@@ -2,14 +2,22 @@ apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
+project.ext.react = [
+    bundleAssetName: "index.android.bundle",
+    entryFile: "index.android.js",
+    bundleInRelease: true,
+    jsBundleDirRelease: "$buildDir/intermediates/assets/release",
+    resourcesDirRelease: "$buildDir/intermediates/res/merged/release"
+]
+
 apply from: "../../node_modules/react-native/react.gradle"
 
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 android {
     compileSdkVersion 23
@@ -68,6 +76,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-sentry-android')
     compile project(':react-native-linear-gradient')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
