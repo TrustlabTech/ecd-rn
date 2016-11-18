@@ -6,9 +6,9 @@ const initialState = {
   modalVisible: false,
   modalText: "Please wait",
   modalMode: ModalMode.OKAY,
-  modalOnPositive: function() { console.log('DEFAULT POSITIVE')},
+  modalOnPositive: null,
   modalPositiveText: 'Yes',
-  modalOnNegative: function() { console.log('DEFAULT NEGATIVE')},
+  modalOnNegative: null,
   modalNegativeText: 'No'
 }
 
@@ -34,7 +34,7 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'APP_SET_MODAL':
-
+    console.log('MODAL OPTIONS', action.modalOptions)
       const opts = action.modalOptions
       const nextState = {}
 
@@ -49,24 +49,23 @@ export default (state = initialState, action = {}) => {
 
       if(typeof opts.modalOnPositive !== 'undefined')
         nextState.modalOnPositive = opts.modalOnPositive
-      else
-        nextState.modalOnPositive = initialState.modalOnPositive
+      // else
+      //   nextState.modalOnPositive = initialState.modalOnPositive
 
       if(typeof opts.modalOnNegative !== 'undefined')
         nextState.modalOnNegative = opts.modalOnNegative
-      else
-        nextState.modalOnNegative = initialState.modalOnNegative
+      // else
+      //   nextState.modalOnNegative = initialState.modalOnNegative
 
       if(typeof opts.modalPositiveText !== 'undefined')
         nextState.modalPositiveText = opts.modalPositiveText
-      else
-        nextState.modalPositiveText = initialState.modalPositiveText
+      // else
+      //   nextState.modalPositiveText = initialState.modalPositiveText
 
       if(typeof opts.modalNegativeText !== 'undefined')
         nextState.modalNegativeText = opts.modalNegativeText
-      else
-        nextState.modalNegativeText = initialState.modalNegativeText
-
+      // else
+      //   nextState.modalNegativeText = initialState.modalNegativeText
       return {
         ...state,
         ...nextState,

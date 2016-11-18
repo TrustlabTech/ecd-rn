@@ -31,15 +31,19 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file(System.env.ECDRN_RELEASE_STORE_FILE)
-            storePassword System.env.ECDRN_RELEASE_STORE_PASSWORD
-            keyAlias System.env.ECDRN_RELEASE_STORE_KEY_ALIAS
-            keyPassword System.env.ECDRN_RELEASE_STORE_KEY_PASSWORD
+            // storeFile file(System.env.ECDRN_RELEASE_STORE_FILE)
+            // storePassword System.env.ECDRN_RELEASE_STORE_PASSWORD
+            // keyAlias System.env.ECDRN_RELEASE_STORE_KEY_ALIAS
+            // keyPassword System.env.ECDRN_RELEASE_STORE_KEY_PASSWORD
+            storeFile file('ECDRN.keystore')
+            storePassword 'shantaram'
+            keyAlias 'ECDRN_RELEASE'
+            keyPassword 'shantaram'
         }
         debug {
             storeFile file('ECDRN.keystore')
-            storePassword 'ECDRN_RELEASE'
-            keyAlias 'shantaram'
+            storePassword 'shantaram'
+            keyAlias 'ECDRN_RELEASE'
             keyPassword 'shantaram'
         }
     }

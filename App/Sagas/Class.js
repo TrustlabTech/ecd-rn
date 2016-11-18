@@ -10,7 +10,8 @@ export function* fetchClasses(action) {
     const data = yield call(Api.fetchClasses, action.staffId, action.token)
     if(data && !data.error) {
       yield put(appActions.setCentre(data))
-      yield put(appActions.setModal({modalVisible: false}))
+      console.log('CLASS SAGA')
+      yield put(appActions.setModal({modalVisible: false, class: true}))
     } else {
       yield put(appActions.setModal({modalText: data.error || "Unknown error", modalWaiting: false}))
     }

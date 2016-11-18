@@ -17,15 +17,33 @@ export function* attempt(action) {
   try {
     let data = yield call(Api.login,phoneNumber,pin)
     if(data.error) {
-      yield put(appActions.setModal({modalText: data.error, modalVisible: true, modalMode: ModalMode.OKAY}))
+      yield put(appActions.setModal({
+        modalText: data.error,
+        modalVisible: true,
+        modalMode: ModalMode.OKAY,
+        modalOnPositive: () => {
+          put(appActions.setModal({
+            modalVisible: false
+          }))
+        }
+      }))
     } else {
       yield put(navigationActions.push(Routes.main, navigator))
       yield put(appActions.setUser(data))
-      yield put(appActions.setModal({modalVisible: false}))
+      yield put(appActions.setModal({
+        modalVisible: false
+      }))
     }
 
   } catch (error) {
     if(Config.debug) console.log("Sagas:loginAttempt ERROR",error)
-    yield put(appActions.setModal({modalText: error, modalWaiting: false, modalVisible: true}))
+    yield put(appActions.setModal({
+      modalText: error,
+      modalMode: ModalMode.OKAY,
+      modalVisible: true,
+      modalOnPositive: () => {
+        put(appActions.setModal({modalVisible: false}))
+      }
+    }))
   }
 }
