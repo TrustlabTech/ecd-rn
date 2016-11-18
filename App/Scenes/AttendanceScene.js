@@ -3,7 +3,8 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
@@ -73,13 +74,9 @@ class AttendanceScene extends Component {
   submit() {
 
     var summary = "Are you sure you want to submit attendance with "+this.getSummaryString()+ " children present?"
-
-    this.props.dispatch(
-      appActions.setModal({
-      modalVisible: true,
-      modalText:  summary ,
-      modalMode: ModalMode.CONFIRM,
-      modalOnPositive: () => {
+    Alert.alert('Submit attendance?',summary,
+      [
+        {text: 'Yes', onPress: () => {
         this.props.dispatch(appActions.setModal({
           modalVisible: true,
           modalText: "Getting location",
@@ -100,17 +97,62 @@ class AttendanceScene extends Component {
             modalMode: ModalMode.WAITING
           }))
         }, (error) => {
-          this.props.dispatch(appActions.setModal({
-            modalText: "Could not get location. Please ensure location is enabled on your phone.",
-            modalMode: ModalMode.OKAY,
-            modalVisible: true,
-            modalOnPositive: () => {}
-          }))
+            this.props.dispatch(appActions.setModal({
+              modalVisible: false
+            }))
+            Alert.alert('Could not get location', 'Ensure location is enabled. Attendance was not submitted',
+              [
+                {'text': 'Okay'}
+              ]
+            )
         },{
           timeout: 5000
         })
-      }
-    }))
+      }},
+      {text: 'No'}
+    ]
+  )
+    // this.props.dispatch(
+    //   appActions.setModal({
+    //   modalVisible: true,
+    //   modalText:  summary ,
+    //   modalMode: ModalMode.CONFIRM,
+    //   modalOnPositive: () => {
+    //     this.props.dispatch(appActions.setModal({
+    //       modalVisible: true,
+    //       modalText: "Getting location",
+    //       modalMode: ModalMode.WAITING
+    //     }))
+    //     navigator.geolocation.getCurrentPosition((location) => {
+    //       this.actions.submit(
+    //         location,
+    //         this.centreId,
+    //         this.classId,
+    //         this.attendanceData,
+    //         this.token,
+    //         this.props.navigator
+    //       )
+    //       this.props.dispatch(appActions.setModal({
+    //         modalVisible: true,
+    //         modalText: "Uploading Data",
+    //         modalMode: ModalMode.WAITING
+    //       }))
+    //     }, (error) => {
+    //       this.props.dispatch(appActions.setModal({
+    //         modalText: "Could not get location. Please ensure location is enabled on your phone.",
+    //         modalMode: ModalMode.OKAY,
+    //         modalVisible: true,
+    //         modalOnPositive: () => {
+    //           this.props.dispatch(appActions.setModal({
+    //             modalVisible: false
+    //           }))
+    //         }
+    //       }))
+    //     },{
+    //       timeout: 5000
+    //     })
+    //   }
+    // }))
 
   }
 

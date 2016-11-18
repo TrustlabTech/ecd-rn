@@ -7,7 +7,8 @@ import {
   StatusBar,
   ScrollView,
   TouchableHighlight,
-  DrawerLayoutAndroid
+  DrawerLayoutAndroid,
+  Alert
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
@@ -40,15 +41,13 @@ class MainScene extends Component {
   }
 
   logout() {
-    this.props.dispatch(appActions.setModal({
-      modalVisible: true,
-      modalMode: ModalMode.CONFIRM,
-      modalText: "Are you sure you want to logout?",
-      modalOnPositive: () => {
-        setTimeout(() => this.props.navigator.pop() ,0)
-        // Delay for better animation
-        setTimeout(() => this._drawer.closeDrawer() ,100)
-    }}))
+    Alert.alert('Logout','Are you sure you want to logout?',[
+      {text: 'Yes', onPress: () => {
+        this.props.navigator.pop()
+        this._drawer.closeDrawer()
+      }},
+      {text: 'No'}
+    ])
   }
 
   toggleDrawer() {
@@ -67,7 +66,6 @@ class MainScene extends Component {
     let loggedInAs = "Logged in as\n" +
       this.props.state.App.userData.user.given_name + ' ' +
       this.props.state.App.userData.user.family_name
-    const onPs = function(){ alert('hi') }
     return (
         <View style={{flex: 1}}>
           <NavBar
@@ -96,7 +94,12 @@ class MainScene extends Component {
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => alert("Press the 'Take Attendance' button to take today's attendance") }>
+                    <TouchableHighlight onPress={ () => {
+                      Alert.alert('Help & Instructions','Press the Take Attendance button to take today\'s attendance',
+                      [
+                        {text: 'Okay'}
+                      ])
+                    }}>
                       <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Help & Instructions</Text>
                     </TouchableHighlight>
                   </View>

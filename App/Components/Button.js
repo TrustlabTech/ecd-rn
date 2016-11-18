@@ -50,7 +50,10 @@ export default class Button extends Component {
         <TouchableHighlight
         underlayColor={Colours.offWhite}
         activeOpacity={this.props.disabled ? 0.4: 0.2}
-        style={styles.tH}
+        style={[styles.tH,{
+          width: this.props.width || 140,
+          height: this.props.height || 45
+        }]}
         onPress={ () => this.onPress() }>
 
           <View style={styles.view}>
@@ -68,13 +71,11 @@ export default class Button extends Component {
   }
 }
 
-var style = StyleSheet.create({
+var styles = StyleSheet.create({
   tH: {
     marginTop: 8,
     marginBottom: 8,
-    borderRadius: 5,
-    width: this.props.width || 140,
-    height: this.props.height || 45
+    borderRadius: 5
   },
   view: {
     flex: 1,

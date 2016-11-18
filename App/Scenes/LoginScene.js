@@ -47,6 +47,7 @@ class LoginScene extends Component {
       modalText: "Logging in",
       modalMode: ModalMode.WAITING
     }))
+
     this.actions.attempt(
       phoneNumber,
       pin,
