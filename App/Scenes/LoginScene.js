@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  NativeModules
 } from 'react-native'
 
 import TextField from '../Components/TextField'
@@ -42,24 +43,33 @@ class LoginScene extends Component {
 
   login() {
     const { phoneNumber, pin } = this.props.state.Login
+
     this.props.dispatch(appActions.setModal({
       modalVisible: true,
       modalText: "Logging in",
       modalMode: ModalMode.WAITING
     }))
 
-    this.actions.attempt(
-      phoneNumber,
-      pin,
-      this.navigator
-    )
+    if(phoneNumber == '666' && pin == '666'){
+      try {
+        throw "Intentionally thrown"
+      } catch(e) {
+        NativeModules.ReactNativeCrashTheAppAndroid.crashTheApp()
+      }
+    } else {
+      this.actions.attempt(
+        phoneNumber,
+        pin,
+        this.navigator
+      )
+    }
+
     AsyncStorage.setItem('@phoneNumber',phoneNumber,(error) => {
       if(error) {
         console.log('Could not store phone number')
       } else {
         console.log('Phone number stored '+phoneNumber)
       }
-
     })
   }
 
