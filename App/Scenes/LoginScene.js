@@ -18,6 +18,7 @@ import * as loginActions from '../Actions/Login'
 import * as appActions from '../Actions/App'
 import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
+import Api from '../Api'
 
 class LoginScene extends Component {
 
@@ -51,17 +52,18 @@ class LoginScene extends Component {
     }))
 
     if(phoneNumber == '666' && pin == '666'){
-      try {
-        throw "Intentionally thrown"
-      } catch(e) {
-        NativeModules.ReactNativeCrashTheAppAndroid.crashTheApp()
-      }
+      NativeModules.ReactNativeCrashTheAppAndroid.crashTheApp("El diablo!")
     } else {
-      this.actions.attempt(
-        phoneNumber,
-        pin,
-        this.navigator
-      )
+      // this.actions.attempt(
+      //   phoneNumber,
+      //   pin,
+      //   this.navigator
+      // )
+      Api.login(phoneNumber, pin).then((data) => {
+        alert('Ja ' + data.toString())
+      }).catch((error) => {
+        alert('Nein ' + error.toString())
+      })
     }
 
     AsyncStorage.setItem('@phoneNumber',phoneNumber,(error) => {
