@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects'
 import Api from '../Api'
 import Config from '../Config'
 import Routes from '../Routes'
-
+import Alert from 'react-native'
 import { ModalMode } from '../Components/WaitModal'
 
 import * as appActions from '../Actions/App'

@@ -71,7 +71,7 @@ export default {
       }).then((data) => {
         resolve(data)
       }).catch((error) => {
-        resolve({error: error})
+        reject(error)
       })
     })
   },

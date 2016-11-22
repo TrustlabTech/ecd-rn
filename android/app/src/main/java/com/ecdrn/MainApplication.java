@@ -8,7 +8,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-
+import za.co.io.crashtheapp.ReactNativeCrashTheAppAndroidPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 
 import java.util.Arrays;
@@ -26,7 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new LinearGradientPackage()
+          new LinearGradientPackage(),
+          new ReactNativeCrashTheAppAndroidPackage()
       );
     }
   };
