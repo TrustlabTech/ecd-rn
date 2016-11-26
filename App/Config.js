@@ -1,3 +1,14 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
+/* Config.js
+ * Contain's the application's configuration information
+ */
+
 import {
   Dimensions,
   Platform,
@@ -5,10 +16,13 @@ import {
 } from 'react-native'
 
 const pkg = require('../package.json')
+
 export default {
   debug: true,
-  debugState: false,
-  debugNetwork: false,
+  debugAction: false,
+  debugNetwork: true,
+  debugStore: false,
+  debugReact: false,
   version: pkg.version,
   rnVersion: pkg.dependencies['react-native'].substring(1),
   sceneConfig: Navigator.SceneConfigs.FadeAndroid,

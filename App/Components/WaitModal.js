@@ -55,7 +55,20 @@ export default class WaitModal extends Component {
 
   render() {
 
-    var SpinnyThing = null
+    var SpinnyThing =
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <ActivityIndicator
+          animating={ true }
+          style={{height: 80}}
+          size="large"
+        />
+      </View>
 
     var Buttons = null
 

@@ -1,3 +1,14 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
+/* Routes.js
+ * Outlines the available scenes for navigation
+ */
+
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
