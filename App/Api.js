@@ -1,3 +1,10 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
 import Config from './Config'
 
 function timestamp(currentDate) {
@@ -11,6 +18,7 @@ function timestamp(currentDate) {
 
 function request(route, options = {method: 'GET'} ) {
 
+
   if(Config.debug && Config.debugNetwork)
     console.log('API REQUEST',timestamp(new Date()),Config.http.baseUrl + route, options)
 
@@ -19,8 +27,11 @@ function request(route, options = {method: 'GET'} ) {
   // Response received
   .then((response) => {
 
+
     if(Config.debug && Config.debugNetwork)
       console.log('API RESPONSE:',response)
+    else
+      Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
 
     return response.json()
   })
@@ -145,25 +156,28 @@ export default {
 
   submitAttendance: (location, centreId, classId, attendanceData, token) => {
     return new Promise((resolve,reject) => {
-
-      let children = []
-      attendanceData.forEach((data) => {
-        if( data.id) {
-          children.push({
-            children_id: data.id,
-            latitude: location.coords.latitude.toString(),
-            longitude: location.coords.longitude.toString(),
-            attended: data.checked || false
-          })
-        }
-      })
+      const children = attendanceData.map((x,i) => ({
+        children_id: x.id,
+          latitude: location.coords.latitude.toString(),
+          longitude: location.coords.longitude.toString(),
+          attended: x.checked || false
+      }))
+      // let children = []
+      // attendanceData.forEach((data) =>
+      //     children.push({
+      //       children_id: data.id,
+      //       latitude: location.coords.latitude.toString(),
+      //       longitude: location.coords.longitude.toString(),
+      //       attended: data.checked || false
+      //     })
+      // )
 
       let jsonData = {
         centre_id: centreId,
         centre_class_id: classId,
         children: children
       }
-      console.log(JSON.stringify(jsonData))
+      console.log('SUBMIT DATA',JSON.stringify(jsonData))
       request('attendance/bulk' ,{
         method: 'POST',
         body: JSON.stringify(jsonData),
@@ -177,47 +191,3 @@ export default {
   }
 }
 
-
-
-/*
-
-function fetch(url, options) {
-
-    return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest
-
-        xhr.onload = function(e) {
-            resolve({
-                json: function() {
-                    return new Promise(function(resolve2, reject2) {
-                        var j
-                        try {
-                            j = JSON.parse(e.responseText)
-                        } catch (e) {
-                            return reject2(e)
-                        }
-                        return resolve2(j)
-                    })
-                }
-            })
-        }
-
-        xhr.onerror = function(e) {
-            return reject(e)
-        }
-
-        xhr.open(options.method, url, true, options.username, options.password)
-
-        if (options.headers) {
-            Object.keys(options.headers).forEach(function(key) {
-                xhr.setRequestHeader(key, options.headers[key])
-            })
-        }
-
-        xhr.send(options.body || null)
-    })
-
-
-}
-
-*/

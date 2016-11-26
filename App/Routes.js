@@ -1,3 +1,13 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
+/* Routes.js
+ * Outlines the available scenes for navigation
+ */
 import React, { Component } from 'react'
 
 import LoginScene from './Scenes/LoginScene'
@@ -9,27 +19,27 @@ import AttendanceScene from './Scenes/AttendanceScene'
 export default {
 
   login: {
-    title: 'Consent ECD',
+    title: 'ECD APP',
     scene: LoginScene
   },
 
   register: {
-    title: 'Register',
+    title: 'ECD APP',
     scene: RegisterScene
   },
 
   main: {
-    title: 'Main',
+    title: 'ECD APP',
     scene: MainScene
   },
 
   class: {
-    title: 'Class',
+    title: 'ECD APP',
     scene: ClassScene
   },
 
   attendance: {
-    title: 'Attendance',
+    title: 'ECD APP',
     scene: AttendanceScene
   }
 

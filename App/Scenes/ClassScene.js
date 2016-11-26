@@ -19,36 +19,74 @@ import SceneHeading from '../Components/SceneHeading'
 import * as classActions from '../Actions/Class'
 import * as appActions from '../Actions/App'
 import { ModalMode } from '../Components/WaitModal'
+import Api from '../Api'
+import Sentry from '../Sentry'
 
 class ClassScene extends Component {
 
   constructor(props) {
     super(props)
-    this.actions = this.props.actions
-    this.navigator = this.props.navigator
-    this.route = this.props.route
   }
 
   componentWillMount() {
-    const token = this.props.state.App.userData._token
-    const staffId = this.props.state.App.userData.user.id
-    this.props.actions.fetchClasses( staffId, token )
-    this.props.dispatch(appActions.setModal({
-      modalMode: ModalMode.WAITING,
-      modalText: 'Please wait',
-      modalVisible: true
-    }))
+    Sentry.addBreadcrumb('ClassScene', 'componentWillMount')
+  }
+
+  goBack() {
+    setTimeout(() => this.props.navigator.pop(),0)
+    this.props.dispatch(appActions.setCentre(null))
   }
 
   takeAttendance(val) {
-    setTimeout(() =>
-      this.navigator.push({
-        ...Routes.attendance,
-        classId: val.id,
-        className: val.name,
-        centreId: val.centre_id
-      })
-    ,0)
+
+    // Open modal
+    this.props.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalText: "Please wait",
+      ModalMode: ModalMode.WAITING
+    }))
+
+    // Fetch remote data
+    Api.fetchClass(
+      val.id,
+      this.props.state.App.userData._token
+    ).then( (data) => {
+
+      // if(Config.debug && Config.debugNetwork)
+      //   console.log('Api.fetchClass: ',data)
+      // Handle result
+      if(data.error) alert(data.error)
+      else {
+
+
+
+        // Close modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+
+        // Set class data
+        // this.props.dispatch(appActions.setClass(data))
+
+        // Clear centre data
+        this.props.dispatch(appActions.setCentre(null))
+
+        // Change scene
+        this.props.navigator.push({
+          ...Routes.attendance,
+          classData: data
+        })
+
+      }
+    }).catch((error) => {
+
+      // Close the modal
+      this.props.dispatch(appActions.setModal({
+        modalVisible: false
+      }))
+
+      alert(error)
+    })
   }
 
   render() {
@@ -77,8 +115,9 @@ class ClassScene extends Component {
     return (
       <View style={{flex: 1}}>
         <NavBar
-          title="ECD APP"
-          navigator={ this.navigator }
+          navigator={ this.props.navigator }
+          leftButtonText="Back"
+          leftButtonAction={ () => this.goBack() }
         />
         <SceneView>
           <SceneHeading text="Take Attendance"/>

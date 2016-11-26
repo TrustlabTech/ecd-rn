@@ -1,3 +1,10 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import {
@@ -5,7 +12,7 @@ import {
   View,
   TouchableHighlight,
   AsyncStorage,
-  NativeModules
+  Alert
 } from 'react-native'
 
 import TextField from '../Components/TextField'
@@ -13,66 +20,107 @@ import Button from '../Components/Button'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
 import Config from '../Config'
+import Routes from '../Routes'
 import { connect } from 'react-redux'
 import * as loginActions from '../Actions/Login'
 import * as appActions from '../Actions/App'
 import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
+import Sentry from '../Sentry'
 
 class LoginScene extends Component {
 
   constructor(props) {
     super(props)
-    // For future terseness
-    this.actions = this.props.actions
-    this.dispatch = this.props.dispatch
-    this.navigator = this.props.navigator
-    this.route = this.props.route
   }
 
   componentWillMount() {
-    this.loadPersistedPhoneNumber()
-  }
 
-  loadPersistedPhoneNumber() {
+    Sentry.addBreadcrumb('LoginScene','componentWillMount')
+
     AsyncStorage.getItem('@phoneNumber',(error, result) => {
       if(!error)
-        this.actions.phoneNumberTextChange(result)
+        this.props.actions.phoneNumberTextChange(result)
+      else
+        Sentry.addBreadcrumb('LoginScene','Failed to load phone number from Async storage')
     })
   }
 
   login() {
+
+    Sentry.addNavigationBreadcrumb("LoginScene::login()", "LoginScene", "MainScene")
+
+    // From Redux
     const { phoneNumber, pin } = this.props.state.Login
 
+
+    // Open modal
     this.props.dispatch(appActions.setModal({
       modalVisible: true,
       modalText: "Logging in",
       modalMode: ModalMode.WAITING
     }))
 
+    this.props.actions.pinTextChange('')
+
+    // Check for the devil
     if(phoneNumber == '666' && pin == '666'){
-      NativeModules.ReactNativeCrashTheAppAndroid.crashTheApp("El diablo!")
+
+
+      // The dark one
+      Sentry.crashTheApp("El diablo!")
     } else {
-      // this.actions.attempt(
-      //   phoneNumber,
-      //   pin,
-      //   this.navigator
-      // )
+
+      // Login through REST
       Api.login(phoneNumber, pin).then((data) => {
-        alert('Ja ' + data.toString())
+
+        // Hide the modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+
+        // Check for error
+        if(data.error) {
+
+          Alert.alert(
+            'Could not login',
+            data.error,
+            [
+              {text: "Okay"}
+            ]
+          )
+
+        } else {
+          this.props.dispatch(appActions.setUser(data))
+          this.props.navigator.push(Routes.main)
+        }
       }).catch((error) => {
-        alert('Nein ' + error.toString())
+        if(Config.debug){
+          alert(error)
+          console.log(error)
+        } else {
+          Sentry.captureEvent("Failed to login", error)
+          Alert.alert(
+            'Unknown Error',
+            'There was a technical error logging in',
+            [
+              {text: "Okay"}
+            ]
+          )
+        }
       })
     }
 
     AsyncStorage.setItem('@phoneNumber',phoneNumber,(error) => {
       if(error) {
-        console.log('Could not store phone number')
+        if(Config.debug) console.log('Could not store phone number')
+        Sentry.addBreadcrumb('LoginScene','Could not store number with Async storage')
       } else {
-        console.log('Phone number stored '+phoneNumber)
+        if(Config.debug) console.log('Phone number stored '+phoneNumber)
       }
     })
+
   }
 
   render() {
@@ -102,7 +150,7 @@ class LoginScene extends Component {
           <TextField
             value={ phoneNumber }
             ref="phoneNumber"
-            onChangeText={ (text) => this.actions.phoneNumberTextChange(text) }
+            onChangeText={ (text) => this.props.actions.phoneNumberTextChange(text) }
             placeholder="Phone Number"
             maxLength={10}
             keyboardType="phone-pad"
@@ -113,7 +161,7 @@ class LoginScene extends Component {
           <TextField
             value={ pin }
             ref="pin"
-            onChangeText={ (text) => this.actions.pinTextChange(text) }
+            onChangeText={ (text) => this.props.actions.pinTextChange(text) }
             placeholder="PIN"
             maxLength={4}
             secureTextEntry={true}

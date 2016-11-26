@@ -1,6 +1,7 @@
 import groovy.json.JsonSlurper
 def packageSlurper = new JsonSlurper()
 def packageJson = packageSlurper.parse file('../../package.json')
+
 println "Building ECDRN v"+packageJson.version
 
 apply plugin: "com.android.application"
@@ -32,7 +33,7 @@ android {
         applicationId "com.ecdrn"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode packageJson.version.replace('.','').toInteger()
+        versionCode 1
         versionName packageJson.version
         ndk {
             abiFilters "armeabi-v7a", "x86"

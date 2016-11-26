@@ -1,80 +1,164 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
+// React
 import React, { Component } from 'react'
 import {
   Text,
   View,
-  Dimensions,
-  Image,
-  StatusBar,
-  ScrollView,
   TouchableHighlight,
   DrawerLayoutAndroid,
   Alert
 } from 'react-native'
 
+// Redux
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+// ECD
+import Sentry from '../Sentry'
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Routes from '../Routes'
-import Scene from '../Components/Scene'
-import SceneView from '../Components/SceneView'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as mainActions from '../Actions/Main'
-import * as appActions from '../Actions/App'
-import * as navigationActions from '../Actions/Navigation'
+import Api from '../Api'
 import { Colours, FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
+
+import * as mainActions from '../Actions/Main'
+import * as appActions from '../Actions/App'
+
+
 
 class MainScene extends Component {
 
   constructor(props) {
+
     super(props)
-    this.drawerOpen = false
-    // For future terseness
-    this.actions = this.props.actions
-    this.navigator = this.props.navigator
-    this.route = this.props.route
+    this.state = {
+      drawerOpen: false
+    }
+  }
+
+  componentWillMount() {
+    Sentry.addBreadcrumb('MainScene','componentWillMount')
   }
 
   takeAttendance() {
-    setTimeout(() => this.navigator.push(Routes.class),0)
+
+    Sentry.addNavigationBreadcrumb("MainScene::takeAttendance()", "MainScene", "ClassScene")
+
+    // Close the drawer
     this._drawer.closeDrawer()
+
+    // Keep track of it's state
+    this.setState({drawerOpen: false})
+
+    // Open the modal
+    this.props.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalText: "Please wait",
+      modalMode: ModalMode.WAITING
+    }))
+
+    // Fetch remote data
+    Api.fetchClasses(
+      this.props.state.App.userData.user.id,
+      this.props.state.App.userData._token
+    ).then((data) => {
+
+      // Handle result
+      if(data.error) alert(data.error)
+      else {
+        // Change scene
+        this.props.navigator.push(Routes.class)
+
+        // Push cntre data into app store
+        this.props.dispatch(appActions.setCentre(data));
+
+        // Close the modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+      }
+
+    // Catch any rejections
+    }).catch((error) => {
+      // Close the modal
+      this.props.dispatch(appActions.setModal({
+        modalVisible: false
+      }))
+      // Display the error
+      alert(error)
+    })
   }
 
   logout() {
-    Alert.alert('Logout','Are you sure you want to logout?',[
-      {text: 'Yes', onPress: () => {
-        this.props.navigator.pop()
-        this._drawer.closeDrawer()
-      }},
-      {text: 'No'}
-    ])
+
+    // As to confirm
+    Alert.alert('Logout','Are you sure you want to logout?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+
+            // Go back
+            this.props.navigator.pop()
+
+            // Close drawer
+            this._drawer.closeDrawer()
+
+            // Close modal
+            this.setState({drawerOpen: false})
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    )
   }
 
   toggleDrawer() {
     if(this.drawerOpen) {
+
+      // Close draw
       this._drawer.closeDrawer()
-      this.drawerOpen = false
+
+      // Update state
+      this.setState({drawerOpen: false})
+
     } else {
+
+      // Open drawer
       this._drawer.openDrawer()
-      this.drawerOpen = true
+
+      // Update state
+      this.setState({drawerOpen: true})
+
     }
   }
 
   render() {
-    // This ensures the newline is interpolated
-    let mainBtnText = "Take\nAttendance"
-    let loggedInAs = "Logged in as\n" +
+    // Interpolate new lines into the strings
+    const mainBtnText = "Take\nAttendance"
+    const loggedInAs = "Logged in as\n" +
       this.props.state.App.userData.user.given_name + ' ' +
       this.props.state.App.userData.user.family_name
+
+    // Draw the scene
     return (
         <View style={{flex: 1}}>
+
           <NavBar
-            title="ECD APP"
             navigator={ this.props.navigator }
             leftButtonText="|||"
             leftButtonAction={ () => this.toggleDrawer() }
-
           />
+
           <DrawerLayoutAndroid
             onDrawerOpen={ () => this.drawerOpen = true }
             onDrawerClose={ () => this.drawerOpen = false }
@@ -105,7 +189,7 @@ class MainScene extends Component {
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this.logout }>
+                    <TouchableHighlight onPress={ () => this.logout() }>
                       <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Logout</Text>
                     </TouchableHighlight>
                   </View>
@@ -115,8 +199,6 @@ class MainScene extends Component {
             }
             ref={(ref) => this._drawer = ref}
           >
-
-
 
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
 
@@ -128,12 +210,16 @@ class MainScene extends Component {
               />
 
             </View>
+
             <View style={{padding: 20}}>
+
               <Button
                 text="Log Out"
                 onPress={() => this.logout() }
               />
+
             </View>
+
           </DrawerLayoutAndroid>
         </View>
     )

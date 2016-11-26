@@ -1,3 +1,10 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
 import React, { Component } from 'react'
 import Config from './App/Config'
 import {
@@ -28,7 +35,7 @@ const store = createStore(
 sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
-  if(Config.debug && Config.debugState)
+  if(Config.debug && Config.debugStore)
     console.log("REDUX STORE UPDATED",store.getState())
 })
 
