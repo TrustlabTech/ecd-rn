@@ -29,10 +29,10 @@ import App from './App/App'
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   combineReducers(Reducers),
-  applyMiddleware(sagaMiddleware)
+  // applyMiddleware(sagaMiddleware)
 )
 
-sagaMiddleware.run(rootSaga)
+// sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
   if(Config.debug && Config.debugStore)

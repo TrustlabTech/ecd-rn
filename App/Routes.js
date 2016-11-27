@@ -13,7 +13,6 @@ import React, { Component } from 'react'
 import LoginScene from './Scenes/LoginScene'
 import MainScene from './Scenes/MainScene'
 import ClassScene from './Scenes/ClassScene'
-import RegisterScene from './Scenes/RegisterScene'
 import AttendanceScene from './Scenes/AttendanceScene'
 
 export default {
@@ -21,11 +20,6 @@ export default {
   login: {
     title: 'ECD APP',
     scene: LoginScene
-  },
-
-  register: {
-    title: 'ECD APP',
-    scene: RegisterScene
   },
 
   main: {

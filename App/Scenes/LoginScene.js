@@ -29,7 +29,11 @@ import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
 
+
+
 class LoginScene extends Component {
+
+  FILENAME = 'LoginScene.js'
 
   constructor(props) {
     super(props)
@@ -37,9 +41,13 @@ class LoginScene extends Component {
 
   componentWillMount() {
 
-    Sentry.addBreadcrumb('LoginScene','componentWillMount')
+    if(Config.debug && Config.debugReact)
+      console.log(this.FILENAME,'componentWillMount')
+    else
+      Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
 
-    AsyncStorage.getItem('@phoneNumber',(error, result) => {
+    // Load phone number from persistant storage
+    AsyncStorage.getItem('@phoneNumber', (error, result) => {
       if(!error)
         this.props.actions.phoneNumberTextChange(result)
       else
@@ -47,9 +55,10 @@ class LoginScene extends Component {
     })
   }
 
+
   login() {
 
-    Sentry.addNavigationBreadcrumb("LoginScene::login()", "LoginScene", "MainScene")
+    Sentry.addNavigationBreadcrumb(this.FILENAME+":login()", "LoginScene", "MainScene")
 
     // From Redux
     const { phoneNumber, pin } = this.props.state.Login
@@ -62,11 +71,11 @@ class LoginScene extends Component {
       modalMode: ModalMode.WAITING
     }))
 
+    // Reset pin
     this.props.actions.pinTextChange('')
 
     // Check for the devil
     if(phoneNumber == '666' && pin == '666'){
-
 
       // The dark one
       Sentry.crashTheApp("El diablo!")
@@ -92,32 +101,44 @@ class LoginScene extends Component {
           )
 
         } else {
+
+          // Push user info into redux store
           this.props.dispatch(appActions.setUser(data))
+
+          // Go to main scene
           this.props.navigator.push(Routes.main)
         }
       }).catch((error) => {
+
+        // Handle error
         if(Config.debug){
           alert(error)
-          console.log(error)
+          console.log(error.stack)
         } else {
-          Sentry.captureEvent("Failed to login", error)
+          Sentry.captureEvent(error.stack, this.FILENAME)
           Alert.alert(
             'Unknown Error',
-            'There was a technical error logging in',
+            "There was an error logging in.\nPlease check your internet connection.",
             [
               {text: "Okay"}
             ]
           )
         }
+
       })
     }
 
+    // Put phone number in persistant storage
     AsyncStorage.setItem('@phoneNumber',phoneNumber,(error) => {
       if(error) {
-        if(Config.debug) console.log('Could not store phone number')
-        Sentry.addBreadcrumb('LoginScene','Could not store number with Async storage')
+
+        if(Config.debug)
+          console.log('Could not store phone number')
+        else
+          Sentry.captureEvent('Could not store number with Async storage', this.FILENAME )
+
       } else {
-        if(Config.debug) console.log('Phone number stored '+phoneNumber)
+        if(Config.debug) console.log('Phone number stored ' + phoneNumber)
       }
     })
 

@@ -35,13 +35,14 @@ import Sentry from '../Sentry'
 import * as attendanceActions from '../Actions/Attendance'
 import * as appActions from '../Actions/App'
 
-
 class AttendanceScene extends Component {
+
+  FILENAME = 'AttendanceScene,js'
 
   constructor(props) {
     super(props)
     this.state = {
-      // classData: [],
+      classData: [],
       attendanceData: [],
       initialised: false
     }
@@ -50,7 +51,9 @@ class AttendanceScene extends Component {
   componentWillMount() {
 
     if(Config.debug && Config.debugReact)
-      console.log('AttendanceScene','componentWillMount')
+      console.log(this.FILENAME,'componentWillMount')
+    else
+      Sentry.addBreadcrumb('AttendanceScene', 'componentWillMount')
 
     this.setState({
       attendanceData: this.initAttendance(this.props.route.classData),
@@ -62,7 +65,7 @@ class AttendanceScene extends Component {
   componentWillReceiveProps(props) {
 
     if(Config.debug && Config.debugReact)
-      console.log('AttendanceScene','componentWillReceiveProps',props)
+      console.log('AttendanceScene','componentWillReceiveProps')
 
     this.setState({
       attendanceData: this.initAttendance(props.route.classData),
@@ -116,13 +119,20 @@ class AttendanceScene extends Component {
     }))
 
   displayError = (title, friendly, error, retry = () => {} ) => {
+
+    // Ensure modal is closed
     this.setModal(false)
+
      // Display error
       if(Config.debug) {
-        alert(error)
-        console.log(error)
+
+        alert(this.FILENAME + "::displayError: " + title + " " + friendly + " " + error)
+        console.log(this.FILENAME + "::displayError: " + error)
+
       } else {
-        Sentry.captureEvent(friendly,error)
+
+        Sentry.captureEvent("User was shown error: < " + friendly + " > The error was: <" + error.toString() + ">", this.FILENAME)
+
         let options = [{text: "Okay"}]
         if (retry)
           options.push({text: "Retry", onPress: () => retry()})
@@ -152,20 +162,49 @@ class AttendanceScene extends Component {
       this.props.state.App.userData._token
     ).then((data) => {
 
-      if(data.error)
-        this.displayError("Error", "An unknown error occured", data.error)
-      else
-        Alert.alert(
-          'Upload complete',
-          'Attendance data has been submitted',
-          { text: 'Okay' , onPress: () => this.goBack() }
-        )
+      // Check for error
+      if(data.error){
 
-    }).catch((error) => this.displayError(
-      'Network Error',
-      'There was a problem uploading the data',
-      error
-    ))
+        // Display and log
+        this.displayError("Error", "An unknown error occured", data.error)
+
+      } else {
+
+        // Check for error
+        if(data) {
+
+          // We're done
+          this.goBack()
+
+        } else {
+
+          //Show and log error
+          this.displayError("Error", "An uknown error occured", data)
+
+        }
+      }
+    }).catch((error) => {
+
+      // Don't use this.displayError() for errors with stacks
+      if(Config.debug) {
+
+        alert(this.FILENAME + " " + error.stack)
+
+      } else {
+        Sentry.captureEvent(error.stack,this.FILENAME)
+        Alert.alert(
+          'Unknown Error',
+          'An unknown error has occured',
+          [{text: 'Okay'}]
+          )
+      }
+
+      this.displayError(
+        'Network Error',
+        'There was a problem uploading the data',
+        error
+      )
+    })
   }
 
   submit = attendanceData => {
@@ -180,8 +219,10 @@ class AttendanceScene extends Component {
           onPress: () => {
 
             // Open modal
-            this.setModal(true,"Getting location")
-            this.getLocation((location) => uploadData(location, attendanceData) )
+            this.setModal(true, "Getting location")
+
+            // Get location
+            this.getLocation((location) => this.uploadData(location, attendanceData) )
           }
         },
         // No
@@ -194,6 +235,7 @@ class AttendanceScene extends Component {
 
     // It's critical not to block here
     setTimeout(() => this.setModal(true, "Please wait"),0)
+
     // Fetch remote data
     Api.fetchClasses(
       this.props.state.App.userData.user.id,
@@ -209,7 +251,7 @@ class AttendanceScene extends Component {
           console.log(data.error)
         } else {
 
-          Sentry.captureEvent(data.error)
+          Sentry.captureEvent("Api.fetchClasses() returned " + data.error.toString(),this.FILENAME)
           Alert.alert(
             'Error',
             'An unknown error has occured',
@@ -221,6 +263,7 @@ class AttendanceScene extends Component {
         }
       } else {
 
+        // Go back
         this.props.navigator.pop()
 
         // Set the new data for the next page ASAP
@@ -238,15 +281,15 @@ class AttendanceScene extends Component {
       if(Config.debug) {
 
         alert(error)
-        console.log(error)
+        console.log(error.stack)
       } else {
 
-        Sentry.captureEvent("Api.fetchClasses() failed", error)
+        Sentry.captureEvent("Api.fetchClasses() returned " + error.stack, this.FILENAME)
         Alert.alert(
             'Error',
             'An unknown error has occured',
             [
-              { text: 'Retry', onPress: () => retry() },
+              { text: 'Retry', onPress: () => this.goBack() },
               { text: 'Cancel'}
             ]
           )

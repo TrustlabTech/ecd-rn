@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -24,16 +25,26 @@ import Sentry from '../Sentry'
 
 class ClassScene extends Component {
 
+  FILENAME = 'ClassScene.js'
+
   constructor(props) {
     super(props)
   }
 
   componentWillMount() {
-    Sentry.addBreadcrumb('ClassScene', 'componentWillMount')
+    if(Config.debug)
+      console.log(this.FILENAME, 'componentWillMount')
+    else
+      Sentry.addBreadcrumb(this.FILENAME, 'componentWillMount')
   }
 
   goBack() {
+
+    Sentry.addNavigationBreadcrumb(this.FILENAME,'ClassScene','MainScene')
+
     setTimeout(() => this.props.navigator.pop(),0)
+
+    // Clear data so that it must be reloaded
     this.props.dispatch(appActions.setCentre(null))
   }
 
@@ -52,21 +63,35 @@ class ClassScene extends Component {
       this.props.state.App.userData._token
     ).then( (data) => {
 
-      // if(Config.debug && Config.debugNetwork)
-      //   console.log('Api.fetchClass: ',data)
+
       // Handle result
-      if(data.error) alert(data.error)
-      else {
+      if(data.error){
 
+        // Close the modal
+        this.props.dispatch(appActions.setModal({modalVisible: false}))
 
+        // Handle error
+        if(Config.debug) {
+
+          alert(data.error)
+          console.log(data.error)
+        } else {
+
+          Sentry.captureEvent(data.error,this.FILENAME)
+
+          // Show user the error
+          Alert.alert(
+            'Unknown Error',
+            'There was an error communicating with the server',
+            [{text: 'Okay'}]
+          )
+        }
+      } else {
 
         // Close modal
         this.props.dispatch(appActions.setModal({
           modalVisible: false
         }))
-
-        // Set class data
-        // this.props.dispatch(appActions.setClass(data))
 
         // Clear centre data
         this.props.dispatch(appActions.setCentre(null))
@@ -78,14 +103,25 @@ class ClassScene extends Component {
         })
 
       }
-    }).catch((error) => {
+    }).catch( (error) => {
 
       // Close the modal
       this.props.dispatch(appActions.setModal({
         modalVisible: false
       }))
 
-      alert(error)
+      // Handle error
+      if(Config.debug) {
+        alert(error)
+        console.log(error.stack)
+      } else {
+        Sentry.captureEvent(error.stack, this.FILENAME)
+        Alert.alert(
+          'Network Error',
+          Config.errorMessage.NETWORK,
+          [{text: 'Okay'}]
+        )
+      }
     })
   }
 
