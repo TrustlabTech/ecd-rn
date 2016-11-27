@@ -21,24 +21,30 @@ function request(route, options = {method: 'GET'} ) {
 
   if(Config.debug && Config.debugNetwork)
     console.log('API REQUEST',timestamp(new Date()),Config.http.baseUrl + route, options)
+  else
+      Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
 
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
   .then((response) => {
 
-
     if(Config.debug && Config.debugNetwork)
       console.log('API RESPONSE:',response)
     else
       Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
 
+    console.log(response._bodyText)
+    debugger
     return response.json()
+
+    // return response.json()
   })
 
   .then((json) => {
-
+    console.log('HI CAL',json)
     if(json.error) {
+      console.log('JSON.ERROR == true')
       if(json.error instanceof Array) {
         const errorMessage = ''
         json.error.forEach((item) => {
@@ -46,10 +52,12 @@ function request(route, options = {method: 'GET'} ) {
         })
         return { error: errorMessage.trim() }
       } else {
-        return { error: json.error}
+        return { error: json.error }
       }
 
     } else {
+      console.log('JSON.ERROR == false')
+
       return json
     }
   })

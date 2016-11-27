@@ -5,7 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-// React
 import React, { Component } from 'react'
 import {
   Text,
@@ -15,11 +14,11 @@ import {
   Alert
 } from 'react-native'
 
-// Redux
+import Config from '../Config'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-// ECD
 import Sentry from '../Sentry'
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
@@ -35,6 +34,8 @@ import * as appActions from '../Actions/App'
 
 class MainScene extends Component {
 
+  FILENAME = 'MainScene.js'
+
   constructor(props) {
 
     super(props)
@@ -44,12 +45,16 @@ class MainScene extends Component {
   }
 
   componentWillMount() {
-    Sentry.addBreadcrumb('MainScene','componentWillMount')
+
+    if(Config.debug)
+      console.log(this.FILENAME,'componentWillMount')
+    else
+      Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
   }
 
   takeAttendance() {
 
-    Sentry.addNavigationBreadcrumb("MainScene::takeAttendance()", "MainScene", "ClassScene")
+    Sentry.addNavigationBreadcrumb(this.FILENAME+"::takeAttendance()", "MainScene", "ClassScene")
 
     // Close the drawer
     this._drawer.closeDrawer()
@@ -71,8 +76,24 @@ class MainScene extends Component {
     ).then((data) => {
 
       // Handle result
-      if(data.error) alert(data.error)
-      else {
+      if(data.error) {
+
+        // Handle error
+        if(Config.debug) {
+          alert(data.error)
+          console.log(data.error)
+        } else {
+          Sentry.captureEvent(data.error, this.FILENAME)
+          Alert.alert(
+            'Network Error',
+            Config.errorMessage.NETWORK,
+            [
+              {text: "Okay"}
+            ]
+          )
+        }
+
+      } else {
         // Change scene
         this.props.navigator.push(Routes.class)
 
@@ -87,12 +108,27 @@ class MainScene extends Component {
 
     // Catch any rejections
     }).catch((error) => {
+
       // Close the modal
       this.props.dispatch(appActions.setModal({
         modalVisible: false
       }))
+
       // Display the error
-      alert(error)
+      if(Config.debug) {
+        alert(error)
+        console.log(error.stack)
+      } else {
+        Sentry.captureEvent(error.stack,this.FILENAME)
+        Alert.alert(
+          'Unknown Error',
+          Config.errorMessage.NETWORK,
+          [
+            {text: "Okay"}
+          ]
+        )
+      }
+
     })
   }
 
