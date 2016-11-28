@@ -1,82 +1,205 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
 import React, { Component } from 'react'
 import {
   Text,
   View,
-  Dimensions,
-  Image,
-  StatusBar,
-  ScrollView,
   TouchableHighlight,
-  DrawerLayoutAndroid
+  DrawerLayoutAndroid,
+  Alert
 } from 'react-native'
 
+import Config from '../Config'
+
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import Sentry from '../Sentry'
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Routes from '../Routes'
-import Scene from '../Components/Scene'
-import SceneView from '../Components/SceneView'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as mainActions from '../Actions/Main'
-import * as appActions from '../Actions/App'
-import * as navigationActions from '../Actions/Navigation'
+import Api from '../Api'
 import { Colours, FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 
+import * as mainActions from '../Actions/Main'
+import * as appActions from '../Actions/App'
+
+
+
 class MainScene extends Component {
 
+  FILENAME = 'MainScene.js'
+
   constructor(props) {
+
     super(props)
-    this.drawerOpen = false
-    // For future terseness
-    this.actions = this.props.actions
-    this.navigator = this.props.navigator
-    this.route = this.props.route
+    this.state = {
+      drawerOpen: false
+    }
+  }
+
+  componentWillMount() {
+
+    if(Config.debug)
+      console.log(this.FILENAME,'componentWillMount')
+    else
+      Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
   }
 
   takeAttendance() {
-    setTimeout(() => this.navigator.push(Routes.class),0)
+
+    Sentry.addNavigationBreadcrumb(this.FILENAME+"::takeAttendance()", "MainScene", "ClassScene")
+
+    // Close the drawer
     this._drawer.closeDrawer()
+
+    // Keep track of it's state
+    this.setState({drawerOpen: false})
+
+    // Open the modal
+    this.props.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalText: "Please wait",
+      modalMode: ModalMode.WAITING
+    }))
+
+    // Fetch remote data
+    Api.fetchClasses(
+      this.props.state.App.userData.user.id,
+      this.props.state.App.userData._token
+    ).then((data) => {
+
+      // Handle result
+      if(data.error) {
+
+        // Close the modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+
+        // Handle error
+        if(Config.debug) {
+          alert(data.error)
+          console.log(data.error)
+        } else {
+          Sentry.captureEvent(data.error, this.FILENAME)
+          Alert.alert(
+            'Network Error',
+            Config.errorMessage.NETWORK,
+            [
+              {text: "Okay"}
+            ]
+          )
+        }
+
+      } else {
+        // Change scene
+        this.props.navigator.push(Routes.class)
+
+        // Push cntre data into app store
+        this.props.dispatch(appActions.setCentre(data));
+
+        // Close the modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+      }
+
+    // Catch any rejections
+    }).catch((error) => {
+
+      // Close the modal
+      this.props.dispatch(appActions.setModal({
+        modalVisible: false
+      }))
+
+      // Display the error
+      if(Config.debug) {
+        alert(error)
+        console.log(error.stack)
+      } else {
+        Sentry.captureEvent(error.stack,this.FILENAME)
+        Alert.alert(
+          'Unknown Error',
+          Config.errorMessage.NETWORK,
+          [
+            {text: "Okay"}
+          ]
+        )
+      }
+
+    })
   }
 
   logout() {
-    this.props.dispatch(appActions.setModal({
-      modalVisible: true,
-      modalMode: ModalMode.CONFIRM,
-      modalText: "Are you sure you want to logout?",
-      modalOnPositive: () => {
-        setTimeout(() => this.props.navigator.pop() ,0)
-        // Delay for better animation
-        setTimeout(() => this._drawer.closeDrawer() ,100)
-    }}))
+
+    // As to confirm
+    Alert.alert('Logout','Are you sure you want to logout?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+
+            // Go back
+            this.props.navigator.pop()
+
+            // Close drawer
+            this._drawer.closeDrawer()
+
+            // Close modal
+            this.setState({drawerOpen: false})
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    )
   }
 
   toggleDrawer() {
     if(this.drawerOpen) {
+
+      // Close draw
       this._drawer.closeDrawer()
-      this.drawerOpen = false
+
+      // Update state
+      this.setState({drawerOpen: false})
+
     } else {
+
+      // Open drawer
       this._drawer.openDrawer()
-      this.drawerOpen = true
+
+      // Update state
+      this.setState({drawerOpen: true})
+
     }
   }
 
   render() {
-    // This ensures the newline is interpolated
-    let mainBtnText = "Take\nAttendance"
-    let loggedInAs = "Logged in as\n" +
+    // Interpolate new lines into the strings
+    const mainBtnText = "Take\nAttendance"
+    const loggedInAs = "Logged in as\n" +
       this.props.state.App.userData.user.given_name + ' ' +
       this.props.state.App.userData.user.family_name
-    const onPs = function(){ alert('hi') }
+
+    // Draw the scene
     return (
         <View style={{flex: 1}}>
+
           <NavBar
-            title="ECD APP"
             navigator={ this.props.navigator }
             leftButtonText="|||"
             leftButtonAction={ () => this.toggleDrawer() }
-
           />
+
           <DrawerLayoutAndroid
             onDrawerOpen={ () => this.drawerOpen = true }
             onDrawerClose={ () => this.drawerOpen = false }
@@ -96,13 +219,18 @@ class MainScene extends Component {
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => alert("Press the 'Take Attendance' button to take today's attendance") }>
+                    <TouchableHighlight onPress={ () => {
+                      Alert.alert('Help & Instructions','Press the Take Attendance button to take today\'s attendance',
+                      [
+                        {text: 'Okay'}
+                      ])
+                    }}>
                       <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Help & Instructions</Text>
                     </TouchableHighlight>
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this.logout }>
+                    <TouchableHighlight onPress={ () => this.logout() }>
                       <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Logout</Text>
                     </TouchableHighlight>
                   </View>
@@ -112,8 +240,6 @@ class MainScene extends Component {
             }
             ref={(ref) => this._drawer = ref}
           >
-
-
 
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
 
@@ -125,12 +251,16 @@ class MainScene extends Component {
               />
 
             </View>
+
             <View style={{padding: 20}}>
+
               <Button
                 text="Log Out"
                 onPress={() => this.logout() }
               />
+
             </View>
+
           </DrawerLayoutAndroid>
         </View>
     )

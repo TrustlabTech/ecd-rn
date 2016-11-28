@@ -25,21 +25,6 @@ export default (state = initialState, action = {}) => {
           attendanceData: action.attendanceData
         }
 
-      case 'ATTENDANCE_FETCH_CLASSES_SUCCEEDED':
-        return {
-          ...state,
-          waitingForNetwork: false,
-          showWaitModal: false
-        }
-
-      case 'ATTENDANCE_FETCH_CLASSES_FAILED':
-        return {
-          ...state,
-          waitingForNetwork: false,
-          showWaitModal: false,
-          error: action.error
-        }
-
       default:
         return state
   }
