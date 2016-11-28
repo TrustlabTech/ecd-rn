@@ -178,7 +178,7 @@ export default class WaitModal extends Component {
     return (
       <Modal
         ref="modal"
-        animationType={"fade"}
+        animationType={"none"}
         transparent={true}
         visible={this.props.visible}
         onRequestClose={ () => alert('request modal close') }
