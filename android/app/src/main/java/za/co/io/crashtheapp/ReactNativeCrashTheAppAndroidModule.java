@@ -16,6 +16,10 @@ public final class ReactNativeCrashTheAppAndroidModule extends ReactContextBaseJ
     super(rctx);
   }
 
+  private boolean validString(String string) {
+    return string != null && !string.isEmpty() ? true : false;
+  }
+
   @Override
   public String getName() {
     return "ReactNativeCrashTheAppAndroid";
@@ -28,32 +32,43 @@ public final class ReactNativeCrashTheAppAndroidModule extends ReactContextBaseJ
 
   @ReactMethod
   public final void captureMessage(String message) {
-    Sentry.captureMessage(message);
+    if(this.validString(message)){
+      Sentry.captureMessage(message);
+    }
   }
 
   @ReactMethod
   public final void captureEvent(String message, String culprit) {
-    Sentry.captureEvent(
-      new Sentry.SentryEventBuilder()
-        .setMessage(message)
-        .setCulprit(culprit)
-        .setTimestamp(System.currentTimeMillis())
-    );
+    if(this.validString(message) && this.validString(culprit)) {
+      Sentry.captureEvent(
+        new Sentry.SentryEventBuilder()
+          .setMessage(message)
+          .setCulprit(culprit)
+          .setTimestamp(System.currentTimeMillis())
+      );
+    }
+
   }
 
   @ReactMethod
   public final void addHttpBreadcrumb(String url, String httpMethod, int httpStatusCode) {
-    Sentry.addHttpBreadcrumb(url, httpMethod, httpStatusCode );
+    if(this.validString(url) && this.validString(httpMethod)) {
+      Sentry.addHttpBreadcrumb(url, httpMethod, httpStatusCode );
+    }
   }
 
   @ReactMethod
   public final void addNavigationBreadcrumb(String action, String from, String to) {
-    Sentry.addNavigationBreadcrumb(action, from, to);
+    if(this.validString(action) && this.validString(from) && this.validString(to)) {
+      Sentry.addNavigationBreadcrumb(action, from, to);
+    }
   }
 
   @ReactMethod
   public final void addBreadcrumb(String name, String value) {
-    Sentry.addBreadcrumb(name, value);
+    if(this.validString(name) && this.validString(value)) {
+      Sentry.addBreadcrumb(name, value);
+    }
   }
 
 }

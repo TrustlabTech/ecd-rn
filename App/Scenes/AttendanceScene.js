@@ -12,7 +12,8 @@ import {
   Text,
   ScrollView,
   TouchableHighlight,
-  Alert
+  Alert,
+  ToastAndroid
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -34,6 +35,8 @@ import Sentry from '../Sentry'
 
 import * as attendanceActions from '../Actions/Attendance'
 import * as appActions from '../Actions/App'
+
+
 
 class AttendanceScene extends Component {
 
@@ -179,6 +182,7 @@ class AttendanceScene extends Component {
 
           // We're done
           this.goBack()
+          ToastAndroid.show('Upload complete', ToastAndroid.SHORT)
 
         } else {
 
@@ -189,10 +193,13 @@ class AttendanceScene extends Component {
       }
     }).catch((error) => {
 
+      this.setModal(false)
+
       // Don't use this.displayError() for errors with stacks
       if(Config.debug) {
 
-        alert(this.FILENAME + " " + error.stack)
+        alert(this.FILENAME + " " + error.toString())
+        console.log(this.FILENAME + " " + error.stack)
 
       } else {
         Sentry.captureEvent(error.stack,this.FILENAME)
@@ -244,6 +251,8 @@ class AttendanceScene extends Component {
       // Check for error
       if(data.error) {
 
+        setTimeout(() => this.setModal(false),0)
+
         if(Config.debug) {
 
           alert(data.error)
@@ -276,20 +285,21 @@ class AttendanceScene extends Component {
      }
     }).catch((error) => {
 
+      this.setModal(false)
       // Show error
       if(Config.debug) {
 
         alert(error)
-        console.log(error.stack)
+        console.log(error)
       } else {
 
-        Sentry.captureEvent("Api.fetchClasses() returned " + error.stack, this.FILENAME)
+        Sentry.captureEvent("Api.fetchClasses() returned " + error.toString(), this.FILENAME)
         Alert.alert(
             'Error',
             'An unknown error has occured',
             [
               { text: 'Retry', onPress: () => this.goBack() },
-              { text: 'Cancel'}
+              { text: 'Cancel', onPress: () => this.setModal(false) }
             ]
           )
       }
