@@ -78,6 +78,11 @@ class MainScene extends Component {
       // Handle result
       if(data.error) {
 
+        // Close the modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+
         // Handle error
         if(Config.debug) {
           alert(data.error)

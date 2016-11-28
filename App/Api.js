@@ -6,6 +6,7 @@
  */
 
 import Config from './Config'
+import Sentry from './Sentry'
 
 function timestamp(currentDate) {
   return "Time: " + currentDate.getDate() + "/"
@@ -18,11 +19,10 @@ function timestamp(currentDate) {
 
 function request(route, options = {method: 'GET'} ) {
 
-
   if(Config.debug && Config.debugNetwork)
     console.log('API REQUEST',timestamp(new Date()),Config.http.baseUrl + route, options)
   else
-      Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
+    Sentry.addBreadcrumb('HTTP '+options.method,Config.http.baseUrl+route)
 
   return fetch(Config.http.baseUrl + route, options)
 
@@ -34,17 +34,14 @@ function request(route, options = {method: 'GET'} ) {
     else
       Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
 
-    console.log(response._bodyText)
-    debugger
-    return response.json()
 
-    // return response.json()
+    return response.json()
   })
 
   .then((json) => {
-    console.log('HI CAL',json)
+
     if(json.error) {
-      console.log('JSON.ERROR == true')
+
       if(json.error instanceof Array) {
         const errorMessage = ''
         json.error.forEach((item) => {
@@ -56,7 +53,6 @@ function request(route, options = {method: 'GET'} ) {
       }
 
     } else {
-      console.log('JSON.ERROR == false')
 
       return json
     }
@@ -67,6 +63,7 @@ function request(route, options = {method: 'GET'} ) {
 
     if(Config.debug && Config.debugNetwork){
       console.log('API:ERROR', error)
+
       return Promise.reject(error.toString())
     } else {
       return Promise.reject("A network error occured. Please check your connection.")

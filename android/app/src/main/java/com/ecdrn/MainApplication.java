@@ -10,6 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import za.co.io.crashtheapp.ReactNativeCrashTheAppAndroidPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+
     @Override
     protected boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -27,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new LinearGradientPackage(),
-          new ReactNativeCrashTheAppAndroidPackage()
+          new ReactNativeCrashTheAppAndroidPackage(),
+          new GoogleAnalyticsBridgePackage()
       );
     }
   };
