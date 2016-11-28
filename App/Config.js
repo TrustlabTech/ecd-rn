@@ -5,10 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-/* Config.js
- * Contain's the application's configuration information
- */
-
 import {
   Dimensions,
   Platform,
