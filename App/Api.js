@@ -66,7 +66,7 @@ function request(route, options = {method: 'GET'} ) {
 
       return Promise.reject(error.toString())
     } else {
-      return Promise.reject("A network error occured. Please check your connection.")
+      return Promise.reject(error)
     }
   })
 
@@ -92,32 +92,6 @@ export default {
     })
   },
 
-  register: (textFieldValues) => {
-
-    return new Promise((resolve, reject) => {
-      const formData = new FormData()
-      formData.append('phone_number', textFieldValues['phoneNumber'])
-      formData.append('password',textFieldValues['pin'])
-      formData.append('password_confirmation',textFieldValues['pinConfirm'])
-
-      formData.append('did','UNKNOWN')
-      formData.append('za_id_number','9106275014085')
-      formData.append('family_name', textFieldValues['lastName'])
-      formData.append('given_name',textFieldValues['firstName'])
-      formData.append('principle', 0)
-      formData.append('practitioner', 0)
-      formData.append('volunteer', 0)
-      formData.append('cook', 0)
-      formData.append('other',1)
-      formData.append('registration_latitude','31.71291600')
-      formData.append('registration_longitude','-168.07973000')
-      formData.append('ecd_qualification_id',1)
-      formData.append('centre_id',1)
-      resolve(request('staff/register'))
-    })
-
-  },
-
   fetchCentres: (token) => {
     return new Promise((resolve,reject) => {
       request('centre',{
@@ -127,7 +101,7 @@ export default {
         resolve(data)
       })
       .catch((error) => {
-        resolve({error: error})
+        reject(error)
       })
     })
   },
@@ -141,7 +115,7 @@ export default {
       }).then((data) => {
         resolve(data)
       }).catch((error) => {
-        resolve({error: error})
+        reject(error)
       })
     })
   },
@@ -154,7 +128,7 @@ export default {
       }).then((data) => {
         resolve(data)
       }).catch((error) => {
-        resolve({error: error})
+        reject(error)
       })
     })
   },
@@ -167,15 +141,6 @@ export default {
           longitude: location.coords.longitude.toString(),
           attended: x.checked || false
       }))
-      // let children = []
-      // attendanceData.forEach((data) =>
-      //     children.push({
-      //       children_id: data.id,
-      //       latitude: location.coords.latitude.toString(),
-      //       longitude: location.coords.longitude.toString(),
-      //       attended: data.checked || false
-      //     })
-      // )
 
       let jsonData = {
         centre_id: centreId,
@@ -190,7 +155,7 @@ export default {
       }).then((data) => {
         resolve(data)
       }).catch((error) => {
-        resolve({error: error})
+        reject(error)
       })
     })
   }

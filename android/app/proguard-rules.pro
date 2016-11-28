@@ -72,3 +72,4 @@
 -dontwarn org.apache.http.entity.*
 -dontwarn org.apache.http.message.*
 -dontwarn android.net.http.*
+-dontwarn com.google.android.gms.internal.*
