@@ -20,7 +20,7 @@ export default {
     NETWORK: 'Could not fetch data'
   },
 
-  debug: true,        // Master switch
+  debug: false,       // Master switch
   debugAction: false, // Redux actions
   debugNetwork: true, // HTTP
   debugStore: false,  // Display each store change

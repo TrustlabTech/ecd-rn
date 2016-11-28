@@ -24,6 +24,8 @@ import Routes from './App/Routes'
 import * as Reducers from './App/Reducers'
 import App from './App/App'
 
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge'
+
 const store = createStore(
   combineReducers(Reducers),
 )
@@ -39,9 +41,16 @@ export default class Both extends Component {
   constructor(props) {
     super(props)
     this.state = { ...props }
+
+    this.gaTrackers = {
+      tracker1: new GoogleAnalyticsTracker('UA-12345-1')
+    }
+
   }
 
   componentWillUnmount() {
+
+    // surely you don't redefine the function to be removed?
     BackAndroid.removeEventListener('hardwareBackPress', () => {
       if(this.refs.navigator.getCurrentRoutes() > 1) {
         setTimeout( () => this.navigator.pop(), 0)
@@ -78,7 +87,7 @@ export default class Both extends Component {
               >
                   {React.createElement(
                     route.scene,
-                    { route, navigator, dispatch: store.dispatch }
+                    { route, navigator, dispatch: store.dispatch, gaTrackers: this.gaTrackers }
                   )}
               </App>
             )

@@ -110,6 +110,11 @@ class LoginScene extends Component {
         }
       }).catch((error) => {
 
+        // Close the modal
+         this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+
         // Handle error
         if(Config.debug){
           alert(error)

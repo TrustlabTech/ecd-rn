@@ -55,10 +55,12 @@ class AttendanceScene extends Component {
     else
       Sentry.addBreadcrumb('AttendanceScene', 'componentWillMount')
 
-    this.setState({
-      attendanceData: this.initAttendance(this.props.route.classData),
-      initialised: true
-    })
+    if(!this.state.initialised) {
+      this.setState({
+        attendanceData: this.initAttendance(this.props.route.classData),
+        initialised: true
+      })
+    }
 
   }
 
@@ -67,10 +69,12 @@ class AttendanceScene extends Component {
     if(Config.debug && Config.debugReact)
       console.log('AttendanceScene','componentWillReceiveProps')
 
-    this.setState({
-      attendanceData: this.initAttendance(props.route.classData),
-      initialised: true
-    })
+    if(!this.state.initialised) {
+      this.setState({
+        attendanceData: this.initAttendance(props.route.classData),
+        initialised: true
+      })
+    }
   }
 
   initAttendance = classData =>
@@ -118,7 +122,7 @@ class AttendanceScene extends Component {
       modalMode: ModalMode.WAITING
     }))
 
-  displayError = (title, friendly, error, retry = () => {} ) => {
+  displayError = (title, friendly, error, retry = null ) => {
 
     // Ensure modal is closed
     this.setModal(false)
@@ -147,7 +151,7 @@ class AttendanceScene extends Component {
         onSuccess(location)
       ,
       error =>
-        this.displayError("Location Error", "Could not get location. Ensure location is enabled", error.message)
+        this.displayError("Location Error", "Could not get location. Ensure location is enabled", error)
     )
 
   uploadData = (location, attendanceData) => {
@@ -199,11 +203,6 @@ class AttendanceScene extends Component {
           )
       }
 
-      this.displayError(
-        'Network Error',
-        'There was a problem uploading the data',
-        error
-      )
     })
   }
 
@@ -257,7 +256,7 @@ class AttendanceScene extends Component {
             'An unknown error has occured',
             [
               { text: 'Retry', onPress: () => this.goBack() },
-              { text: 'Cancel'}
+              { text: 'Cancel', onPress: () => this.setModal(false) }
             ]
           )
         }
