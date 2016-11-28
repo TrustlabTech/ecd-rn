@@ -5,9 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-/* Routes.js
- * Outlines the available scenes for navigation
- */
 import React, { Component } from 'react'
 
 import LoginScene from './Scenes/LoginScene'

@@ -20,19 +20,14 @@ import {
   combineReducers
 } from 'redux'
 import { Provider } from 'react-redux'
-import createSagaMiddleware from 'redux-saga'
 import Routes from './App/Routes'
 import * as Reducers from './App/Reducers'
-import rootSaga from './App/Sagas/Root'
 import App from './App/App'
 
-const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   combineReducers(Reducers),
-  // applyMiddleware(sagaMiddleware)
 )
 
-// sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
   if(Config.debug && Config.debugStore)
