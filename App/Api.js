@@ -1,4 +1,12 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
 import Config from './Config'
+import Sentry from './Sentry'
 
 function timestamp(currentDate) {
   return "Time: " + currentDate.getDate() + "/"
@@ -13,6 +21,8 @@ function request(route, options = {method: 'GET'} ) {
 
   if(Config.debug && Config.debugNetwork)
     console.log('API REQUEST',timestamp(new Date()),Config.http.baseUrl + route, options)
+  else
+    Sentry.addBreadcrumb('HTTP '+options.method,Config.http.baseUrl+route)
 
   return fetch(Config.http.baseUrl + route, options)
 
@@ -21,6 +31,9 @@ function request(route, options = {method: 'GET'} ) {
 
     if(Config.debug && Config.debugNetwork)
       console.log('API RESPONSE:',response)
+    else
+      Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
+
 
     return response.json()
   })
@@ -28,6 +41,7 @@ function request(route, options = {method: 'GET'} ) {
   .then((json) => {
 
     if(json.error) {
+
       if(json.error instanceof Array) {
         const errorMessage = ''
         json.error.forEach((item) => {
@@ -35,10 +49,11 @@ function request(route, options = {method: 'GET'} ) {
         })
         return { error: errorMessage.trim() }
       } else {
-        return { error: json.error}
+        return { error: json.error }
       }
 
     } else {
+
       return json
     }
   })
@@ -48,6 +63,7 @@ function request(route, options = {method: 'GET'} ) {
 
     if(Config.debug && Config.debugNetwork){
       console.log('API:ERROR', error)
+
       return Promise.reject(error.toString())
     } else {
       return Promise.reject("A network error occured. Please check your connection.")
@@ -71,7 +87,7 @@ export default {
       }).then((data) => {
         resolve(data)
       }).catch((error) => {
-        resolve({error: error})
+        reject(error)
       })
     })
   },
@@ -145,25 +161,28 @@ export default {
 
   submitAttendance: (location, centreId, classId, attendanceData, token) => {
     return new Promise((resolve,reject) => {
-
-      let children = []
-      attendanceData.forEach((data) => {
-        if( data.id) {
-          children.push({
-            children_id: data.id,
-            latitude: location.coords.latitude.toString(),
-            longitude: location.coords.longitude.toString(),
-            attended: data.checked || false
-          })
-        }
-      })
+      const children = attendanceData.map((x,i) => ({
+        children_id: x.id,
+          latitude: location.coords.latitude.toString(),
+          longitude: location.coords.longitude.toString(),
+          attended: x.checked || false
+      }))
+      // let children = []
+      // attendanceData.forEach((data) =>
+      //     children.push({
+      //       children_id: data.id,
+      //       latitude: location.coords.latitude.toString(),
+      //       longitude: location.coords.longitude.toString(),
+      //       attended: data.checked || false
+      //     })
+      // )
 
       let jsonData = {
         centre_id: centreId,
         centre_class_id: classId,
         children: children
       }
-      console.log(JSON.stringify(jsonData))
+      console.log('SUBMIT DATA',JSON.stringify(jsonData))
       request('attendance/bulk' ,{
         method: 'POST',
         body: JSON.stringify(jsonData),
@@ -177,47 +196,3 @@ export default {
   }
 }
 
-
-
-/*
-
-function fetch(url, options) {
-
-    return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest
-
-        xhr.onload = function(e) {
-            resolve({
-                json: function() {
-                    return new Promise(function(resolve2, reject2) {
-                        var j
-                        try {
-                            j = JSON.parse(e.responseText)
-                        } catch (e) {
-                            return reject2(e)
-                        }
-                        return resolve2(j)
-                    })
-                }
-            })
-        }
-
-        xhr.onerror = function(e) {
-            return reject(e)
-        }
-
-        xhr.open(options.method, url, true, options.username, options.password)
-
-        if (options.headers) {
-            Object.keys(options.headers).forEach(function(key) {
-                xhr.setRequestHeader(key, options.headers[key])
-            })
-        }
-
-        xhr.send(options.body || null)
-    })
-
-
-}
-
-*/

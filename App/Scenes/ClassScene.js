@@ -1,8 +1,16 @@
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
+
 import React, { Component } from 'react'
 import {
   View,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from 'react-native'
 
 import { bindActionCreators } from 'redux'
@@ -19,36 +27,109 @@ import SceneHeading from '../Components/SceneHeading'
 import * as classActions from '../Actions/Class'
 import * as appActions from '../Actions/App'
 import { ModalMode } from '../Components/WaitModal'
+import Api from '../Api'
+import Sentry from '../Sentry'
 
 class ClassScene extends Component {
 
+  FILENAME = 'ClassScene.js'
+
   constructor(props) {
     super(props)
-    this.actions = this.props.actions
-    this.navigator = this.props.navigator
-    this.route = this.props.route
   }
 
   componentWillMount() {
-    const token = this.props.state.App.userData._token
-    const staffId = this.props.state.App.userData.user.id
-    this.props.actions.fetchClasses( staffId, token )
-    this.props.dispatch(appActions.setModal({
-      modalMode: ModalMode.WAITING,
-      modalText: 'Please wait',
-      modalVisible: true
-    }))
+    if(Config.debug)
+      console.log(this.FILENAME, 'componentWillMount')
+    else
+      Sentry.addBreadcrumb(this.FILENAME, 'componentWillMount')
+  }
+
+  goBack() {
+
+    Sentry.addNavigationBreadcrumb(this.FILENAME,'ClassScene','MainScene')
+
+    setTimeout(() => this.props.navigator.pop(),0)
+
+    // Clear data so that it must be reloaded
+    this.props.dispatch(appActions.setCentre(null))
   }
 
   takeAttendance(val) {
-    setTimeout(() =>
-      this.navigator.push({
-        ...Routes.attendance,
-        classId: val.id,
-        className: val.name,
-        centreId: val.centre_id
-      })
-    ,0)
+
+    // Open modal
+    this.props.dispatch(appActions.setModal({
+      modalVisible: true,
+      modalText: "Please wait",
+      ModalMode: ModalMode.WAITING
+    }))
+
+    // Fetch remote data
+    Api.fetchClass(
+      val.id,
+      this.props.state.App.userData._token
+    ).then( (data) => {
+
+
+      // Handle result
+      if(data.error){
+
+        // Close the modal
+        this.props.dispatch(appActions.setModal({modalVisible: false}))
+
+        // Handle error
+        if(Config.debug) {
+
+          alert(data.error)
+          console.log(data.error)
+        } else {
+
+          Sentry.captureEvent(data.error,this.FILENAME)
+
+          // Show user the error
+          Alert.alert(
+            'Unknown Error',
+            'There was an error communicating with the server',
+            [{text: 'Okay'}]
+          )
+        }
+      } else {
+
+        // Close modal
+        this.props.dispatch(appActions.setModal({
+          modalVisible: false
+        }))
+
+        // Clear centre data
+        this.props.dispatch(appActions.setCentre(null))
+
+        // Change scene
+        this.props.navigator.push({
+          ...Routes.attendance,
+          classData: data
+        })
+
+      }
+    }).catch( (error) => {
+
+      // Close the modal
+      this.props.dispatch(appActions.setModal({
+        modalVisible: false
+      }))
+
+      // Handle error
+      if(Config.debug) {
+        alert(error)
+        console.log(error.stack)
+      } else {
+        Sentry.captureEvent(error.stack, this.FILENAME)
+        Alert.alert(
+          'Network Error',
+          Config.errorMessage.NETWORK,
+          [{text: 'Okay'}]
+        )
+      }
+    })
   }
 
   render() {
@@ -77,8 +158,9 @@ class ClassScene extends Component {
     return (
       <View style={{flex: 1}}>
         <NavBar
-          title="ECD APP"
-          navigator={ this.navigator }
+          navigator={ this.props.navigator }
+          leftButtonText="Back"
+          leftButtonAction={ () => this.goBack() }
         />
         <SceneView>
           <SceneHeading text="Take Attendance"/>

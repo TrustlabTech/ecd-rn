@@ -38,26 +38,37 @@ export default class WaitModal extends Component {
   }
 
 
-  close() {
-    this.props.dispatch(appActions.setModal({'modalVisible': false}))
-  }
+  // close() {
+  //   this.props.dispatch(appActions.setModal({modalVisible: false}))
+  // }
 
   onPositive(){
-    if(this.props.onPositive())
-      setTimeout(() => this.props.onPositive(),0)
-    setTimeout(() => this.close(),50)
+    if(this.props.onPositive)
+      this.props.onPositive()
   }
 
   onNegative(){
     if(this.props.onNegative)
-      setTimeout(() => this.props.onNegative(),0)
-    setTimeout(() => this.close(),50)
+      this.props.onNegative()
   }
 
 
   render() {
 
-    var SpinnyThing = null
+    var SpinnyThing =
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <ActivityIndicator
+          animating={ true }
+          style={{height: 80}}
+          size="large"
+        />
+      </View>
 
     var Buttons = null
 
@@ -77,7 +88,7 @@ export default class WaitModal extends Component {
             <TouchableHighlight
               style={{ borderRadius: 5, marginLeft: 10 }}
               underlayColor={'white'}
-              onPress={ () => setTimeout(() =>this.onPositive(),0) }
+              onPress={ () => this.onPositive() }
             >
               <View style={{
                 padding: 15,
@@ -96,7 +107,7 @@ export default class WaitModal extends Component {
             <TouchableHighlight
               style={{ marginRight: 10, borderRadius: 5 }}
               underlayColor={'white'}
-              onPress={ () => setTimeout(() =>this.onNegative(),0) }
+              onPress={ () => this.onNegative() }
             >
               <View style={{
                 padding: 15,
@@ -127,7 +138,7 @@ export default class WaitModal extends Component {
           >
             <TouchableHighlight style={{ borderRadius: 5 }}
               underlayColor={'white'}
-              onPress={ () => setTimeout(() =>this.onPositive(),0) }
+              onPress={ () => this.onPositive() }
             >
               <View style={{
                 padding: 15,
@@ -170,7 +181,7 @@ export default class WaitModal extends Component {
         animationType={"fade"}
         transparent={true}
         visible={this.props.visible}
-        onRequestClose={ this.close }
+        onRequestClose={ () => alert('request modal close') }
       >
         <View style={ styles.entireModal }>
             <View style={ [styles.visibleModal] }>

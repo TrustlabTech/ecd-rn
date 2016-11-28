@@ -1,3 +1,9 @@
+import groovy.json.JsonSlurper
+def packageSlurper = new JsonSlurper()
+def packageJson = packageSlurper.parse file('../../package.json')
+
+println "Building ECDRN v"+packageJson.version
+
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
@@ -15,7 +21,11 @@ apply from: "../../node_modules/react-native/react.gradle"
 def enableSeparateBuildPerCPUArchitecture = true
 def enableProguardInReleaseBuilds = true
 
+
 android {
+    // lintOptions {
+    //     checkReleaseBuilds false
+    // }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
 
@@ -24,22 +34,22 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName packageJson.version
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
     }
     signingConfigs {
         release {
-            storeFile file(System.env.ECDRN_RELEASE_STORE_FILE)
-            storePassword System.env.ECDRN_RELEASE_STORE_PASSWORD
-            keyAlias System.env.ECDRN_RELEASE_STORE_KEY_ALIAS
-            keyPassword System.env.ECDRN_RELEASE_STORE_KEY_PASSWORD
+            storeFile file('ECDRN.keystore')
+            storePassword 'shantaram'
+            keyAlias 'ECDRN_RELEASE'
+            keyPassword 'shantaram'
         }
         debug {
             storeFile file('ECDRN.keystore')
-            storePassword 'ECDRN_RELEASE'
-            keyAlias 'shantaram'
+            storePassword 'shantaram'
+            keyAlias 'ECDRN_RELEASE'
             keyPassword 'shantaram'
         }
     }
@@ -76,12 +86,19 @@ android {
         }
     }
 }
+repositories {
+    maven {
+        url  "http://jcenter.bintray.com"
+    }
+}
 
 dependencies {
     compile project(':react-native-linear-gradient')
-    compile fileTree(dir: "libs", include: ["*.jar"])
+    compile project(':react-native-google-analytics-bridge')
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    compile 'com.joshdholtz.sentry:sentry-android:1.5.0'
+    compile "com.facebook.react:react-native:+"
+    compile fileTree(dir: "libs", include: ["*.jar"])
 }
 
 // Run this once to be able to run the application with BUCK

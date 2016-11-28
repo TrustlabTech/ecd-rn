@@ -48,43 +48,51 @@ export default class Button extends Component {
       <View>
 
         <TouchableHighlight
-          underlayColor={Colours.offWhite}
-          activeOpacity={this.props.disabled ? 0.4: 0.2}
-          style={{
-            marginTop: 8,
-            marginBottom: 8,
-            borderRadius: 5,
-            width: this.props.width || 140,
-            height: this.props.height || 45
-          }}
-          onPress={ () => this.onPress() }
-        >
-          <View style={{
-            flex: 1,
-            borderColor: Colours.primaryLowlight,
-            borderWidth: 1,
-            borderStyle: 'solid',
-            borderRadius: 5,
-            padding: 1
-          }}>
-            <LinearGradient colors={[this.bgColour1, this.bgColour2 ]} style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Text style={{
-                color: Colours.primary,
-                fontSize: FontSizes.h5,
-                textAlign: 'center'
-              }}>
+        underlayColor={Colours.offWhite}
+        activeOpacity={this.props.disabled ? 0.4: 0.2}
+        style={[styles.tH,{
+          width: this.props.width || 140,
+          height: this.props.height || 45
+        }]}
+        onPress={ () => this.onPress() }>
+
+          <View style={styles.view}>
+            <LinearGradient colors={[this.bgColour1, this.bgColour2 ]} style={styles.lG}>
+              <Text style={styles.text}>
                 {this.props.text}
               </Text>
             </LinearGradient>
           </View>
 
         </TouchableHighlight>
+
       </View>
     )
   }
 }
 
+var styles = StyleSheet.create({
+  tH: {
+    marginTop: 8,
+    marginBottom: 8,
+    borderRadius: 5
+  },
+  view: {
+    flex: 1,
+    borderColor: Colours.primaryLowlight,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 1
+  },
+  lG: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text : {
+    color: Colours.primary,
+    fontSize: FontSizes.h5,
+    textAlign: 'center'
+  }
+})
