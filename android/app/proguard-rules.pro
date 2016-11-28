@@ -65,3 +65,10 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
 -dontwarn com.joshdholtz.sentry.*
+-dontwarn org.apache.http.*
+-dontwarn org.apache.http.client.*
+-dontwarn org.apache.http.client.methods.*
+-dontwarn org.apache.http.impl.cookie.*
+-dontwarn org.apache.http.entity.*
+-dontwarn org.apache.http.message.*
+-dontwarn android.net.http.*
