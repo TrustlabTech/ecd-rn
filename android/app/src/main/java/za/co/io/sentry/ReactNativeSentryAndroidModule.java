@@ -1,6 +1,6 @@
-package za.co.io.crashtheapp;
+package za.co.io.sentry;
 
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -10,9 +10,9 @@ import com.joshdholtz.sentry.Sentry;
 
 import java.lang.Error;
 
-public final class ReactNativeCrashTheAppAndroidModule extends ReactContextBaseJavaModule {
+public final class ReactNativeSentryAndroidModule extends ReactContextBaseJavaModule {
 
-  public ReactNativeCrashTheAppAndroidModule(final ReactApplicationContext rctx) {
+  public ReactNativeSentryAndroidModule(final ReactApplicationContext rctx) {
     super(rctx);
   }
 
@@ -22,7 +22,7 @@ public final class ReactNativeCrashTheAppAndroidModule extends ReactContextBaseJ
 
   @Override
   public String getName() {
-    return "ReactNativeCrashTheAppAndroid";
+    return "ReactNativeSentryAndroid";
   }
 
   @ReactMethod

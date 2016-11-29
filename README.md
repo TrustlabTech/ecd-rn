@@ -6,7 +6,7 @@
 * Tuesday 2 - RN upgrade
 * Friday 2 - Feature freeze
 * Monday 1 - Testing and building
-* Tuesday 1 - Release / Begin spring
+* Tuesday 1 - Release / Begin sprint
 
 ## RN Issues affecting the project
 

@@ -4,6 +4,8 @@ import {
   View
 } from 'react-native'
 
+import { Colours } from '../GlobalStyles'
+
 export default class SceneView extends Component {
 
 
@@ -14,7 +16,7 @@ export default class SceneView extends Component {
   render() {
     return (
 
-      <ScrollView style={{flex: 1}}>
+      <ScrollView style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}>
 
         {this.props.children}
 

@@ -20,14 +20,14 @@ function timestamp(currentDate) {
 function request(route, options = {method: 'GET'} ) {
 
   if(Config.debug && Config.debugNetwork)
-    console.log('API REQUEST',timestamp(new Date()),Config.http.baseUrl + route, options)
+    console.log('API REQUEST',timestamp(new Date()), Config.http.baseUrl + route, options)
   else
     Sentry.addBreadcrumb('HTTP '+options.method,Config.http.baseUrl+route)
 
   return fetch(Config.http.baseUrl + route, options)
 
   // Response received
-  .then((response) => {
+  .then( (response) => {
 
     if(Config.debug && Config.debugNetwork)
       console.log('API RESPONSE:',response)

@@ -19,6 +19,7 @@ import TextField from '../Components/TextField'
 import Button from '../Components/Button'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
+import Scene from '../Components/Scene'
 import Config from '../Config'
 import Routes from '../Routes'
 import { connect } from 'react-redux'
@@ -37,9 +38,14 @@ class LoginScene extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      serverOnline: false
+    }
   }
 
   componentWillMount() {
+
+    this.serverStatus()
 
     if(Config.debug && Config.debugReact)
       console.log(this.FILENAME,'componentWillMount')
@@ -54,7 +60,6 @@ class LoginScene extends Component {
         Sentry.addBreadcrumb('LoginScene','Failed to load phone number from Async storage')
     })
   }
-
 
   login() {
 
@@ -148,7 +153,15 @@ class LoginScene extends Component {
     })
 
   }
-
+  serverStatus = () => {
+    fetch('http://ecd.cnsnt.io')
+    .then((response) => {
+      this.setState({serverOnline: true})
+    })
+    .catch((error) => {
+      this.setState({serverOnline: false})
+    })
+  }
   render() {
     const { phoneNumber, pin } = this.props.state.Login
     let footer = <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
@@ -156,8 +169,10 @@ class LoginScene extends Component {
     if(Config.debug) {
       footer =
         <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
-          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>RN v{Config.rnVersion}</Text>
           <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>RN v{Config.rnVersion}</Text>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>Server: {Config.http.baseUrl}</Text>
+          <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>Server Status: {this.state.serverOnline ? "Online" : "Offline"}</Text>
         </View>
     } else {
       footer =
@@ -167,40 +182,42 @@ class LoginScene extends Component {
     }
 
     return (
-      <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
-        <View style={{height: 20}}/>
-        <View style={{height: 320}}>
-          <SceneHeading text="ECD APP"/>
+      <Scene>
+        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
+          <View style={{height: 20}}/>
+          <View style={{height: 320}}>
+            <SceneHeading text="ECD APP"/>
 
-          <FormHeading text="Login"/>
-          <TextField
-            value={ phoneNumber }
-            ref="phoneNumber"
-            onChangeText={ (text) => this.props.actions.phoneNumberTextChange(text) }
-            placeholder="Phone Number"
-            maxLength={10}
-            keyboardType="phone-pad"
-            returnKeyType="next"
-            onSubmitEditing={ () => this.refs.pin.textInput.focus() }
-          />
+            <FormHeading text="Login"/>
+            <TextField
+              value={ phoneNumber }
+              ref="phoneNumber"
+              onChangeText={ (text) => this.props.actions.phoneNumberTextChange(text) }
+              placeholder="Phone Number"
+              maxLength={10}
+              keyboardType="phone-pad"
+              returnKeyType="next"
+              onSubmitEditing={ () => this.refs.pin.textInput.focus() }
+            />
 
-          <TextField
-            value={ pin }
-            ref="pin"
-            onChangeText={ (text) => this.props.actions.pinTextChange(text) }
-            placeholder="PIN"
-            maxLength={4}
-            secureTextEntry={true}
-            keyboardType="phone-pad"
-            onSubmitEditing={ () => this.login() }
-            width={ this.screenWidth * 0.6 }
-          />
-          <View style={{flex: 1, alignItems: 'center'}}>
-            <Button text="Login" onPress={() => this.login()}/>
+            <TextField
+              value={ pin }
+              ref="pin"
+              onChangeText={ (text) => this.props.actions.pinTextChange(text) }
+              placeholder="PIN"
+              maxLength={4}
+              secureTextEntry={true}
+              keyboardType="phone-pad"
+              onSubmitEditing={ () => this.login() }
+              width={ this.screenWidth * 0.6 }
+            />
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <Button text="Login" onPress={() => this.login()}/>
+            </View>
           </View>
+          {footer}
         </View>
-        {footer}
-      </View>
+      </Scene>
     )
   }
 }
