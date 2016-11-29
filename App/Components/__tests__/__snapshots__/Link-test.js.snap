@@ -1,0 +1,25 @@
+exports[`test renders correctly 1`] = `
+<TouchableHighlight
+  activeOpacity={0.85}
+  onPress={[Function]}
+  style={
+    Object {
+      "margin": 2,
+      "padding": 5,
+    }
+  }
+  underlayColor="black">
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#5b5b5b",
+        "fontSize": 16,
+      }
+    }>
+    Test link
+  </Text>
+</TouchableHighlight>
+`;

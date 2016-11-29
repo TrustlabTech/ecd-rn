@@ -1,0 +1,23 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "marginBottom": 5,
+      "marginTop": 8,
+    }
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 26,
+        "fontWeight": "bold",
+      }
+    }>
+    Test SceneHeading
+  </Text>
+</View>
+`;
