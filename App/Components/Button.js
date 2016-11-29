@@ -13,33 +13,61 @@ export default class Button extends Component {
 
   constructor(props) {
     super(props)
-    if(this.props.disabled){
-      this.bgColour1 = Colours.offWhite
-      this.bgColour2 = '#bfbfbf'
+
+    this.state = {
+      bgColour1: '#fefefe',
+      bgColour2: Colours.offwhite,
+    }
+    this.gaurdDelay = 500
+    this.recentlyTouched = false
+
+  }
+
+  componentWillMount() {
+    if(this.props.disabled) {
+      this.setState({
+        bgColour1: Colours.offWhite,
+        bgColour2: '#bfbfbf'
+      })
     } else {
-      this.bgColour1 = '#fefefe'
-      this.bgColour2 = Colours.offWhite
+      this.setState({
+        bgColour1: '#fefefe',
+        bgColour2: Colours.offWhite
+      })
     }
   }
 
   onPress() {
-    if(this.props.disabled !== true) {
-      setTimeout(() => this.props.onPress(),0)
-    } else {
-      if(this.props.disabledText)
-        // alert(this.props.disabledText)git
-        ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT);
+    if(!this.recentlyTouched) {
+      if(this.props.disabled !== true) {
 
+        // Blocking here will prevent animation
+        setTimeout(() => this.props.onPress(),0)
+
+      } else {
+
+        // If a message was given display it
+        if(this.props.disabledText)
+          ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT);
+
+      }
+      this.recentlyTouched = true
+      setTimeout(() => this.recentlyTouched = false ,this.gaurdDelay)
     }
+
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if(this.props.disabled){
-      this.bgColour1 = Colours.offWhite
-      this.bgColour2 = '#bfbfbf'
+  componentWillReceiveProps(nextProps, nextState) {
+    if(this.props.disabled) {
+      this.setState({
+        bgColour1: Colours.offWhite,
+        bgColour2: '#bfbfbf'
+      })
     } else {
-      this.bgColour1 = '#fefefe'
-      this.bgColour2 = Colours.offWhite
+      this.setState({
+        bgColour1: '#fefefe',
+        bgColour2: Colours.offWhite
+      })
     }
   }
 
@@ -48,16 +76,18 @@ export default class Button extends Component {
       <View>
 
         <TouchableHighlight
-        underlayColor={Colours.offWhite}
-        activeOpacity={this.props.disabled ? 0.4: 0.2}
-        style={[styles.tH,{
-          width: this.props.width || 140,
-          height: this.props.height || 45
-        }]}
-        onPress={ () => this.onPress() }>
+
+          underlayColor={Colours.offWhite}
+
+          activeOpacity={this.props.disabled ? 0.4: 0.2}
+
+          style={[styles.tH, { width: this.props.width || 140, height: this.props.height || 45 }]}
+
+          onPress={ () => this.onPress() }
+        >
 
           <View style={styles.view}>
-            <LinearGradient colors={[this.bgColour1, this.bgColour2 ]} style={styles.lG}>
+            <LinearGradient colors={[this.state.bgColour1, this.state.bgColour2 ]} style={styles.lG}>
               <Text style={styles.text}>
                 {this.props.text}
               </Text>

@@ -24,6 +24,7 @@ export const Colours = {
   darkText: '#030303',
   offWhite: '#dfdfdf',
   touchableUnderLay: '#ebebeb',
+  sceneBackgroundColour: '#fefefe'
 
 }
 

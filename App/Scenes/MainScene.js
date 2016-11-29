@@ -26,7 +26,7 @@ import Routes from '../Routes'
 import Api from '../Api'
 import { Colours, FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
-
+import Scene from '../Components/Scene'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
 
@@ -99,11 +99,12 @@ class MainScene extends Component {
         }
 
       } else {
+
         // Change scene
         this.props.navigator.push(Routes.class)
 
         // Push cntre data into app store
-        this.props.dispatch(appActions.setCentre(data));
+        this.props.dispatch(appActions.setCentre(data))
 
         // Close the modal
         this.props.dispatch(appActions.setModal({
@@ -124,7 +125,8 @@ class MainScene extends Component {
         alert(error)
         console.log(error.stack)
       } else {
-        Sentry.captureEvent(error.stack,this.FILENAME)
+        Sentry.captureEvent(error.stack, this.FILENAME)
+
         Alert.alert(
           'Unknown Error',
           Config.errorMessage.NETWORK,
@@ -132,6 +134,8 @@ class MainScene extends Component {
             {text: "Okay"}
           ]
         )
+
+
       }
 
     })
@@ -192,6 +196,7 @@ class MainScene extends Component {
 
     // Draw the scene
     return (
+      <Scene>
         <View style={{flex: 1}}>
 
           <NavBar
@@ -263,6 +268,7 @@ class MainScene extends Component {
 
           </DrawerLayoutAndroid>
         </View>
+      </Scene>
     )
   }
 }

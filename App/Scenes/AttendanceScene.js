@@ -36,7 +36,7 @@ import Sentry from '../Sentry'
 import * as attendanceActions from '../Actions/Attendance'
 import * as appActions from '../Actions/App'
 
-
+import { Colours } from '../GlobalStyles'
 
 class AttendanceScene extends Component {
 
@@ -311,7 +311,7 @@ class AttendanceScene extends Component {
     const CheckBoxes = this.makeCheckboxes(this.state.attendanceData) || null
     return (
 
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: Colours.offWhite}}>
 
         <NavBar
           navigator={ this.props.navigator }

@@ -1,4 +1,4 @@
-package za.co.io.crashtheapp;
+package za.co.io.sentry;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class ReactNativeCrashTheAppAndroidPackage implements ReactPackage {
+public final class ReactNativeSentryAndroidPackage implements ReactPackage {
 
   @Override
   public List<Class<? extends JavaScriptModule>> createJSModules() {
@@ -24,7 +24,7 @@ public final class ReactNativeCrashTheAppAndroidPackage implements ReactPackage 
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext rctx) {
     List<NativeModule> modules = new ArrayList<>();
-    modules.add(new ReactNativeCrashTheAppAndroidModule(rctx));
+    modules.add(new ReactNativeSentryAndroidModule(rctx));
     return modules;
   }
 }
