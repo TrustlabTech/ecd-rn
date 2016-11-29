@@ -153,6 +153,7 @@ class LoginScene extends Component {
     })
 
   }
+
   serverStatus = () => {
     fetch('http://ecd.cnsnt.io')
     .then((response) => {
@@ -162,6 +163,7 @@ class LoginScene extends Component {
       this.setState({serverOnline: false})
     })
   }
+
   render() {
     const { phoneNumber, pin } = this.props.state.Login
     let footer = <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>

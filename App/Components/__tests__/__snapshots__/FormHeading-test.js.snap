@@ -1,0 +1,22 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 5,
+      "marginLeft": 25,
+      "marginTop": 5,
+    }
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 22,
+      }
+    }>
+    Test FormHeading
+  </Text>
+</View>
+`;

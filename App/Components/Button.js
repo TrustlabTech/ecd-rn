@@ -51,7 +51,10 @@ export default class Button extends Component {
           ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT);
 
       }
+
+      // Gaurd
       this.recentlyTouched = true
+      // Ungaurd after delay
       setTimeout(() => this.recentlyTouched = false ,this.gaurdDelay)
     }
 

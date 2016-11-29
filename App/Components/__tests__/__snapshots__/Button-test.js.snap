@@ -1,0 +1,63 @@
+exports[`test renders correctly 1`] = `
+<View>
+  <TouchableHighlight
+    activeOpacity={0.2}
+    onPress={[Function]}
+    style={
+      Array [
+        Object {
+          "borderRadius": 5,
+          "marginBottom": 8,
+          "marginTop": 8,
+        },
+        Object {
+          "height": 45,
+          "width": 140,
+        },
+      ]
+    }
+    underlayColor="#dfdfdf">
+    <View
+      style={
+        Object {
+          "borderColor": "#353535",
+          "borderRadius": 5,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "flex": 1,
+          "padding": 1,
+        }
+      }>
+      <View
+        style={
+          Array [
+            Object {
+              "alignSelf": "flex-start",
+              "borderColor": "red",
+              "borderWidth": 1,
+            },
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            },
+          ]
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "color": "#393939",
+              "fontSize": 22,
+              "textAlign": "center",
+            }
+          }>
+          Test
+        </Text>
+      </View>
+    </View>
+  </TouchableHighlight>
+</View>
+`;

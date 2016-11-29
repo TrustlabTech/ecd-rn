@@ -6,7 +6,6 @@ import {
   Switch
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
-import LinearGradient from 'react-native-linear-gradient'
 
 export default class Checkbox extends Component {
 

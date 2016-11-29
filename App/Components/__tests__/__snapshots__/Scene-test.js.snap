@@ -1,0 +1,9 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fefefe",
+      "flex": 1,
+    }
+  } />
+`;
