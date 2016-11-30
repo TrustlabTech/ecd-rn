@@ -68,6 +68,20 @@ class LoginScene extends Component {
     })
   }
 
+  componentWillReceiveProps() {
+    if(Config.debug ){
+
+      if(Config.debugReact)
+        console.log(this.FILENAME, 'componentWillReceiveProps')
+
+    }
+  }
+
+  componentWillUnmount() {
+    if(Config.debug && Config.debugReact)
+      consol.log(this.FILENAME, 'componentWillUnmount')
+  }
+
   login() {
 
     Sentry.addNavigationBreadcrumb(this.FILENAME+":login()", "LoginScene", "MainScene")
@@ -118,7 +132,7 @@ class LoginScene extends Component {
           this.props.dispatch(appActions.setUser(data))
 
           // Go to main scene
-          this.props.navigator.push(Routes.main)
+          this.props.navigator.replace(Routes.main)
         }
       }).catch((error) => {
 

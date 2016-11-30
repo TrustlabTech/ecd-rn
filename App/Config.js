@@ -20,12 +20,12 @@ export default {
     NETWORK: 'Could not fetch data'
   },
 
-  debug: false,       // Master switch
-  debugAction: true, // Redux actions
-  debugNetwork: true, // HTTP
-  debugStore: true,  // Display each store change
-  debugReact: true,   // Show react lifescylce data
-
+  debug: true,          // Master switch
+  debugAction: false,   // Redux actions
+  debugNetwork: false,  // HTTP
+  debugStore: false,    // Display each store change
+  debugReact: false,    // Show react lifescylce data
+  debugNavigator: true,
   // App version
   version: pkg.version,
 

@@ -1,3 +1,5 @@
+import Config from '../Config'
+
 export function attempt(phoneNumber, pin, navigator) {
   return {
     type: 'LOGIN_ATTEMPT',
