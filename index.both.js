@@ -60,16 +60,9 @@ export default class Both extends Component {
   }
 
   componentWillUnmount() {
-
-    // surely you don't redefine the function to be removed?
-    BackAndroid.removeEventListener('hardwareBackPress', () => {
-      if(this.refs.navigator.getCurrentRoutes() > 1) {
-        setTimeout( () => this.navigator.pop(), 0)
-        return true
-      } else {
-        return false
-      }
-    })
+    if(Config.debug && Config.debugReact) {
+      console.log(this.FILENAME, 'componentWillUnmount')
+    }
   }
 
 
@@ -80,15 +73,17 @@ export default class Both extends Component {
         <Navigator
           initialRoute={Routes.login}
           ref='navigator'
+          onWillFocus={ (route) => {
+            // route.scene.onNavigatorWillFocus
+          }}
           renderScene={ (route, navigator) => {
-            // BackAndroid.addEventListener('hardwareBackPress', () => {
-            //   if(navigator.getCurrentRoutes().length > 1) {
-            //     navigator.pop()
-            //     return true
-            //   } else {
-            //     return false
-            //   }
-            // })
+
+            if(Config.debug && Config.debugNavigator) {
+              console.log("--- ROUTES STACK ---")
+              console.log(navigator.getCurrentRoutes())
+              console.log("--- END ROUTES STACK ---")
+
+            }
 
             return (
               <App

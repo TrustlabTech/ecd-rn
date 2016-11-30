@@ -39,10 +39,46 @@ class ClassScene extends Component {
   }
 
   componentWillMount() {
-    if(Config.debug)
-      console.log(this.FILENAME, 'componentWillMount')
-    else
+    if(Config.debug) {
+      // Debug
+      if(Config.debugReact)
+        console.log(this.FILENAME, 'componentWillMount')
+
+    } else {
+      // Production
       Sentry.addBreadcrumb(this.FILENAME, 'componentWillMount')
+    }
+
+  }
+
+  componentWillReceiveProps() {
+    if(Config.debug ){
+
+      if(Config.debugReact)
+        console.log(this.FILENAME, 'componentWillReceiveProps')
+
+    }
+  }
+
+  componentWillUnmount() {
+
+    if(Config.debug) {
+      // Debug
+
+      if(Config.debugReact)
+        console.log(this.FILENAME, 'componentWillUnmount')
+
+    } else {
+      // Production
+
+      Sentry.addBreadcrumb(this.FILENAME, 'componentWillUnmount')
+    }
+
+  }
+
+  _hardwareBackHandler = () => {
+    this.goBack()
+    return true
   }
 
   goBack() {

@@ -5,7 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-
 import React, { Component } from 'react'
 import {
   View,
@@ -78,6 +77,13 @@ class AttendanceScene extends Component {
         initialised: true
       })
     }
+  }
+
+  componentWillUnmount() {
+
+    if(Config.debug && Config.debugReact)
+      console.log(this.FILENAME, 'componentWillUnmount')
+
   }
 
   initAttendance = classData =>

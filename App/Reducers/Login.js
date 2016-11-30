@@ -15,14 +15,20 @@ export default (state = initialState, action = {}) => {
       }
 
     case 'PHONENUMBER_TEXT_CHANGE':
-      console.log("PHONENUMBER_TEXT_CHANGE",action.text)
+
+      if(Config.debug && Config.debugAction)
+        console.log("PHONENUMBER_TEXT_CHANGE",action.text)
+
       return {
         ...state,
         phoneNumber: action.text
       }
 
     case 'PIN_TEXT_CHANGE':
-      console.log("PIN_TEXT_CHANGE",action.text)
+
+      if(Config.debug && Config.debugAction)
+        console.log("PIN_TEXT_CHANGE",action.text)
+
       return {
         ...state,
         pin: action.text

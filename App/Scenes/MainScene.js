@@ -11,6 +11,7 @@ import {
   View,
   TouchableHighlight,
   DrawerLayoutAndroid,
+  BackAndroid,
   Alert
 } from 'react-native'
 
@@ -46,10 +47,30 @@ class MainScene extends Component {
 
   componentWillMount() {
 
-    if(Config.debug)
-      console.log(this.FILENAME,'componentWillMount')
-    else
+    if(Config.debug) {
+
+      if(Config.debugReact)
+        console.log(this.FILENAME,'componentWillMount')
+
+    } else {
       Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
+    }
+
+  }
+
+  componentWillReceiveProps() {
+    if(Config.debug ){
+
+      if(Config.debugReact)
+        console.log(this.FILENAME, 'componentWillReceiveProps')
+
+    }
+  }
+
+  componentWillUnmount() {
+    if(Config.debug && Config.debugReact)
+      console.log(this.FILENAME, 'componentWillUnmount')
+
   }
 
   takeAttendance() {
