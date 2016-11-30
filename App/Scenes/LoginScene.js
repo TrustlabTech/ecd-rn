@@ -47,10 +47,17 @@ class LoginScene extends Component {
 
     this.serverStatus()
 
-    if(Config.debug && Config.debugReact)
-      console.log(this.FILENAME,'componentWillMount')
-    else
+    if(Config.debug) {
+      // Debug mode
+      if(Config.debugReact){
+        console.log(this.FILENAME,'componentWillMount')
+      }
+
+    } else {
+      // Production mode
       Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
+      this.props.gaTrackers.tracker1.trackScreenView(this.FILENAME)
+    }
 
     // Load phone number from persistant storage
     AsyncStorage.getItem('@phoneNumber', (error, result) => {

@@ -40,7 +40,7 @@ import { Colours } from '../GlobalStyles'
 
 class AttendanceScene extends Component {
 
-  FILENAME = 'AttendanceScene,js'
+  FILENAME = 'AttendanceScene.js'
 
   constructor(props) {
     super(props)
