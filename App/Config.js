@@ -33,7 +33,7 @@ export default {
   rnVersion: pkg.dependencies['react-native'].substring(1),
 
   // Android navigator transitions
-  sceneConfig: Navigator.SceneConfigs.HorizontalSwipeJump,
+  sceneConfig: Navigator.SceneConfigs.PushFromRight,
 
   // Server details
   http: {
