@@ -21,9 +21,9 @@ export default {
   },
 
   debug: false,       // Master switch
-  debugAction: false, // Redux actions
+  debugAction: true, // Redux actions
   debugNetwork: true, // HTTP
-  debugStore: false,  // Display each store change
+  debugStore: true,  // Display each store change
   debugReact: true,   // Show react lifescylce data
 
   // App version
@@ -42,5 +42,14 @@ export default {
       'X-Client-Platform': 'ECDRN ' + Platform.OS + " " + pkg.version,
       'X-Requested-With': 'XMLHttpRequest'
     }
+  },
+
+  // Google Analytics
+  googleAnalytics: {
+    trackers: {
+      tracker1: 'UA-88187232-1'
+    },
+    dispatchInterval: 120,
+    dryRun: true
   }
 }
