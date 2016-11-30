@@ -81,14 +81,14 @@ export default class Both extends Component {
           initialRoute={Routes.login}
           ref='navigator'
           renderScene={ (route, navigator) => {
-            BackAndroid.addEventListener('hardwareBackPress', () => {
-              if(navigator.getCurrentRoutes().length > 1) {
-                navigator.pop()
-                return true
-              } else {
-                return false
-              }
-            })
+            // BackAndroid.addEventListener('hardwareBackPress', () => {
+            //   if(navigator.getCurrentRoutes().length > 1) {
+            //     navigator.pop()
+            //     return true
+            //   } else {
+            //     return false
+            //   }
+            // })
 
             return (
               <App
