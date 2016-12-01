@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "jest-react-native"
+    "preset": "react-native"
   },
   "dependencies": {
     "react": "15.4.1",
