@@ -29,8 +29,8 @@ import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
-
-
+import IMPLog from '../Impulse/IMPLog'
+import * as Lifecycle from '../Impulse/lib/Lifecycle'
 
 class LoginScene extends Component {
 
@@ -43,17 +43,29 @@ class LoginScene extends Component {
     }
   }
 
+  componentWillFocus(event) {
+
+    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_FOCUS)
+  }
+
+  componentDidFocus(event) {
+
+    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_DID_FOCUS)
+  }
+
   componentWillMount() {
+
+    this.props.navigator.navigationContext.addListener('willfocus', this.componentWillFocus.bind(this))
+    this.props.navigator.navigationContext.addListener('didfocus', this.componentDidFocus.bind(this))
+
+    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_MOUNT)
+
+
+
 
     this.serverStatus()
 
-    if(Config.debug) {
-      // Debug mode
-      if(Config.debugReact){
-        console.log(this.FILENAME,'componentWillMount')
-      }
-
-    } else {
+    if(!Config.debug) {
       // Production mode
       Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
       this.props.gaTrackers.tracker1.trackScreenView(this.FILENAME)
@@ -69,17 +81,15 @@ class LoginScene extends Component {
   }
 
   componentWillReceiveProps() {
-    if(Config.debug ){
-
-      if(Config.debugReact)
-        console.log(this.FILENAME, 'componentWillReceiveProps')
-
-    }
+    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
   }
 
   componentWillUnmount() {
-    if(Config.debug && Config.debugReact)
-      consol.log(this.FILENAME, 'componentWillUnmount')
+    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_UNMOUNT)
+
+    // this.props.navigator.navigationContext.removeListener('willfocus')
+    // this.props.navigator.navigationContext.removeListener('didfocus')
+
   }
 
   login() {
@@ -186,6 +196,8 @@ class LoginScene extends Component {
   }
 
   render() {
+
+    IMPLog.react(this.FILENAME, Lifecycle.RENDER)
     const { phoneNumber, pin } = this.props.state.Login
     let footer = <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
 

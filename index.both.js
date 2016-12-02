@@ -65,6 +65,14 @@ export default class Both extends Component {
     }
   }
 
+  _onWillFocus = route => {
+    // Redux action
+
+  }
+
+  _onDidFocus = route => {
+    // Transition comlpete?
+  }
 
   render() {
     return (
@@ -72,17 +80,14 @@ export default class Both extends Component {
       <Provider store={store}>
         <Navigator
           initialRoute={Routes.login}
-          ref='navigator'
-          onWillFocus={ (route) => {
-            // route.scene.onNavigatorWillFocus
-          }}
+          onWillFocus={this._onWillFocus}
+          onDidFocus={this._onDidFocus}
           renderScene={ (route, navigator) => {
 
             if(Config.debug && Config.debugNavigator) {
               console.log("--- ROUTES STACK ---")
               console.log(navigator.getCurrentRoutes())
               console.log("--- END ROUTES STACK ---")
-
             }
 
             return (
@@ -93,7 +98,12 @@ export default class Both extends Component {
               >
                   {React.createElement(
                     route.scene,
-                    { route, navigator, dispatch: store.dispatch, gaTrackers: this.gaTrackers }
+                    {
+                      route,
+                      navigator,
+                      dispatch: store.dispatch,
+                      gaTrackers: this.gaTrackers
+                    }
                   )}
               </App>
             )
