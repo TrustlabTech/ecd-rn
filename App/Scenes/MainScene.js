@@ -6,6 +6,8 @@
  */
 
 import React, { Component } from 'react'
+import IMPComponent from '../Impulse/IMPComponent'
+
 import {
   Text,
   View,
@@ -33,7 +35,7 @@ import * as appActions from '../Actions/App'
 
 
 
-class MainScene extends Component {
+class MainScene extends IMPComponent {
 
   FILENAME = 'MainScene.js'
 
@@ -46,6 +48,7 @@ class MainScene extends Component {
   }
 
   componentWillMount() {
+    super.componentWillMount()
 
     if(Config.debug) {
 
@@ -58,7 +61,19 @@ class MainScene extends Component {
 
   }
 
+  componentWillFocus(event) {
+    super.componentWillFocus(event)
+    console.log('MAIN-SCENE', 'WILL_FOCUS')
+
+  }
+
+  componentDidFocus(event) {
+    super.componentDidFocus(event)
+    console.log('MAIN-SCENE', 'DID_FOCUS')
+  }
+
   componentWillReceiveProps() {
+    super.componentWillReceiveProps()
     if(Config.debug ){
 
       if(Config.debugReact)
@@ -68,6 +83,7 @@ class MainScene extends Component {
   }
 
   componentWillUnmount() {
+    super.componentWillUnmount()
     if(Config.debug && Config.debugReact)
       console.log(this.FILENAME, 'componentWillUnmount')
 
@@ -209,6 +225,8 @@ class MainScene extends Component {
   }
 
   render() {
+    super.render()
+
     // Interpolate new lines into the strings
     const mainBtnText = "Take\nAttendance"
     const loggedInAs = "Logged in as\n" +
