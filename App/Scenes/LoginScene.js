@@ -6,6 +6,7 @@
  */
 
 import React, { Component } from 'react'
+import IMPComponent from '../Impulse/IMPComponent'
 import { bindActionCreators } from 'redux'
 import {
   Text,
@@ -29,10 +30,8 @@ import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
-import IMPLog from '../Impulse/IMPLog'
-import * as Lifecycle from '../Impulse/lib/Lifecycle'
 
-class LoginScene extends Component {
+class LoginScene extends IMPComponent {
 
   FILENAME = 'LoginScene.js'
 
@@ -44,23 +43,18 @@ class LoginScene extends Component {
   }
 
   componentWillFocus(event) {
-
-    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_FOCUS)
+    super.componentWillFocus(event)
   }
 
   componentDidFocus(event) {
-
-    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_DID_FOCUS)
+    super.componentDidFocus(event)
   }
 
   componentWillMount() {
+    super.componentWillMount()
 
     this.props.navigator.navigationContext.addListener('willfocus', this.componentWillFocus.bind(this))
     this.props.navigator.navigationContext.addListener('didfocus', this.componentDidFocus.bind(this))
-
-    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_MOUNT)
-
-
 
 
     this.serverStatus()
@@ -81,12 +75,11 @@ class LoginScene extends Component {
   }
 
   componentWillReceiveProps() {
-    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
+    super.componentWillReceiveProps()
   }
 
   componentWillUnmount() {
-    IMPLog.react(this.FILENAME, Lifecycle.COMPONENT_WILL_UNMOUNT)
-
+    super.componentWillUnmount()
     // this.props.navigator.navigationContext.removeListener('willfocus')
     // this.props.navigator.navigationContext.removeListener('didfocus')
 
@@ -196,8 +189,8 @@ class LoginScene extends Component {
   }
 
   render() {
+    super.render()
 
-    IMPLog.react(this.FILENAME, Lifecycle.RENDER)
     const { phoneNumber, pin } = this.props.state.Login
     let footer = <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
 

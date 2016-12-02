@@ -24,8 +24,8 @@ export default {
   debugAction: false,   // Redux actions
   debugNetwork: false,  // HTTP
   debugStore: false,    // Display each store change
-  debugReact: false,    // Show react lifescylce data
-  debugNavigator: true,
+  debugReact: true,    // Show react lifescylce data
+  debugNavigator: false,
   // App version
   version: pkg.version,
 
