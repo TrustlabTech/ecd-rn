@@ -44,18 +44,18 @@ class LoginScene extends IMPComponent {
 
   componentWillFocus(event) {
     super.componentWillFocus(event)
+        console.log('LOGIN-SCENE', 'WILL_FOCUS')
+
   }
 
   componentDidFocus(event) {
     super.componentDidFocus(event)
+        console.log('LOGIN-SCENE', 'WILL_FOCUS')
+
   }
 
   componentWillMount() {
     super.componentWillMount()
-
-    this.props.navigator.navigationContext.addListener('willfocus', this.componentWillFocus.bind(this))
-    this.props.navigator.navigationContext.addListener('didfocus', this.componentDidFocus.bind(this))
-
 
     this.serverStatus()
 
