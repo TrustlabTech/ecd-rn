@@ -57,9 +57,8 @@ class MainScene extends IMPComponent {
   }
 
   componentWillFocus(event) {
-    super.componentWillFocus(event,() => {
-      console.log('MainScene willfocus callback')
-    })
+    super.componentWillFocus()
+    console.log('YYYYYY')
     // console.log('MAIN-SCENE', 'WILL_FOCUS')
 
   }

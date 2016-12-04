@@ -34,17 +34,15 @@ import Sentry from '../Sentry'
 class LoginScene extends IMPComponent {
 
   constructor(props) {
-    super(props, 'LoginScene.js')
+    super(props)
     this.state = {
       serverOnline: false
     }
   }
 
-  componentWillFocus(event) {
-    super.componentWillFocus(event,() => console.log('OMG'))
-    // console.log("LoginScene willFocus ")
-    //pass function to parent
-    // parent will determine if it is to be run
+  componentWillFocus() {
+    super.componentWillFocus()
+    console.log('XXXXXXXXXXXXX')
 
   }
 
@@ -134,11 +132,8 @@ class LoginScene extends IMPComponent {
           this.props.dispatch(appActions.setUser(data))
 
           // Go to main scene
-          // this.props.navigator.push(Routes.main)
           this.navigator.push(Routes.main)
 
-    //       this._willFocusEventSubscription = this.props.navigator.navigationContext.addListener('willfocus', this.componentWillFocus.bind(this))
-    // this._didFocusEventSubscription = this.props.navigator.navigationContext.addListener('didfocus', this.componentDidFocus.bind(this))
         }
       }).catch((error) => {
 
