@@ -98,7 +98,7 @@ export default class Both extends Component {
     const eventSourceClass = this.getClassFromDisplayName(route.scene.displayName)
 
 
-    this._eventEmitter.emit('onWillFocus'+eventSourceClass, {source: eventSourceClass})
+    this._eventEmitter.emit('onWillFocus'+eventSourceClass)
     console.log('emitted******* onWillFocus'+eventSourceClass)
   }
 

@@ -8,7 +8,7 @@ import EventEmitter from 'EventEmitter'
 export default class IMPComponent extends React.Component {
 
   // Protected
-  Filename = 'IMPComponent.js'
+  _fileName = 'IMPComponent.js'
   navigator = null
 
   // Private
@@ -17,9 +17,8 @@ export default class IMPComponent extends React.Component {
 
   navigator = {
     push: (route) => {
-      // console.log('Push',{ source: this._className, target: this.getClassFromDisplayName(route.scene.displayName) })
-      // this.props._eventEmitter.emit('Push', { source: this._className, target: this.getClassFromDisplayName(route.scene.displayName) })
-      this.props.navigator.push({...route, source: this._className})
+
+      this.props.navigator.push(route)
 
     },
     pop: () => {
@@ -52,7 +51,7 @@ export default class IMPComponent extends React.Component {
   /*
    * Parse fileName to get the class
    */
-  getClassFromFilename = fileName => {
+  getClassFromFileName = fileName => {
     if(fileName) {
       if(fileName.contains(".js")) {
         return fileName.substring(0,fileName.indexOf(".js"))
@@ -65,73 +64,61 @@ export default class IMPComponent extends React.Component {
     }
   }
 
-  constructor(props, filename) {
+  constructor(props, fileName) {
     super(props)
-
-    IMPLog.react(this.Filename,Lifecycle.CONSTRUCTOR)
-    this.Filename = filename
-    this._className = this.getClassFromFilename(filename)
+    this._fileName = this.constructor.name+'.js'
+    this._className = this.constructor.name
 
     navigator = this.props.navigator
     dispatch = this.props.dispatch
+    this.props._eventEmitter.addListener('onWillFocus'+this._className, this.componentWillFocus, this)
 
+    IMPLog.react(this._fileName,Lifecycle.CONSTRUCTOR)
   }
 
-  componentWillFocus(event, callback) {
+  componentWillFocus() {
 
-    // if this is event source do callback // else do nothing
-    console.log('EVENT SOURCE', event.source, 'CLASSNAME', this._className)
-    if(event.source === this._className) {
-      callback()
-
-    }
-    IMPLog.react(this.Filename,Lifecycle.COMPONENT_WILL_FOCUS)
-
-    // else do nothing
+    IMPLog.react(this._fileName,Lifecycle.COMPONENT_WILL_FOCUS)
   }
 
   // componentDidFocus(event,callback) {
-  //   IMPLog.react(this.Filename, Lifecycle.COMPONENT_DID_FOCUS)
+  //   IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_FOCUS)
 
   // }
 
   componentWillMount() {
-    IMPLog.react(this.Filename, Lifecycle.COMPONENT_WILL_MOUNT)
-    this.props._eventEmitter.addListener('onWillFocus'+this._className, this.componentWillFocus, this)
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_MOUNT)
 
   }
 
   componentDidMount() {
-    IMPLog.react(this.Filename, Lifecycle.COMPONENT_DID_MOUNT)
-    // this.props._eventEmitter.addListener('onDidFocus'+this._className,this.componentDidFocus, this)
-
-
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_MOUNT)
   }
 
   componentWillReceiveProps() {
-    IMPLog.react(this.Filename, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    IMPLog.react(this.Filename, Lifecycle.SHOULD_COMPONENT_UPDATE)
-    return true;
+    IMPLog.react(this._fileName, Lifecycle.SHOULD_COMPONENT_UPDATE)
+    return true
   }
 
   componentWillUpdate(nextProps, nextState) {
-    IMPLog.react(this.Filename, Lifecycle.COMPONENT_WILL_UPDATE)
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UPDATE)
   }
 
   componentDidUpdate(preProps, prevState) {
-    IMPLog.react(this.Filename, Lifecycle.COMPONENT_DID_UPDATE)
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_UPDATE)
   }
 
   componentWillUnmount() {
-    IMPLog.react(this.Filename, Lifecycle.COMPONENT_WILL_UNMOUNT)
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UNMOUNT)
     this.props._eventEmitter.removeListener('onWillFocus'+this._className, this.componentWillFocus, this)
     // this.props._eventEmitter.removeListener('onDidFocus'+this._className,this.componentDidFocus, this)
   }
 
   render() {
-    IMPLog.react(this.Filename, Lifecycle.RENDER)
+    IMPLog.react(this._fileName, Lifecycle.RENDER)
   }
 }
