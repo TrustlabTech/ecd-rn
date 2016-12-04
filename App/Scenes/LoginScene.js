@@ -33,26 +33,26 @@ import Sentry from '../Sentry'
 
 class LoginScene extends IMPComponent {
 
-  FILENAME = 'LoginScene.js'
-
   constructor(props) {
-    super(props)
+    super(props, 'LoginScene.js')
     this.state = {
       serverOnline: false
     }
   }
 
   componentWillFocus(event) {
-    super.componentWillFocus(event)
-        console.log('LOGIN-SCENE', 'WILL_FOCUS')
+    super.componentWillFocus(event,() => console.log('OMG'))
+    // console.log("LoginScene willFocus ")
+    //pass function to parent
+    // parent will determine if it is to be run
 
   }
 
-  componentDidFocus(event) {
-    super.componentDidFocus(event)
-        console.log('LOGIN-SCENE', 'WILL_FOCUS')
+  // componentDidFocus(event) {
+  //   super.componentDidFocus(event)
+  //   console.log("LoginScene didFocus ")
 
-  }
+  // }
 
   componentWillMount() {
     super.componentWillMount()
@@ -61,8 +61,8 @@ class LoginScene extends IMPComponent {
 
     if(!Config.debug) {
       // Production mode
-      Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
-      this.props.gaTrackers.tracker1.trackScreenView(this.FILENAME)
+      Sentry.addBreadcrumb(this.Filename,'componentWillMount')
+      this.props.gaTrackers.tracker1.trackScreenView(this.Filename)
     }
 
     // Load phone number from persistant storage
@@ -73,21 +73,20 @@ class LoginScene extends IMPComponent {
         Sentry.addBreadcrumb('LoginScene','Failed to load phone number from Async storage')
     })
   }
-
+  componentDidMount() {
+    super.componentDidMount()
+  }
   componentWillReceiveProps() {
     super.componentWillReceiveProps()
   }
 
   componentWillUnmount() {
     super.componentWillUnmount()
-    // this.props.navigator.navigationContext.removeListener('willfocus')
-    // this.props.navigator.navigationContext.removeListener('didfocus')
-
   }
 
   login() {
 
-    Sentry.addNavigationBreadcrumb(this.FILENAME+":login()", "LoginScene", "MainScene")
+    Sentry.addNavigationBreadcrumb(this.Filename+":login()", "LoginScene", "MainScene")
 
     // From Redux
     const { phoneNumber, pin } = this.props.state.Login
@@ -135,7 +134,11 @@ class LoginScene extends IMPComponent {
           this.props.dispatch(appActions.setUser(data))
 
           // Go to main scene
-          this.props.navigator.replace(Routes.main)
+          // this.props.navigator.push(Routes.main)
+          this.navigator.push(Routes.main)
+
+    //       this._willFocusEventSubscription = this.props.navigator.navigationContext.addListener('willfocus', this.componentWillFocus.bind(this))
+    // this._didFocusEventSubscription = this.props.navigator.navigationContext.addListener('didfocus', this.componentDidFocus.bind(this))
         }
       }).catch((error) => {
 
@@ -149,7 +152,7 @@ class LoginScene extends IMPComponent {
           alert(error)
           console.log(error.stack)
         } else {
-          Sentry.captureEvent(error.stack, this.FILENAME)
+          Sentry.captureEvent(error.stack, this.Filename)
           Alert.alert(
             'Unknown Error',
             "There was an error logging in.\nPlease check your internet connection.",
@@ -169,7 +172,7 @@ class LoginScene extends IMPComponent {
         if(Config.debug)
           console.log('Could not store phone number')
         else
-          Sentry.captureEvent('Could not store number with Async storage', this.FILENAME )
+          Sentry.captureEvent('Could not store number with Async storage', this.Filename )
 
       } else {
         if(Config.debug) console.log('Phone number stored ' + phoneNumber)

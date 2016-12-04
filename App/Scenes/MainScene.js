@@ -37,11 +37,11 @@ import * as appActions from '../Actions/App'
 
 class MainScene extends IMPComponent {
 
-  FILENAME = 'MainScene.js'
+  // Filename = 'MainScene.js'
 
   constructor(props) {
+    super(props, 'MainScene.js')
 
-    super(props)
     this.state = {
       drawerOpen: false
     }
@@ -50,42 +50,34 @@ class MainScene extends IMPComponent {
   componentWillMount() {
     super.componentWillMount()
 
-    if(Config.debug) {
-
-      if(Config.debugReact)
-        console.log(this.FILENAME,'componentWillMount')
-
-    } else {
-      Sentry.addBreadcrumb(this.FILENAME,'componentWillMount')
+    if(!Config.debug) {
+      Sentry.addBreadcrumb(this.Filename,'componentWillMount')
     }
 
   }
 
   componentWillFocus(event) {
-    super.componentWillFocus(event)
-    console.log('MAIN-SCENE', 'WILL_FOCUS')
+    super.componentWillFocus(event,() => {
+      console.log('MainScene willfocus callback')
+    })
+    // console.log('MAIN-SCENE', 'WILL_FOCUS')
 
   }
 
-  componentDidFocus(event) {
-    super.componentDidFocus(event)
-    console.log('MAIN-SCENE', 'DID_FOCUS')
-  }
+  // componentDidFocus(event) {
+  //   super.componentDidFocus(event,() => {
+  //     console.log('MainScene didfocus callback')
+  //   })
+  //   // console.log('MAIN-SCENE', 'DID_FOCUS')
+  // }
 
   componentWillReceiveProps() {
     super.componentWillReceiveProps()
-    if(Config.debug ){
 
-      if(Config.debugReact)
-        console.log(this.FILENAME, 'componentWillReceiveProps')
-
-    }
   }
 
   componentWillUnmount() {
     super.componentWillUnmount()
-    if(Config.debug && Config.debugReact)
-      console.log(this.FILENAME, 'componentWillUnmount')
 
   }
 
@@ -188,7 +180,7 @@ class MainScene extends IMPComponent {
           onPress: () => {
 
             // Go back
-            this.props.navigator.pop()
+            this.navigator.pop()
 
             // Close drawer
             this._drawer.closeDrawer()

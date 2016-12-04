@@ -23,7 +23,7 @@ import { Provider } from 'react-redux'
 import Routes from './App/Routes'
 import * as Reducers from './App/Reducers'
 import App from './App/App'
-
+import EventEmitter from 'EventEmitter'
 import {
   GoogleAnalyticsTracker,
   GoogleAnalyticsSettings
@@ -42,12 +42,18 @@ store.subscribe(() => {
 
 export default class Both extends Component {
 
+  _currentRoute = null
+  _previousRoute = null
+
   gaTrackers = {}
+  _eventEmitter = null
 
   constructor(props) {
     super(props)
     this.state = { ...props }
+    this._eventEmitter = new EventEmitter()
     this.initAnalytics()
+    this._currentRoute = Config.initialRoute
   }
 
   initAnalytics = () => {
@@ -65,14 +71,42 @@ export default class Both extends Component {
     }
   }
 
-  _onWillFocus = route => {
-    // Redux action
+  getClassFromDisplayName = displayName => {
+    if(displayName) {
+      if(displayName.contains("Connect")) {
+        // This component is connected to redux
 
+        return displayName.substring(
+          displayName.indexOf("(")+1,
+          displayName.indexOf(")"))
+      } else {
+        // This component is not connected to redux
+        return displayName
+      }
+    } else {
+      throw "Could not parse displayName"
+    }
+  }
+
+  _setCurrentRoute(route) {
+    this._previousRoute = this._currentRoute
+    this._currentRoute = route
+  }
+
+  _onWillFocus = route => {
+    // console.log(route)
+    const eventSourceClass = this.getClassFromDisplayName(route.scene.displayName)
+
+
+    this._eventEmitter.emit('onWillFocus'+eventSourceClass, {source: eventSourceClass})
+    console.log('emitted******* onWillFocus'+eventSourceClass)
   }
 
   _onDidFocus = route => {
-    // Transition comlpete?
+    // const className = this.getClassFromDisplayName(route.scene.displayName)
+    // this._eventEmitter.emit('onDidFocus'+className,)
   }
+
 
   render() {
     return (
@@ -83,6 +117,8 @@ export default class Both extends Component {
           onWillFocus={this._onWillFocus}
           onDidFocus={this._onDidFocus}
           renderScene={ (route, navigator) => {
+
+            this._setCurrentRoute(route)
 
             if(Config.debug && Config.debugNavigator) {
               console.log("--- ROUTES STACK ---")
@@ -102,7 +138,8 @@ export default class Both extends Component {
                       route,
                       navigator,
                       dispatch: store.dispatch,
-                      gaTrackers: this.gaTrackers
+                      gaTrackers: this.gaTrackers,
+                      _eventEmitter: this._eventEmitter
                     }
                   )}
               </App>
