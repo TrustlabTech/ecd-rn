@@ -10,11 +10,13 @@ import {
   Platform,
   Navigator
 } from 'react-native'
+import Routes from './Routes'
 
 const pkg = require('../package.json')
 
 export default {
-
+  // First scene to show
+  initialRoute: Routes.login,
   // Predefined error messages
   errorMessage: {
     NETWORK: 'Could not fetch data'
