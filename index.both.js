@@ -42,8 +42,7 @@ store.subscribe(() => {
 
 export default class Both extends Component {
 
-  _currentRoute = null
-  _previousRoute = null
+  _initialRoute = null
 
   gaTrackers = {}
   _eventEmitter = null
@@ -53,7 +52,7 @@ export default class Both extends Component {
     this.state = { ...props }
     this._eventEmitter = new EventEmitter()
     this.initAnalytics()
-    this._currentRoute = Config.initialRoute
+    this._initialRoute = Config.initialRoute
   }
 
   initAnalytics = () => {
@@ -88,23 +87,16 @@ export default class Both extends Component {
     }
   }
 
-  _setCurrentRoute(route) {
-    this._previousRoute = this._currentRoute
-    this._currentRoute = route
-  }
-
+  // Relay the event on to the scene
   _onWillFocus = route => {
-    // console.log(route)
     const eventSourceClass = this.getClassFromDisplayName(route.scene.displayName)
-
-
     this._eventEmitter.emit('onWillFocus'+eventSourceClass)
-    console.log('emitted******* onWillFocus'+eventSourceClass)
   }
 
+  // Relay the event to the scene
   _onDidFocus = route => {
-    // const className = this.getClassFromDisplayName(route.scene.displayName)
-    // this._eventEmitter.emit('onDidFocus'+className,)
+    const eventSourceClass = this.getClassFromDisplayName(route.scene.displayName)
+    this._eventEmitter.emit('onDidFocus'+eventSourceClass)
   }
 
 
@@ -113,12 +105,12 @@ export default class Both extends Component {
 
       <Provider store={store}>
         <Navigator
-          initialRoute={Routes.login}
+          initialRoute={this._initialRoute}
           onWillFocus={this._onWillFocus}
           onDidFocus={this._onDidFocus}
           renderScene={ (route, navigator) => {
 
-            this._setCurrentRoute(route)
+
 
             if(Config.debug && Config.debugNavigator) {
               console.log("--- ROUTES STACK ---")
@@ -137,9 +129,9 @@ export default class Both extends Component {
                     {
                       route,
                       navigator,
-                      dispatch: store.dispatch,
-                      gaTrackers: this.gaTrackers,
-                      _eventEmitter: this._eventEmitter
+                      dispatch: store.dispatch,         // Let's us fire redux actions
+                      gaTrackers: this.gaTrackers,      // Google Analytics
+                      _eventEmitter: this._eventEmitter // So we can listen to events
                     }
                   )}
               </App>
