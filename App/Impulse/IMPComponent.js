@@ -26,42 +26,7 @@ export default class IMPComponent extends React.Component {
 
     }
   }
-  /*
-   * Parses the currentRoute string contained in
-   * the navigator to determine class
-   */
-  getClassFromDisplayName = displayName => {
-    if(displayName) {
-      if(displayName.contains("Connect")) {
-        // This component is connected to redux
 
-        return displayName.substring(
-          displayName.indexOf("(")+1,
-          displayName.indexOf(")"))
-      } else {
-        // This component is not connected to redux
-        return displayName
-      }
-    } else {
-      throw "Could not parse displayName"
-    }
-  }
-
-  /*
-   * Parse fileName to get the class
-   */
-  getClassFromFileName = fileName => {
-    if(fileName) {
-      if(fileName.contains(".js")) {
-        return fileName.substring(0,fileName.indexOf(".js"))
-      } else {
-        // invalid filetype
-        throw "Invalid filetype. File must have the .js extension"
-      }
-    } else {
-      throw "Could not parse fileName"
-    }
-  }
 
   constructor(props, fileName) {
     super(props)
