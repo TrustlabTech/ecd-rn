@@ -13,7 +13,8 @@ import {
   View,
   TouchableHighlight,
   AsyncStorage,
-  Alert
+  Alert,
+  ToastAndroid
 } from 'react-native'
 
 import TextField from '../Components/TextField'
@@ -30,6 +31,7 @@ import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
+import Modal from 'react-native-modalbox'
 
 class LoginScene extends IMPComponent {
 
@@ -55,18 +57,12 @@ class LoginScene extends IMPComponent {
 
     this.serverStatus()
 
-    if(!Config.debug) {
-      // Production mode
-      // Sentry.addBreadcrumb(this.Filename,'componentWillMount')
-      // this.props.gaTrackers.tracker1.trackScreenView(this.Filename)
-    }
-
     // Load phone number from persistant storage
     AsyncStorage.getItem('@phoneNumber', (error, result) => {
       if(!error)
         this.props.actions.phoneNumberTextChange(result)
       else
-        Sentry.addBreadcrumb('LoginScene','Failed to load phone number from Async storage')
+        Sentry.captureEvent(error, this._className)
     })
   }
 
@@ -84,7 +80,7 @@ class LoginScene extends IMPComponent {
 
   login() {
 
-    Sentry.addNavigationBreadcrumb(this.Filename+":login()", "LoginScene", "MainScene")
+    Sentry.addNavigationBreadcrumb(this._className, this._className, "MainScene")
 
     // From Redux
     const { phoneNumber, pin } = this.props.state.Login
@@ -167,7 +163,7 @@ class LoginScene extends IMPComponent {
         if(Config.debug)
           console.log('Could not store phone number')
         else
-          Sentry.captureEvent('Could not store number with Async storage', this.Filename )
+          Sentry.captureEvent('Could not store number with Async storage', this._className )
 
       } else {
         if(Config.debug) console.log('Phone number stored ' + phoneNumber)
