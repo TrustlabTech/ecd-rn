@@ -55,6 +55,9 @@ export default class Ecdrn extends Component {
   // The name of this file
   _fileName = null
 
+  // The name of this class
+  _className = null
+
   gaTrackers = {}
 
   constructor(props) {
@@ -62,7 +65,8 @@ export default class Ecdrn extends Component {
     this.state = { ...props }
 
     // Initialise values
-    this._fileName = this.constructor.name
+    this._fileName = 'index.android.js'
+    this._className = this.constructor.name
     this._eventEmitter = new EventEmitter()
     this.initAnalytics()
     this._initialRoute = Config.initialRoute

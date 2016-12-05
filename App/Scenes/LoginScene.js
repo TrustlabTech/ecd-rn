@@ -42,15 +42,13 @@ class LoginScene extends IMPComponent {
 
   componentWillFocus() {
     super.componentWillFocus()
-    console.log('XXXXXXXXXXXXX')
 
   }
 
-  // componentDidFocus(event) {
-  //   super.componentDidFocus(event)
-  //   console.log("LoginScene didFocus ")
+  componentDidFocus() {
+    super.componentDidFocus()
 
-  // }
+  }
 
   componentWillMount() {
     super.componentWillMount()
