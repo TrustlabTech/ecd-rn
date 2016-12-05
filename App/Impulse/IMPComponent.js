@@ -8,11 +8,10 @@ import EventEmitter from 'EventEmitter'
 export default class IMPComponent extends React.Component {
 
   // Protected
-  _fileName = 'IMPComponent.js'
+  _fileName = null
+  _className = null
   navigator = null
 
-  // Private
-  _className = null
 
 
   navigator = {
@@ -72,19 +71,18 @@ export default class IMPComponent extends React.Component {
     navigator = this.props.navigator
     dispatch = this.props.dispatch
     this.props._eventEmitter.addListener('onWillFocus'+this._className, this.componentWillFocus, this)
+    this.props._eventEmitter.addListener('onDidFocus'+this._className, this.componentDidFocus, this)
 
     IMPLog.react(this._fileName,Lifecycle.CONSTRUCTOR)
   }
 
   componentWillFocus() {
-
     IMPLog.react(this._fileName,Lifecycle.COMPONENT_WILL_FOCUS)
   }
 
-  // componentDidFocus(event,callback) {
-  //   IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_FOCUS)
-
-  // }
+  componentDidFocus(event,callback) {
+    IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_FOCUS)
+  }
 
   componentWillMount() {
     IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_MOUNT)
@@ -114,8 +112,10 @@ export default class IMPComponent extends React.Component {
 
   componentWillUnmount() {
     IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UNMOUNT)
+
+    // Remove event listeners
     this.props._eventEmitter.removeListener('onWillFocus'+this._className, this.componentWillFocus, this)
-    // this.props._eventEmitter.removeListener('onDidFocus'+this._className,this.componentDidFocus, this)
+    this.props._eventEmitter.removeListener('onDidFocus'+this._className,this.componentDidFocus, this)
   }
 
   render() {
