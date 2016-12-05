@@ -12,8 +12,19 @@ import * as Lifecycle from './lib/Lifecycle'
 
 export default class IMPLog {
 
+
   static log = (text, color) => {
         console.log(`${color.open}${text}${color.close}`)
+  }
+
+  static _asColumn = (text, width = 100) => {
+    const n_spaces = width - text.length
+
+    if(n_spaces < 0 )
+      return text
+
+    const spaces = Array(n_spaces).join(" ")
+    return text + spaces
   }
 
   static react = (filename, event) => {
@@ -23,40 +34,43 @@ export default class IMPLog {
       switch(event) {
 
         case Lifecycle.COMPONENT_WILL_MOUNT:
-          IMPLog.log(`${filename} : ${event}`,ANSI.green)
+          IMPLog.log(
+              IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length),
+              ANSI.green
+          )
           break
 
         case Lifecycle.COMPONENT_WILL_UNMOUNT:
-          IMPLog.log(`${filename} : ${event}`,ANSI.red)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.red)
           break
 
         case Lifecycle.COMPONENT_WILL_FOCUS:
-          IMPLog.log(`${filename} : ${event}`,ANSI.yellow)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.yellow)
           break
 
         case Lifecycle.COMPONENT_DID_FOCUS:
-          IMPLog.log(`${filename} : ${event}`,ANSI.magenta)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.magenta)
           break
 
         case Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS:
-          IMPLog.log(`${filename} : ${event}`,ANSI.cyan)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.cyan)
           break
 
         case Lifecycle.RENDER:
-          IMPLog.log(`${filename} : ${event}`,ANSI.gray)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.gray)
           break
 
         case Lifecycle.COMPONENT_WILL_UPDATE:
-          IMPLog.log(`${filename} : ${event}`,ANSI.blue)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.blue)
           break
 
         case Lifecycle.COMPONENT_DID_UPDATE:
-          IMPLog.log(`${filename} : ${event}`, ANSI.white)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.white)
           break
 
 
         default:
-          IMPLog.log(`${filename} : ${event}`,ANSI.white)
+          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length),ANSI.white)
           break
 
       }
