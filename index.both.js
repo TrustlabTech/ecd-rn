@@ -29,6 +29,9 @@ import {
   GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge'
 
+import Util from './App/Impulse/lib/Util'
+import IMPLog from './App/Impulse/IMPLog'
+import * as Lifecycle from './App/Impulse/lib/Lifecycle'
 // Init the Redux store
 const store = createStore(
   combineReducers(Reducers),
@@ -42,17 +45,27 @@ store.subscribe(() => {
 
 export default class Both extends Component {
 
+  // The route navigator will be instantiated with
   _initialRoute = null
 
-  gaTrackers = {}
+  // Global event emitter
   _eventEmitter = null
+
+  // The name of this file
+  _fileName = null
+
+  gaTrackers = {}
 
   constructor(props) {
     super(props)
     this.state = { ...props }
+
+    // Initialise values
+    this._fileName = this.constructor.name
     this._eventEmitter = new EventEmitter()
     this.initAnalytics()
     this._initialRoute = Config.initialRoute
+    IMPLog.react(this._fileName,Lifecycle.CONSTRUCTOR)
   }
 
   initAnalytics = () => {
@@ -70,32 +83,15 @@ export default class Both extends Component {
     }
   }
 
-  getClassFromDisplayName = displayName => {
-    if(displayName) {
-      if(displayName.contains("Connect")) {
-        // This component is connected to redux
-
-        return displayName.substring(
-          displayName.indexOf("(")+1,
-          displayName.indexOf(")"))
-      } else {
-        // This component is not connected to redux
-        return displayName
-      }
-    } else {
-      throw "Could not parse displayName"
-    }
-  }
-
   // Relay the event on to the scene
   _onWillFocus = route => {
-    const eventSourceClass = this.getClassFromDisplayName(route.scene.displayName)
+    const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
     this._eventEmitter.emit('onWillFocus'+eventSourceClass)
   }
 
   // Relay the event to the scene
   _onDidFocus = route => {
-    const eventSourceClass = this.getClassFromDisplayName(route.scene.displayName)
+    const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
     this._eventEmitter.emit('onDidFocus'+eventSourceClass)
   }
 
