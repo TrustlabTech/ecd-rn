@@ -5,7 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-import Config from '../Config'
 import ANSI from 'ansi-styles'
 
 import * as Lifecycle from './lib/Lifecycle'
@@ -13,8 +12,11 @@ import * as Lifecycle from './lib/Lifecycle'
 export default class IMPLog {
 
 
-  static log = (text, color) => {
-        console.log(`${color.open}${text}${color.close}`)
+  static log = (prefix, text, fgColor, bgColor = ANSI.bgBlack) => {
+    console.log(`${prefix}${bgColor.open}${fgColor.open}${text}${fgColor.close}${bgColor.close}`)
+
+
+
   }
 
   static _asColumn = (text, width = 100) => {
@@ -29,54 +31,57 @@ export default class IMPLog {
 
   static react = (filename, event) => {
 
-    if(Config.debug && Config.debugReact) {
+    const prefix = `${ANSI.red.open}[LC]${ANSI.red.close} `
 
-      switch(event) {
+    switch(event) {
+      case Lifecycle.CONSTRUCTOR:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.white, ANSI.bgBlack)
+        break
 
-        case Lifecycle.COMPONENT_WILL_MOUNT:
-          IMPLog.log(
-              IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length),
-              ANSI.green
-          )
-          break
+      case Lifecycle.COMPONENT_WILL_MOUNT:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.black, ANSI.bgGreen)
+        break
 
-        case Lifecycle.COMPONENT_WILL_UNMOUNT:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.red)
-          break
+      case Lifecycle.COMPONENT_WILL_FOCUS:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.green, ANSI.bgBlack)
+        break
 
-        case Lifecycle.COMPONENT_WILL_FOCUS:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.yellow)
-          break
+      case Lifecycle.COMPONENT_DID_MOUNT:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.black, ANSI.bgYellow)
+        break
 
-        case Lifecycle.COMPONENT_DID_FOCUS:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.magenta)
-          break
+      case Lifecycle.COMPONENT_DID_FOCUS:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.magenta)
+        break
 
-        case Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.cyan)
-          break
+      case Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.cyan)
+        break
 
-        case Lifecycle.RENDER:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.gray)
-          break
+      case Lifecycle.SHOULD_COMPONENT_UPDATE:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.gray, ANSI.bgWhite)
+        break
 
-        case Lifecycle.COMPONENT_WILL_UPDATE:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.blue)
-          break
+      case Lifecycle.COMPONENT_WILL_UPDATE:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.magenta, ANSI.bgWhite)
+        break
 
-        case Lifecycle.COMPONENT_DID_UPDATE:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length), ANSI.white)
-          break
+      case Lifecycle.COMPONENT_DID_UPDATE:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.blue, ANSI.bgWhite)
+        break
 
+      case Lifecycle.RENDER:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.gray, ANSI.bgBlack)
+        break
 
-        default:
-          IMPLog.log(IMPLog._asColumn(filename,20) + IMPLog._asColumn(event,event.length),ANSI.white)
-          break
+      case Lifecycle.COMPONENT_WILL_UNMOUNT:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.black, ANSI.bgRed)
+        break
 
-      }
+      default:
+        IMPLog.log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30),ANSI.black, ANSI.bgWhite)
+        break
+
     }
   }
 }
-// export default {
-//   react
-// }
