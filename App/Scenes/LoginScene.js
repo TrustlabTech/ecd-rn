@@ -57,8 +57,8 @@ class LoginScene extends IMPComponent {
 
     if(!Config.debug) {
       // Production mode
-      Sentry.addBreadcrumb(this.Filename,'componentWillMount')
-      this.props.gaTrackers.tracker1.trackScreenView(this.Filename)
+      // Sentry.addBreadcrumb(this.Filename,'componentWillMount')
+      // this.props.gaTrackers.tracker1.trackScreenView(this.Filename)
     }
 
     // Load phone number from persistant storage
@@ -69,9 +69,11 @@ class LoginScene extends IMPComponent {
         Sentry.addBreadcrumb('LoginScene','Failed to load phone number from Async storage')
     })
   }
+
   componentDidMount() {
     super.componentDidMount()
   }
+
   componentWillReceiveProps() {
     super.componentWillReceiveProps()
   }
