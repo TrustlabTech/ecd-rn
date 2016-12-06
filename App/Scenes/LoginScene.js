@@ -31,7 +31,6 @@ import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
-import Modal from 'react-native-modalbox'
 
 class LoginScene extends IMPComponent {
 
@@ -79,7 +78,8 @@ class LoginScene extends IMPComponent {
   }
 
   login() {
-
+    super.render()
+    console.log('refs'+this.refs.waitmodal)
     Sentry.addNavigationBreadcrumb(this._className, this._className, "MainScene")
 
     // From Redux
@@ -87,11 +87,11 @@ class LoginScene extends IMPComponent {
 
 
     // Open modal
-    this.props.dispatch(appActions.setModal({
-      modalVisible: true,
-      modalText: "Logging in",
-      modalMode: ModalMode.WAITING
-    }))
+    // this.props.dispatch(appActions.setModal({
+    //   modalVisible: true,
+    //   modalText: "Logging in",
+    //   modalMode: ModalMode.WAITING
+    // }))
 
     // Reset pin
     this.props.actions.pinTextChange('')
@@ -107,9 +107,9 @@ class LoginScene extends IMPComponent {
       Api.login(phoneNumber, pin).then((data) => {
 
         // Hide the modal
-        this.props.dispatch(appActions.setModal({
-          modalVisible: false
-        }))
+        // this.props.dispatch(appActions.setModal({
+        //   modalVisible: false
+        // }))
 
         // Check for error
         if(data.error) {
@@ -134,9 +134,9 @@ class LoginScene extends IMPComponent {
       }).catch((error) => {
 
         // Close the modal
-         this.props.dispatch(appActions.setModal({
-          modalVisible: false
-        }))
+        //  this.props.dispatch(appActions.setModal({
+        //   modalVisible: false
+        // }))
 
         // Handle error
         if(Config.debug){
