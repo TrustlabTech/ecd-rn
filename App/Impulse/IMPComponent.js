@@ -1,5 +1,6 @@
 //@flow
 import React from 'react'
+import { Modal } from 'react-native'
 import IMPLog from './IMPLog'
 import * as Lifecycle from './lib/Lifecycle'
 import EventEmitter from 'EventEmitter'
@@ -44,7 +45,7 @@ export default class IMPComponent extends React.Component {
     super(props)
     this._fileName = this.constructor.name+'.js'
     this._className = this.constructor.name
-    
+
     navigator = this.props.navigator
     dispatch = this.props.dispatch
 
