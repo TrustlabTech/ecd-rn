@@ -14,7 +14,7 @@ import { StyleSheet } from 'react-native'
 export const Colours = {
   primary: '#393939',           //Consent Gray
   consentBlue: '#1886BC',       // Consent Blue
-  primaryHighlight: '#8bd7fd',  // Highlight
+  primaryHighlight: '#a9a9a9',  // Highlight
   primaryLowlight: '#353535',
   consentOrange: '#ff9215',
   secondary: '#5b5b5b',

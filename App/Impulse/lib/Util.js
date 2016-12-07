@@ -12,8 +12,8 @@ export default class Util {
     * and returns the class name of the component
     */
   static getClassFromDisplayName = displayName => {
-    if(displayName) {
-      if(displayName.contains("Connect")) {
+    if(displayName && (typeof displayName) === 'string') {
+      if(displayName.indexOf("Connect" !== -1)) {
         // This component is connected to redux
 
         return displayName.substring(

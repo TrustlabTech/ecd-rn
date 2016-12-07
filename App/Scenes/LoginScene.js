@@ -31,13 +31,17 @@ import { FontSizes } from '../GlobalStyles'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
+import IMPLog from '../Impulse/IMPLog'
+import Session from '../Session'
 
 class LoginScene extends IMPComponent {
 
   constructor(props) {
     super(props)
     this.state = {
-      serverOnline: false
+      serverOnline: false,
+      phoneNumber: "",
+      pin: ""
     }
   }
 
@@ -53,20 +57,34 @@ class LoginScene extends IMPComponent {
 
   componentWillMount() {
     super.componentWillMount()
-
+    console.log('LEEKS')
     this.serverStatus()
 
-    // Load phone number from persistant storage
-    AsyncStorage.getItem('@phoneNumber', (error, result) => {
-      if(!error)
-        this.props.actions.phoneNumberTextChange(result)
-      else
-        Sentry.captureEvent(error, this._className)
+    // Load phone number from persistent storage
+    AsyncStorage.getItem('@phoneNumber', (error, phoneNumber) => {
+
+      if(!error){
+        this.setState({phoneNumber: phoneNumber})
+        if(Config.debug) {
+          IMPLog.async('[AS]', `Loaded ${phoneNumber} from Async storage`)
+        }
+
+      } else {
+        const errorMessage = 'Could not load stored phone number from devices. This is normal if it is the first time.'
+        if(Config.debug) {
+          IMPLog.async('[AS]', errorMessage + error.toString())
+        } else {
+          Sentry.addBreadcrumb(this._className, errorMessage + error.toString())
+        }
+      }
     })
+
   }
 
   componentDidMount() {
     super.componentDidMount()
+
+
   }
 
   componentWillReceiveProps() {
@@ -77,24 +95,29 @@ class LoginScene extends IMPComponent {
     super.componentWillUnmount()
   }
 
+  serverStatus = () => {
+    fetch('http://ecd.cnsnt.io')
+    .then((response) => {
+      this.setState({serverOnline: true})
+    })
+    .catch((error) => {
+      this.setState({serverOnline: false})
+    })
+  }
+
   login() {
-    super.render()
-    console.log('refs'+this.refs.waitmodal)
+
+
     Sentry.addNavigationBreadcrumb(this._className, this._className, "MainScene")
 
-    // From Redux
-    const { phoneNumber, pin } = this.props.state.Login
+    const { phoneNumber, pin } = this.state
 
 
     // Open modal
-    // this.props.dispatch(appActions.setModal({
-    //   modalVisible: true,
-    //   modalText: "Logging in",
-    //   modalMode: ModalMode.WAITING
-    // }))
+    this.setModal({visible: true})
 
-    // Reset pin
-    this.props.actions.pinTextChange('')
+
+
 
     // Check for the devil
     if(phoneNumber == '666' && pin == '666'){
@@ -102,14 +125,14 @@ class LoginScene extends IMPComponent {
       // The dark one
       Sentry.crashTheApp("El diablo!")
     } else {
-
+      // Reset pin
+      this.setState({pin: ''})
       // Login through REST
       Api.login(phoneNumber, pin).then((data) => {
 
         // Hide the modal
-        // this.props.dispatch(appActions.setModal({
-        //   modalVisible: false
-        // }))
+        this.setModal({visible: false})
+
 
         // Check for error
         if(data.error) {
@@ -125,7 +148,8 @@ class LoginScene extends IMPComponent {
         } else {
 
           // Push user info into redux store
-          this.props.dispatch(appActions.setUser(data))
+          // this.props.dispatch(appActions.setUser(data))
+          Session.update({userData: data})
 
           // Go to main scene
           this.navigator.push(Routes.main)
@@ -134,9 +158,8 @@ class LoginScene extends IMPComponent {
       }).catch((error) => {
 
         // Close the modal
-        //  this.props.dispatch(appActions.setModal({
-        //   modalVisible: false
-        // }))
+        this.setModal({visible: false})
+
 
         // Handle error
         if(Config.debug){
@@ -156,36 +179,35 @@ class LoginScene extends IMPComponent {
       })
     }
 
-    // Put phone number in persistant storage
-    AsyncStorage.setItem('@phoneNumber',phoneNumber,(error) => {
-      if(error) {
+    // Never overwrite with empty phone number
+    if(phoneNumber != "") {
 
-        if(Config.debug)
-          console.log('Could not store phone number')
-        else
-          Sentry.captureEvent('Could not store number with Async storage', this._className )
+      // Put phone number in persistant storage
+      AsyncStorage.setItem('@phoneNumber',  phoneNumber,(error) => {
 
-      } else {
-        if(Config.debug) console.log('Phone number stored ' + phoneNumber)
-      }
-    })
+        const errorMessage = 'Could not store phone number with Async storage'
+        const successMessage = `Phone number ${phoneNumber} stored to Async storage`
+        if(error) {
 
-  }
+          if(Config.debug) {
+            IMPLog.async(this._className, errorMessage + error.toString())
 
-  serverStatus = () => {
-    fetch('http://ecd.cnsnt.io')
-    .then((response) => {
-      this.setState({serverOnline: true})
-    })
-    .catch((error) => {
-      this.setState({serverOnline: false})
-    })
+          } else {
+            Sentry.captureEvent(errorMessage + error.toString(), this._className )
+          }
+        } else {
+          IMPLog.async(this._className, successMessage)
+        }
+      })
+    }
+
+
   }
 
   render() {
     super.render()
 
-    const { phoneNumber, pin } = this.props.state.Login
+    const { phoneNumber, pin } = this.state
     let footer = <Text style={{fontStyle: 'italic', fontSize: FontSizes.p}}>ECD v{Config.version}</Text>
 
     if(Config.debug) {
@@ -204,7 +226,7 @@ class LoginScene extends IMPComponent {
     }
 
     return (
-      <Scene>
+      <Scene loaded={true}>
         <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
           <View style={{height: 20}}/>
           <View style={{height: 320}}>
@@ -214,7 +236,7 @@ class LoginScene extends IMPComponent {
             <TextField
               value={ phoneNumber }
               ref="phoneNumber"
-              onChangeText={ (text) => this.props.actions.phoneNumberTextChange(text) }
+              onChangeText={ (text) => this.setState({ phoneNumber: text }) }
               placeholder="Phone Number"
               maxLength={10}
               keyboardType="phone-pad"
@@ -225,13 +247,12 @@ class LoginScene extends IMPComponent {
             <TextField
               value={ pin }
               ref="pin"
-              onChangeText={ (text) => this.props.actions.pinTextChange(text) }
+              onChangeText={ (text) => this.setState({ pin: text }) }
               placeholder="PIN"
               maxLength={4}
               secureTextEntry={true}
               keyboardType="phone-pad"
               onSubmitEditing={ () => this.login() }
-              width={ this.screenWidth * 0.6 }
             />
             <View style={{flex: 1, alignItems: 'center'}}>
               <Button text="Login" onPress={() => this.login()}/>

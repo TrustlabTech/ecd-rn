@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { Colours } from '../GlobalStyles'
 
 export default class Scene extends Component {
@@ -9,10 +9,16 @@ export default class Scene extends Component {
   }
 
   render() {
-    return (
-      <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
-        {this.props.children}
-      </View>
-    )
+    if(this.props.loaded === true) {
+      return (
+        <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
+          {this.props.children}
+        </View>
+      )
+    } else {
+      return (
+        <Text>Page is loading</Text>
+      )
+    }
   }
 }

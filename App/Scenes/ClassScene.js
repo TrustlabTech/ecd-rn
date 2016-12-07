@@ -6,6 +6,7 @@
  */
 
 import React, { Component } from 'react'
+import IMPComponent from '../Impulse/IMPComponent'
 import {
   View,
   Text,
@@ -29,51 +30,16 @@ import * as appActions from '../Actions/App'
 import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
+import Session from '../Session'
 
-class ClassScene extends Component {
-
-  FILENAME = 'ClassScene.js'
+class ClassScene extends IMPComponent {
 
   constructor(props) {
     super(props)
-  }
-
-  componentWillMount() {
-    if(Config.debug) {
-      // Debug
-      if(Config.debugReact)
-        console.log(this.FILENAME, 'componentWillMount')
-
-    } else {
-      // Production
-      Sentry.addBreadcrumb(this.FILENAME, 'componentWillMount')
+    this.state = {
+      loaded: false,
+      userData: {}
     }
-
-  }
-
-  componentWillReceiveProps() {
-    if(Config.debug ){
-
-      if(Config.debugReact)
-        console.log(this.FILENAME, 'componentWillReceiveProps')
-
-    }
-  }
-
-  componentWillUnmount() {
-
-    if(Config.debug) {
-      // Debug
-
-      if(Config.debugReact)
-        console.log(this.FILENAME, 'componentWillUnmount')
-
-    } else {
-      // Production
-
-      Sentry.addBreadcrumb(this.FILENAME, 'componentWillUnmount')
-    }
-
   }
 
   _hardwareBackHandler = () => {
@@ -81,115 +47,159 @@ class ClassScene extends Component {
     return true
   }
 
+  _fetchData() {
+    Session.getState().then((x) => {
+      Api.fetchClasses(
+        x.userData.user.id,
+        x.userData._token
+      ).then((data) => {
+        this.setState({
+          userData: data,
+          loaded: true
+        })
+      })
+    }).catch((error) => {
+      console.log('SESSION getState error')
+    })
+  }
+
   goBack() {
 
-    Sentry.addNavigationBreadcrumb(this.FILENAME,'ClassScene','MainScene')
+    if(!config.debug)
+      Sentry.addNavigationBreadcrumb(this._className,'ClassScene','MainScene')
 
     setTimeout(() => this.props.navigator.pop(),0)
 
     // Clear data so that it must be reloaded
-    this.props.dispatch(appActions.setCentre(null))
+    // this.props.dispatch(appActions.setCentre(null))
+  }
+
+  componentWillFocus() {
+    super.componentWillFocus()
+  }
+
+  componentDidFocus() {
+    super.componentDidFocus()
+  }
+
+  componentWillMount() {
+    super.componentWillMount()
+    console.log('CABBAGE')
+  }
+
+  componentDidMount() {
+    this._fetchData()
+    super.componentDidMount()
+  }
+
+  componentWillReceiveProps() {
+    super.componentWillReceiveProps()
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount()
   }
 
   takeAttendance(val) {
 
-    // Open modal
-    this.props.dispatch(appActions.setModal({
-      modalVisible: true,
-      modalText: "Please wait",
-      ModalMode: ModalMode.WAITING
-    }))
+    // // Open modal
+    // this.props.dispatch(appActions.setModal({
+    //   modalVisible: true,
+    //   modalText: "Please wait",
+    //   ModalMode: ModalMode.WAITING
+    // }))
 
-    // Fetch remote data
-    Api.fetchClass(
-      val.id,
-      this.props.state.App.userData._token
-    ).then( (data) => {
+    // // Fetch remote data
+    // Api.fetchClass(
+    //   val.id,
+    //   this.props.state.App.userData._token
+    // ).then( (data) => {
 
 
-      // Handle result
-      if(data.error){
+    //   // Handle result
+    //   if(data.error){
 
-        // Close the modal
-        this.props.dispatch(appActions.setModal({modalVisible: false}))
+    //     // Close the modal
+    //     this.props.dispatch(appActions.setModal({modalVisible: false}))
 
-        // Handle error
-        if(Config.debug) {
+    //     // Handle error
+    //     if(Config.debug) {
 
-          alert(data.error)
-          console.log(data.error)
-        } else {
+    //       alert(data.error)
+    //       console.log(data.error)
+    //     } else {
 
-          Sentry.captureEvent(data.error,this.FILENAME)
+    //       Sentry.captureEvent(data.error,this.FILENAME)
 
-          // Show user the error
-          Alert.alert(
-            'Unknown Error',
-            'There was an error communicating with the server',
-            [{text: 'Okay'}]
-          )
-        }
-      } else {
+    //       // Show user the error
+    //       Alert.alert(
+    //         'Unknown Error',
+    //         'There was an error communicating with the server',
+    //         [{text: 'Okay'}]
+    //       )
+    //     }
+    //   } else {
 
-        // Close modal
-        this.props.dispatch(appActions.setModal({
-          modalVisible: false
-        }))
+    //     // Close modal
+    //     this.props.dispatch(appActions.setModal({
+    //       modalVisible: false
+    //     }))
 
-        // Clear centre data
-        this.props.dispatch(appActions.setCentre(null))
+    //     // Clear centre data
+    //     this.props.dispatch(appActions.setCentre(null))
 
-        // Change scene
-        this.props.navigator.push({
-          ...Routes.attendance,
-          classData: data
-        })
+    //     // Change scene
+    //     this.props.navigator.push({
+    //       ...Routes.attendance,
+    //       classData: data
+    //     })
 
-      }
-    }).catch( (error) => {
+    //   }
+    // }).catch( (error) => {
 
-      // Close the modal
-      this.props.dispatch(appActions.setModal({
-        modalVisible: false
-      }))
+    //   // Close the modal
+    //   this.props.dispatch(appActions.setModal({
+    //     modalVisible: false
+    //   }))
 
-      // Handle error
-      if(Config.debug) {
-        alert(error)
-        console.log(error.stack)
-      } else {
-        Sentry.captureEvent(error.stack, this.FILENAME)
-        Alert.alert(
-          'Network Error',
-          Config.errorMessage.NETWORK,
-          [{text: 'Okay'}]
-        )
-      }
-    })
+    //   // Handle error
+    //   if(Config.debug) {
+    //     alert(error)
+    //     console.log(error.stack)
+    //   } else {
+    //     Sentry.captureEvent(error.stack, this.FILENAME)
+    //     Alert.alert(
+    //       'Network Error',
+    //       Config.errorMessage.NETWORK,
+    //       [{text: 'Okay'}]
+    //     )
+    //   }
+    // })
   }
 
   render() {
-    var items = null
+    super.render()
+    // var items = null
 
-    // Check if data is available yet
-    if( this.props.state.App.centreData ) {
+    // // Check if data is available yet
+    // if( this.props.state.App.centreData ) {
 
-      items =
-      <View style={{flex: 1, alignItems: 'center'}}>
-      {this.props.state.App.centreData.map((val,i) =>
-        <Button
-        disabled={val.attended}
-        disabledText={"Attendance has already been submitted for "+val.name+" today."}
-        width={250}
-        key={i}
-        text={val.name}
-        onPress={
-          () => this.takeAttendance(val)
-        }
-        />
-      )}
-      </View>
-    }
+    //   items =
+    //   <View style={{flex: 1, alignItems: 'center'}}>
+    //   {this.props.state.App.centreData.map((val,i) =>
+    //     <Button
+    //     disabled={val.attended}
+    //     disabledText={"Attendance has already been submitted for "+val.name+" today."}
+    //     width={250}
+    //     key={i}
+    //     text={val.name}
+    //     onPress={
+    //       () => this.takeAttendance(val)
+    //     }
+    //     />
+    //   )}
+    //   </View>
+    // }
 
     return (
       <View style={{flex: 1}}>
@@ -205,7 +215,6 @@ class ClassScene extends Component {
             marginLeft: 20,
             marginRight: 20
           }}>
-            {items}
           </View>
         </SceneView>
       </View>
