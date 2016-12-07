@@ -33,16 +33,16 @@ import Scene from '../Components/Scene'
 import * as mainActions from '../Actions/Main'
 import * as appActions from '../Actions/App'
 
+import IMPLog from '../Impulse/IMPLog'
 
 
 class MainScene extends IMPComponent {
 
-  // Filename = 'MainScene.js'
-
   constructor(props) {
-    super(props, 'MainScene.js')
+    super(props)
 
     this.state = {
+      loaded: false,
       drawerOpen: false
     }
   }
@@ -53,22 +53,17 @@ class MainScene extends IMPComponent {
     if(!Config.debug) {
       Sentry.addBreadcrumb(this.Filename,'componentWillMount')
     }
+    console.log('POTATO')
 
   }
 
-  componentWillFocus(event) {
+  componentWillFocus() {
     super.componentWillFocus()
-    console.log('YYYYYY')
-    // console.log('MAIN-SCENE', 'WILL_FOCUS')
-
   }
 
-  // componentDidFocus(event) {
-  //   super.componentDidFocus(event,() => {
-  //     console.log('MainScene didfocus callback')
-  //   })
-  //   // console.log('MAIN-SCENE', 'DID_FOCUS')
-  // }
+  componentDidFocus() {
+    super.componentDidFocus()
+  }
 
   componentWillReceiveProps() {
     super.componentWillReceiveProps()
@@ -77,96 +72,92 @@ class MainScene extends IMPComponent {
 
   componentWillUnmount() {
     super.componentWillUnmount()
-
   }
 
-  takeAttendance() {
 
-    Sentry.addNavigationBreadcrumb(this.FILENAME+"::takeAttendance()", "MainScene", "ClassScene")
-
+  closeDrawer = () => {
     // Close the drawer
     this._drawer.closeDrawer()
 
-    // Keep track of it's state
+    // make sure the modal is closed
     this.setState({drawerOpen: false})
 
+}
+  takeAttendance() {
+
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
+
+    this.closeDrawer()
+
+    this.navigator.push(Routes.class)
     // Open the modal
-    this.props.dispatch(appActions.setModal({
-      modalVisible: true,
-      modalText: "Please wait",
-      modalMode: ModalMode.WAITING
-    }))
+    // this.setModal({visible: true})
 
     // Fetch remote data
-    Api.fetchClasses(
-      this.props.state.App.userData.user.id,
-      this.props.state.App.userData._token
-    ).then((data) => {
+    // Api.fetchClasses(
+    //   this.props.state.App.userData.user.id,
+    //   this.props.state.App.userData._token
+    // ).then((data) => {
 
-      // Handle result
-      if(data.error) {
+    //   // Handle result
+    //   if(data.error) {
 
-        // Close the modal
-        this.props.dispatch(appActions.setModal({
-          modalVisible: false
-        }))
+    //     // Close the modal
+    //     this.setModal({visible: false})
 
-        // Handle error
-        if(Config.debug) {
-          alert(data.error)
-          console.log(data.error)
-        } else {
-          Sentry.captureEvent(data.error, this.FILENAME)
-          Alert.alert(
-            'Network Error',
-            Config.errorMessage.NETWORK,
-            [
-              {text: "Okay"}
-            ]
-          )
-        }
+    //     // Handle error
+    //     if(Config.debug) {
+    //       IMPLog.error(data.error, this._fileName)
+    //     } else {
+    //       Sentry.captureEvent(data.error, this._fileName)
+    //     }
 
-      } else {
-
-        // Change scene
-        this.props.navigator.push(Routes.class)
-
-        // Push cntre data into app store
-        this.props.dispatch(appActions.setCentre(data))
-
-        // Close the modal
-        this.props.dispatch(appActions.setModal({
-          modalVisible: false
-        }))
-      }
-
-    // Catch any rejections
-    }).catch((error) => {
-
-      // Close the modal
-      this.props.dispatch(appActions.setModal({
-        modalVisible: false
-      }))
-
-      // Display the error
-      if(Config.debug) {
-        alert(error)
-        console.log(error.stack)
-      } else {
-        Sentry.captureEvent(error.stack, this.FILENAME)
-
-        Alert.alert(
-          'Unknown Error',
-          Config.errorMessage.NETWORK,
-          [
-            {text: "Okay"}
-          ]
-        )
+    //     Alert.alert(
+    //       'Network Error',
+    //       Config.errorMessage.NETWORK,
+    //       [
+    //         {text: "Okay"}
+    //       ]
+    //     )
 
 
-      }
+    //   } else {
+    //    // Close the modal
+    //     this.setModal({visible: false})
 
-    })
+    //     // Change scene
+    //     this.navigator.push(Routes.class)
+
+    //     // Push cntre data into app store
+    //     this.dispatch(appActions.setCentre(data))
+
+
+    //   }
+
+    // // Catch any rejections
+    // }).catch((error) => {
+
+    //   // Close the modal
+    //   this.setModal({visible: false})
+
+    //   // Display the error
+    //   if(Config.debug) {
+    //     alert(error)
+    //     console.log(error.stack)
+    //   } else {
+    //     Sentry.captureEvent(error.stack, this.FILENAME)
+
+    //     Alert.alert(
+    //       'Unknown Error',
+    //       Config.errorMessage.NETWORK,
+    //       [
+    //         {text: "Okay"}
+    //       ]
+    //     )
+
+    //   }
+
+    // })
   }
 
   logout() {
@@ -220,20 +211,21 @@ class MainScene extends IMPComponent {
 
     // Interpolate new lines into the strings
     const mainBtnText = "Take\nAttendance"
-    const loggedInAs = "Logged in as\n" +
-      this.props.state.App.userData.user.given_name + ' ' +
-      this.props.state.App.userData.user.family_name
+    const loggedInAs = "Logged in as\n"
+    // +
+    //   this.props.state.App.userData.user.given_name + ' ' +
+    //   this.props.state.App.userData.user.family_name
 
     // Draw the scene
     return (
-      <Scene>
-        <View style={{flex: 1}}>
+      <View style={{flex: 1}}>
 
-          <NavBar
-            navigator={ this.props.navigator }
-            leftButtonText="|||"
-            leftButtonAction={ () => this.toggleDrawer() }
-          />
+        <NavBar
+          navigator={ this.props.navigator }
+          leftButtonText="|||"
+          leftButtonAction={ () => this.toggleDrawer() }
+        />
+        <Scene loaded={true}>
 
           <DrawerLayoutAndroid
             onDrawerOpen={ () => this.drawerOpen = true }
@@ -297,8 +289,8 @@ class MainScene extends IMPComponent {
             </View>
 
           </DrawerLayoutAndroid>
-        </View>
-      </Scene>
+        </Scene>
+      </View>
     )
   }
 }

@@ -11,6 +11,7 @@ import {
   Navigator
 } from 'react-native'
 import Routes from './Routes'
+import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
@@ -24,7 +25,7 @@ export default {
 
   debug: true,          // Master switch
   debugAction: false,   // Redux actions
-  debugNetwork: false,  // HTTP
+  debugNetwork: true,  // HTTP
   debugStore: false,    // Display each store change
   debugReact: true,    // Show react lifescylce data
   debugNavigator: false,
@@ -36,6 +37,9 @@ export default {
 
   // Android navigator transitions
   sceneConfig: Navigator.SceneConfigs.PushFromRight,
+
+  // Modal settings
+  progressBarColor: Colours.consentOrange,
 
   // Server details
   http: {
