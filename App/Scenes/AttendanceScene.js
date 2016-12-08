@@ -7,6 +7,7 @@
 
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
+import IMPLog from '../Impulse/IMPLog'
 import {
   View,
   Text,
@@ -59,6 +60,14 @@ class AttendanceScene extends IMPComponent {
     )
 
     .then((data) => {
+      if(data.error){
+        if(Config.debug) {
+          IMPLog.error(data.error,this._fileName)
+        } else {
+          alert(data.error)
+        }
+        this.goBack()
+      }
       Session.update({classData: data})
       this.setState({
         loaded: true,
@@ -72,6 +81,7 @@ class AttendanceScene extends IMPComponent {
         IMPLog.error(error.toString(), this._fileName)
       }
       alert('Error' + error.toString())
+      this.goBack()
     })
   }
 
@@ -92,15 +102,7 @@ class AttendanceScene extends IMPComponent {
     this._fetchData()
   }
 
-  // componentWillReceiveProps(props) {
-  //   super.componentWillReceiveProps()
-  //   if(!this.state.initialised) {
-  //     this.setState({
-  //       attendanceData: this.initAttendance(props.route.classData),
-  //       initialised: true
-  //     })
-  //   }
-  // }
+
 
   // Initialise the attendanceData
   initAttendance = classData =>
@@ -147,34 +149,6 @@ class AttendanceScene extends IMPComponent {
     )
 
 
-    // this.props.dispatch(appActions.setModal({
-    //   modalVisible: visible,
-    //   modalText: text,
-    //   modalMode: ModalMode.WAITING
-    // }))
-
-  displayError = (title, friendly, error, retry = null ) => {
-
-    // // Ensure modal is closed
-    // this.setModal(false)
-
-    //  // Display error
-    //   if(Config.debug) {
-
-    //     alert(this.FILENAME + "::displayError: " + title + " " + friendly + " " + error)
-    //     console.log(this.FILENAME + "::displayError: " + error)
-
-    //   } else {
-
-    //     Sentry.captureEvent("User was shown error: < " + friendly + " > The error was: <" + error.toString() + ">", this.FILENAME)
-
-    //     let options = [{text: "Okay"}]
-    //     if (retry)
-    //       options.push({text: "Retry", onPress: () => retry()})
-
-    //     Alert.alert(title, friendly, options)
-    //   }
-  }
 
   getLocation = onSuccess =>
     navigator.geolocation.getCurrentPosition(
@@ -266,74 +240,6 @@ class AttendanceScene extends IMPComponent {
     )
   }
 
-  // goBack = () => {
-
-  //   // It's critical not to block here
-  //   setTimeout(() => this.setModal(true, "Please wait"),0)
-
-  //   // Fetch remote data
-  //   Api.fetchClasses(
-  //     this.props.state.App.userData.user.id,
-  //     this.props.state.App.userData._token
-  //   ).then((data) => {
-
-  //     // Check for error
-  //     if(data.error) {
-
-  //       setTimeout(() => this.setModal(false),0)
-
-  //       if(Config.debug) {
-
-  //         alert(data.error)
-  //         console.log(data.error)
-  //       } else {
-
-  //         Sentry.captureEvent("Api.fetchClasses() returned " + data.error.toString(),this.FILENAME)
-  //         Alert.alert(
-  //           'Error',
-  //           'An unknown error has occured',
-  //           [
-  //             { text: 'Retry', onPress: () => this.goBack() },
-  //             { text: 'Cancel', onPress: () => this.setModal(false) }
-  //           ]
-  //         )
-  //       }
-  //     } else {
-
-  //       // Go back
-  //       this.props.navigator.pop()
-
-  //       // Set the new data for the next page ASAP
-  //       this.props.dispatch( appActions.setCentre(data) )
-
-  //       // Clear the state for the page we are leaving after delay
-  //       this.props.dispatch( appActions.setClass([]) )
-
-  //       this.setModal(false)
-
-  //    }
-  //   }).catch((error) => {
-
-  //     this.setModal(false)
-  //     // Show error
-  //     if(Config.debug) {
-
-  //       alert(error)
-  //       console.log(error)
-  //     } else {
-
-  //       Sentry.captureEvent("Api.fetchClasses() returned " + error.toString(), this.FILENAME)
-  //       Alert.alert(
-  //           'Error',
-  //           'An unknown error has occured',
-  //           [
-  //             { text: 'Retry', onPress: () => this.goBack() },
-  //             { text: 'Cancel', onPress: () => this.setModal(false) }
-  //           ]
-  //         )
-  //     }
-  //   })
-  // }
   goBack() {
     this.navigator.pop()
     this.setState({loaded: false})

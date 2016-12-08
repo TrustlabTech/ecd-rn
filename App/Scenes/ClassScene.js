@@ -70,6 +70,7 @@ class ClassScene extends IMPComponent {
         IMPLog.error(error.toString(), this._fileName)
       }
       alert('Error' + error.toString())
+      this.goBack()
     })
 
   }
