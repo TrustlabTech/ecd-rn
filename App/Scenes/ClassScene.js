@@ -18,7 +18,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import Scene from '../Components/Scene'
-import SceneView from '../Components/SceneView'
+import ScrollableScene from '../Components/ScrollableScene'
 import NavBar from '../Components/NavBar'
 import FormHeading from '../Components/FormHeading'
 import Button from '../Components/Button'
@@ -31,6 +31,7 @@ import { ModalMode } from '../Components/WaitModal'
 import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'
+import IMPLog from '../Impulse/IMPLog'
 
 class ClassScene extends IMPComponent {
 
@@ -38,8 +39,10 @@ class ClassScene extends IMPComponent {
     super(props)
     this.state = {
       loaded: false,
-      userData: {}
+      userData: {},
+      centreData: {}
     }
+    // this.apiData = null
   }
 
   _hardwareBackHandler = () => {
@@ -48,34 +51,43 @@ class ClassScene extends IMPComponent {
   }
 
   _fetchData() {
-    Session.getState().then((x) => {
-      Api.fetchClasses(
-        x.userData.user.id,
-        x.userData._token
-      ).then((data) => {
-        this.setState({
-          userData: data,
-          loaded: true
-        })
+    // const userId = this.props.state.App.userData.user.id
+    // const token = this.props.state.App.userData._token
+    const sessionState = Session.getState()
+
+    Api.fetchClasses(
+      sessionState.userData.user.id,
+      sessionState.userData._token
+    ).then((data) => {
+      // this.dispatch(appActions.setCentre(data))
+      Session.update({centreData: data})
+      this.setState({
+        loaded: true
       })
     }).catch((error) => {
-      console.log('SESSION getState error')
+      if(Config.debug) {
+        console.log('Error ' + error.toString())
+        IMPLog.error(error.toString(), this._fileName)
+      }
+      alert('Error' + error.toString())
     })
+
   }
 
   goBack() {
 
-    if(!config.debug)
+    if(!Config.debug)
       Sentry.addNavigationBreadcrumb(this._className,'ClassScene','MainScene')
 
-    setTimeout(() => this.props.navigator.pop(),0)
 
-    // Clear data so that it must be reloaded
-    // this.props.dispatch(appActions.setCentre(null))
+    this.navigator.pop()
+
+    this.setState({loaded: false})
   }
 
   componentWillFocus() {
     super.componentWillFocus()
+    this._fetchData()
   }
 
   componentDidFocus() {
@@ -84,12 +96,12 @@ class ClassScene extends IMPComponent {
 
   componentWillMount() {
     super.componentWillMount()
-    console.log('CABBAGE')
+    this._fetchData()
   }
 
   componentDidMount() {
-    this._fetchData()
     super.componentDidMount()
+    // build list
   }
 
   componentWillReceiveProps() {
@@ -100,8 +112,17 @@ class ClassScene extends IMPComponent {
     super.componentWillUnmount()
   }
 
-  takeAttendance(val) {
+  componentWillUpdate() {
+    super.componentWillUpdate()
 
+  }
+
+  takeAttendance(val) {
+    const sessionState = Session.getState()
+
+    this.navigator.push({...Routes.attendance, classId: val.id })
+
+    this.setState({loaded: false})
     // // Open modal
     // this.props.dispatch(appActions.setModal({
     //   modalVisible: true,
@@ -177,30 +198,27 @@ class ClassScene extends IMPComponent {
     // })
   }
 
+  buildList = (data) => {
+    if(!data) {
+      return null
+    } else {
+      return data.map((val,i) =>
+        <Button
+        disabled={val.attended}
+        disabledText={"Attendance has already been submitted for "+val.name+" today."}
+        width={250}
+        key={i}
+        text={val.name}
+        onPress={
+          () => this.takeAttendance(val)
+        }
+        />
+      )
+    }
+  }
+
   render() {
     super.render()
-    // var items = null
-
-    // // Check if data is available yet
-    // if( this.props.state.App.centreData ) {
-
-    //   items =
-    //   <View style={{flex: 1, alignItems: 'center'}}>
-    //   {this.props.state.App.centreData.map((val,i) =>
-    //     <Button
-    //     disabled={val.attended}
-    //     disabledText={"Attendance has already been submitted for "+val.name+" today."}
-    //     width={250}
-    //     key={i}
-    //     text={val.name}
-    //     onPress={
-    //       () => this.takeAttendance(val)
-    //     }
-    //     />
-    //   )}
-    //   </View>
-    // }
-
     return (
       <View style={{flex: 1}}>
         <NavBar
@@ -208,15 +226,18 @@ class ClassScene extends IMPComponent {
           leftButtonText="Back"
           leftButtonAction={ () => this.goBack() }
         />
-        <SceneView>
+        <ScrollableScene loaded={this.state.loaded}>
           <SceneHeading text="Take Attendance"/>
           <FormHeading text="Select Class"/>
           <View style={{
             marginLeft: 20,
             marginRight: 20
           }}>
+            <View style={{flex: 1, alignItems: 'center'}}>
+              {this.buildList(Session.getState().centreData)}
+            </View>
           </View>
-        </SceneView>
+        </ScrollableScene>
       </View>
     )
   }

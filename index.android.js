@@ -28,7 +28,7 @@ import {
   GoogleAnalyticsTracker,
   GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge'
-
+import { Colours } from './App/GlobalStyles'
 import Util from './App/Impulse/lib/Util'
 import IMPLog from './App/Impulse/IMPLog'
 import * as Lifecycle from './App/Impulse/lib/Lifecycle'
@@ -168,7 +168,7 @@ export default class Ecdrn extends Component {
             }
 
             return (
-              <View style={{flex: 1}}>
+              <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
               <LoadingModal
                 visible={this.state.modal.visible}
                 />

@@ -46,7 +46,7 @@ function request(route, options = {method: 'GET'} ) {
 
     if(json.error) {
 
-      if(json.error instanceof Array) {
+      if(typeof json.error === 'object') {
         const errorMessage = ''
         json.error.forEach((item) => {
           errorMessage += item + "\n "
@@ -66,8 +66,7 @@ function request(route, options = {method: 'GET'} ) {
   .catch( (error) => {
 
     if(Config.debug && Config.debugNetwork){
-      console.log('API:ERROR', error)
-
+      IMPLog.error("API Eror",error)
       return Promise.reject(error.toString())
     } else {
       return Promise.reject(error)

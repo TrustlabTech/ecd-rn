@@ -25,9 +25,9 @@ export default {
 
   debug: true,          // Master switch
   debugAction: false,   // Redux actions
-  debugNetwork: true,  // HTTP
+  debugNetwork: true,   // HTTP
   debugStore: false,    // Display each store change
-  debugReact: true,    // Show react lifescylce data
+  debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
   // App version
   version: pkg.version,
@@ -36,7 +36,7 @@ export default {
   rnVersion: pkg.dependencies['react-native'].substring(1),
 
   // Android navigator transitions
-  sceneConfig: Navigator.SceneConfigs.PushFromRight,
+  sceneConfig: Navigator.SceneConfigs.FadeAndroid,
 
   // Modal settings
   progressBarColor: Colours.consentOrange,

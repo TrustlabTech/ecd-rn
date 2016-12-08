@@ -6,6 +6,7 @@
  */
 
 import React, { Component } from 'react'
+import IMPComponent from '../Impulse/IMPComponent'
 import {
   View,
   Text,
@@ -21,7 +22,7 @@ import { connect } from 'react-redux'
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Scene from '../Components/Scene'
-import SceneView from '../Components/SceneView'
+import ScrollableScene from '../Components/ScrollableScene'
 import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
@@ -36,10 +37,9 @@ import * as attendanceActions from '../Actions/Attendance'
 import * as appActions from '../Actions/App'
 
 import { Colours } from '../GlobalStyles'
+import Session from '../Session'
 
-class AttendanceScene extends Component {
-
-  FILENAME = 'AttendanceScene.js'
+class AttendanceScene extends IMPComponent {
 
   constructor(props) {
     super(props)
@@ -50,61 +50,82 @@ class AttendanceScene extends Component {
     }
   }
 
+  _fetchData() {
+    const sessionState = Session.getState()
+
+    Api.fetchClass(
+      this.props.route.classId,
+      sessionState.userData._token
+    )
+
+    .then((data) => {
+      Session.update({classData: data})
+      this.setState({
+        loaded: true,
+        attendanceData: this.initAttendance(data)
+      })
+    })
+
+    .catch((error) => {
+      if(Config.debug) {
+        console.log('Error ' + error.toString())
+        IMPLog.error(error.toString(), this._fileName)
+      }
+      alert('Error' + error.toString())
+    })
+  }
+
   componentWillMount() {
-
-    if(Config.debug && Config.debugReact)
-      console.log(this.FILENAME,'componentWillMount')
-    else
-      Sentry.addBreadcrumb('AttendanceScene', 'componentWillMount')
-
-    if(!this.state.initialised) {
-      this.setState({
-        attendanceData: this.initAttendance(this.props.route.classData),
-        initialised: true
-      })
-    }
+    super.componentWillMount()
+    this._fetchData()
+    // if(!this.state.initialised) {
+    //   this.setState({
+    //     attendanceData: this.initAttendance(this.props.route.classData),
+    //     initialised: true
+    //   })
+    // }
 
   }
 
-  componentWillReceiveProps(props) {
-
-    if(Config.debug && Config.debugReact)
-      console.log('AttendanceScene','componentWillReceiveProps')
-
-    if(!this.state.initialised) {
-      this.setState({
-        attendanceData: this.initAttendance(props.route.classData),
-        initialised: true
-      })
-    }
+  componentWillFocus() {
+    super.componentWillFocus()
+    this._fetchData()
   }
 
-  componentWillUnmount() {
+  // componentWillReceiveProps(props) {
+  //   super.componentWillReceiveProps()
+  //   if(!this.state.initialised) {
+  //     this.setState({
+  //       attendanceData: this.initAttendance(props.route.classData),
+  //       initialised: true
+  //     })
+  //   }
+  // }
 
-    if(Config.debug && Config.debugReact)
-      console.log(this.FILENAME, 'componentWillUnmount')
-
-  }
-
+  // Initialise the attendanceData
   initAttendance = classData =>
     classData.map( x =>
       ({ id: x.id, givenName: x.given_name, familyName: x.family_name, checked: false })
     )
 
+  // Press a checkbox and change the checked value
   pressCheckbox = (id, attendanceData ) =>
     attendanceData.map( (x) =>
       x.id === id ?({ ...x, checked: !x.checked }) : x
     )
 
+  // Select all checkboxes
   selectAll = attendanceData => setState({
     attendanceData: attendanceData.map((x) =>
       x.checked = true )
   })
 
+  // Count number of children not selected
   countAbsent = attendanceData =>
     attendanceData.reduce( (a, x) =>
       x.checked ? a : a + 1 ,0)
 
+  // Generate a summary for comfirmation
   summary = attendanceData =>
     "Are you sure you want to submit attendance with " +
     ( attendanceData.length - this.countAbsent(attendanceData) ) +
@@ -112,6 +133,7 @@ class AttendanceScene extends Component {
     attendanceData.length +
     " children present?"
 
+  // Make the checkboxes based on attendanceData
   makeCheckboxes = attendanceData =>
     attendanceData.map((x, i) =>
       (<Checkbox
@@ -124,34 +146,34 @@ class AttendanceScene extends Component {
       />)
     )
 
-  setModal = (visible, text = "") =>
-    this.props.dispatch(appActions.setModal({
-      modalVisible: visible,
-      modalText: text,
-      modalMode: ModalMode.WAITING
-    }))
+
+    // this.props.dispatch(appActions.setModal({
+    //   modalVisible: visible,
+    //   modalText: text,
+    //   modalMode: ModalMode.WAITING
+    // }))
 
   displayError = (title, friendly, error, retry = null ) => {
 
-    // Ensure modal is closed
-    this.setModal(false)
+    // // Ensure modal is closed
+    // this.setModal(false)
 
-     // Display error
-      if(Config.debug) {
+    //  // Display error
+    //   if(Config.debug) {
 
-        alert(this.FILENAME + "::displayError: " + title + " " + friendly + " " + error)
-        console.log(this.FILENAME + "::displayError: " + error)
+    //     alert(this.FILENAME + "::displayError: " + title + " " + friendly + " " + error)
+    //     console.log(this.FILENAME + "::displayError: " + error)
 
-      } else {
+    //   } else {
 
-        Sentry.captureEvent("User was shown error: < " + friendly + " > The error was: <" + error.toString() + ">", this.FILENAME)
+    //     Sentry.captureEvent("User was shown error: < " + friendly + " > The error was: <" + error.toString() + ">", this.FILENAME)
 
-        let options = [{text: "Okay"}]
-        if (retry)
-          options.push({text: "Retry", onPress: () => retry()})
+    //     let options = [{text: "Okay"}]
+    //     if (retry)
+    //       options.push({text: "Retry", onPress: () => retry()})
 
-        Alert.alert(title, friendly, options)
-      }
+    //     Alert.alert(title, friendly, options)
+    //   }
   }
 
   getLocation = onSuccess =>
@@ -165,21 +187,22 @@ class AttendanceScene extends Component {
 
   uploadData = (location, attendanceData) => {
 
-    this.setModal(true, "Uploading Data")
-
+    this.setModal({visible: true})
+    const sessionState = Session.getState()
     Api.submitAttendance(
       location,
       this.props.route.centreId,
       this.props.route.classId,
       attendanceData,
-      this.props.state.App.userData._token
+      sessionState.userData._token
     ).then((data) => {
 
+      this.setModal({visible: false})
       // Check for error
       if(data.error){
 
         // Display and log
-        this.displayError("Error", "An unknown error occured", data.error)
+        //this.displayError("Error", "An unknown error occured", data.error)
 
       } else {
 
@@ -199,16 +222,16 @@ class AttendanceScene extends Component {
       }
     }).catch((error) => {
 
-      this.setModal(false)
+      this.setModal({visible: false})
 
       // Don't use this.displayError() for errors with stacks
       if(Config.debug) {
 
-        alert(this.FILENAME + " " + error.toString())
-        console.log(this.FILENAME + " " + error.stack)
+        alert(this._fileName + " " + error.toString())
+        console.log(this._fileName + " " + error.stack)
 
       } else {
-        Sentry.captureEvent(error.stack,this.FILENAME)
+        Sentry.captureEvent(error.stack,this._fileName)
         Alert.alert(
           'Unknown Error',
           'An unknown error has occured',
@@ -231,7 +254,7 @@ class AttendanceScene extends Component {
           onPress: () => {
 
             // Open modal
-            this.setModal(true, "Getting location")
+            this.setModal({visible: true})
 
             // Get location
             this.getLocation((location) => this.uploadData(location, attendanceData) )
@@ -243,78 +266,84 @@ class AttendanceScene extends Component {
     )
   }
 
-  goBack = () => {
+  // goBack = () => {
 
-    // It's critical not to block here
-    setTimeout(() => this.setModal(true, "Please wait"),0)
+  //   // It's critical not to block here
+  //   setTimeout(() => this.setModal(true, "Please wait"),0)
 
-    // Fetch remote data
-    Api.fetchClasses(
-      this.props.state.App.userData.user.id,
-      this.props.state.App.userData._token
-    ).then((data) => {
+  //   // Fetch remote data
+  //   Api.fetchClasses(
+  //     this.props.state.App.userData.user.id,
+  //     this.props.state.App.userData._token
+  //   ).then((data) => {
 
-      // Check for error
-      if(data.error) {
+  //     // Check for error
+  //     if(data.error) {
 
-        setTimeout(() => this.setModal(false),0)
+  //       setTimeout(() => this.setModal(false),0)
 
-        if(Config.debug) {
+  //       if(Config.debug) {
 
-          alert(data.error)
-          console.log(data.error)
-        } else {
+  //         alert(data.error)
+  //         console.log(data.error)
+  //       } else {
 
-          Sentry.captureEvent("Api.fetchClasses() returned " + data.error.toString(),this.FILENAME)
-          Alert.alert(
-            'Error',
-            'An unknown error has occured',
-            [
-              { text: 'Retry', onPress: () => this.goBack() },
-              { text: 'Cancel', onPress: () => this.setModal(false) }
-            ]
-          )
-        }
-      } else {
+  //         Sentry.captureEvent("Api.fetchClasses() returned " + data.error.toString(),this.FILENAME)
+  //         Alert.alert(
+  //           'Error',
+  //           'An unknown error has occured',
+  //           [
+  //             { text: 'Retry', onPress: () => this.goBack() },
+  //             { text: 'Cancel', onPress: () => this.setModal(false) }
+  //           ]
+  //         )
+  //       }
+  //     } else {
 
-        // Go back
-        this.props.navigator.pop()
+  //       // Go back
+  //       this.props.navigator.pop()
 
-        // Set the new data for the next page ASAP
-        this.props.dispatch( appActions.setCentre(data) )
+  //       // Set the new data for the next page ASAP
+  //       this.props.dispatch( appActions.setCentre(data) )
 
-        // Clear the state for the page we are leaving after delay
-        this.props.dispatch( appActions.setClass([]) )
+  //       // Clear the state for the page we are leaving after delay
+  //       this.props.dispatch( appActions.setClass([]) )
 
-        this.setModal(false)
+  //       this.setModal(false)
 
-     }
-    }).catch((error) => {
+  //    }
+  //   }).catch((error) => {
 
-      this.setModal(false)
-      // Show error
-      if(Config.debug) {
+  //     this.setModal(false)
+  //     // Show error
+  //     if(Config.debug) {
 
-        alert(error)
-        console.log(error)
-      } else {
+  //       alert(error)
+  //       console.log(error)
+  //     } else {
 
-        Sentry.captureEvent("Api.fetchClasses() returned " + error.toString(), this.FILENAME)
-        Alert.alert(
-            'Error',
-            'An unknown error has occured',
-            [
-              { text: 'Retry', onPress: () => this.goBack() },
-              { text: 'Cancel', onPress: () => this.setModal(false) }
-            ]
-          )
-      }
-    })
+  //       Sentry.captureEvent("Api.fetchClasses() returned " + error.toString(), this.FILENAME)
+  //       Alert.alert(
+  //           'Error',
+  //           'An unknown error has occured',
+  //           [
+  //             { text: 'Retry', onPress: () => this.goBack() },
+  //             { text: 'Cancel', onPress: () => this.setModal(false) }
+  //           ]
+  //         )
+  //     }
+  //   })
+  // }
+  goBack() {
+    this.navigator.pop()
+    this.setState({loaded: false})
   }
 
   render() {
+    super.render()
 
     const CheckBoxes = this.makeCheckboxes(this.state.attendanceData) || null
+
     return (
 
       <View style={{flex: 1, backgroundColor: Colours.offWhite}}>
@@ -325,7 +354,7 @@ class AttendanceScene extends Component {
           leftButtonAction={ () => this.goBack() }
         />
 
-        <SceneView>
+        <ScrollableScene loaded={this.state.attendanceData || false}>
 
           <SceneHeading text="Attendance"/>
 
@@ -341,7 +370,7 @@ class AttendanceScene extends Component {
 
           </View>
 
-        </SceneView>
+        </ScrollableScene>
 
       </View>
     )

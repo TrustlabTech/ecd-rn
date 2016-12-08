@@ -22,8 +22,8 @@ export default class IMPComponent extends React.Component {
     this.props._modalEventEmitter.emit('modal', options)
   }
 
-  constructor(props, context) {
-    super(props, context)
+  constructor(props) {
+    super(props)
     this._fileName = this.constructor.name+'.js'
     this._className = this.constructor.name
 
@@ -51,8 +51,6 @@ export default class IMPComponent extends React.Component {
   }
 
   componentWillMount() {
-    console.log('COAL')
-    debugger
     if(Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
     } else {
@@ -106,11 +104,11 @@ export default class IMPComponent extends React.Component {
 
   render() {
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._className, Lifecycle.COMPONENT_DID_UPDATE)
+      IMPLog.react(this._className, Lifecycle.RENDER)
     }
   }
 }
 
-IMPComponent.contextTypes = {
-  store: React.PropTypes.object.isRequired
-}
+// IMPComponent.contextTypes = {
+//   store: React.PropTypes.object.isRequired
+// }

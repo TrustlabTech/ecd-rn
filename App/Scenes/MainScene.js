@@ -42,19 +42,13 @@ class MainScene extends IMPComponent {
     super(props)
 
     this.state = {
-      loaded: false,
+      loaded: true,
       drawerOpen: false
     }
   }
 
   componentWillMount() {
     super.componentWillMount()
-
-    if(!Config.debug) {
-      Sentry.addBreadcrumb(this.Filename,'componentWillMount')
-    }
-    console.log('POTATO')
-
   }
 
   componentWillFocus() {
@@ -90,6 +84,7 @@ class MainScene extends IMPComponent {
     this.closeDrawer()
 
     this.navigator.push(Routes.class)
+
     // Open the modal
     // this.setModal({visible: true})
 
@@ -211,10 +206,9 @@ class MainScene extends IMPComponent {
 
     // Interpolate new lines into the strings
     const mainBtnText = "Take\nAttendance"
-    const loggedInAs = "Logged in as\n"
-    // +
-    //   this.props.state.App.userData.user.given_name + ' ' +
-    //   this.props.state.App.userData.user.family_name
+    const loggedInAs = "Logged in as\n" +
+    this.props.state.App.userData.user.given_name + ' ' +
+    this.props.state.App.userData.user.family_name
 
     // Draw the scene
     return (
@@ -225,7 +219,7 @@ class MainScene extends IMPComponent {
           leftButtonText="|||"
           leftButtonAction={ () => this.toggleDrawer() }
         />
-        <Scene loaded={true}>
+        <Scene loaded={this.state.loaded}>
 
           <DrawerLayoutAndroid
             onDrawerOpen={ () => this.drawerOpen = true }
