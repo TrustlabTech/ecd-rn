@@ -33,6 +33,8 @@ import Api from '../Api'
 import Sentry from '../Sentry'
 import IMPLog from '../Impulse/IMPLog'
 import Session from '../Session'
+import _ from 'lodash'
+import { add } from 'lodash/fp'
 
 class LoginScene extends IMPComponent {
 
@@ -57,8 +59,8 @@ class LoginScene extends IMPComponent {
 
   componentWillMount() {
     super.componentWillMount()
-    console.log('LEEKS')
     this.serverStatus()
+
 
     // Load phone number from persistent storage
     AsyncStorage.getItem('@phoneNumber', (error, phoneNumber) => {
@@ -83,8 +85,6 @@ class LoginScene extends IMPComponent {
 
   componentDidMount() {
     super.componentDidMount()
-
-
   }
 
   componentWillReceiveProps() {
@@ -117,22 +117,20 @@ class LoginScene extends IMPComponent {
     this.setModal({visible: true})
 
 
-
-
     // Check for the devil
     if(phoneNumber == '666' && pin == '666'){
 
       // The dark one
       Sentry.crashTheApp("El diablo!")
     } else {
-      // Reset pin
-      this.setState({pin: ''})
+
       // Login through REST
       Api.login(phoneNumber, pin).then((data) => {
 
         // Hide the modal
         this.setModal({visible: false})
-
+        // Reset pin
+        this.setState({pin: ''})
 
         // Check for error
         if(data.error) {
@@ -148,7 +146,7 @@ class LoginScene extends IMPComponent {
         } else {
 
           // Push user info into redux store
-          // this.props.dispatch(appActions.setUser(data))
+          this.props.dispatch(appActions.setUser(data))
           Session.update({userData: data})
 
           // Go to main scene
@@ -159,7 +157,8 @@ class LoginScene extends IMPComponent {
 
         // Close the modal
         this.setModal({visible: false})
-
+        // Reset pin
+        this.setState({pin: ''})
 
         // Handle error
         if(Config.debug){

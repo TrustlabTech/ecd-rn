@@ -3,15 +3,23 @@
 export default class Session {
 
   static changes = []
+  static lastState = {}
 
   static getState() {
-    return new Promise((resolve, reject) => {
-      resolve(this.changes.reduce((a, x) => Object.assign(a,x),{}))
-    })
+    const lastState = this.changes.reduce(
+      (a, x) => Object.assign(a,x),
+      this.lastState
+    )
+    this.changes = []
+    this.lastState = lastState
+    return lastState
   }
 
   static update(value) {
-    this.changes.push(value)
+    if(typeof value === 'object')
+      this.changes.push(value)
+    else
+      throw 'Update only accepts objects'
   }
 
   static showChanges() {

@@ -1,12 +1,12 @@
 import 'react-native'
 import React from 'react'
-import SceneView from '../SceneView'
+import ScrollableScene from '../ScrollableScene'
 
 import renderer from 'react-test-renderer'
 
 it('renders correctly', () => {
   const tree = renderer.create(
-    <SceneView/>
+    <ScrollableScene/>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })
