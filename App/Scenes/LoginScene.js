@@ -113,6 +113,9 @@ export default class LoginScene extends IMPComponent {
           // Save user info to session
           Session.update({userData: data})
 
+          // and track her with GA
+          this.props.gaTrackers.tracker1.setUser(data.user.id+' '+data.user.given_name +' ')
+
           // Go to main scene
           this.navigator.push({
             ...Routes.main,

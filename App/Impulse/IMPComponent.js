@@ -1,10 +1,9 @@
 /**
  * (c)2016 IO Digital
  * @author Werner Roets <cobolt.exe@gmail.com>
- * @flow
  */
 
-import React from 'react'
+import React, { Component } from 'react'
 import { Modal } from 'react-native'
 import IMPLog from './IMPLog'
 import * as Lifecycle from './lib/Lifecycle'
@@ -12,22 +11,17 @@ import EventEmitter from 'EventEmitter'
 import Sentry from '../Sentry'
 import Config from '../Config'
 
-export default class IMPComponent extends React.Component {
+export default class IMPComponent extends Component {
 
   // Private
-  _fileName = null
-  _className = null
+  _fileName
+  _className
 
   // Public
-  navigator = null
+  navigator
 
 
-
-  setModal(options : Object) {
-    this.props._modalEventEmitter.emit('modal', options)
-  }
-
-  constructor(props : Object) {
+  constructor(props) {
     super(props)
     this._fileName = this.constructor.name+'.js'
     this._className = this.constructor.name
@@ -42,15 +36,23 @@ export default class IMPComponent extends React.Component {
     }
   }
 
+  setModal(options) {
+    this.props._modalEventEmitter.emit('modal', options)
+  }
+
   componentWillFocus() {
     if(Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_FOCUS)
     }
   }
 
-  componentDidFocus(event,callback) {
-    if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._className, Lifecycle.COMPONENT_DID_FOCUS)
+  componentDidFocus() {
+    if(Config.debug) {
+      if(Config.debugReact) {
+        IMPLog.react(this._className, Lifecycle.COMPONENT_DID_FOCUS)
+      }
+    } else {
+      this.props.gaTrackers.tracker1.trackScreenView(this._className)
     }
   }
 
@@ -64,8 +66,12 @@ export default class IMPComponent extends React.Component {
   }
 
   componentDidMount() {
-    if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._className, Lifecycle.COMPONENT_DID_MOUNT)
+    if(Config.debug) {
+      if(Config.debugReact) {
+        IMPLog.react(this._className, Lifecycle.COMPONENT_DID_MOUNT)
+      }
+    } else {
+      this.props.gaTrackers.tracker1.trackScreenView(this._className)
     }
   }
 

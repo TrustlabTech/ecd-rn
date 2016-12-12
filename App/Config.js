@@ -16,17 +16,21 @@ import { Colours } from './GlobalStyles'
 const pkg = require('../package.json')
 
 export default {
+  // Full name of the application
+  appName: 'ECD APP',
+
   // First scene to show
   initialRoute: Routes.login,
+
   // Predefined error messages
   errorMessage: {
     NETWORK: 'Could not fetch data'
   },
 
-  debug: true,          // Master switch
+  debug: false,          // Master switch
   debugAction: false,   // Redux actions
-  debugNetwork: true,   // HTTP
-  debugReact: true,     // Show react lifescylce data
+  debugNetwork: false,   // HTTP
+  debugReact: false,     // Show react lifescylce data
   debugNavigator: false,
   // App version
   version: pkg.version,
@@ -44,7 +48,7 @@ export default {
   http: {
     baseUrl: 'http://ecd.cnsnt.io/api/v1/',
     headers: {
-      'X-Client-Platform': 'ECDRN ' + Platform.OS + " " + pkg.version,
+      'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,
       'X-Requested-With': 'XMLHttpRequest'
     }
   },
@@ -55,6 +59,8 @@ export default {
       tracker1: 'UA-88187232-1'
     },
     dispatchInterval: 120,
-    dryRun: true
+    samplingRate: 50,
+    anonymizeIp: false,
+    optOut: false
   }
 }

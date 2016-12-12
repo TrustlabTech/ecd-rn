@@ -67,7 +67,7 @@ export default class Ecdrn extends Component {
     this._modalEventEmitter.addListener('modal', this._setModal, this)
 
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._fileName,Lifecycle.CONSTRUCTOR)
+      IMPLog.react(this._fileName, Lifecycle.CONSTRUCTOR)
     }
   }
 
@@ -75,56 +75,59 @@ export default class Ecdrn extends Component {
     this.gaTrackers = {
       tracker1: new GoogleAnalyticsTracker(Config.googleAnalytics.trackers.tracker1)
     }
+    this.gaTrackers.tracker1.setAppName(Config.appName + ' v' + Config.version)
+    this.gaTrackers.tracker1.setAnonymizeIp(Config.googleAnalytics.anonymizeIp)
+    this.gaTrackers.tracker1.setSamplingRate(Config.googleAnalytics.samplingRate)
+
     GoogleAnalyticsSettings.setDispatchInterval(Config.googleAnalytics.dispatchInterval)
-    GoogleAnalyticsSettings.setDryRun(Config.googleAnalytics.dryRun)
+    GoogleAnalyticsSettings.setDryRun(Config.debug)
+    GoogleAnalyticsSettings.setOptOut(Config.googleAnalytics.optOut)
 
   }
 
   componentWillUnmount() {
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._fileName,Lifecycle.COMPONENT_WILL_MOUNT)
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_MOUNT)
     }
   }
 
   componentDidMount() {
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._fileName,Lifecycle.COMPONENT_DID_MOUNT)
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_MOUNT)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._fileName,Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
       if(Config.debug && Config.debugReact) {
-        IMPLog.react(this._fileName,Lifecycle.COMPONENT_WILL_UPDATE)
+        IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UPDATE)
       }
   }
 
   componentDidUpdate(nextProps, nextState) {
       if(Config.debug && Config.debugReact) {
-        IMPLog.react(this._fileName,Lifecycle.COMPONENT_DID_UPDATE)
+        IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_UPDATE)
       }
   }
 
   componentWillUnmount() {
     if(Config.debug && Config.debugReact) {
-        IMPLog.react(this._fileName,Lifecycle.COMPONENT_WILL_UNMOUNT)
+        IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UNMOUNT)
     }
   }
 
   // Relay the event on to the scene
   _onWillFocus = route => {
-    // const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
     this._navigationEventEmitter.emit('onWillFocus'+route.scene.name)
   }
 
   // Relay the event to the scene
   _onDidFocus = route => {
-    // const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
     this._navigationEventEmitter.emit('onDidFocus'+route.scene.name)
   }
 
@@ -134,7 +137,7 @@ export default class Ecdrn extends Component {
 
   render() {
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._fileName,Lifecycle.RENDER)
+      IMPLog.react(this._fileName, Lifecycle.RENDER)
     }
     return (
 
@@ -143,8 +146,6 @@ export default class Ecdrn extends Component {
           onWillFocus={this._onWillFocus}
           onDidFocus={this._onDidFocus}
           renderScene={ (route, navigator) => {
-
-
 
             if(Config.debug && Config.debugNavigator) {
               console.log("--- ROUTES STACK ---")
@@ -175,10 +176,8 @@ export default class Ecdrn extends Component {
           }}
           configureScene={ (route, routeStack ) => Config.sceneConfig }
         />
-
     )
   }
-
 }
 
 AppRegistry.registerComponent('Ecdrn', () => Ecdrn)

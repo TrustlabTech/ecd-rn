@@ -3,7 +3,6 @@
  * (c) 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * Author: Werner Roets <werner@io.co.za>
- * @flow
  */
 
 import React, { Component } from 'react'
@@ -32,6 +31,7 @@ import IMPLog from '../Impulse/IMPLog'
 
 export default class MainScene extends IMPComponent {
 
+
   constructor(props) {
     super(props)
 
@@ -41,7 +41,7 @@ export default class MainScene extends IMPComponent {
     }
   }
 
-  _hardwareBackHandler = () => {
+  _hardwareBackHandler() {
     this._logout()
     return true
   }
@@ -49,7 +49,7 @@ export default class MainScene extends IMPComponent {
   /**
    * Closes the drawer
    */
-  _closeDrawer(){
+  _closeDrawer() {
 
     // Close the drawer
     this._drawer.closeDrawer()
