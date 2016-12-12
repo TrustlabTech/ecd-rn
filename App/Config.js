@@ -24,10 +24,17 @@ export default {
 
   // Predefined error messages
   errorMessage: {
-    NETWORK: 'Could not fetch data'
+    login: {
+      title: 'Invalid login',
+      message: ''
+    },
+    network: {
+      title: 'Network Error',
+      message: 'Could not connect to server. Please ensure you are connected to the internet'
+    }
   },
 
-  debug: false,          // Master switch
+  debug: true,          // Master switch
   debugAction: false,   // Redux actions
   debugNetwork: false,   // HTTP
   debugReact: false,     // Show react lifescylce data

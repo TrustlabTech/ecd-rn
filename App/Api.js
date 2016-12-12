@@ -9,19 +9,10 @@ import Config from './Config'
 import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
 
-function timestamp(currentDate) {
-  return + currentDate.getDate() + "/"
-         + (currentDate.getMonth()+1)  + "/"
-         + currentDate.getFullYear() + " @ "
-         + currentDate.getHours() + ":"
-         + currentDate.getMinutes() + ":"
-         + currentDate.getSeconds()
-}
-
 function request(route, options = {method: 'GET'} ) {
 
   if(Config.debug && Config.debugNetwork)
-    // console.log('API REQUEST',timestamp(new Date()), Config.http.baseUrl + route, options)
+
     IMPLog.networkRequest(options.method, new Date(), Config.http.baseUrl+route)
   else
     Sentry.addBreadcrumb('HTTP '+options.method,Config.http.baseUrl+route)
@@ -32,9 +23,7 @@ function request(route, options = {method: 'GET'} ) {
   .then( (response) => {
 
     if(Config.debug && Config.debugNetwork){
-      // console.log('API RESPONSE:',response)
       IMPLog.networkResponse(response.status, new Date(),response._bodyText)
-
     } else {
       Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
     }

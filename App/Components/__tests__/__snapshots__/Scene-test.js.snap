@@ -1,4 +1,4 @@
-exports[`test renders correctly 1`] = `
+exports[`test renders correctly loaded 1`] = `
 <View
   style={
     Object {
@@ -6,4 +6,13 @@ exports[`test renders correctly 1`] = `
       "flex": 1,
     }
   } />
+`;
+
+exports[`test renders correctly not loaded 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail">
+  Page is loading
+</Text>
 `;

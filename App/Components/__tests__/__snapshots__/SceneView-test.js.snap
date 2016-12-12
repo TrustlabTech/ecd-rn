@@ -1,9 +1,0 @@
-exports[`test renders correctly 1`] = `
-<ScrollView
-  style={
-    Object {
-      "backgroundColor": "#fefefe",
-      "flex": 1,
-    }
-  } />
-`;
