@@ -1,4 +1,9 @@
-// import mergeChange from 'immutability-helper'
+/*
+ * Early Childhood Development
+ * (c) 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * Author: Werner Roets <werner@io.co.za>
+ */
 
 export default class Session {
 
@@ -27,16 +32,7 @@ export default class Session {
   }
 }
 
-
-
 Object.defineProperty(Session, 'changes',{
   writable: false,
   enumerable: true
 })
-
-
-/*
-usage:
-  const userId = Session.get().userId
-
-*/

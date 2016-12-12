@@ -3,6 +3,7 @@
  * (c) 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * Author: Werner Roets <werner@io.co.za>
+ * @flow
  */
 
 import React, { Component } from 'react'
@@ -14,113 +15,57 @@ import {
   TouchableHighlight,
   DrawerLayoutAndroid,
   BackAndroid,
-  Alert
+  Alert,
+  StyleSheet
 } from 'react-native'
 
 import Config from '../Config'
-
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-
 import Sentry from '../Sentry'
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Routes from '../Routes'
 import Api from '../Api'
 import { Colours, FontSizes } from '../GlobalStyles'
-import { ModalMode } from '../Components/WaitModal'
 import Scene from '../Components/Scene'
-import * as mainActions from '../Actions/Main'
-import * as appActions from '../Actions/App'
-
 import IMPLog from '../Impulse/IMPLog'
 
 
-class MainScene extends IMPComponent {
+export default class MainScene extends IMPComponent {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      loaded: true,
+      loaded: true,     // Nothing to fetch
       drawerOpen: false
     }
   }
 
-  componentWillMount() {
-    super.componentWillMount()
+  _hardwareBackHandler = () => {
+    this._logout()
+    return true
   }
 
-  componentWillFocus() {
-    super.componentWillFocus()
-  }
+  /**
+   * Closes the drawer
+   */
+  _closeDrawer(){
 
-  componentDidFocus() {
-    super.componentDidFocus()
-  }
-
-  componentWillReceiveProps() {
-    super.componentWillReceiveProps()
-
-  }
-
-  componentWillUnmount() {
-    super.componentWillUnmount()
-  }
-
-
-  closeDrawer = () => {
     // Close the drawer
     this._drawer.closeDrawer()
 
-    // make sure the modal is closed
+    // update state
     this.setState({drawerOpen: false})
-
-}
-  takeAttendance() {
-
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
-
-    this.closeDrawer()
-
-    this.navigator.push(Routes.class)
-
   }
 
-  logout() {
-
-    // As to confirm
-    Alert.alert('Logout','Are you sure you want to logout?',
-      [
-        {
-          text: 'Yes',
-          onPress: () => {
-
-            // Go back
-            this.navigator.pop()
-
-            // Close drawer
-            this._drawer.closeDrawer()
-
-            // Close modal
-            this.setState({drawerOpen: false})
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    )
-  }
-
-  toggleDrawer() {
-    if(this.drawerOpen) {
+  /**
+   * Open the drawer if it is closed, close the drawer if it is open.
+   */
+  _toggleDrawer() {
+    if(this.state.drawerOpen) {
 
       // Close draw
-      this._drawer.closeDrawer()
-
-      // Update state
-      this.setState({drawerOpen: false})
+      this._closeDrawer()
 
     } else {
 
@@ -133,14 +78,45 @@ class MainScene extends IMPComponent {
     }
   }
 
+  /**
+   * Navigate to ClassScene.
+   */
+  _goToClassScene() {
+
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
+
+    this._closeDrawer()
+    this.navigator.push(Routes.class)
+  }
+
+  /**
+   * Log the current user out and return to the login screen.
+   */
+  _logout() {
+
+    // Ask to confirm
+    Alert.alert('Logout','Are you sure you want to logout?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            this.navigator.pop()
+            this._closeDrawer()
+          }
+        },
+        { text: 'No'}
+      ]
+    )
+  }
+
+
   render() {
     super.render()
 
     // Interpolate new lines into the strings
     const mainBtnText = "Take\nAttendance"
     const loggedInAs = "Logged in as\n" +
-    this.props.state.App.userData.user.given_name + ' ' +
-    this.props.state.App.userData.user.family_name
+      this.props.route.user.given_name + ' ' + this.props.route.user.family_name
 
     // Draw the scene
     return (
@@ -149,69 +125,63 @@ class MainScene extends IMPComponent {
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="|||"
-          leftButtonAction={ () => this.toggleDrawer() }
+          leftButtonAction={ () => this._toggleDrawer()}
         />
         <Scene loaded={this.state.loaded}>
 
           <DrawerLayoutAndroid
-            onDrawerOpen={ () => this.drawerOpen = true }
-            onDrawerClose={ () => this.drawerOpen = false }
+            onDrawerOpen={ () => this.setState({drawerOpen: true })}
+            onDrawerClose={ () => this.setState({drawerOpen: false })}
             drawerWidth={250}
             drawerPosition={DrawerLayoutAndroid.positions.Left}
+            ref={(ref) => this._drawer = ref}
             renderNavigationView= { () =>
+
               <View style={{flex: 1, backgroundColor: Colours.primary}}>
-                <View>
-                  <Text style={{padding: 5, fontSize: FontSizes.p, color: Colours.offWhite}}>{loggedInAs}</Text>
-                  <Text style={{fontSize: FontSizes.h6, color: Colours.offWhite, padding: 5, marginLeft: 2, marginTop: 5}}>Menu</Text>
-                  <View style={{height: 2, backgroundColor: Colours.secondary, marginLeft: 5, marginRight: 20, marginBottom: 5 }}/>
+
+                  <Text style={ss.loggedInAsText}>{loggedInAs}</Text>
+                  <Text style={ss.menuTitleText}>Menu</Text>
+                  <View style={ss.menuItemWrapperView}/>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._drawer.closeDrawer()  }>
-                      <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Home</Text>
+                    <TouchableHighlight onPress={ () => this._drawer.closeDrawer()}>
+                      <Text style={ss.menuItemText}>Home</Text>
                     </TouchableHighlight>
                   </View>
 
                   <View>
                     <TouchableHighlight onPress={ () => {
-                      Alert.alert('Help & Instructions','Press the Take Attendance button to take today\'s attendance',
-                      [
-                        {text: 'Okay'}
-                      ])
+                      Alert.alert(
+                        'Help & Instructions',
+                        'Press the Take Attendance button to take today\'s attendance',
+                        [{text: 'Okay'}]
+                      )
                     }}>
-                      <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Help & Instructions</Text>
+                      <Text style={ss.menuItemText}>Help & Instructions</Text>
                     </TouchableHighlight>
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this.logout() }>
-                      <Text style={{fontSize: FontSizes.h4, color: Colours.offWhite, paddingLeft: 10, paddingRight: 10, paddingBottom: 10}}>Logout</Text>
+                    <TouchableHighlight onPress={ () => this._logout()}>
+                      <Text style={ss.menuItemText}>Logout</Text>
                     </TouchableHighlight>
                   </View>
 
-                </View>
               </View>
             }
-            ref={(ref) => this._drawer = ref}
           >
 
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-
+            <View style={ss.mainViewWrapper}>
               <Button
                 text={mainBtnText}
-                onPress={() => this.takeAttendance()}
+                onPress={ () => this._goToClassScene()}
                 width={250}
                 height={100}
               />
-
             </View>
 
             <View style={{padding: 20}}>
-
-              <Button
-                text="Log Out"
-                onPress={() => this.logout() }
-              />
-
+              <Button text="Log Out" onPress={ () => this._logout()}/>
             </View>
 
           </DrawerLayoutAndroid>
@@ -221,11 +191,37 @@ class MainScene extends IMPComponent {
   }
 }
 
-export default connect(
-  (state) => ({
-    state: state
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(mainActions,dispatch)
-  })
-)(MainScene)
+const ss = StyleSheet.create({
+  loggedInAsText: {
+    padding: 5,
+    fontSize: FontSizes.p,
+    color: Colours.offWhite
+  },
+  menuTitleText : {
+    fontSize: FontSizes.h6,
+    color: Colours.offWhite,
+    padding: 5,
+    marginLeft: 2,
+    marginTop: 5
+  },
+  menuItemWrapperView: {
+    height: 2,
+    backgroundColor: Colours.secondary,
+    marginLeft: 5,
+    marginRight: 20,
+    marginBottom: 5
+  },
+  menuItemText: {
+    fontSize: FontSizes.h4,
+    color: Colours.offWhite,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10
+  },
+  mainViewWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+
+})

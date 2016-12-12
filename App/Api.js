@@ -47,11 +47,7 @@ function request(route, options = {method: 'GET'} ) {
     if(json.error) {
 
       if(typeof json.error === 'object') {
-        const errorMessage = ''
-        json.error.forEach((item) => {
-          errorMessage += item + "\n "
-        })
-        return { error: errorMessage.trim() }
+        return { error: json.error.toString() }
       } else {
         return { error: json.error }
       }

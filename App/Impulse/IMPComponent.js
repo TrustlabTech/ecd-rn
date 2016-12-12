@@ -1,4 +1,9 @@
-//@flow
+/**
+ * (c)2016 IO Digital
+ * @author Werner Roets <cobolt.exe@gmail.com>
+ * @flow
+ */
+
 import React from 'react'
 import { Modal } from 'react-native'
 import IMPLog from './IMPLog'
@@ -18,17 +23,16 @@ export default class IMPComponent extends React.Component {
 
 
 
-  setModal(options) {
+  setModal(options : Object) {
     this.props._modalEventEmitter.emit('modal', options)
   }
 
-  constructor(props) {
+  constructor(props : Object) {
     super(props)
     this._fileName = this.constructor.name+'.js'
     this._className = this.constructor.name
 
     this.navigator = this.props.navigator
-    this.dispatch = this.props.dispatch
 
     this.props._navigationEventEmitter.addListener('onWillFocus'+this._className, this.componentWillFocus, this)
     this.props._navigationEventEmitter.addListener('onDidFocus'+this._className, this.componentDidFocus, this)
@@ -108,7 +112,3 @@ export default class IMPComponent extends React.Component {
     }
   }
 }
-
-// IMPComponent.contextTypes = {
-//   store: React.PropTypes.object.isRequired
-// }

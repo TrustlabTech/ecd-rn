@@ -26,7 +26,6 @@ export default {
   debug: true,          // Master switch
   debugAction: false,   // Redux actions
   debugNetwork: true,   // HTTP
-  debugStore: false,    // Display each store change
   debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
   // App version
