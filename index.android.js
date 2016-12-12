@@ -22,28 +22,15 @@ import {
 } from 'redux'
 import { Provider } from 'react-redux'
 import Routes from './App/Routes'
-import * as Reducers from './App/Reducers'
 import EventEmitter from 'EventEmitter'
 import {
   GoogleAnalyticsTracker,
   GoogleAnalyticsSettings
 } from 'react-native-google-analytics-bridge'
 import { Colours } from './App/GlobalStyles'
-import Util from './App/Impulse/lib/Util'
 import IMPLog from './App/Impulse/IMPLog'
 import * as Lifecycle from './App/Impulse/lib/Lifecycle'
 import LoadingModal from './App/Components/LoadingModal'
-
-// Init the Redux store
-const store = createStore(
-  combineReducers(Reducers),
-)
-
-// Output state changes in debug mode
-store.subscribe(() => {
-  if(Config.debug && Config.debugStore)
-    IMPLog.store(store.getState())
-})
 
 export default class Ecdrn extends Component {
 
@@ -68,8 +55,7 @@ export default class Ecdrn extends Component {
       modal: {
         visible: false
       }
-     }
-
+    }
     // Initialise values
     this._fileName = 'index.android.js'
     this._className = this.constructor.name
@@ -132,14 +118,14 @@ export default class Ecdrn extends Component {
 
   // Relay the event on to the scene
   _onWillFocus = route => {
-    const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
-    this._navigationEventEmitter.emit('onWillFocus'+eventSourceClass)
+    // const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
+    this._navigationEventEmitter.emit('onWillFocus'+route.scene.name)
   }
 
   // Relay the event to the scene
   _onDidFocus = route => {
-    const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
-    this._navigationEventEmitter.emit('onDidFocus'+eventSourceClass)
+    // const eventSourceClass = Util.getClassFromDisplayName(route.scene.displayName)
+    this._navigationEventEmitter.emit('onDidFocus'+route.scene.name)
   }
 
   _setModal = options => {
@@ -152,7 +138,6 @@ export default class Ecdrn extends Component {
     }
     return (
 
-      <Provider store={store}>
         <Navigator
           initialRoute={this._initialRoute}
           onWillFocus={this._onWillFocus}
@@ -179,8 +164,7 @@ export default class Ecdrn extends Component {
                       modal: this._modal,
                       route,
                       navigator,
-                      dispatch: store.dispatch,         // Let's us fire redux actions
-                      gaTrackers: this.gaTrackers,      // Google Analytics
+                      gaTrackers: this.gaTrackers,  // Google Analytics
                       _navigationEventEmitter: this._navigationEventEmitter, // Navigator events
                       _modalEventEmitter: this._modalEventEmitter // LoadingModal events
                     }
@@ -191,7 +175,6 @@ export default class Ecdrn extends Component {
           }}
           configureScene={ (route, routeStack ) => Config.sceneConfig }
         />
-      </Provider>
 
     )
   }

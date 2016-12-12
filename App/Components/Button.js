@@ -18,7 +18,7 @@ export default class Button extends Component {
       bgColour1: '#fefefe',
       bgColour2: Colours.offwhite,
     }
-    this.gaurdDelay = 500
+    this.guardDelay = 500
     this.recentlyTouched = false
 
   }
@@ -55,7 +55,7 @@ export default class Button extends Component {
       // Gaurd
       this.recentlyTouched = true
       // Ungaurd after delay
-      setTimeout(() => this.recentlyTouched = false ,this.gaurdDelay)
+      setTimeout(() => this.recentlyTouched = false ,this.guardDelay)
     }
 
   }
@@ -104,7 +104,7 @@ export default class Button extends Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   tH: {
     marginTop: 8,
     marginBottom: 8,

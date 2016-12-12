@@ -17,9 +17,6 @@ import {
   ToastAndroid
 } from 'react-native'
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Scene from '../Components/Scene'
@@ -27,28 +24,28 @@ import ScrollableScene from '../Components/ScrollableScene'
 import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
-import { ModalMode } from '../Components/WaitModal'
-
 import Config from '../Config'
 import Routes from '../Routes'
 import Api from '../Api'
 import Sentry from '../Sentry'
-
-import * as attendanceActions from '../Actions/Attendance'
-import * as appActions from '../Actions/App'
-
 import { Colours } from '../GlobalStyles'
 import Session from '../Session'
 
-class AttendanceScene extends IMPComponent {
+export default class AttendanceScene extends IMPComponent {
 
   constructor(props) {
     super(props)
     this.state = {
       classData: [],
       attendanceData: [],
-      initialised: false
+      initialised: false,
+      loaded: false
     }
+  }
+
+  _hardwareBackHandler = () => {
+    this.goBack()
+    return true
   }
 
   _fetchData() {
@@ -60,6 +57,8 @@ class AttendanceScene extends IMPComponent {
     )
 
     .then((data) => {
+
+      // If server reports error
       if(data.error){
         if(Config.debug) {
           IMPLog.error(data.error,this._fileName)
@@ -68,7 +67,10 @@ class AttendanceScene extends IMPComponent {
         }
         this.goBack()
       }
+
+      // Data fetched
       Session.update({classData: data})
+
       this.setState({
         loaded: true,
         attendanceData: this.initAttendance(data)
@@ -88,21 +90,12 @@ class AttendanceScene extends IMPComponent {
   componentWillMount() {
     super.componentWillMount()
     this._fetchData()
-    // if(!this.state.initialised) {
-    //   this.setState({
-    //     attendanceData: this.initAttendance(this.props.route.classData),
-    //     initialised: true
-    //   })
-    // }
-
   }
 
   componentWillFocus() {
     super.componentWillFocus()
     this._fetchData()
   }
-
-
 
   // Initialise the attendanceData
   initAttendance = classData =>
@@ -148,15 +141,18 @@ class AttendanceScene extends IMPComponent {
       />)
     )
 
-
-
   getLocation = onSuccess =>
     navigator.geolocation.getCurrentPosition(
       location =>
         onSuccess(location)
       ,
-      error =>
-        this.displayError("Location Error", "Could not get location. Ensure location is enabled", error)
+      error => {
+        Alert.alert(
+          'Location unavailable',
+          'Your location could not be determined. Please ensure location is enabled.'
+        )
+        this.setModal({visible: false})
+      }
     )
 
   uploadData = (location, attendanceData) => {
@@ -169,50 +165,28 @@ class AttendanceScene extends IMPComponent {
       this.props.route.classId,
       attendanceData,
       sessionState.userData._token
-    ).then((data) => {
-
+    ).then( (data) => {
+      // We're done
       this.setModal({visible: false})
-      // Check for error
-      if(data.error){
+      this.goBack()
+      ToastAndroid.show('Upload complete', ToastAndroid.SHORT)
+    })
 
-        // Display and log
-        //this.displayError("Error", "An unknown error occured", data.error)
-
-      } else {
-
-        // Check for error
-        if(data) {
-
-          // We're done
-          this.goBack()
-          ToastAndroid.show('Upload complete', ToastAndroid.SHORT)
-
-        } else {
-
-          //Show and log error
-          this.displayError("Error", "An uknown error occured", data)
-
-        }
-      }
-    }).catch((error) => {
+    .catch((error) => {
 
       this.setModal({visible: false})
 
-      // Don't use this.displayError() for errors with stacks
       if(Config.debug) {
-
         alert(this._fileName + " " + error.toString())
         console.log(this._fileName + " " + error.stack)
-
       } else {
         Sentry.captureEvent(error.stack,this._fileName)
         Alert.alert(
           'Unknown Error',
           'An unknown error has occured',
           [{text: 'Okay'}]
-          )
+        )
       }
-
     })
   }
 
@@ -222,19 +196,13 @@ class AttendanceScene extends IMPComponent {
       'Submit attendance?',
       this.summary(attendanceData),
       [
-        // Yes
         {
           text: 'Yes',
           onPress: () => {
-
-            // Open modal
             this.setModal({visible: true})
-
-            // Get location
             this.getLocation((location) => this.uploadData(location, attendanceData) )
           }
         },
-        // No
         {text: 'No'}
       ]
     )
@@ -260,7 +228,7 @@ class AttendanceScene extends IMPComponent {
           leftButtonAction={ () => this.goBack() }
         />
 
-        <ScrollableScene loaded={this.state.attendanceData || false}>
+        <ScrollableScene loaded={this.state.loaded}>
 
           <SceneHeading text="Attendance"/>
 
@@ -283,13 +251,3 @@ class AttendanceScene extends IMPComponent {
   }
 
 }
-
-// Bind Redux state to component props
-export default connect(
-  (state) => ({
-    state: state
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(attendanceActions,dispatch)
-  })
-)(AttendanceScene)
