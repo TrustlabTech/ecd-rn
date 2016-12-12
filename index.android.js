@@ -157,12 +157,11 @@ export default class Ecdrn extends Component {
               <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
               <LoadingModal
                 visible={this.state.modal.visible}
-                />
+              />
                 <View style={{flex: 1}}>
                   {React.createElement(
                     route.scene,
                     {
-                      modal: this._modal,
                       route,
                       navigator,
                       gaTrackers: this.gaTrackers,  // Google Analytics

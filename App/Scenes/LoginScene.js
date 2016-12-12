@@ -101,9 +101,9 @@ export default class LoginScene extends IMPComponent {
 
         // Check for error
         if(data.error) {
-
+          IMPLog.error(data.error, this._fileName)
           Alert.alert(
-            'Could not login',
+            Config.errorMessage.login.title,
             data.error,
             [{text: "Okay"}]
           )
@@ -132,16 +132,16 @@ export default class LoginScene extends IMPComponent {
 
         // Handle error
         if(Config.debug){
-          alert(error)
-          console.log(error.stack)
+          IMPLog.error(error.toString(), this._fileName)
         } else {
           Sentry.captureEvent(error.stack, this._fileName)
-          Alert.alert(
-            'Unknown Error',
-            "There was an error logging in.\nPlease check your internet connection.",
-            [{text: "Okay"}]
-          )
         }
+
+        Alert.alert(
+          Config.errorMessage.network.title,
+          Config.errorMessage.network.message,
+          [{text: "Okay"}]
+        )
 
       })
     }
@@ -152,18 +152,16 @@ export default class LoginScene extends IMPComponent {
       // Put phone number in persistant storage
       AsyncStorage.setItem('@phoneNumber',  phoneNumber,(error) => {
 
-        const errorMessage = 'Could not store phone number with Async storage'
-        const successMessage = `Phone number ${phoneNumber} stored to Async storage`
         if(error) {
 
           if(Config.debug) {
-            IMPLog.async(this._className, errorMessage + error.toString())
+            IMPLog.async(this._className, 'Could not store phone number with Async storage' + error.toString())
 
           } else {
             Sentry.captureEvent(errorMessage + error.toString(), this._className )
           }
         } else {
-          IMPLog.async(this._className, successMessage)
+          IMPLog.async(this._className, `Phone number ${phoneNumber} stored to Async storage`)
         }
       })
     }
@@ -171,17 +169,17 @@ export default class LoginScene extends IMPComponent {
 
   }
 
-  footerTexts() {
-    if(Config.debug) return [
-      `ECD v${Config.version}`,
-      `RN v${Config.rnVersion}`,
-      `Server: ${Config.http.baseUrl}`,
-      'Server Status: ' + (this.state.serverOnline ? "Online" : "Offiline")
-    ]
-    else return [
-      `v${Config.version}`
-    ]
-  }
+  footerTexts = () =>
+    Config.debug ?
+      [
+        `ECD v${Config.version}`,
+        `RN v${Config.rnVersion}`,
+        `Server: ${Config.http.baseUrl}`,
+        'Server Status: ' + (this.state.serverOnline ? "Online" : "Offline")
+      ]
+    :
+      [ `v${Config.version}` ]
+
 
   makeFooter = () =>
     (<View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>

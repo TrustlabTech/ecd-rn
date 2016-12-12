@@ -1,12 +1,12 @@
 import 'react-native'
 import React from 'react'
-import ScrollableScene from '../ScrollableScene'
+import MainScene from '../MainScene'
 
 import renderer from 'react-test-renderer'
 
 it('renders correctly', () => {
   const tree = renderer.create(
-    <ScrollableScene/>
+    <MainScene modal={jest.fn()} route={jest.fn()} navigator={jest.fn()} gaTrackers={{}}  />
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

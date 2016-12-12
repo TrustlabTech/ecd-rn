@@ -57,10 +57,13 @@ export default class ClassScene extends IMPComponent {
       })
     }).catch((error) => {
       if(Config.debug) {
-        console.log('Error ' + error.toString())
         IMPLog.error(error.toString(), this._fileName)
       }
-      alert('Error' + error.toString())
+      Alert.alert(
+        Config.errorMessage.network.title,
+        Config.errorMessage.network.message,
+        [{text: "Okay"}]
+      )
       this.goBack()
     })
 
