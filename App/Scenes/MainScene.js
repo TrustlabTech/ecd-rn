@@ -18,16 +18,16 @@ import {
   StyleSheet
 } from 'react-native'
 
+import Api from '../Api'
 import Config from '../Config'
 import Sentry from '../Sentry'
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Routes from '../Routes'
-import Api from '../Api'
 import { Colours, FontSizes } from '../GlobalStyles'
 import Scene from '../Components/Scene'
 import IMPLog from '../Impulse/IMPLog'
-
+import Session from '../Session'
 
 export default class MainScene extends IMPComponent {
 
@@ -36,10 +36,46 @@ export default class MainScene extends IMPComponent {
     super(props)
 
     this.state = {
-      loaded: true,     // Nothing to fetch
-      drawerOpen: false
+      loaded: false,     // Nothing to fetch
+      drawerOpen: false,
+      summaryData: null
     }
   }
+
+  componentDidFocus() {
+    super.componentDidFocus()
+    this._fetchData()
+  }
+
+  // componentDidMount() {
+  //   super.componentDidMount()
+  //   this._fetchData()
+  // }
+
+  _fetchData() {
+    // const sessionState = Session.getState()
+    // console.log('ROUTE',this.props.route)
+    console.log('BEFORE')
+    console.log('id', this.props.route.user.centre_id)
+    console.log('token' , this.props.route.token)
+    const centre_id = this.props.route.user.centre_id
+    const token = this.props.route.token
+    Api.fetchCentreSummary(centre_id,token)
+
+    .then( (data) => {
+      // IMPLog.networkResponse(data.status, new Date(),data._bodyText)
+      this.setState({
+        loaded: true,
+        summaryData: data
+      })
+    })
+
+    .catch( (error) => {
+      alert(error)
+    })
+
+  }
+
 
   _hardwareBackHandler() {
     this._logout()
@@ -87,6 +123,22 @@ export default class MainScene extends IMPComponent {
 
     this._closeDrawer()
     this.navigator.push(Routes.class)
+    this.setState({
+      loaded: false,
+      summaryData: null
+    })
+  }
+
+  _goToHistoryScene() {
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
+    this._closeDrawer()
+    this.navigator.push(Routes.history)
+    this.setState({
+      loaded: false,
+      summaryData: null
+    })
+
+
   }
 
   /**
@@ -100,8 +152,8 @@ export default class MainScene extends IMPComponent {
         {
           text: 'Yes',
           onPress: () => {
+            this.setState({loaded: false})
             this.navigator.pop()
-            this._closeDrawer()
           }
         },
         { text: 'No'}
@@ -115,9 +167,10 @@ export default class MainScene extends IMPComponent {
 
     // Interpolate new lines into the strings
     const mainBtnText = "Take\nAttendance"
-    const loggedInAs = "Logged in as\n" +
-      this.props.route.user.given_name + ' ' + this.props.route.user.family_name
-
+    const historyBtnText = "View Attendance\nHistory"
+    const loggedInAs = `Logged in as ${this.props.route.user.given_name} ${this.props.route.user.family_name}`
+    const numClasses = this.state.summaryData ? this.state.summaryData.classes : 0
+    const numChildren = this.state.summaryData ? this.state.summaryData.children : 0
     // Draw the scene
     return (
       <View style={{flex: 1}}>
@@ -139,7 +192,6 @@ export default class MainScene extends IMPComponent {
 
               <View style={{flex: 1, backgroundColor: Colours.primary}}>
 
-                  <Text style={ss.loggedInAsText}>{loggedInAs}</Text>
                   <Text style={ss.menuTitleText}>Menu</Text>
                   <View style={ss.menuItemWrapperView}/>
 
@@ -170,11 +222,19 @@ export default class MainScene extends IMPComponent {
               </View>
             }
           >
-
             <View style={ss.mainViewWrapper}>
+              <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>{loggedInAs}</Text>
+              <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Classes: {numClasses}</Text>
+              <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Children: {numChildren}</Text>
               <Button
                 text={mainBtnText}
                 onPress={ () => this._goToClassScene()}
+                width={250}
+                height={100}
+              />
+              <Button
+                text={historyBtnText}
+                onPress={ () => this._goToHistoryScene()}
                 width={250}
                 height={100}
               />

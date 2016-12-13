@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for App/Impulse/IMPLog.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">App/Impulse</a> IMPLog.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/52</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/52</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * (c)2016 IO Digital
+ * @author Werner Roets &lt;cobolt.exe@gmail.com&gt;
+ */
+&nbsp;
+import ANSI from 'ansi-styles'
+&nbsp;
+import * as Lifecycle from './lib/Lifecycle'
+&nbsp;
+export default class IMPLog {
+&nbsp;
+&nbsp;
+  static _log = <span class="fstat-no" title="function not covered" >(p</span>refix, text, fgColor, bgColor = <span class="branch-0 cbranch-no" title="branch not covered" >ANSI.bgBlack)</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >    console.log(`${prefix}${bgColor.open}${fgColor.open}${text}${fgColor.close}${bgColor.close}`)</span>
+  }
+&nbsp;
+  static _asColumn = <span class="fstat-no" title="function not covered" >(t</span>ext, width = <span class="branch-0 cbranch-no" title="branch not covered" >100)</span> =&gt; {
+    const n_spaces = <span class="cstat-no" title="statement not covered" >width - text.length</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if(n_spaces &lt; 0 )</span>
+<span class="cstat-no" title="statement not covered" >      return text</span>
+&nbsp;
+    const spaces = <span class="cstat-no" title="statement not covered" >Array(n_spaces).join(" ")</span>
+<span class="cstat-no" title="statement not covered" >    return text + spaces</span>
+  }
+&nbsp;
+  static store = <span class="fstat-no" title="function not covered" >(d</span>ata) =&gt; {
+    const prefix = <span class="cstat-no" title="statement not covered" >`${ANSI.magenta.open}[ST]${ANSI.magenta.close}`</span>
+    // adding color destroys prettyprint
+<span class="cstat-no" title="statement not covered" >    console.log(prefix)</span>
+<span class="cstat-no" title="statement not covered" >    console.log(data)</span>
+  }
+&nbsp;
+  static async = <span class="fstat-no" title="function not covered" >(f</span>ilename, message) =&gt; {
+    const prefix = <span class="cstat-no" title="statement not covered" >`${ANSI.cyan.open}[AS]${ANSI.cyan.close} `</span>
+<span class="cstat-no" title="statement not covered" >    IMPLog._log(prefix, message, ANSI.yellow)</span>
+  }
+&nbsp;
+  static networkRequest = <span class="fstat-no" title="function not covered" >(m</span>ethod, timestamp, route) =&gt; {
+    const prefix = <span class="cstat-no" title="statement not covered" >`${ANSI.blue.open}[NW]${ANSI.blue.close}`</span>
+    const method_color = <span class="cstat-no" title="statement not covered" >`${ANSI.bold.open}${ANSI.green.open}${method}${ANSI.green.close}${ANSI.bold.close}`</span>
+    const timestamp_color = <span class="cstat-no" title="statement not covered" >`${ANSI.gray.open}${ANSI.underline.open}${timestamp}${ANSI.underline.close}${ANSI.gray.close}`</span>
+    const route_color = <span class="cstat-no" title="statement not covered" >`${ANSI.white.open}${route}${ANSI.white.close}`</span>
+    // console.log(prefix+method_color+timestamp_color+route_color)
+<span class="cstat-no" title="statement not covered" >    console.log(`${prefix} ${method_color} ${IMPLog._asColumn(timestamp_color,64)} ${route_color}`)</span>
+  }
+&nbsp;
+  static networkResponse = <span class="fstat-no" title="function not covered" >(s</span>tatus, timestamp , data) =&gt; {
+    const prefix = <span class="cstat-no" title="statement not covered" >`${ANSI.blue.open}[NW]${ANSI.blue.close}`</span>
+&nbsp;
+    const codes = <span class="cstat-no" title="statement not covered" >[</span>
+      {code: 200, color: ANSI.green},
+      {code: 401, color: ANSI.yellow},
+      {code: 500, color: ANSI.red }
+    ].find(<span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >status === item.code ? item.color : false)</span> ||
+    {code: item.code, color: ANSI.white }
+&nbsp;
+    const timestamp_color = <span class="cstat-no" title="statement not covered" >`${ANSI.gray.open}${ANSI.underline.open}${timestamp}${ANSI.underline.close}${ANSI.gray.close}`</span>
+&nbsp;
+    const status_color = <span class="cstat-no" title="statement not covered" >`${codes.color.open}${status}${codes.color.close}`</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`${prefix} ${status_color} ${timestamp_color}`)</span>
+<span class="cstat-no" title="statement not covered" >    console.log(data)</span>
+&nbsp;
+    // const status_color = `${ANSI.bold.open}${ANSI.green.open} ${status} ${ANSI.green.close}${ANSI.bold.close}`
+  }
+&nbsp;
+  static error = <span class="fstat-no" title="function not covered" >(m</span>essage, fileName) =&gt; {
+    const prefix = <span class="cstat-no" title="statement not covered" >`${ANSI.bgRed.open}${ANSI.white.open}[ER]${ANSI.white.close}${ANSI.bgRed.close}`</span>
+    const fileName_color = <span class="cstat-no" title="statement not covered" >`${ANSI.green.open}${fileName}${ANSI.green.close}`</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`${prefix} ${fileName} ${ANSI.red.open} ${message}${ANSI.red.close}`)</span>
+  }
+&nbsp;
+  static react = <span class="fstat-no" title="function not covered" >(f</span>ilename, event) =&gt; {
+&nbsp;
+    const prefix = <span class="cstat-no" title="statement not covered" >`${ANSI.red.open}[LC]${ANSI.red.close} `</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    switch(event) {</span>
+      case Lifecycle.CONSTRUCTOR:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.white, ANSI.bgBlack)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_WILL_MOUNT:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.black, ANSI.bgGreen)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_WILL_FOCUS:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.green, ANSI.bgBlack)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_DID_MOUNT:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.black, ANSI.bgYellow)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_DID_FOCUS:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.magenta)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.cyan)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.SHOULD_COMPONENT_UPDATE:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.gray, ANSI.bgWhite)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_WILL_UPDATE:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.magenta, ANSI.bgWhite)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_DID_UPDATE:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.blue, ANSI.bgWhite)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.RENDER:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.gray, ANSI.bgBlack)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      case Lifecycle.COMPONENT_WILL_UNMOUNT:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30), ANSI.black, ANSI.bgRed)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+      default:
+<span class="cstat-no" title="statement not covered" >        IMPLog._log(prefix, IMPLog._asColumn(filename,30) + IMPLog._asColumn(event,30),ANSI.black, ANSI.bgWhite)</span>
+<span class="cstat-no" title="statement not covered" >        break</span>
+&nbsp;
+    }
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 12 2016 14:46:06 GMT+0200 (SAST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

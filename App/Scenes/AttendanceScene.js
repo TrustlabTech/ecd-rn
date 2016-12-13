@@ -107,7 +107,7 @@ export default class AttendanceScene extends IMPComponent {
   // Initialise the attendanceData
   initAttendance = classData =>
     classData.map( x =>
-      ({ id: x.id, givenName: x.given_name, familyName: x.family_name, checked: false })
+      ({ id: x.id, givenName: x.given_name, familyName: x.family_name, checked: true })
     )
 
   // Press a checkbox and change the checked value

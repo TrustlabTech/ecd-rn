@@ -36,8 +36,8 @@ export default {
 
   debug: true,          // Master switch
   debugAction: false,   // Redux actions
-  debugNetwork: false,   // HTTP
-  debugReact: false,     // Show react lifescylce data
+  debugNetwork: true,   // HTTP
+  debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
   // App version
   version: pkg.version,
@@ -53,9 +53,11 @@ export default {
 
   // Server details
   http: {
-    baseUrl: 'http://ecd.cnsnt.io/api/v1/',
+    // baseUrl: 'http://ecd.cnsnt.io/api/v1/',
+    baseUrl: 'http://d34e3e8e.ngrok.io/api/v1/',
     headers: {
       'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,
+      'X-Client-Version': pkg.version,
       'X-Requested-With': 'XMLHttpRequest'
     }
   },

@@ -5,23 +5,27 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-import React, { Component } from 'react'
+// import React, { Component } from 'react'
 
-import LoginScene from './Scenes/LoginScene'
-import MainScene from './Scenes/MainScene'
 import ClassScene from './Scenes/ClassScene'
 import AttendanceScene from './Scenes/AttendanceScene'
+import LoginScene from './Scenes/LoginScene'
+import MainScene from './Scenes/MainScene'
+import HistoryScene from './Scenes/HistoryScene'
 
 export default {
+  history: {
+    title: 'ECD APP',
+    scene: HistoryScene
+  },
+  main: {
+    title: 'ECD APP',
+    scene: MainScene
+  },
 
   login: {
     title: 'ECD APP',
     scene: LoginScene
-  },
-
-  main: {
-    title: 'ECD APP',
-    scene: MainScene
   },
 
   class: {
