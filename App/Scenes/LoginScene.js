@@ -119,7 +119,8 @@ export default class LoginScene extends IMPComponent {
           // Go to main scene
           this.navigator.push({
             ...Routes.main,
-            user: data.user
+            user: data.user,
+            token: data._token
           })
 
         }

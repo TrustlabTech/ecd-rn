@@ -34,7 +34,7 @@ export default class ClassScene extends IMPComponent {
     this.state = {
       loaded: false,
       userData: {},
-      centreData: {}
+      centreData: null
     }
   }
 
@@ -51,9 +51,10 @@ export default class ClassScene extends IMPComponent {
       sessionState.userData.user.id,
       sessionState.userData._token
     ).then((data) => {
-      Session.update({centreData: data})
+      // Session.update({centreData: data})
       this.setState({
-        loaded: true
+        loaded: true,
+        centreData: data
       })
     }).catch((error) => {
       if(Config.debug) {
@@ -133,7 +134,7 @@ export default class ClassScene extends IMPComponent {
             marginRight: 20
           }}>
             <View style={{flex: 1, alignItems: 'center'}}>
-              {this.buildList(Session.getState().centreData)}
+              {this.buildList(this.state.centreData)}
             </View>
           </View>
         </ScrollableScene>

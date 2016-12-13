@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1481550517250" clover="3.2.0">
+  <project timestamp="1481550517250" name="All files">
+    <metrics statements="54" coveredstatements="35" conditionals="55" coveredconditionals="33" methods="28" coveredmethods="17" elements="137" coveredelements="85" complexity="0" loc="54" ncloc="54" packages="2" files="9" classes="9">
+      <package name="App">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <file name="GlobalStyles.js" path="/Users/werner/github/consent/Ecdrn/App/GlobalStyles.js">
+          <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+          <line num="14" count="8" type="stmt"/>
+          <line num="31" count="8" type="stmt"/>
+        </file>
+      </package>
+      <package name="App.Components">
+        <metrics statements="52" coveredstatements="33" conditionals="55" coveredconditionals="33" methods="28" coveredmethods="17"/>
+        <file name="Button.js" path="/Users/werner/github/consent/Ecdrn/App/Components/Button.js">
+          <metrics statements="20" coveredstatements="9" conditionals="16" coveredconditionals="8" methods="8" coveredmethods="3"/>
+          <line num="15" count="2" type="stmt"/>
+          <line num="17" count="2" type="stmt"/>
+          <line num="21" count="2" type="stmt"/>
+          <line num="22" count="2" type="stmt"/>
+          <line num="27" count="2" type="stmt"/>
+          <line num="28" count="1" type="stmt"/>
+          <line num="33" count="1" type="stmt"/>
+          <line num="41" count="0" type="stmt"/>
+          <line num="42" count="0" type="stmt"/>
+          <line num="45" count="0" type="stmt"/>
+          <line num="50" count="0" type="stmt"/>
+          <line num="51" count="0" type="stmt"/>
+          <line num="56" count="0" type="stmt"/>
+          <line num="58" count="0" type="stmt"/>
+          <line num="64" count="0" type="stmt"/>
+          <line num="65" count="0" type="stmt"/>
+          <line num="70" count="0" type="stmt"/>
+          <line num="78" count="2" type="stmt"/>
+          <line num="89" count="0" type="stmt"/>
+          <line num="107" count="1" type="stmt"/>
+        </file>
+        <file name="Checkbox.js" path="/Users/werner/github/consent/Ecdrn/App/Components/Checkbox.js">
+          <metrics statements="13" coveredstatements="7" conditionals="7" coveredconditionals="1" methods="7" coveredmethods="3"/>
+          <line num="13" count="2" type="stmt"/>
+          <line num="19" count="2" type="stmt"/>
+          <line num="20" count="2" type="stmt"/>
+          <line num="23" count="0" type="stmt"/>
+          <line num="25" count="0" type="stmt"/>
+          <line num="34" count="0" type="stmt"/>
+          <line num="37" count="0" type="stmt"/>
+          <line num="38" count="0" type="stmt"/>
+          <line num="39" count="0" type="stmt"/>
+          <line num="42" count="2" type="stmt"/>
+          <line num="43" count="2" type="stmt"/>
+          <line num="44" count="2" type="stmt"/>
+          <line num="47" count="2" type="stmt"/>
+        </file>
+        <file name="FormHeading.js" path="/Users/werner/github/consent/Ecdrn/App/Components/FormHeading.js">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+          <line num="12" count="1" type="stmt"/>
+        </file>
+        <file name="Link.js" path="/Users/werner/github/consent/Ecdrn/App/Components/Link.js">
+          <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
+          <line num="19" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+        </file>
+        <file name="Scene.js" path="/Users/werner/github/consent/Ecdrn/App/Components/Scene.js">
+          <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+          <line num="8" count="2" type="stmt"/>
+          <line num="12" count="2" type="stmt"/>
+          <line num="13" count="1" type="stmt"/>
+          <line num="19" count="1" type="stmt"/>
+        </file>
+        <file name="SceneHeading.js" path="/Users/werner/github/consent/Ecdrn/App/Components/SceneHeading.js">
+          <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+          <line num="12" count="1" type="stmt"/>
+        </file>
+        <file name="ScrollableScene.js" path="/Users/werner/github/consent/Ecdrn/App/Components/ScrollableScene.js">
+          <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+          <line num="14" count="2" type="stmt"/>
+          <line num="18" count="2" type="stmt"/>
+          <line num="20" count="1" type="stmt"/>
+          <line num="27" count="1" type="stmt"/>
+        </file>
+        <file name="TextField.js" path="/Users/werner/github/consent/Ecdrn/App/Components/TextField.js">
+          <metrics statements="7" coveredstatements="5" conditionals="28" coveredconditionals="20" methods="5" coveredmethods="3"/>
+          <line num="14" count="1" type="stmt"/>
+          <line num="22" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="24" count="0" type="stmt"/>
+          <line num="30" count="1" type="stmt"/>
+          <line num="57" count="1" type="stmt"/>
+          <line num="62" count="0" type="stmt"/>
+        </file>
+      </package>
+    </metrics>
+  </project>
+</coverage>

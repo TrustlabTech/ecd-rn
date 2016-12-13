@@ -113,6 +113,7 @@ export default class IMPComponent extends Component {
   }
 
   render() {
+
     if(Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.RENDER)
     }

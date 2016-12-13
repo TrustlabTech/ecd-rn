@@ -48,12 +48,14 @@ export default class IMPLog {
   static networkResponse = (status, timestamp , data) => {
     const prefix = `${ANSI.blue.open}[NW]${ANSI.blue.close}`
 
+
     const codes = [
       {code: 200, color: ANSI.green},
       {code: 401, color: ANSI.yellow},
-      {code: 500, color: ANSI.red }
+      {code: 500, color: ANSI.red },
+      {code: 404, color: ANSI.yellow }
     ].find((item) => status === item.code ? item.color : false) ||
-    {code: item.code, color: ANSI.white }
+    {code: status || "unknown", color: ANSI.white }
 
     const timestamp_color = `${ANSI.gray.open}${ANSI.underline.open}${timestamp}${ANSI.underline.close}${ANSI.gray.close}`
 
@@ -61,7 +63,6 @@ export default class IMPLog {
     console.log(`${prefix} ${status_color} ${timestamp_color}`)
     console.log(data)
 
-    // const status_color = `${ANSI.bold.open}${ANSI.green.open} ${status} ${ANSI.green.close}${ANSI.bold.close}`
   }
 
   static error = (message, fileName) => {

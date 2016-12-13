@@ -9,8 +9,8 @@ import Config from './Config'
 import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
 
-function request(route, options = {method: 'GET'} ) {
-
+function request(route, opts ) {
+  options = opts || {method: 'GET'}
   if(Config.debug && Config.debugNetwork)
 
     IMPLog.networkRequest(options.method, new Date(), Config.http.baseUrl+route)
@@ -35,11 +35,12 @@ function request(route, options = {method: 'GET'} ) {
 
     if(json.error) {
 
-      if(typeof json.error === 'object') {
-        return { error: json.error.toString() }
-      } else {
-        return { error: json.error }
-      }
+      // if(typeof json.error === 'object') {
+      //   return { error: json.error.toString() }
+      // } else {
+      //   return { error: json.error }
+      // }
+      return {error: json.error.toString()}
 
     } else {
 
@@ -51,7 +52,7 @@ function request(route, options = {method: 'GET'} ) {
   .catch( (error) => {
 
     if(Config.debug && Config.debugNetwork){
-      IMPLog.error("API Eror",error)
+      IMPLog.error("API Error",error)
       return Promise.reject(error.toString())
     } else {
       return Promise.reject(error)
@@ -74,10 +75,22 @@ export default {
     })
 
   },
-
+  // fetchCentreSummary: (centreId, token) => {
+  //   return fetch(Config.http.baseUrl + `centre/${centreId}/summary`,{
+  //     method: 'GET',
+  //     headers: {'Authorization': 'Bearer: ' + token}
+  //   })
+  // },
+  fetchCentreSummary: (centreId, token) => {
+    return request(`centre/${centreId}/summary`,{
+      method: 'GET',
+      headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+    })
+  },
   fetchCentres: (token) => {
 
     return request('centre',{
+      method: 'GET',
       headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
     })
   },
@@ -97,6 +110,15 @@ export default {
       headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
     })
   },
+
+  fetchHistory: (centreId, token) => {
+    return request('centre/history/' + centreId), {
+      method: 'GET',
+      headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+    }
+  },
+
+
 
   submitAttendance: (location, centreId, classId, attendanceData, token) => {
 
