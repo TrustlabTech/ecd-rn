@@ -120,11 +120,10 @@ export default class HistoryScene extends IMPComponent {
    * Convert the api data to a more appropriate form
    */
   reformatHistory = z => {
-    console.log('BEFORE reformat', z)
-    let days = []
-    let totalPresent = 0
-    let totalAbsent = 0
 
+    let days = []
+
+    // First create an object for each day
     z.forEach( (x, i) => {
       const dayOfMonth = moment(x.attendance_date).date()
       days[dayOfMonth] = {
@@ -132,10 +131,9 @@ export default class HistoryScene extends IMPComponent {
         absent: [],
         present: []
       }
-
-
     })
 
+    // Populate by sorting between absent and present
     z.forEach((x, i) => {
 
       const entry = {class_name: x.class_name, given_name: x.given_name, family_name: x.family_name}
@@ -143,16 +141,11 @@ export default class HistoryScene extends IMPComponent {
 
       if(x.attended === 1) {
         days[dayOfMonth].present.push(entry)
-        totalPresent++
       } else {
         days[dayOfMonth].absent.push(entry)
-        totalAbsent++
       }
 
     })
-    console.log('TOTAL PRESENT', totalPresent)
-    console.log('TOTAL ABSENT', totalAbsent)
-    console.log('AFTER', days)
     return days
   }
 

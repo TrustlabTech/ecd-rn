@@ -28,6 +28,7 @@ import { Colours, FontSizes } from '../GlobalStyles'
 import Scene from '../Components/Scene'
 import IMPLog from '../Impulse/IMPLog'
 import Session from '../Session'
+import AndroidBackButton from 'react-native-android-back-button'
 
 export default class MainScene extends IMPComponent {
 
@@ -183,7 +184,7 @@ export default class MainScene extends IMPComponent {
     // Draw the scene
     return (
       <View style={{flex: 1}}>
-
+        <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="|||"

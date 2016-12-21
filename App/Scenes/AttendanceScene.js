@@ -10,22 +10,18 @@ import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
 import {
   View,
-  Text,
   ScrollView,
-  TouchableHighlight,
   Alert,
   ToastAndroid
 } from 'react-native'
 
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
-import Scene from '../Components/Scene'
 import ScrollableScene from '../Components/ScrollableScene'
 import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
 import Config from '../Config'
-import Routes from '../Routes'
 import Api from '../Api'
 import Sentry from '../Sentry'
 import { Colours } from '../GlobalStyles'
