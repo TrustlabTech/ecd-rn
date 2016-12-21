@@ -44,20 +44,28 @@ export default class MainScene extends IMPComponent {
 
   componentDidFocus() {
     super.componentDidFocus()
+    /**
+     * We must use didFocus because login is not complete on willMount.
+     * We don't need didMount because then the page will be initialised
+     * twice
+     */
+
     this._fetchData()
   }
 
-  // componentDidMount() {
-  //   super.componentDidMount()
-  //   this._fetchData()
-  // }
+  componentDidMount() {
+    super.componentDidMount()
+    // BackAndroid.addEventListener('hardwareBackPress', () => this._hardwareBackHandler())
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount()
+    console.log('unmounting listener')
+    // BackAndroid.removeEventListener('hardwareBackPress', () => this._hardwareBackHandler())
+  }
 
   _fetchData() {
-    // const sessionState = Session.getState()
-    // console.log('ROUTE',this.props.route)
-    console.log('BEFORE')
-    console.log('id', this.props.route.user.centre_id)
-    console.log('token' , this.props.route.token)
+
     const centre_id = this.props.route.user.centre_id
     const token = this.props.route.token
     Api.fetchCentreSummary(centre_id,token)
@@ -78,6 +86,7 @@ export default class MainScene extends IMPComponent {
 
 
   _hardwareBackHandler() {
+    console.log('Hardware back handler')
     this._logout()
     return true
   }

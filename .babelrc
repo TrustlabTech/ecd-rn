@@ -1,5 +1,4 @@
 {
  "sourceMaps": true,
-  "plugins": ["lodash"],
   "presets": ["react-native"]
 }

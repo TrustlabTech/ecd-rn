@@ -34,16 +34,9 @@ function request(route, opts ) {
   .then((json) => {
 
     if(json.error) {
-
-      // if(typeof json.error === 'object') {
-      //   return { error: json.error.toString() }
-      // } else {
-      //   return { error: json.error }
-      // }
       return {error: json.error.toString()}
 
     } else {
-
       return json
     }
   })
@@ -75,20 +68,15 @@ export default {
     })
 
   },
-  // fetchCentreSummary: (centreId, token) => {
-  //   return fetch(Config.http.baseUrl + `centre/${centreId}/summary`,{
-  //     method: 'GET',
-  //     headers: {'Authorization': 'Bearer: ' + token}
-  //   })
-  // },
+
   fetchCentreSummary: (centreId, token) => {
     return request(`centre/${centreId}/summary`,{
       method: 'GET',
       headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
     })
   },
-  fetchCentres: (token) => {
 
+  fetchCentres: (token) => {
     return request('centre',{
       method: 'GET',
       headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
@@ -97,7 +85,6 @@ export default {
 
 
   fetchClasses: (staffId, token) => {
-
     return request('class/attendance/' + staffId,{
       method: 'GET',
       headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
@@ -111,14 +98,12 @@ export default {
     })
   },
 
-  fetchHistory: (centreId, token) => {
-    return request('centre/history/' + centreId), {
+  fetchHistory: (centreId, year, month, token) => {
+    return request(`attendance/${centreId}/history/${year}/${month}`, {
       method: 'GET',
       headers: {...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
-    }
+    })
   },
-
-
 
   submitAttendance: (location, centreId, classId, attendanceData, token) => {
 

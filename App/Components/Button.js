@@ -91,7 +91,7 @@ export default class Button extends Component {
 
           <View style={styles.view}>
             <LinearGradient colors={[this.state.bgColour1, this.state.bgColour2 ]} style={styles.lG}>
-              <Text style={styles.text}>
+              <Text style={[styles.text, this.props.style]}>
                 {this.props.text}
               </Text>
             </LinearGradient>

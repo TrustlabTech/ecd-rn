@@ -10,17 +10,9 @@ import Config from './App/Config'
 import {
   AppRegistry,
   Navigator,
-  BackAndroid,
-  Text,
-  View,
-  DrawerLayoutAndroid
+  View
 } from 'react-native'
-import {
-  createStore,
-  applyMiddleware,
-  combineReducers
-} from 'redux'
-import { Provider } from 'react-redux'
+
 import Routes from './App/Routes'
 import EventEmitter from 'EventEmitter'
 import {
@@ -31,6 +23,7 @@ import { Colours } from './App/GlobalStyles'
 import IMPLog from './App/Impulse/IMPLog'
 import * as Lifecycle from './App/Impulse/lib/Lifecycle'
 import LoadingModal from './App/Components/LoadingModal'
+
 
 export default class Ecdrn extends Component {
 

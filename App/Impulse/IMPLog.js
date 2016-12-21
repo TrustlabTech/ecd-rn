@@ -41,7 +41,6 @@ export default class IMPLog {
     const method_color = `${ANSI.bold.open}${ANSI.green.open}${method}${ANSI.green.close}${ANSI.bold.close}`
     const timestamp_color = `${ANSI.gray.open}${ANSI.underline.open}${timestamp}${ANSI.underline.close}${ANSI.gray.close}`
     const route_color = `${ANSI.white.open}${route}${ANSI.white.close}`
-    // console.log(prefix+method_color+timestamp_color+route_color)
     console.log(`${prefix} ${method_color} ${IMPLog._asColumn(timestamp_color,64)} ${route_color}`)
   }
 
