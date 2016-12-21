@@ -7,13 +7,13 @@
 
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
-
+import IMPLog from '../Impulse/IMPLog'
+import AndroidBackButton from 'react-native-android-back-button'
 import {
   Text,
   View,
   TouchableHighlight,
   DrawerLayoutAndroid,
-  BackAndroid,
   Alert,
   StyleSheet
 } from 'react-native'
@@ -21,14 +21,12 @@ import {
 import Api from '../Api'
 import Config from '../Config'
 import Sentry from '../Sentry'
-import NavBar from '../Components/NavBar'
-import Button from '../Components/Button'
 import Routes from '../Routes'
 import { Colours, FontSizes } from '../GlobalStyles'
+
+import NavBar from '../Components/NavBar'
 import Scene from '../Components/Scene'
-import IMPLog from '../Impulse/IMPLog'
-import Session from '../Session'
-import AndroidBackButton from 'react-native-android-back-button'
+import Button from '../Components/Button'
 
 export default class MainScene extends IMPComponent {
 
@@ -56,13 +54,11 @@ export default class MainScene extends IMPComponent {
 
   componentDidMount() {
     super.componentDidMount()
-    // BackAndroid.addEventListener('hardwareBackPress', () => this._hardwareBackHandler())
   }
 
   componentWillUnmount() {
     super.componentWillUnmount()
     console.log('unmounting listener')
-    // BackAndroid.removeEventListener('hardwareBackPress', () => this._hardwareBackHandler())
   }
 
   _fetchData() {
@@ -72,15 +68,21 @@ export default class MainScene extends IMPComponent {
     Api.fetchCentreSummary(centre_id,token)
 
     .then( (data) => {
-      // IMPLog.networkResponse(data.status, new Date(),data._bodyText)
       this.setState({
         loaded: true,
         summaryData: data
       })
     })
-
-    .catch( (error) => {
-      alert(error)
+    // FIXME
+    .catch((error) => {
+      if(Config.debug) {
+        IMPLog.error(error.toString(),this._fileName)
+      }
+      Alert.alert(
+        Config.errorMessage.network.title,
+        Config.errorMessage.network.message,
+        [{text: "Okay"}]
+      )
     })
 
   }

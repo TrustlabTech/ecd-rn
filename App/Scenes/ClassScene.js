@@ -7,25 +7,24 @@
 
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
+import IMPLog from '../Impulse/IMPLog'
+import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
-  Text,
-  TouchableHighlight,
   Alert
 } from 'react-native'
 
-import Scene from '../Components/Scene'
-import ScrollableScene from '../Components/ScrollableScene'
-import NavBar from '../Components/NavBar'
-import FormHeading from '../Components/FormHeading'
-import Button from '../Components/Button'
 import Config from '../Config'
 import Routes from '../Routes'
-import SceneHeading from '../Components/SceneHeading'
-import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'
-import IMPLog from '../Impulse/IMPLog'
+import Api from '../Api'
+
+import ScrollableScene from '../Components/ScrollableScene'
+import NavBar from '../Components/NavBar'
+import SceneHeading from '../Components/SceneHeading'
+import FormHeading from '../Components/FormHeading'
+import Button from '../Components/Button'
 
 export default class ClassScene extends IMPComponent {
 
@@ -37,9 +36,18 @@ export default class ClassScene extends IMPComponent {
       centreData: null
     }
   }
+  componentWillFocus() {
+    super.componentWillFocus()
+    this._fetchData()
+  }
+
+  componentWillMount() {
+    super.componentWillMount()
+    this._fetchData()
+  }
 
   _hardwareBackHandler = () => {
-    this.goBack()
+    this._goBack()
     return true
   }
 
@@ -51,7 +59,7 @@ export default class ClassScene extends IMPComponent {
       sessionState.userData.user.id,
       sessionState.userData._token
     ).then((data) => {
-      // Session.update({centreData: data})
+
       this.setState({
         loaded: true,
         centreData: data
@@ -65,30 +73,18 @@ export default class ClassScene extends IMPComponent {
         Config.errorMessage.network.message,
         [{text: "Okay"}]
       )
-      this.goBack()
+      this._goBack()
     })
 
   }
 
-  goBack() {
-
+  _goBack() {
     if(!Config.debug)
       Sentry.addNavigationBreadcrumb(this._className,'ClassScene','MainScene')
 
     this.navigator.pop()
     this.setState({loaded: false})
   }
-
-  componentWillFocus() {
-    super.componentWillFocus()
-    this._fetchData()
-  }
-
-  componentWillMount() {
-    super.componentWillMount()
-    this._fetchData()
-  }
-
 
   takeAttendance(val) {
     const sessionState = Session.getState()
@@ -121,10 +117,11 @@ export default class ClassScene extends IMPComponent {
     super.render()
     return (
       <View style={{flex: 1}}>
+        <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="Back"
-          leftButtonAction={ () => this.goBack() }
+          leftButtonAction={ () => this._goBack() }
         />
         <ScrollableScene loaded={this.state.loaded}>
           <SceneHeading text="Take Attendance"/>
@@ -134,7 +131,7 @@ export default class ClassScene extends IMPComponent {
             marginRight: 20
           }}>
             <View style={{flex: 1, alignItems: 'center'}}>
-              {this.buildList(this.state.centreData)}
+              { this.buildList(this.state.centreData) }
             </View>
           </View>
         </ScrollableScene>

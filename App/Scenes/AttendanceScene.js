@@ -8,12 +8,18 @@
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
+import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
-  ScrollView,
   Alert,
   ToastAndroid
 } from 'react-native'
+
+import Config from '../Config'
+import Api from '../Api'
+import Sentry from '../Sentry'
+import { Colours } from '../GlobalStyles'
+import Session from '../Session'
 
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
@@ -21,11 +27,6 @@ import ScrollableScene from '../Components/ScrollableScene'
 import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
-import Config from '../Config'
-import Api from '../Api'
-import Sentry from '../Sentry'
-import { Colours } from '../GlobalStyles'
-import Session from '../Session'
 
 export default class AttendanceScene extends IMPComponent {
 
@@ -39,8 +40,23 @@ export default class AttendanceScene extends IMPComponent {
     }
   }
 
+  componentWillMount() {
+    super.componentWillMount()
+    this._fetchData()
+  }
+
+  componentWillFocus() {
+    super.componentWillFocus()
+    this._fetchData()
+  }
+
+  _goBack() {
+    this.navigator.pop()
+    this.setState({loaded: false})
+  }
+
   _hardwareBackHandler = () => {
-    this.goBack()
+    this._goBack()
     return true
   }
 
@@ -61,7 +77,7 @@ export default class AttendanceScene extends IMPComponent {
         } else {
           alert(data.error)
         }
-        this.goBack()
+        this._goBack()
       }
 
       // Data fetched
@@ -86,18 +102,8 @@ export default class AttendanceScene extends IMPComponent {
         Config.errorMessage.network.message,
         [{text: "Okay"}]
       )
-      this.goBack()
+      this._goBack()
     })
-  }
-
-  componentWillMount() {
-    super.componentWillMount()
-    this._fetchData()
-  }
-
-  componentWillFocus() {
-    super.componentWillFocus()
-    this._fetchData()
   }
 
   // Initialise the attendanceData
@@ -171,7 +177,7 @@ export default class AttendanceScene extends IMPComponent {
     ).then( (data) => {
       // We're done
       this.setModal({visible: false})
-      this.goBack()
+      this._goBack()
       ToastAndroid.show('Upload complete', ToastAndroid.SHORT)
     })
 
@@ -211,10 +217,7 @@ export default class AttendanceScene extends IMPComponent {
     )
   }
 
-  goBack() {
-    this.navigator.pop()
-    this.setState({loaded: false})
-  }
+
 
   render() {
     super.render()
@@ -224,11 +227,12 @@ export default class AttendanceScene extends IMPComponent {
     return (
 
       <View style={{flex: 1, backgroundColor: Colours.offWhite}}>
+        <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
 
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="Back"
-          leftButtonAction={ () => this.goBack() }
+          leftButtonAction={ () => this._goBack() }
         />
 
         <ScrollableScene loaded={this.state.loaded}>

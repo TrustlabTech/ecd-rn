@@ -7,25 +7,27 @@
 
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
+import IMPLog from '../Impulse/IMPLog'
+import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
   Text,
   Alert
 } from 'react-native'
-import NavBar from '../Components/NavBar'
-import ScrollableScene from '../Components/ScrollableScene'
-import FormHeading from '../Components/FormHeading'
-import Button from '../Components/Button'
-import SceneHeading from '../Components/SceneHeading'
+import moment from 'moment'
+
 import Sentry from '../Sentry'
 import Config from '../Config'
 import Session from '../Session'
-import IMPLog from '../Impulse/IMPLog'
-import HistoryDayItem from '../Components/History/HistoryDayItem'
 import Api from '../Api'
-import moment from 'moment'
 import { FontSizes } from '../GlobalStyles'
 
+import ScrollableScene from '../Components/ScrollableScene'
+import NavBar from '../Components/NavBar'
+import SceneHeading from '../Components/SceneHeading'
+import FormHeading from '../Components/FormHeading'
+import Button from '../Components/Button'
+import HistoryDayItem from '../Components/History/HistoryDayItem'
 
 export default class HistoryScene extends IMPComponent {
 
@@ -46,11 +48,16 @@ export default class HistoryScene extends IMPComponent {
     this._fetchData(this.state.month, this.state.year)
   }
 
-  goBack() {
+  _goBack() {
     if(!Config.debug)
       Sentry.addNavigationBreadcrumb(this._className, 'HistoryScene', 'MainScene')
 
     this.navigator.pop()
+  }
+
+  _hardwareBackHandler = () => {
+    this._goBack()
+    return true
   }
 
   _fetchData() {
@@ -169,7 +176,7 @@ export default class HistoryScene extends IMPComponent {
 
   /**
    * Make an array of HistoryDayItem components based on
-   * z (data), month and year
+   * z (data), month and year.
    */
   makeHistoryDayItems = (z, month, year) =>
     z.map((x) =>
@@ -182,7 +189,10 @@ export default class HistoryScene extends IMPComponent {
       />)
     )
 
-
+  /**
+   * Create either an array of HistoryDayItem components or a
+   * text component informing the user that there was no data.
+   */
   makeMainView = () => {
     const items = this.makeHistoryDayItems(this.reformatHistory(this.state.historyData), this.state.month, this.state.year)
     if(items.length > 0) {
@@ -198,10 +208,11 @@ export default class HistoryScene extends IMPComponent {
     super.render()
     return (
       <View style={{flex: 1}}>
+        <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="Back"
-          leftButtonAction={ () => this.goBack() }
+          leftButtonAction={ () => this._goBack() }
         />
         <ScrollableScene loaded={this.state.loaded}>
 
