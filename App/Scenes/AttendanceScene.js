@@ -60,6 +60,9 @@ export default class AttendanceScene extends IMPComponent {
     return true
   }
 
+  /**
+   * Fetch data for this scene from the server
+   */
   _fetchData() {
     const sessionState = Session.getState()
 
@@ -106,30 +109,41 @@ export default class AttendanceScene extends IMPComponent {
     })
   }
 
-  // Initialise the attendanceData
+  /**
+   * Initialise the attendanceData based on the classData
+   * received from the server
+   */
   initAttendance = classData =>
     classData.map( x =>
       ({ id: x.id, givenName: x.given_name, familyName: x.family_name, checked: true })
     )
 
-  // Press a checkbox and change the checked value
+  /**
+   * Press a checkbox and change the checked value
+   */
   pressCheckbox = (id, attendanceData ) =>
     attendanceData.map( (x) =>
       x.id === id ?({ ...x, checked: !x.checked }) : x
     )
 
-  // Select all checkboxes
+  /**
+   * Select all checkboxes
+   */
   selectAll = attendanceData => setState({
     attendanceData: attendanceData.map((x) =>
       x.checked = true )
   })
 
-  // Count number of children not selected
+  /**
+   * Count number of children not selected
+   */
   countAbsent = attendanceData =>
     attendanceData.reduce( (a, x) =>
       x.checked ? a : a + 1 ,0)
 
-  // Generate a summary for comfirmation
+  /**
+   * Generate a summary for comfirmation
+   */
   summary = attendanceData =>
     "Are you sure you want to submit attendance with " +
     ( attendanceData.length - this.countAbsent(attendanceData) ) +
@@ -137,7 +151,10 @@ export default class AttendanceScene extends IMPComponent {
     attendanceData.length +
     " children present?"
 
-  // Make the checkboxes based on attendanceData
+
+  /**
+   * Make the checkboxes based on attendanceData
+   */
   makeCheckboxes = attendanceData =>
     attendanceData.map((x, i) =>
       (<Checkbox
@@ -150,6 +167,10 @@ export default class AttendanceScene extends IMPComponent {
       />)
     )
 
+  /**
+   * Get the GPS location from android and run
+   * a function if successful
+   */
   getLocation = onSuccess =>
     navigator.geolocation.getCurrentPosition(
       location =>
@@ -164,6 +185,9 @@ export default class AttendanceScene extends IMPComponent {
       }
     )
 
+  /**
+   * Upload the attendance data to the server
+   */
   uploadData = (location, attendanceData) => {
 
     this.setModal({visible: true})
@@ -199,6 +223,10 @@ export default class AttendanceScene extends IMPComponent {
     })
   }
 
+  /**
+   * Submit the attendance.
+   * Get the location and upload the data if successful
+   */
   submit = attendanceData => {
 
     Alert.alert(

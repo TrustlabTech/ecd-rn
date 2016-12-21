@@ -4,12 +4,16 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * Author: Werner Roets <werner@io.co.za>
  */
+import Config from './Config'
 
 export default class Session {
 
   static changes = []
   static lastState = {}
 
+  /**
+   * Return an object representing the current state
+   */
   static getState() {
     const lastState = this.changes.reduce(
       (a, x) => Object.assign(a,x),
@@ -19,7 +23,9 @@ export default class Session {
     this.lastState = lastState
     return lastState
   }
-
+  /**
+   * Update the current state
+   */
   static update(value) {
     if(typeof value === 'object')
       this.changes.push(value)
@@ -27,9 +33,6 @@ export default class Session {
       throw 'Update only accepts objects'
   }
 
-  static showChanges() {
-    this.changes.forEach((x)=> console.log(x))
-  }
 }
 
 Object.defineProperty(Session, 'changes',{
