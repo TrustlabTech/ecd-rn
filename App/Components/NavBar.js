@@ -127,7 +127,6 @@ export default class NavBar extends Component {
         />
         { iOSSpacer }
         <View style={{
-          flex:1,
           flexDirection: 'row',
           justifyContent: 'space-between',
           height: 60,
