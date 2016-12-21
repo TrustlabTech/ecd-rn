@@ -1,0 +1,1 @@
+documentation build App/ index.android.js -f md -o documentation.md
