@@ -9,41 +9,61 @@ import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import {
   View,
-  Text
+  Text,
+  Alert
 } from 'react-native'
 import NavBar from '../Components/NavBar'
 import ScrollableScene from '../Components/ScrollableScene'
+import FormHeading from '../Components/FormHeading'
+import Button from '../Components/Button'
 import SceneHeading from '../Components/SceneHeading'
 import Sentry from '../Sentry'
 import Config from '../Config'
 import Session from '../Session'
 import IMPLog from '../Impulse/IMPLog'
 import HistoryDayItem from '../Components/History/HistoryDayItem'
+import Api from '../Api'
+import moment from 'moment'
+import { FontSizes } from '../GlobalStyles'
+
 
 export default class HistoryScene extends IMPComponent {
+
 
   constructor(props) {
     super(props)
     this.state = {
       loaded: false,
-      historyData: {}
+      historyData: [],
+      month: moment(new Date()).month() + 1,
+      year: moment(new Date()).year()
     }
   }
 
+
   componentDidMount() {
-    super.render()
+    super.componentDidMount()
+    this._fetchData(this.state.month, this.state.year)
   }
 
   goBack() {
     if(!Config.debug)
-      Sentry.addNavigationBreadcrumb(this._className,'HistoryScene','MainScene')
+      Sentry.addNavigationBreadcrumb(this._className, 'HistoryScene', 'MainScene')
+
+    this.navigator.pop()
   }
 
   _fetchData() {
+    this.setState({
+      loaded: false
+    })
     const sessionState = Session.getState()
 
     Api.fetchHistory(
-      session.userData.user.centre.id
+      sessionState.userData.user.centre_id,
+      this.state.year,
+      this.state.month,
+      sessionState.userData._token
     )
 
     .then((data) => {
@@ -66,6 +86,121 @@ export default class HistoryScene extends IMPComponent {
     })
   }
 
+  nextMonth = () => {
+    // get current month/year
+    const currentMoment = moment(new Date(this.state.year, this.state.month - 1))
+
+    // add one month
+    const nextMonthMoment = currentMoment.add(1,'M')
+
+    // set state to these new values
+    this.setState({
+      month: nextMonthMoment.month() + 1,
+      year: nextMonthMoment.year()
+    })
+    this._fetchData()
+  }
+
+  previousMonth = () => {
+    // get current month/year
+    const currentMoment = moment(new Date(this.state.year, this.state.month - 1))
+
+    // subtract one month
+    const nextMonthMoment = currentMoment.subtract(1,'M')
+
+    // set state to these new values
+    this.setState({
+      month: nextMonthMoment.month() + 1,
+      year: nextMonthMoment.year()
+    })
+    this._fetchData()
+  }
+
+  /**
+   * Convert the api data to a more appropriate form
+   */
+  reformatHistory = z => {
+    console.log('BEFORE reformat', z)
+    let days = []
+    let totalPresent = 0
+    let totalAbsent = 0
+
+    z.forEach( (x, i) => {
+      const dayOfMonth = moment(x.attendance_date).date()
+      days[dayOfMonth] = {
+        day: dayOfMonth,
+        absent: [],
+        present: []
+      }
+
+
+    })
+
+    z.forEach((x, i) => {
+
+      const entry = {class_name: x.class_name, given_name: x.given_name, family_name: x.family_name}
+      const dayOfMonth = moment(x.attendance_date).date()
+
+      if(x.attended === 1) {
+        days[dayOfMonth].present.push(entry)
+        totalPresent++
+      } else {
+        days[dayOfMonth].absent.push(entry)
+        totalAbsent++
+      }
+
+    })
+    console.log('TOTAL PRESENT', totalPresent)
+    console.log('TOTAL ABSENT', totalAbsent)
+    console.log('AFTER', days)
+    return days
+  }
+
+  MonthNavButtons = () =>
+ (<View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
+    <View style={{flex: 1, marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10}}>
+      <Button text="Previous Month" style={{fontSize: FontSizes.xSmall}} onPress={ () => this.previousMonth()}/>
+    </View>
+    { // What is one month in the future in relation to the current page view ?
+    moment(new Date()).add(1,'M').diff(moment(new Date(this.state.year, this.state.month + 1))) >= 0 ?
+    // moment(new Date()).add(1,'M').diff(moment(new Date(2016, 11))) >= 0 ?
+
+   (<View style={{flex: 1, marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10}}>
+      <Button text="Next Month" style={{fontSize: FontSizes.xSmall}} onPress={ () => this.nextMonth()}/>
+    </View>)
+    :
+    null }
+
+  </View>)
+
+
+  /**
+   * Make an array of HistoryDayItem components based on
+   * z (data), month and year
+   */
+  makeHistoryDayItems = (z, month, year) =>
+    z.map((x) =>
+      (<HistoryDayItem
+        key={x.day}
+        day={x.day}
+        month={month}
+        absentChildren={x.absent}
+        totalChildren={(x.absent.length + x.present.length)}
+      />)
+    )
+
+
+  makeMainView = () => {
+    const items = this.makeHistoryDayItems(this.reformatHistory(this.state.historyData), this.state.month, this.state.year)
+    if(items.length > 0) {
+      return items
+    } else {
+      return (
+        <Text>No attendance data was recorded for this month</Text>
+      )
+    }
+  }
+
   render() {
     super.render()
     return (
@@ -75,13 +210,16 @@ export default class HistoryScene extends IMPComponent {
           leftButtonText="Back"
           leftButtonAction={ () => this.goBack() }
         />
-        <ScrollableScene loaded={true}>
+        <ScrollableScene loaded={this.state.loaded}>
+
           <SceneHeading text="Attendance History"/>
-          <HistoryDayItem
-            absentChildren={[{given_name: 'josh', family_name: 'smoth', className: 'Class five'}]}
-            date="22nd December"
-            totalChildren={14}
-          />
+          <FormHeading text={moment().year(this.state.year).month(this.state.month - 1).format("MMMM YYYY")}/>
+          <View style={{flex: 1, marginLeft: 15}}>
+              {this.makeMainView()}
+          </View>
+
+          <this.MonthNavButtons/>
+
         </ScrollableScene>
       </View>
     )

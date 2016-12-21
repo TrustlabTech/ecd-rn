@@ -7,7 +7,6 @@
 
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
-import { bindActionCreators } from 'redux'
 import {
   Text,
   View,
