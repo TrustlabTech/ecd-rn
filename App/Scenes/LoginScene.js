@@ -7,28 +7,28 @@
 
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
+import IMPLog from '../Impulse/IMPLog'
+import AndroidBackButton from 'react-native-android-back-button'
 import {
   Text,
   View,
-  TouchableHighlight,
   AsyncStorage,
   Alert,
-  ToastAndroid,
   StyleSheet
 } from 'react-native'
 
-import TextField from '../Components/TextField'
-import Button from '../Components/Button'
-import SceneHeading from '../Components/SceneHeading'
-import FormHeading from '../Components/FormHeading'
-import Scene from '../Components/Scene'
 import Config from '../Config'
 import Routes from '../Routes'
 import { FontSizes } from '../GlobalStyles'
 import Api from '../Api'
 import Sentry from '../Sentry'
-import IMPLog from '../Impulse/IMPLog'
 import Session from '../Session'
+
+import Scene from '../Components/Scene'
+import SceneHeading from '../Components/SceneHeading'
+import FormHeading from '../Components/FormHeading'
+import TextField from '../Components/TextField'
+import Button from '../Components/Button'
 
 export default class LoginScene extends IMPComponent {
 
@@ -67,7 +67,7 @@ export default class LoginScene extends IMPComponent {
   }
 
   serverStatus() {
-    fetch('http://ecd.cnsnt.io')
+    fetch(Config.http.baseUrl)
     .then((response) => {
       this.setState({serverOnline: true})
     })
@@ -76,7 +76,7 @@ export default class LoginScene extends IMPComponent {
     })
   }
 
-  login() {
+  _login() {
 
     Sentry.addNavigationBreadcrumb(this._className, this._className, "MainScene")
 
@@ -194,6 +194,7 @@ export default class LoginScene extends IMPComponent {
 
     return (
       <Scene loaded={true}>
+        <AndroidBackButton onPress={ () => false }/>
         <View style={ss.sceneViewWrapper}>
 
           <View style={{height: 20}}/>
@@ -221,16 +222,16 @@ export default class LoginScene extends IMPComponent {
               maxLength={4}
               secureTextEntry={true}
               keyboardType="phone-pad"
-              onSubmitEditing={ () => this.login() }
+              onSubmitEditing={ () => this._login() }
             />
 
             <View style={{flex: 1, alignItems: 'center'}}>
-              <Button text="Login" onPress={ () => this.login()}/>
+              <Button text="Login" onPress={ () => this._login()}/>
             </View>
 
           </View>
 
-          {this.makeFooter()}
+          { this.makeFooter() }
 
         </View>
       </Scene>
