@@ -5,8 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-// import React, { Component } from 'react'
-
 import ClassScene from './Scenes/ClassScene'
 import AttendanceScene from './Scenes/AttendanceScene'
 import LoginScene from './Scenes/LoginScene'

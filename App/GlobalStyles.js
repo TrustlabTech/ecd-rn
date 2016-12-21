@@ -5,10 +5,6 @@
  * Author: Werner Roets <werner@io.co.za>
  */
 
-/* Routes.js
- * Outlines the available scenes for navigation
- */
-
 import { StyleSheet } from 'react-native'
 
 export const Colours = {
