@@ -6,5 +6,7 @@
  */
 
 import { NativeModules } from 'react-native'
-
+/**
+ * Bind to the native Android Sentry functions
+ */
 export default NativeModules.ReactNativeSentryAndroid

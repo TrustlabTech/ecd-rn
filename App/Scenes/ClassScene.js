@@ -26,6 +26,7 @@ import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
 import Button from '../Components/Button'
 
+/** A scene for selecting a class in the centre */
 export default class ClassScene extends IMPComponent {
 
   constructor(props) {
@@ -117,7 +118,7 @@ export default class ClassScene extends IMPComponent {
     super.render()
     return (
       <View style={{flex: 1}}>
-        <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
+        <AndroidBackButton onPress={ () => this._hardwareBackHandler() }/>
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="Back"

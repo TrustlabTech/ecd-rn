@@ -16,6 +16,11 @@ import {
 import { Colours, FontSizes } from '../GlobalStyles'
 import LinearGradient from 'react-native-linear-gradient'
 
+/**
+ * A configurable button
+ * @example
+ * <Button text="Click me" onPress={ () => doSomething()} disabled={false}/>
+ */
 export default class Button extends Component {
 
   constructor(props) {
