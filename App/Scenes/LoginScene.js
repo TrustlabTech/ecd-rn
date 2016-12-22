@@ -1,8 +1,8 @@
-/*
- * Early Childhood Development
- * (c) 2016 Global Consent Ltd
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
- * Author: Werner Roets <werner@io.co.za>
+ * @author Werner Roets <werner@io.co.za>
  */
 
 import React, { Component } from 'react'
@@ -30,6 +30,10 @@ import FormHeading from '../Components/FormHeading'
 import TextField from '../Components/TextField'
 import Button from '../Components/Button'
 
+/**
+ * A scene allowing users to login using their phone number and pin
+ * @extends IMPComponent
+ */
 export default class LoginScene extends IMPComponent {
 
   constructor(props) {
@@ -66,6 +70,10 @@ export default class LoginScene extends IMPComponent {
 
   }
 
+  /**
+   * Check if the server is online
+   * @returns {undefined}
+   */
   serverStatus() {
     fetch(Config.http.baseUrl)
     .then((response) => {
@@ -76,6 +84,10 @@ export default class LoginScene extends IMPComponent {
     })
   }
 
+  /**
+   * Log the user in
+   * @returns {undefined}
+   */
   _login() {
 
     Sentry.addNavigationBreadcrumb(this._className, this._className, "MainScene")
@@ -169,6 +181,10 @@ export default class LoginScene extends IMPComponent {
 
   }
 
+  /**
+   * Get the information to be displayed in the footer
+   * @returns {array} The text items to display
+   */
   footerTexts = () =>
     Config.debug ?
       [
@@ -200,24 +216,24 @@ export default class LoginScene extends IMPComponent {
           <View style={{height: 20}}/>
 
           <View style={{height: 320}}>
-            <SceneHeading text="ECD APP"/>
+            <SceneHeading text={ Config.appName.toUpperCase() }/>
 
             <FormHeading text="Login"/>
             <TextField
               value={ phoneNumber }
               ref="phoneNumber"
-              onChangeText={ text => this.setState({ phoneNumber: text })}
+              onChangeText={ text => this.setState({ phoneNumber: text }) }
               placeholder="Phone Number"
               maxLength={10}
               keyboardType="phone-pad"
               returnKeyType="next"
-              onSubmitEditing={ () => this.refs.pin.textInput.focus()}
+              onSubmitEditing={ () => this.refs.pin.textInput.focus() }
             />
 
             <TextField
               value={ pin }
               ref="pin"
-              onChangeText={ text => this.setState({ pin: text })}
+              onChangeText={ text => this.setState({ pin: text }) }
               placeholder="PIN"
               maxLength={4}
               secureTextEntry={true}
@@ -226,7 +242,7 @@ export default class LoginScene extends IMPComponent {
             />
 
             <View style={{flex: 1, alignItems: 'center'}}>
-              <Button text="Login" onPress={ () => this._login()}/>
+              <Button text="Login" onPress={ () => this._login() }/>
             </View>
 
           </View>

@@ -54,7 +54,7 @@ function request(route, opts ) {
 
 }
 
-
+/** API functions avaialble to the App */
 export default {
 
   login: (phoneNumber, pin) => {

@@ -1,0 +1,3176 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>  | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
+</head>
+<body class='documentation'>
+  <div class='max-width-4 mx-auto'>
+    <div class='clearfix md-mxn2'>
+      <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'></h3>
+          <div class='mb1'><code></code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#api'
+                  class="">
+                  Api
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#button'
+                  class="">
+                  Button
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#config'
+                  class="">
+                  Config
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#appname'
+                  class="">
+                  appName
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#initialroute'
+                  class="">
+                  initialRoute
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#component'
+                  class="">
+                  Component
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#component'
+                  class="">
+                  Component
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#component'
+                  class="">
+                  Component
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ansi'
+                  class="">
+                  ANSI
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#routes'
+                  class="">
+                  Routes
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#attendancescene'
+                  class=" toggle-sibling">
+                  AttendanceScene
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#_fetchData'
+                        class='regular pre-open'>
+                        #_fetchData
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#initAttendance'
+                        class='regular pre-open'>
+                        #initAttendance
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#pressCheckbox'
+                        class='regular pre-open'>
+                        #pressCheckbox
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#selectAll'
+                        class='regular pre-open'>
+                        #selectAll
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#countAbsent'
+                        class='regular pre-open'>
+                        #countAbsent
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#summary'
+                        class='regular pre-open'>
+                        #summary
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#makeCheckboxes'
+                        class='regular pre-open'>
+                        #makeCheckboxes
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#getLocation'
+                        class='regular pre-open'>
+                        #getLocation
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#uploadData'
+                        class='regular pre-open'>
+                        #uploadData
+                      </a></li>
+                      
+                      <li><a
+                        href='#AttendanceScene#submit'
+                        class='regular pre-open'>
+                        #submit
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#classscene'
+                  class="">
+                  ClassScene
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#historyscene'
+                  class=" toggle-sibling">
+                  HistoryScene
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#HistoryScene#reformatHistory'
+                        class='regular pre-open'>
+                        #reformatHistory
+                      </a></li>
+                      
+                      <li><a
+                        href='#HistoryScene#makeHistoryDayItems'
+                        class='regular pre-open'>
+                        #makeHistoryDayItems
+                      </a></li>
+                      
+                      <li><a
+                        href='#HistoryScene#makeMainView'
+                        class='regular pre-open'>
+                        #makeMainView
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#loginscene'
+                  class=" toggle-sibling">
+                  LoginScene
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#LoginScene#serverStatus'
+                        class='regular pre-open'>
+                        #serverStatus
+                      </a></li>
+                      
+                      <li><a
+                        href='#LoginScene#_login'
+                        class='regular pre-open'>
+                        #_login
+                      </a></li>
+                      
+                      <li><a
+                        href='#LoginScene#footerTexts'
+                        class='regular pre-open'>
+                        #footerTexts
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#mainscene'
+                  class=" toggle-sibling">
+                  MainScene
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#MainScene#constructor'
+                        class='regular pre-open'>
+                        #constructor
+                      </a></li>
+                      
+                      <li><a
+                        href='#MainScene#_fetchData'
+                        class='regular pre-open'>
+                        #_fetchData
+                      </a></li>
+                      
+                      <li><a
+                        href='#MainScene#_hardwareBackHandler'
+                        class='regular pre-open'>
+                        #_hardwareBackHandler
+                      </a></li>
+                      
+                      <li><a
+                        href='#MainScene#_closeDrawer'
+                        class='regular pre-open'>
+                        #_closeDrawer
+                      </a></li>
+                      
+                      <li><a
+                        href='#MainScene#_toggleDrawer'
+                        class='regular pre-open'>
+                        #_toggleDrawer
+                      </a></li>
+                      
+                      <li><a
+                        href='#MainScene#_goToClassScene'
+                        class='regular pre-open'>
+                        #_goToClassScene
+                      </a></li>
+                      
+                      <li><a
+                        href='#MainScene#_logout'
+                        class='regular pre-open'>
+                        #_logout
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#_fetchdata'
+                  class="">
+                  _fetchData
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#sentry'
+                  class="">
+                  Sentry
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#session'
+                  class=" toggle-sibling">
+                  Session
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#Session.getState'
+                        class='regular pre-open'>
+                        .getState
+                      </a></li>
+                    
+                      <li><a
+                        href='#Session.update'
+                        class='regular pre-open'>
+                        .update
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ecdrn'
+                  class=" toggle-sibling">
+                  Ecdrn
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_initialRoute'
+                        class='regular pre-open'>
+                        #_initialRoute
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_navigationEventEmitter'
+                        class='regular pre-open'>
+                        #_navigationEventEmitter
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_modalEventEmitter'
+                        class='regular pre-open'>
+                        #_modalEventEmitter
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_fileName'
+                        class='regular pre-open'>
+                        #_fileName
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_className'
+                        class='regular pre-open'>
+                        #_className
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#gaTrackers'
+                        class='regular pre-open'>
+                        #gaTrackers
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_initAnalytics'
+                        class='regular pre-open'>
+                        #_initAnalytics
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_onWillFocus'
+                        class='regular pre-open'>
+                        #_onWillFocus
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_onDidFocus'
+                        class='regular pre-open'>
+                        #_onDidFocus
+                      </a></li>
+                      
+                      <li><a
+                        href='#Ecdrn#_setModal'
+                        class='regular pre-open'>
+                        #_setModal
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div class='fix-margin-3'>
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='api'>
+      Api
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>API functions avaialble to the App</p>
+
+
+  <div class='pre p1 fill-light mt0'>Api</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='button'>
+      Button
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A configurable button</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Button()</div>
+  
+  
+    <p>
+      Extends
+      
+        <a href="#component">Component</a>
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>&lt;Button text=<span class="hljs-string">"Click me"</span> onPress={ () =&gt; doSomething()} disabled={<span class="hljs-literal">false</span>}/&gt;</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='config'>
+      Config
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>The configuration file for the App</p>
+
+
+  <div class='pre p1 fill-light mt0'>Config</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='appname'>
+      appName
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Full name of the application</p>
+
+
+  <div class='pre p1 fill-light mt0'>appName</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='initialroute'>
+      initialRoute
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>First scene to show</p>
+
+
+  <div class='pre p1 fill-light mt0'>initialRoute</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='component'>
+      Component
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>(c)2016 IO Digital</p>
+
+
+  <div class='pre p1 fill-light mt0'>Component</div>
+  
+  
+
+  
+  
+  <div>Author: Werner Roets &lt;cobolt.exe@gmail.com&gt;</div>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='component'>
+      Component
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Early Childhood Development App</p>
+
+
+  <div class='pre p1 fill-light mt0'>Component</div>
+  
+  
+
+  
+  
+  <div>Author: Werner Roets &lt;werner@io.co.za&gt;</div>
+  <div>Copyright: [object Object]</div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='component'>
+      Component
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Early Childhood Development App</p>
+
+
+  <div class='pre p1 fill-light mt0'>Component</div>
+  
+  
+
+  
+  
+  <div>Author: Werner Roets &lt;werner@io.co.za&gt;</div>
+  <div>Copyright: [object Object]</div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ansi'>
+      ANSI
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>(c)2016 IO Digital</p>
+
+
+  <div class='pre p1 fill-light mt0'>ANSI</div>
+  
+  
+
+  
+  
+  <div>Author: Werner Roets &lt;cobolt.exe@gmail.com&gt;</div>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='routes'>
+      Routes
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A list of available scenes to navigate to</p>
+
+
+  <div class='pre p1 fill-light mt0'>Routes</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='attendancescene'>
+      AttendanceScene
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A scene allowing the user to submit attendance for the chosen class</p>
+
+
+  <div class='pre p1 fill-light mt0'>new AttendanceScene()</div>
+  
+  
+    <p>
+      Extends
+      
+        IMPComponent
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='AttendanceScene#_fetchData'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fetchData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Fetch data for this scene from the server</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fetchData()</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#initAttendance'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>initAttendance</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Initialise the attendanceData based on the classData
+received from the server</p>
+
+
+  <div class='pre p1 fill-light mt0'>initAttendance</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#pressCheckbox'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>pressCheckbox</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Press a checkbox and change the checked value</p>
+
+
+  <div class='pre p1 fill-light mt0'>pressCheckbox</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#selectAll'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>selectAll</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Select all checkboxes</p>
+
+
+  <div class='pre p1 fill-light mt0'>selectAll</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#countAbsent'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>countAbsent</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Count number of children not selected</p>
+
+
+  <div class='pre p1 fill-light mt0'>countAbsent</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#summary'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>summary</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Generate a summary for comfirmation</p>
+
+
+  <div class='pre p1 fill-light mt0'>summary</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#makeCheckboxes'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>makeCheckboxes</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Make the checkboxes based on attendanceData</p>
+
+
+  <div class='pre p1 fill-light mt0'>makeCheckboxes</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#getLocation'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>getLocation</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get the GPS location from android and run
+a function if successful</p>
+
+
+  <div class='pre p1 fill-light mt0'>getLocation</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#uploadData'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>uploadData</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Upload the attendance data to the server</p>
+
+
+  <div class='pre p1 fill-light mt0'>uploadData</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='AttendanceScene#submit'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>submit</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Submit the attendance.
+Get the location and upload the data if successful</p>
+
+
+  <div class='pre p1 fill-light mt0'>submit</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='classscene'>
+      ClassScene
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A scene for selecting a class in the centre</p>
+
+
+  <div class='pre p1 fill-light mt0'>new ClassScene()</div>
+  
+  
+    <p>
+      Extends
+      
+        IMPComponent
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='historyscene'>
+      HistoryScene
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A scene for viewing the attendance history of the centre</p>
+
+
+  <div class='pre p1 fill-light mt0'>new HistoryScene()</div>
+  
+  
+    <p>
+      Extends
+      
+        IMPComponent
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='HistoryScene#reformatHistory'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>reformatHistory</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Convert the api data to a more appropriate form</p>
+
+
+  <div class='pre p1 fill-light mt0'>reformatHistory</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='HistoryScene#makeHistoryDayItems'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>makeHistoryDayItems</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Make an array of HistoryDayItem components based on
+z (data), month and year.</p>
+
+
+  <div class='pre p1 fill-light mt0'>makeHistoryDayItems</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='HistoryScene#makeMainView'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>makeMainView</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Create either an array of HistoryDayItem components or a
+text component informing the user that there was no data.</p>
+
+
+  <div class='pre p1 fill-light mt0'>makeMainView</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='loginscene'>
+      LoginScene
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A scene allowing users to login using their phone number and pin</p>
+
+
+  <div class='pre p1 fill-light mt0'>new LoginScene()</div>
+  
+  
+    <p>
+      Extends
+      
+        IMPComponent
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='LoginScene#serverStatus'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>serverStatus()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Check if the server is online</p>
+
+
+  <div class='pre p1 fill-light mt0'>serverStatus(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='LoginScene#_login'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_login()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log the user in</p>
+
+
+  <div class='pre p1 fill-light mt0'>_login(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='LoginScene#footerTexts'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>footerTexts</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get the information to be displayed in the footer</p>
+
+
+  <div class='pre p1 fill-light mt0'>footerTexts</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></code>:
+        The text items to display
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='mainscene'>
+      MainScene
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>The main scene of the application show after login</p>
+
+
+  <div class='pre p1 fill-light mt0'>new MainScene()</div>
+  
+  
+    <p>
+      Extends
+      
+        IMPComponent
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='MainScene#constructor'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>new constructor(props)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  
+
+  <div class='pre p1 fill-light mt0'>new constructor(props: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>props</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MainScene#_fetchData'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fetchData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Fetch server data needed to render the page</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fetchData(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MainScene#_hardwareBackHandler'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_hardwareBackHandler()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Closes the drawer</p>
+
+
+  <div class='pre p1 fill-light mt0'>_hardwareBackHandler(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        undefined
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MainScene#_closeDrawer'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_closeDrawer()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Closes the drawer</p>
+
+
+  <div class='pre p1 fill-light mt0'>_closeDrawer(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        undefined
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MainScene#_toggleDrawer'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_toggleDrawer()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Open the drawer if it is closed, close the drawer if it is open.</p>
+
+
+  <div class='pre p1 fill-light mt0'>_toggleDrawer(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MainScene#_goToClassScene'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_goToClassScene()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Navigate to ClassScene.</p>
+
+
+  <div class='pre p1 fill-light mt0'>_goToClassScene(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MainScene#_logout'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_logout()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log the current user out and return to the login screen.</p>
+
+
+  <div class='pre p1 fill-light mt0'>_logout()</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='_fetchdata'>
+      _fetchData
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>We must use didFocus because login is not complete on willMount.
+We don't need didMount because then the page will be initialised
+twice</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fetchData</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='sentry'>
+      Sentry
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Bind to the native Android Sentry functions</p>
+
+
+  <div class='pre p1 fill-light mt0'>Sentry</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='session'>
+      Session
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A static class to store and retrieve a global state</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Session()</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Static Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='Session.getState'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>getState()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Return an Object representing the current state</p>
+
+
+  <div class='pre p1 fill-light mt0'>getState(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        data The current state held in the store
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Session.update'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>update(data)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Update the current state</p>
+
+
+  <div class='pre p1 fill-light mt0'>update(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>data</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    Data to modify or put into the store
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Throws</div>
+    <ul>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>: Update only accepts objects
+</li>
+      
+    </ul>
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ecdrn'>
+      Ecdrn
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>The root component of Ecdrn</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Ecdrn()</div>
+  
+  
+    <p>
+      Extends
+      
+        React.Component
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='Ecdrn#_initialRoute'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_initialRoute</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The route navigator will be instantiated with</p>
+
+
+  <div class='pre p1 fill-light mt0'>_initialRoute</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_navigationEventEmitter'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_navigationEventEmitter</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Navigation event emitter</p>
+
+
+  <div class='pre p1 fill-light mt0'>_navigationEventEmitter</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_modalEventEmitter'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_modalEventEmitter</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Modal event emitter</p>
+
+
+  <div class='pre p1 fill-light mt0'>_modalEventEmitter</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_fileName'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fileName</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The name of the file of the current Scene</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fileName</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_className'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_className</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The name of the class of the current Scene</p>
+
+
+  <div class='pre p1 fill-light mt0'>_className</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#gaTrackers'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>gaTrackers</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>An object to hold google analytics tracks</p>
+
+
+  <div class='pre p1 fill-light mt0'>gaTrackers</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_initAnalytics'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_initAnalytics</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Initialise google analytics</p>
+
+
+  <div class='pre p1 fill-light mt0'>_initAnalytics</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_onWillFocus'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_onWillFocus</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Relay the event on to the scene</p>
+
+
+  <div class='pre p1 fill-light mt0'>_onWillFocus</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_onDidFocus'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_onDidFocus</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Relay the event to the scene</p>
+
+
+  <div class='pre p1 fill-light mt0'>_onDidFocus</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='Ecdrn#_setModal'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_setModal</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Set the modal's state</p>
+
+
+  <div class='pre p1 fill-light mt0'>_setModal</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

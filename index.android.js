@@ -1,8 +1,8 @@
-/*
- * Early Childhood Development
- * (c) 2016 Global Consent Ltd
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
- * Author: Werner Roets <werner@io.co.za>
+ * @author Werner Roets <werner@io.co.za>
  */
 
 import React, { Component } from 'react'
@@ -24,22 +24,28 @@ import IMPLog from './App/Impulse/IMPLog'
 import * as Lifecycle from './App/Impulse/lib/Lifecycle'
 import LoadingModal from './App/Components/LoadingModal'
 
-
+/**
+ * The root component of Ecdrn
+ * @extends React.Component
+ */
 export default class Ecdrn extends Component {
 
-  // The route navigator will be instantiated with
+  /** The route navigator will be instantiated with */
   _initialRoute = null
 
-  // Global event emitters
+  /** Navigation event emitter */
   _navigationEventEmitter = null
+
+  /** Modal event emitter */
   _modalEventEmitter = null
 
-  // The name of this file
+  /** The name of the file of the current Scene */
   _fileName = null
 
-  // The name of this class
+  /** The name of the class of the current Scene*/
   _className = null
 
+  /** An object to hold google analytics tracks */
   gaTrackers = {}
 
   constructor(props) {
@@ -62,20 +68,6 @@ export default class Ecdrn extends Component {
     if(Config.debug && Config.debugReact) {
       IMPLog.react(this._fileName, Lifecycle.CONSTRUCTOR)
     }
-  }
-
-  _initAnalytics = () => {
-    this.gaTrackers = {
-      tracker1: new GoogleAnalyticsTracker(Config.googleAnalytics.trackers.tracker1)
-    }
-    this.gaTrackers.tracker1.setAppName(Config.appName + ' v' + Config.version)
-    this.gaTrackers.tracker1.setAnonymizeIp(Config.googleAnalytics.anonymizeIp)
-    this.gaTrackers.tracker1.setSamplingRate(Config.googleAnalytics.samplingRate)
-
-    GoogleAnalyticsSettings.setDispatchInterval(Config.googleAnalytics.dispatchInterval)
-    GoogleAnalyticsSettings.setDryRun(Config.debug)
-    GoogleAnalyticsSettings.setOptOut(Config.googleAnalytics.optOut)
-
   }
 
   componentWillUnmount() {
@@ -114,16 +106,35 @@ export default class Ecdrn extends Component {
     }
   }
 
-  // Relay the event on to the scene
+  /**
+   * Initialise google analytics
+   * @returns {undefined}
+   */
+  _initAnalytics = () => {
+    this.gaTrackers = {
+      tracker1: new GoogleAnalyticsTracker(Config.googleAnalytics.trackers.tracker1)
+    }
+    this.gaTrackers.tracker1.setAppName(Config.appName + ' v' + Config.version)
+    this.gaTrackers.tracker1.setAnonymizeIp(Config.googleAnalytics.anonymizeIp)
+    this.gaTrackers.tracker1.setSamplingRate(Config.googleAnalytics.samplingRate)
+
+    GoogleAnalyticsSettings.setDispatchInterval(Config.googleAnalytics.dispatchInterval)
+    GoogleAnalyticsSettings.setDryRun(Config.debug)
+    GoogleAnalyticsSettings.setOptOut(Config.googleAnalytics.optOut)
+
+  }
+
+  /** Relay the event on to the scene */
   _onWillFocus = route => {
     this._navigationEventEmitter.emit('onWillFocus'+route.scene.name)
   }
 
-  // Relay the event to the scene
+  /** Relay the event to the scene */
   _onDidFocus = route => {
     this._navigationEventEmitter.emit('onDidFocus'+route.scene.name)
   }
 
+  /** Set the modal's state */
   _setModal = options => {
     this.setState({modal: options})
   }

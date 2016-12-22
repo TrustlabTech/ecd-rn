@@ -1,1 +1,3 @@
-documentation build App/ index.android.js -f md -o documentation.md
+#!/usr/bin/env bash
+documentation build App/ index.android.js -f md -o documentation/documentation.md&
+documentation build App/** index.android.js -f html -o documentation

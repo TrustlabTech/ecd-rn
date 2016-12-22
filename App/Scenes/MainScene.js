@@ -28,9 +28,13 @@ import NavBar from '../Components/NavBar'
 import Scene from '../Components/Scene'
 import Button from '../Components/Button'
 
+/**
+ * The main scene of the application show after login
+ * @augments IMPComponent
+ */
 export default class MainScene extends IMPComponent {
 
-
+  /** @constructor */
   constructor(props) {
     super(props)
 
@@ -52,15 +56,10 @@ export default class MainScene extends IMPComponent {
     this._fetchData()
   }
 
-  componentDidMount() {
-    super.componentDidMount()
-  }
-
-  componentWillUnmount() {
-    super.componentWillUnmount()
-    console.log('unmounting listener')
-  }
-
+  /**
+   * Fetch server data needed to render the page
+   * @returns {undefined}
+   */
   _fetchData() {
 
     const centre_id = this.props.route.user.centre_id
@@ -73,7 +72,7 @@ export default class MainScene extends IMPComponent {
         summaryData: data
       })
     })
-    // FIXME
+
     .catch((error) => {
       if(Config.debug) {
         IMPLog.error(error.toString(),this._fileName)
@@ -87,7 +86,10 @@ export default class MainScene extends IMPComponent {
 
   }
 
-
+  /**
+   * Closes the drawer
+   * @returns undefined
+   */
   _hardwareBackHandler() {
     console.log('Hardware back handler')
     this._logout()
@@ -96,6 +98,7 @@ export default class MainScene extends IMPComponent {
 
   /**
    * Closes the drawer
+   * @returns undefined
    */
   _closeDrawer() {
 
@@ -108,6 +111,7 @@ export default class MainScene extends IMPComponent {
 
   /**
    * Open the drawer if it is closed, close the drawer if it is open.
+   * @returns {undefined}
    */
   _toggleDrawer() {
     if(this.state.drawerOpen) {
@@ -128,6 +132,7 @@ export default class MainScene extends IMPComponent {
 
   /**
    * Navigate to ClassScene.
+   * @returns {undefined}
    */
   _goToClassScene() {
 
@@ -149,8 +154,16 @@ export default class MainScene extends IMPComponent {
       loaded: false,
       summaryData: null
     })
+  }
 
-
+  _goToAddChildScene() {
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
+    this._closeDrawer()
+    this.navigator.push(Routes.addChild)
+    this.setState({
+      loaded: false,
+      summaryData: null
+    })
   }
 
   /**
@@ -186,17 +199,17 @@ export default class MainScene extends IMPComponent {
     // Draw the scene
     return (
       <View style={{flex: 1}}>
-        <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
+        <AndroidBackButton onPress={ () => this._hardwareBackHandler() }/>
         <NavBar
           navigator={ this.props.navigator }
           leftButtonText="|||"
-          leftButtonAction={ () => this._toggleDrawer()}
+          leftButtonAction={ () => this._toggleDrawer() }
         />
         <Scene loaded={this.state.loaded}>
 
           <DrawerLayoutAndroid
-            onDrawerOpen={ () => this.setState({drawerOpen: true })}
-            onDrawerClose={ () => this.setState({drawerOpen: false })}
+            onDrawerOpen={ () => this.setState({drawerOpen: true }) }
+            onDrawerClose={ () => this.setState({drawerOpen: false }) }
             drawerWidth={250}
             drawerPosition={DrawerLayoutAndroid.positions.Left}
             ref={(ref) => this._drawer = ref}
@@ -208,7 +221,7 @@ export default class MainScene extends IMPComponent {
                   <View style={ss.menuItemWrapperView}/>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._drawer.closeDrawer()}>
+                    <TouchableHighlight onPress={ () => this._drawer.closeDrawer() }>
                       <Text style={ss.menuItemText}>Home</Text>
                     </TouchableHighlight>
                   </View>
@@ -226,7 +239,7 @@ export default class MainScene extends IMPComponent {
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._logout()}>
+                    <TouchableHighlight onPress={ () => this._logout() }>
                       <Text style={ss.menuItemText}>Logout</Text>
                     </TouchableHighlight>
                   </View>
@@ -240,20 +253,26 @@ export default class MainScene extends IMPComponent {
               <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Children: {numChildren}</Text>
               <Button
                 text={mainBtnText}
-                onPress={ () => this._goToClassScene()}
+                onPress={ () => this._goToClassScene() }
                 width={250}
                 height={100}
               />
               <Button
                 text={historyBtnText}
-                onPress={ () => this._goToHistoryScene()}
+                onPress={ () => this._goToHistoryScene() }
                 width={250}
                 height={100}
+              />
+              <Button
+                text="Add Child"
+                onPress={ () => this._goToAddChildScene() }
+                width={250}
+                height={50}
               />
             </View>
 
             <View style={{padding: 20}}>
-              <Button text="Log Out" onPress={ () => this._logout()}/>
+              <Button text="Log Out" onPress={ () => this._logout() }/>
             </View>
 
           </DrawerLayoutAndroid>

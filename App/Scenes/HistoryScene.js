@@ -29,6 +29,7 @@ import FormHeading from '../Components/FormHeading'
 import Button from '../Components/Button'
 import HistoryDayItem from '../Components/History/HistoryDayItem'
 
+/** A scene for viewing the attendance history of the centre */
 export default class HistoryScene extends IMPComponent {
 
 

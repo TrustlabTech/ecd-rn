@@ -28,6 +28,7 @@ import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
 
+/** A scene allowing the user to submit attendance for the chosen class */
 export default class AttendanceScene extends IMPComponent {
 
   constructor(props) {

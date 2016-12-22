@@ -15,10 +15,10 @@ import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
+/** The configuration file for the App */
 export default {
-  // Full name of the application
+  // The full name of the application
   appName: 'ECD APP',
-
   // First scene to show
   initialRoute: Routes.login,
 
