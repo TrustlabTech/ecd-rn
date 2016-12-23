@@ -13,7 +13,18 @@ import {
   Switch
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
-
+/**
+ * A configurable Checkbox
+ * @example
+ * <Checkbox
+ *  style={'switch'}
+ *  key={i}
+ *  width={300}
+ *  text={"Example text"}
+ *  onPress={ () => someAction() }
+ *  checked={true}
+ * />
+ */
 export default class Checkbox extends Component {
 
   constructor(props) {

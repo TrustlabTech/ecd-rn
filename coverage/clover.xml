@@ -71,7 +71,7 @@
           <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
           <line num="12" count="1" type="stmt"/>
         </file>
-        <file name="ScrollableScene.js" path="/Users/werner/github/consent/Ecdrn/App/Components/ScrollableScene.js">
+        <file name="ScrollableWaitableView.js" path="/Users/werner/github/consent/Ecdrn/App/Components/ScrollableWaitableView.js">
           <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
           <line num="14" count="2" type="stmt"/>
           <line num="18" count="2" type="stmt"/>

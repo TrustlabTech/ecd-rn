@@ -1,6 +1,7 @@
 /**
  * (c)2016 IO Digital
- * @author Werner Roets <cobolt.exe@gmail.com>
+ * 33 Loop Street, Cape Town, South Africa
+ * @author Werner Roets <werner@io.co.za>
  */
 
 import React, { Component } from 'react'
@@ -11,13 +12,16 @@ import EventEmitter from 'EventEmitter'
 import Sentry from '../Sentry'
 import Config from '../Config'
 
+/** Impulse Component - A component that extends the functionality of React.Component */
 export default class IMPComponent extends Component {
 
-  // Private
+  /** The name of the current file */
   _fileName
+
+  /** The class of the current file */
   _className
 
-  // Public
+  /** A proxy object for the navigator */
   navigator
 
 
@@ -36,6 +40,7 @@ export default class IMPComponent extends Component {
     }
   }
 
+  /** Emits events for the LoadingModal */
   setModal(options) {
     this.props._modalEventEmitter.emit('modal', options)
   }

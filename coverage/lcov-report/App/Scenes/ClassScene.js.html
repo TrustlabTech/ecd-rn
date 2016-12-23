@@ -348,7 +348,7 @@ import {
 } from 'react-native'
 &nbsp;
 import Scene from '../Components/Scene'
-import ScrollableScene from '../Components/ScrollableScene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
 import NavBar from '../Components/NavBar'
 import FormHeading from '../Components/FormHeading'
 import Button from '../Components/Button'
@@ -458,7 +458,7 @@ export default class ClassScene extends IMPComponent {
           leftButtonText="Back"
           leftButtonAction={ <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.goBack() </span>}
         /&gt;
-        &lt;ScrollableScene loaded={this.state.loaded}&gt;
+        &lt;ScrollableWaitableView loaded={this.state.loaded}&gt;
           &lt;SceneHeading text="Take Attendance"/&gt;
           &lt;FormHeading text="Select Class"/&gt;
           &lt;View style={{
@@ -469,7 +469,7 @@ export default class ClassScene extends IMPComponent {
               {this.buildList(Session.getState().centreData)}
             &lt;/View&gt;
           &lt;/View&gt;
-        &lt;/ScrollableScene&gt;
+        &lt;/ScrollableWaitableView&gt;
       &lt;/View&gt;
     )
   }

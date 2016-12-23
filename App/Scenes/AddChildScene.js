@@ -14,8 +14,11 @@ import {
   View,
   Alert,
   StyleSheet,
-  Picker
+  Picker,
+  DatePickerAndroid
 } from 'react-native'
+
+import moment from 'moment'
 
 import Config from '../Config'
 import Routes from '../Routes'
@@ -24,12 +27,13 @@ import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'
 
-import Scene from '../Components/Scene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
 import NavBar from '../Components/NavBar'
 import TextField from '../Components/TextField'
 import Button from '../Components/Button'
+import Selector from '../Components/Selector'
 
 /**
  * A scene for adding children to the centre
@@ -44,6 +48,7 @@ export default class AddChildScene extends IMPComponent {
       classData: [],
       givenName: '',
       familyName: '',
+      dateOfBirth: null,
       classSelected: null
     }
   }
@@ -69,6 +74,10 @@ export default class AddChildScene extends IMPComponent {
     this._fetchData()
   }
 
+  /**
+   * Fetch server data needed to render the page
+   * @returns {undefined}
+   */
   _fetchData() {
     // Fetch list of available classes
     this.setState({
@@ -93,6 +102,35 @@ export default class AddChildScene extends IMPComponent {
     // submit the form
   }
 
+  _pickDateOfBirth() {
+
+    DatePickerAndroid.open({
+      date: new Date(),
+      mode: 'spinner'
+    })
+
+    .then( ({action, year, month, day}) => {
+      if(year && month && day) {
+        this.setState({
+          dateOfBirth: new Date(year, month, day)
+        })
+      }
+    })
+
+    .catch( (error) => {
+      if(Config.debug) IMPLog.error('Could not open date picker', this._fileName)
+    })
+
+  }
+
+  _friendlyDate() {
+    if(this.state.dateOfBirth === null) {
+      return ''
+    } else {
+      return moment(this.state.dateOfBirth).format('Do MMMM YYYY')
+    }
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -104,40 +142,61 @@ export default class AddChildScene extends IMPComponent {
           leftButtonAction={ () => this._goBack() }
         />
 
-        <Scene loaded={this.state.loaded}>
+        <ScrollableWaitableView loaded={this.state.loaded}>
           <SceneHeading text="Add Child"/>
           <View style={{marginLeft: 20, marginRight: 20}}>
 
-            <Picker
+            <Text style={{fontSize: FontSizes.small}}>Class:</Text>
+            <Selector
               selectedValue={this.state.classSelected}
               onValueChange={ (classSelected) => this.setState({classSelected: classSelected}) }
-            >
-              {this.state.classData.map((x, i) => (<Picker.Item key={i} label={x} value={x}/>) )}
-            </Picker>
+              items={this.state.classData}
+            />
 
+            <Text style={{fontSize: FontSizes.small}}>First Name:</Text>
             <TextField
               value={ this.state.givenName }
-              placeholder="Given name"
               ref="givenName"
               onChangeText={ text => this.setState({ givenName: text }) }
               returnKeyType="next"
               onSubmitEditing={ () => this.refs.familyName.focus() }
             />
 
+            <Text style={{fontSize: FontSizes.small}}>Family Name:</Text>
             <TextField
               value={ this.state.familyName }
-              placeholder="Family name"
               ref="familyName"
               onChangeText={ text => this.setState({ familyName: text }) }
               onSubmitEditing={ () => this._submit() }
             />
 
-            <View style={{flex: 1, alignItems: 'center'}}>
+            <Text style={{fontSize: FontSizes.small}}>Date Of Birth:</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+
+              <View style={{
+                width: 180,
+                height: 50,
+                marginRight: 3,
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderRadius: 5,
+                paddingTop: 12
+              }}>
+                <Text style={{marginLeft: 8, fontSize: FontSizes.p}}>{this._friendlyDate(this.state.dateOfBirth)}</Text>
+              </View>
+
+              <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5, paddingLeft: 5}}>
+                <Button text="Select" width={80} onPress={ () => this._pickDateOfBirth() }/>
+              </View>
+
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
               <Button text="Add" onPress={ () => this._submit() }/>
             </View>
 
           </View>
-        </Scene>
+        </ScrollableWaitableView>
 
       </View>)
   }

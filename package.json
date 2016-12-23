@@ -16,6 +16,7 @@
     "react": "15.4.1",
     "react-native": "^0.39.2",
     "react-native-android-back-button": "^0.3.0",
+    "react-native-datepicker": "^1.4.3",
     "react-native-google-analytics-bridge": "^4.0.2",
     "react-native-linear-gradient": "^1.5.14",
     "react-native-progress": "^3.2.0"

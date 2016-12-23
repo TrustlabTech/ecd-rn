@@ -20,13 +20,16 @@ import Sentry from '../Sentry'
 import Session from '../Session'
 import Api from '../Api'
 
-import ScrollableScene from '../Components/ScrollableScene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
 import NavBar from '../Components/NavBar'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
 import Button from '../Components/Button'
 
-/** A scene for selecting a class in the centre */
+/**
+ * A scene for selecting a class in the centre
+ * @extends IMPComponent
+ * */
 export default class ClassScene extends IMPComponent {
 
   constructor(props) {
@@ -52,6 +55,10 @@ export default class ClassScene extends IMPComponent {
     return true
   }
 
+  /**
+   * Fetch server data needed to render the page
+   * @returns {undefined}
+   */
   _fetchData() {
 
     const sessionState = Session.getState()
@@ -124,7 +131,7 @@ export default class ClassScene extends IMPComponent {
           leftButtonText="Back"
           leftButtonAction={ () => this._goBack() }
         />
-        <ScrollableScene loaded={this.state.loaded}>
+        <ScrollableWaitableView loaded={this.state.loaded}>
           <SceneHeading text="Take Attendance"/>
           <FormHeading text="Select Class"/>
           <View style={{
@@ -135,7 +142,7 @@ export default class ClassScene extends IMPComponent {
               { this.buildList(this.state.centreData) }
             </View>
           </View>
-        </ScrollableScene>
+        </ScrollableWaitableView>
       </View>
     )
   }

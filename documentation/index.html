@@ -45,6 +45,16 @@
               
                 
                 <li><a
+                  href='#checkbox'
+                  class="">
+                  Checkbox
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
                   href='#config'
                   class="">
                   Config
@@ -55,26 +65,6 @@
               
                 
                 <li><a
-                  href='#appname'
-                  class="">
-                  appName
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#initialroute'
-                  class="">
-                  initialRoute
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
                   href='#component'
                   class="">
                   Component
@@ -100,6 +90,61 @@
                   Component
                   
                 </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#component'
+                  class="">
+                  Component
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#impcomponent'
+                  class=" toggle-sibling">
+                  IMPComponent
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#IMPComponent#_fileName'
+                        class='regular pre-open'>
+                        #_fileName
+                      </a></li>
+                      
+                      <li><a
+                        href='#IMPComponent#_className'
+                        class='regular pre-open'>
+                        #_className
+                      </a></li>
+                      
+                      <li><a
+                        href='#IMPComponent#navigator'
+                        class='regular pre-open'>
+                        #navigator
+                      </a></li>
+                      
+                      <li><a
+                        href='#IMPComponent#setModal'
+                        class='regular pre-open'>
+                        #setModal
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
                 
                 </li>
               
@@ -115,11 +160,89 @@
               
                 
                 <li><a
+                  href='#implog'
+                  class=" toggle-sibling">
+                  IMPLog
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#IMPLog.async'
+                        class='regular pre-open'>
+                        .async
+                      </a></li>
+                    
+                      <li><a
+                        href='#IMPLog.networkRequest'
+                        class='regular pre-open'>
+                        .networkRequest
+                      </a></li>
+                    
+                      <li><a
+                        href='#IMPLog.networkResponse'
+                        class='regular pre-open'>
+                        .networkResponse
+                      </a></li>
+                    
+                      <li><a
+                        href='#IMPLog.error'
+                        class='regular pre-open'>
+                        .error
+                      </a></li>
+                    
+                      <li><a
+                        href='#IMPLog.react'
+                        class='regular pre-open'>
+                        .react
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
                   href='#routes'
                   class="">
                   Routes
                   
                 </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#addchildscene'
+                  class=" toggle-sibling">
+                  AddChildScene
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#AddChildScene#_fetchData'
+                        class='regular pre-open'>
+                        #_fetchData
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
                 
                 </li>
               
@@ -207,10 +330,27 @@
                 
                 <li><a
                   href='#classscene'
-                  class="">
+                  class=" toggle-sibling">
                   ClassScene
-                  
+                  <span class='icon'>▸</span>
                 </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#ClassScene#_fetchData'
+                        class='regular pre-open'>
+                        #_fetchData
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                </div>
                 
                 </li>
               
@@ -227,6 +367,12 @@
                   
                     <ul class='list-reset py1-ul pl1'>
                       <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#HistoryScene#_fetchData'
+                        class='regular pre-open'>
+                        #_fetchData
+                      </a></li>
                       
                       <li><a
                         href='#HistoryScene#reformatHistory'
@@ -609,6 +755,72 @@
   
   <div class='clearfix'>
     
+    <h3 class='fl m0' id='checkbox'>
+      Checkbox
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A configurable Checkbox</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Checkbox()</div>
+  
+  
+    <p>
+      Extends
+      
+        <a href="#component">Component</a>
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'>&lt;Checkbox
+ style={<span class="hljs-string">'switch'</span>}
+ key={i}
+ width={<span class="hljs-number">300</span>}
+ text={<span class="hljs-string">"Example text"</span>}
+ onPress={ () =&gt; someAction() }
+ checked={<span class="hljs-literal">true</span>}
+/&gt;</pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
     <h3 class='fl m0' id='config'>
       Config
     </h3>
@@ -655,98 +867,6 @@
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='appname'>
-      appName
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Full name of the application</p>
-
-
-  <div class='pre p1 fill-light mt0'>appName</div>
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='initialroute'>
-      initialRoute
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>First scene to show</p>
-
-
-  <div class='pre p1 fill-light mt0'>initialRoute</div>
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
     <h3 class='fl m0' id='component'>
       Component
     </h3>
@@ -755,7 +875,8 @@
   </div>
   
 
-  <p>(c)2016 IO Digital</p>
+  <p>(c)2016 IO Digital
+33 Loop Street, Cape Town, South Africa</p>
 
 
   <div class='pre p1 fill-light mt0'>Component</div>
@@ -764,7 +885,7 @@
 
   
   
-  <div>Author: Werner Roets &lt;cobolt.exe@gmail.com&gt;</div>
+  <div>Author: Werner Roets &lt;werner@io.co.za&gt;</div>
   
   
 
@@ -871,6 +992,304 @@
   
 
   
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='component'>
+      Component
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Early Childhood Development App</p>
+
+
+  <div class='pre p1 fill-light mt0'>Component</div>
+  
+  
+
+  
+  
+  <div>Author: Werner Roets &lt;werner@io.co.za&gt;</div>
+  <div>Copyright: [object Object]</div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='impcomponent'>
+      IMPComponent
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Impulse Component - A component that extends the functionality of React.Component</p>
+
+
+  <div class='pre p1 fill-light mt0'>new IMPComponent()</div>
+  
+  
+    <p>
+      Extends
+      
+        <a href="#component">Component</a>
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='IMPComponent#_fileName'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fileName</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The name of the current file</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fileName</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPComponent#_className'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_className</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The class of the current file</p>
+
+
+  <div class='pre p1 fill-light mt0'>_className</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPComponent#navigator'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>navigator</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A proxy object for the navigator</p>
+
+
+  <div class='pre p1 fill-light mt0'>navigator</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPComponent#setModal'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>setModal(options)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Emits events for the LoadingModal</p>
+
+
+  <div class='pre p1 fill-light mt0'>setModal(options: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>options</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
 
   
 
@@ -893,7 +1312,8 @@
   </div>
   
 
-  <p>(c)2016 IO Digital</p>
+  <p>(c)2016 IO Digital
+33 Loop Street, Cape Town, South Africa</p>
 
 
   <div class='pre p1 fill-light mt0'>ANSI</div>
@@ -902,7 +1322,7 @@
 
   
   
-  <div>Author: Werner Roets &lt;cobolt.exe@gmail.com&gt;</div>
+  <div>Author: Werner Roets &lt;werner@io.co.za&gt;</div>
   
   
 
@@ -915,6 +1335,429 @@
   
 
   
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='implog'>
+      IMPLog
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Provides a wide variety of logging features</p>
+
+
+  <div class='pre p1 fill-light mt0'>new IMPLog()</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Static Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='IMPLog.async'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>async</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log an AsyncStorage action</p>
+
+
+  <div class='pre p1 fill-light mt0'>async</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Filename</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPLog.networkRequest'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>networkRequest</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log a network request</p>
+
+
+  <div class='pre p1 fill-light mt0'>networkRequest</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Method</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Timestamp</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Route</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPLog.networkResponse'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>networkResponse</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log a network response</p>
+
+
+  <div class='pre p1 fill-light mt0'>networkResponse</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Response</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    status
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Timestamp</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>data</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPLog.error'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>error</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log an error</p>
+
+
+  <div class='pre p1 fill-light mt0'>error</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Message</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Filename</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='IMPLog.react'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>react</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Log a React lifecycle method</p>
+
+
+  <div class='pre p1 fill-light mt0'>react</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Filename</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>Event</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
 
   
 
@@ -977,6 +1820,118 @@
   
   <div class='clearfix'>
     
+    <h3 class='fl m0' id='addchildscene'>
+      AddChildScene
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>A scene for adding children to the centre</p>
+
+
+  <div class='pre p1 fill-light mt0'>new AddChildScene()</div>
+  
+  
+    <p>
+      Extends
+      
+        <a href="#impcomponent">IMPComponent</a>
+      
+    </p>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='AddChildScene#_fetchData'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fetchData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Fetch server data needed to render the page</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fetchData(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
     <h3 class='fl m0' id='attendancescene'>
       AttendanceScene
     </h3>
@@ -994,7 +1949,7 @@
     <p>
       Extends
       
-        IMPComponent
+        <a href="#impcomponent">IMPComponent</a>
       
     </p>
   
@@ -1506,7 +2461,7 @@ Get the location and upload the data if successful</p>
     <p>
       Extends
       
-        IMPComponent
+        <a href="#impcomponent">IMPComponent</a>
       
     </p>
   
@@ -1528,6 +2483,65 @@ Get the location and upload the data if successful</p>
   
 
   
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='ClassScene#_fetchData'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fetchData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Fetch server data needed to render the page</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fetchData(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
 
   
 
@@ -1559,7 +2573,7 @@ Get the location and upload the data if successful</p>
     <p>
       Extends
       
-        IMPComponent
+        <a href="#impcomponent">IMPComponent</a>
       
     </p>
   
@@ -1585,6 +2599,59 @@ Get the location and upload the data if successful</p>
   
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
+  
+    <div class='border-bottom' id='HistoryScene#_fetchData'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>_fetchData()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Fetch server data needed to render the page</p>
+
+
+  <div class='pre p1 fill-light mt0'>_fetchData(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
   
     <div class='border-bottom' id='HistoryScene#reformatHistory'>
       <div class="clearfix small pointer toggle-sibling">
@@ -1755,7 +2822,7 @@ text component informing the user that there was no data.</p>
     <p>
       Extends
       
-        IMPComponent
+        <a href="#impcomponent">IMPComponent</a>
       
     </p>
   
@@ -1973,7 +3040,7 @@ text component informing the user that there was no data.</p>
     <p>
       Extends
       
-        IMPComponent
+        <a href="#impcomponent">IMPComponent</a>
       
     </p>
   

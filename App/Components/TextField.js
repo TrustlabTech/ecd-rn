@@ -40,8 +40,6 @@ export default class TextField extends Component {
           paddingLeft: 5,
           paddingRight: 5,
           justifyContent: 'center',
-          marginLeft: 20,
-          marginRight: 20,
           marginTop: 8,
           marginBottom: 8
 

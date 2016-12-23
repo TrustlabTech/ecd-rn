@@ -1,19 +1,19 @@
 import 'react-native'
 import React from 'react'
-import Scene from '../Scene'
+import ScrollableWaitableView from '../ScrollableWaitableView'
 
 import renderer from 'react-test-renderer'
 
 it('renders correctly loaded', () => {
   const tree = renderer.create(
-    <Scene loaded={true}/>
+    <ScrollableWaitableView loaded={true}/>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })
 
 it('renders correctly not loaded', () => {
   const tree = renderer.create(
-    <Scene loaded={false}/>
+    <ScrollableWaitableView loaded={false}/>
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

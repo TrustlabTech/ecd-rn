@@ -21,11 +21,13 @@ import {
 import Api from '../Api'
 import Config from '../Config'
 import Sentry from '../Sentry'
+import Session from '../Session'
 import Routes from '../Routes'
 import { Colours, FontSizes } from '../GlobalStyles'
 
 import NavBar from '../Components/NavBar'
-import Scene from '../Components/Scene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
+import SceneHeading from '../Components/SceneHeading'
 import Button from '../Components/Button'
 
 /**
@@ -91,42 +93,41 @@ export default class MainScene extends IMPComponent {
    * @returns undefined
    */
   _hardwareBackHandler() {
-    console.log('Hardware back handler')
     this._logout()
     return true
   }
 
   /**
    * Closes the drawer
-   * @returns undefined
+   * @returns {undefined}
    */
   _closeDrawer() {
-
-    // Close the drawer
-    this._drawer.closeDrawer()
-
-    // update state
-    this.setState({drawerOpen: false})
+    if(this.state.loaded) {
+      this._drawer.closeDrawer()
+      this.setState({drawerOpen: false})
+    }
   }
 
+  /**
+   * Opens the drawer
+   * @returns {undefined}
+   */
+  _openDrawer() {
+    if(this.state.loaded) {
+      this._drawer.openDrawer()
+      this.setState({drawerOpen: true})
+    }
+  }
   /**
    * Open the drawer if it is closed, close the drawer if it is open.
    * @returns {undefined}
    */
   _toggleDrawer() {
     if(this.state.drawerOpen) {
-
-      // Close draw
       this._closeDrawer()
 
     } else {
-
-      // Open drawer
-      this._drawer.openDrawer()
-
-      // Update state
-      this.setState({drawerOpen: true})
-
+      this._openDrawer()
     }
   }
 
@@ -205,7 +206,6 @@ export default class MainScene extends IMPComponent {
           leftButtonText="|||"
           leftButtonAction={ () => this._toggleDrawer() }
         />
-        <Scene loaded={this.state.loaded}>
 
           <DrawerLayoutAndroid
             onDrawerOpen={ () => this.setState({drawerOpen: true }) }
@@ -225,6 +225,26 @@ export default class MainScene extends IMPComponent {
                       <Text style={ss.menuItemText}>Home</Text>
                     </TouchableHighlight>
                   </View>
+
+                  <View>
+                    <TouchableHighlight onPress={ () => this._goToClassScene() }>
+                      <Text style={ss.menuItemText}>Take Attendance</Text>
+                    </TouchableHighlight>
+                  </View>
+
+                  <View>
+                    <TouchableHighlight onPress={ () => this._goToHistoryScene() }>
+                      <Text style={ss.menuItemText}>Attendance History</Text>
+                    </TouchableHighlight>
+                  </View>
+
+                  <View>
+                    <TouchableHighlight onPress={ () => this._goToAddChildScene() }>
+                      <Text style={ss.menuItemText}>Add Child</Text>
+                    </TouchableHighlight>
+                  </View>
+
+                  <View style={ss.menuItemWrapperView}/>
 
                   <View>
                     <TouchableHighlight onPress={ () => {
@@ -247,36 +267,37 @@ export default class MainScene extends IMPComponent {
               </View>
             }
           >
-            <View style={ss.mainViewWrapper}>
-              <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>{loggedInAs}</Text>
-              <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Classes: {numClasses}</Text>
-              <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Children: {numChildren}</Text>
-              <Button
-                text={mainBtnText}
-                onPress={ () => this._goToClassScene() }
-                width={250}
-                height={100}
-              />
-              <Button
-                text={historyBtnText}
-                onPress={ () => this._goToHistoryScene() }
-                width={250}
-                height={100}
-              />
-              <Button
-                text="Add Child"
-                onPress={ () => this._goToAddChildScene() }
-                width={250}
-                height={50}
-              />
-            </View>
+            <ScrollableWaitableView loaded={this.state.loaded}>
+              <View style={ss.mainViewWrapper}>
+                <SceneHeading text={ Session.getState().userData.user.centre.name }/>
+                <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>{loggedInAs}</Text>
+                <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Classes: {numClasses}</Text>
+                <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Children: {numChildren}</Text>
+                <Button
+                  text={mainBtnText}
+                  onPress={ () => this._goToClassScene() }
+                  width={250}
+                  height={80}
+                />
+                <Button
+                  text={historyBtnText}
+                  onPress={ () => this._goToHistoryScene() }
+                  width={250}
+                  height={80}
+                />
+                <Button
+                  text="Add Child"
+                  onPress={ () => this._goToAddChildScene() }
+                  width={250}
+                  height={50}
+                />
+              </View>
 
-            <View style={{padding: 20}}>
-              <Button text="Log Out" onPress={ () => this._logout() }/>
-            </View>
-
+              <View style={{padding: 20}}>
+                <Button text="Logout" onPress={ () => this._logout() }/>
+              </View>
+            </ScrollableWaitableView>
           </DrawerLayoutAndroid>
-        </Scene>
       </View>
     )
   }

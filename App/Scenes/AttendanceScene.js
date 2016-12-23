@@ -23,7 +23,7 @@ import Session from '../Session'
 
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
-import ScrollableScene from '../Components/ScrollableScene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
 import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
@@ -264,7 +264,7 @@ export default class AttendanceScene extends IMPComponent {
           leftButtonAction={ () => this._goBack() }
         />
 
-        <ScrollableScene loaded={this.state.loaded}>
+        <ScrollableWaitableView loaded={this.state.loaded}>
 
           <SceneHeading text="Attendance"/>
 
@@ -280,7 +280,7 @@ export default class AttendanceScene extends IMPComponent {
 
           </View>
 
-        </ScrollableScene>
+        </ScrollableWaitableView>
 
       </View>
     )

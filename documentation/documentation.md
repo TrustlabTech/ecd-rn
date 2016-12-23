@@ -8,14 +8,6 @@ API functions avaialble to the App
 
 The configuration file for the App
 
-# appName
-
-Full name of the application
-
-# initialRoute
-
-First scene to show
-
 # Routes
 
 A list of available scenes to navigate to
@@ -26,13 +18,29 @@ A list of available scenes to navigate to
 
 A scene for selecting a class in the centre
 
+## \_fetchData
+
+Fetch server data needed to render the page
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
 # Component
 
 (c)2016 IO Digital
+33 Loop Street, Cape Town, South Africa
 
 **Meta**
 
--   **author**: Werner Roets &lt;cobolt.exe@gmail.com>
+-   **author**: Werner Roets &lt;werner@io.co.za>
+
+# Component
+
+Early Childhood Development App
+
+**Meta**
+
+-   **copyright**: \[object Object]
+-   **author**: Werner Roets &lt;werner@io.co.za>
 
 # Component
 
@@ -51,6 +59,56 @@ Early Childhood Development App
 
 -   **copyright**: \[object Object]
 -   **author**: Werner Roets &lt;werner@io.co.za>
+
+# Component
+
+Early Childhood Development App
+
+**Meta**
+
+-   **copyright**: \[object Object]
+-   **author**: Werner Roets &lt;werner@io.co.za>
+
+# IMPComponent
+
+**Extends Component**
+
+Impulse Component - A component that extends the functionality of React.Component
+
+## \_fileName
+
+The name of the current file
+
+## \_className
+
+The class of the current file
+
+## navigator
+
+A proxy object for the navigator
+
+## setModal
+
+Emits events for the LoadingModal
+
+**Parameters**
+
+-   `options`  
+
+# ScrollableWaitableView
+
+**Extends Component**
+
+A scrollable view that will display an ActivityIndicator until
+the data is available to render the screen
+
+**Examples**
+
+```javascript
+<ScrollableWaitableView loaded={this.state.loaded}>
+ {this.state.apiData}
+</ScrollableWaitableView>
+```
 
 # Button
 
@@ -113,6 +171,25 @@ Upload the attendance data to the server
 Submit the attendance.
 Get the location and upload the data if successful
 
+# Checkbox
+
+**Extends Component**
+
+A configurable Checkbox
+
+**Examples**
+
+```javascript
+<Checkbox
+ style={'switch'}
+ key={i}
+ width={300}
+ text={"Example text"}
+ onPress={ () => someAction() }
+ checked={true}
+/>
+```
+
 # LoginScene
 
 **Extends IMPComponent**
@@ -165,7 +242,13 @@ Returns **any** undefined
 
 Closes the drawer
 
-Returns **any** undefined
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
+## \_openDrawer
+
+Opens the drawer
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
 
 ## \_toggleDrawer
 
@@ -195,6 +278,12 @@ twice
 
 A scene for viewing the attendance history of the centre
 
+## \_fetchData
+
+Fetch server data needed to render the page
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
 ## reformatHistory
 
 Convert the api data to a more appropriate form
@@ -208,6 +297,34 @@ z (data), month and year.
 
 Create either an array of HistoryDayItem components or a
 text component informing the user that there was no data.
+
+# AddChildScene
+
+**Extends IMPComponent**
+
+A scene for adding children to the centre
+
+## \_fetchData
+
+Fetch server data needed to render the page
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
+# Selector
+
+**Extends Component**
+
+A simple picker with a border that displays a Array<String>
+
+**Examples**
+
+```javascript
+<Selector
+ selectedValue={this.state.selected}
+ onValueChange={someFunction}
+ items={['Item 1', 'Item 2', 'Item 3']}
+/>
+```
 
 # Sentry
 
@@ -287,7 +404,66 @@ Set the modal's state
 # ANSI
 
 (c)2016 IO Digital
+33 Loop Street, Cape Town, South Africa
 
 **Meta**
 
--   **author**: Werner Roets &lt;cobolt.exe@gmail.com>
+-   **author**: Werner Roets &lt;werner@io.co.za>
+
+# IMPLog
+
+Provides a wide variety of logging features
+
+## async
+
+Log an AsyncStorage action
+
+**Parameters**
+
+-   `Filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
+## networkRequest
+
+Log a network request
+
+**Parameters**
+
+-   `Method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `Timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `Route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
+## networkResponse
+
+Log a network response
+
+**Parameters**
+
+-   `Response` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** status
+-   `Timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `data` **any** 
+
+## error
+
+Log an error
+
+**Parameters**
+
+-   `Message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `Filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
+
+## react
+
+Log a React lifecycle method
+
+**Parameters**
+
+-   `Filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `Event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)** 
