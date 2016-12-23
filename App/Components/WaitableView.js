@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import { Colours } from '../GlobalStyles'
 
-export default class Scene extends Component {
+export default class ScrollableWaitableView extends Component {
 
   constructor(props) {
     super(props)

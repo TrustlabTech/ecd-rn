@@ -24,7 +24,7 @@ import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'
 
-import Scene from '../Components/Scene'
+import ScrollableWaitableView from '../Components/WaitableView'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
 import TextField from '../Components/TextField'
@@ -55,13 +55,13 @@ export default class LoginScene extends IMPComponent {
       if(!error){
         this.setState({phoneNumber: phoneNumber})
         if(Config.debug) {
-          IMPLog.async('[AS]', `Loaded ${phoneNumber} from Async storage`)
+          IMPLog.async(`Loaded ${phoneNumber} from Async storage`)
         }
 
       } else {
         const errorMessage = 'Could not load stored phone number from devices. This is normal if it is the first time.'
         if(Config.debug) {
-          IMPLog.async('[AS]', errorMessage + error.toString())
+          IMPLog.async(errorMessage + error.toString())
         } else {
           Sentry.addBreadcrumb(this._className, errorMessage + error.toString())
         }
@@ -209,7 +209,7 @@ export default class LoginScene extends IMPComponent {
     const { phoneNumber, pin } = this.state
 
     return (
-      <Scene loaded={true}>
+      <ScrollableWaitableView loaded={true}>
         <AndroidBackButton onPress={ () => false }/>
         <View style={ss.sceneViewWrapper}>
 
@@ -250,7 +250,7 @@ export default class LoginScene extends IMPComponent {
           { this.makeFooter() }
 
         </View>
-      </Scene>
+      </ScrollableWaitableView>
     )
   }
 }
@@ -268,6 +268,8 @@ const ss = StyleSheet.create({
   },
   sceneViewWrapper: {
     flex: 1,
+    marginLeft: 20,
+    marginRight: 20,
     flexDirection: 'column',
     justifyContent: 'space-between'
   }

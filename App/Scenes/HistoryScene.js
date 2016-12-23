@@ -22,7 +22,7 @@ import Session from '../Session'
 import Api from '../Api'
 import { FontSizes } from '../GlobalStyles'
 
-import ScrollableScene from '../Components/ScrollableScene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
 import NavBar from '../Components/NavBar'
 import SceneHeading from '../Components/SceneHeading'
 import FormHeading from '../Components/FormHeading'
@@ -61,6 +61,10 @@ export default class HistoryScene extends IMPComponent {
     return true
   }
 
+  /**
+   * Fetch server data needed to render the page
+   * @returns {undefined}
+   */
   _fetchData() {
     this.setState({
       loaded: false
@@ -215,7 +219,7 @@ export default class HistoryScene extends IMPComponent {
           leftButtonText="Back"
           leftButtonAction={ () => this._goBack() }
         />
-        <ScrollableScene loaded={this.state.loaded}>
+        <ScrollableWaitableView loaded={this.state.loaded}>
 
           <SceneHeading text="Attendance History"/>
           <FormHeading text={moment().year(this.state.year).month(this.state.month - 1).format("MMMM YYYY")}/>
@@ -225,7 +229,7 @@ export default class HistoryScene extends IMPComponent {
 
           <this.MonthNavButtons/>
 
-        </ScrollableScene>
+        </ScrollableWaitableView>
       </View>
     )
   }

@@ -583,7 +583,7 @@ import {
 import NavBar from '../Components/NavBar'
 import Button from '../Components/Button'
 import Scene from '../Components/Scene'
-import ScrollableScene from '../Components/ScrollableScene'
+import ScrollableWaitableView from '../Components/ScrollableWaitableView'
 import FormHeading from '../Components/FormHeading'
 import SceneHeading from '../Components/SceneHeading'
 import Checkbox from '../Components/Checkbox'
@@ -798,7 +798,7 @@ export default class AttendanceScene extends IMPComponent {
           leftButtonAction={ <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.goBack() </span>}
         /&gt;
 &nbsp;
-        &lt;ScrollableScene loaded={this.state.loaded}&gt;
+        &lt;ScrollableWaitableView loaded={this.state.loaded}&gt;
 &nbsp;
           &lt;SceneHeading text="Attendance"/&gt;
 &nbsp;
@@ -814,7 +814,7 @@ export default class AttendanceScene extends IMPComponent {
 &nbsp;
           &lt;/View&gt;
 &nbsp;
-        &lt;/ScrollableScene&gt;
+        &lt;/ScrollableWaitableView&gt;
 &nbsp;
       &lt;/View&gt;
     )

@@ -1,15 +1,25 @@
 /**
  * (c)2016 IO Digital
- * @author Werner Roets <cobolt.exe@gmail.com>
+ * 33 Loop Street, Cape Town, South Africa
+ * @author Werner Roets <werner@io.co.za>
  */
 
 import ANSI from 'ansi-styles'
 
 import * as Lifecycle from './lib/Lifecycle'
 
+/** Provides a wide variety of logging features */
 export default class IMPLog {
 
-
+  /**
+   * Log something with a prefix, forground and background colour
+   * @private
+   * @param {string} Prefix
+   * @param {string} Text
+   * @param {Ansi.color} Foreground colour
+   * @param {Ansi.bgColor} Background colour
+   * @returns {undefined}
+   */
   static _log = (prefix, text, fgColor, bgColor = ANSI.bgBlack) => {
     console.log(`${prefix}${bgColor.open}${fgColor.open}${text}${fgColor.close}${bgColor.close}`)
   }
@@ -24,6 +34,7 @@ export default class IMPLog {
     return text + spaces
   }
 
+  // TODO: We can use this in session now instead of for redux
   static store = (data) => {
     const prefix = `${ANSI.magenta.open}[ST]${ANSI.magenta.close}`
     // adding color destroys prettyprint
@@ -31,11 +42,23 @@ export default class IMPLog {
     console.log(data)
   }
 
-  static async = (filename, message) => {
+  /**
+   * Log an AsyncStorage action
+   * @param {string} Filename
+   * @returns {undefined}
+   */
+  static async = message => {
     const prefix = `${ANSI.cyan.open}[AS]${ANSI.cyan.close} `
     IMPLog._log(prefix, message, ANSI.yellow)
   }
 
+  /**
+   * Log a network request
+   * @param {string} Method
+   * @param {string} Timestamp
+   * @param {string} Route
+   * @returns {undefined}
+   */
   static networkRequest = (method, timestamp, route) => {
     const prefix = `${ANSI.blue.open}[NW]${ANSI.blue.close}`
     const method_color = `${ANSI.bold.open}${ANSI.green.open}${method}${ANSI.green.close}${ANSI.bold.close}`
@@ -44,6 +67,12 @@ export default class IMPLog {
     console.log(`${prefix} ${method_color} ${IMPLog._asColumn(timestamp_color,64)} ${route_color}`)
   }
 
+  /**
+   * Log a network response
+   * @param {string} Response status
+   * @param {string} Timestamp
+   * @param {any} data
+   */
   static networkResponse = (status, timestamp , data) => {
     const prefix = `${ANSI.blue.open}[NW]${ANSI.blue.close}`
 
@@ -64,12 +93,24 @@ export default class IMPLog {
 
   }
 
+  /**
+   * Log an error
+   * @param {string} Message
+   * @param {string} Filename
+   * @returns {undefined}
+   */
   static error = (message, fileName) => {
     const prefix = `${ANSI.bgRed.open}${ANSI.white.open}[ER]${ANSI.white.close}${ANSI.bgRed.close}`
     const fileName_color = `${ANSI.green.open}${fileName}${ANSI.green.close}`
     console.log(`${prefix} ${fileName} ${ANSI.red.open} ${message}${ANSI.red.close}`)
   }
 
+  /**
+   * Log a React lifecycle method
+   * @param {string} Filename
+   * @param {string} Event
+   * @returns {undefined}
+   */
   static react = (filename, event) => {
 
     const prefix = `${ANSI.red.open}[LC]${ANSI.red.close} `
