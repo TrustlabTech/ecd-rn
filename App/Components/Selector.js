@@ -11,6 +11,7 @@ import {
   View
 } from 'react-native'
 import { Colours } from '../GlobalStyles'
+
 /**
  * A simple picker with a border that displays a Array<String>
  * @example

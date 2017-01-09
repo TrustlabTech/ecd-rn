@@ -1,4 +1,10 @@
-// import 'react-native'
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * @author Werner Roets <werner@io.co.za>
+ */
+
 import React, { Component } from 'react'
 import { StatusBar } from 'react-native'
 

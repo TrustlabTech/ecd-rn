@@ -1,8 +1,8 @@
-/*
- * Early Childhood Development
- * (c) 2016 Global Consent Ltd
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
- * Author: Werner Roets <werner@io.co.za>
+ * @author Werner Roets <werner@io.co.za>
  */
 
 import {
