@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import 'react-native'
 import React, { Component } from 'react'
 import { StatusBar } from 'react-native'
 
