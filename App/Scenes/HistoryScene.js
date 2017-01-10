@@ -168,7 +168,6 @@ export default class HistoryScene extends IMPComponent {
     </View>
     { // What is one month in the future in relation to the current page view ?
     moment(new Date()).add(1,'M').diff(moment(new Date(this.state.year, this.state.month + 1))) >= 0 ?
-    // moment(new Date()).add(1,'M').diff(moment(new Date(2016, 11))) >= 0 ?
 
    (<View style={{flex: 1, marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10}}>
       <Button text="Next Month" style={{fontSize: FontSizes.xSmall}} onPress={ () => this.nextMonth()}/>

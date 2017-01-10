@@ -61,7 +61,7 @@ export default class HistoryDayItem extends Component {
 
         <View>
           <TouchableHighlight onPress={() => this._toggleChildItemsVisible() }>
-            <View style={{flex: 1}}>
+            <View>
               <Text style={{fontSize: FontSizes.h5, backgroundColor: Colours.sceneBackgroundColour}}>
                 {this.props.day + " " + moment(new Date(0,this.props.month - 1)).format("MMMM")} ({ (this.props.totalChildren - this.props.absentChildren.length )+"/"+(this.props.totalChildren) })
               </Text>
