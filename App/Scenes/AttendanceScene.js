@@ -21,12 +21,14 @@ import Sentry from '../Sentry'
 import { Colours } from '../GlobalStyles'
 import Session from '../Session'
 
-import NavBar from '../Components/NavBar'
-import Button from '../Components/Button'
-import ScrollableWaitableView from '../Components/ScrollableWaitableView'
-import FormHeading from '../Components/FormHeading'
-import SceneHeading from '../Components/SceneHeading'
-import Checkbox from '../Components/Checkbox'
+import {
+  NavBar,
+  Button,
+  ScrollableWaitableView,
+  FormHeading,
+  SceneHeading,
+  Checkbox
+} from '../Components'
 
 /** A scene allowing the user to submit attendance for the chosen class */
 export default class AttendanceScene extends IMPComponent {

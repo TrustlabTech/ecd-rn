@@ -11,8 +11,8 @@ import {
   Text,
   TouchableHighlight
 } from 'react-native'
-import HistoryChildItem from './HistoryChildItem'
-import { FontSizes, Colours} from '../../GlobalStyles'
+import { HistoryChildItem } from './'
+import { FontSizes, Colours} from '../GlobalStyles'
 import moment from 'moment'
 
 export default class HistoryDayItem extends Component {
@@ -33,9 +33,6 @@ export default class HistoryDayItem extends Component {
       this.setState({childItemsVisible: !this.state.childItemsVisible})
   }
 
-
-
-
   makeHistoryChildItems = absentChildren =>
     this.state.childItemsVisible ?
       (<View>
@@ -52,8 +49,6 @@ export default class HistoryDayItem extends Component {
       </View>)
     :
       null
-
-
 
   render() {
     return (

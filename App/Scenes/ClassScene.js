@@ -20,11 +20,13 @@ import Sentry from '../Sentry'
 import Session from '../Session'
 import Api from '../Api'
 
-import ScrollableWaitableView from '../Components/ScrollableWaitableView'
-import NavBar from '../Components/NavBar'
-import SceneHeading from '../Components/SceneHeading'
-import FormHeading from '../Components/FormHeading'
-import Button from '../Components/Button'
+import {
+  ScrollableWaitableView,
+  NavBar,
+  SceneHeading,
+  FormHeading,
+  Button
+} from '../Components'
 
 /**
  * A scene for selecting a class in the centre
