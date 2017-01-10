@@ -144,19 +144,16 @@ export default class Ecdrn extends Component {
       IMPLog.react(this._fileName, Lifecycle.RENDER)
     }
     return (
-
         <Navigator
           initialRoute={this._initialRoute}
           onWillFocus={this._onWillFocus}
           onDidFocus={this._onDidFocus}
           renderScene={ (route, navigator) => {
-
             if(Config.debug && Config.debugNavigator) {
               console.log("--- ROUTES STACK ---")
               console.log(navigator.getCurrentRoutes())
               console.log("--- END ROUTES STACK ---")
             }
-
             return (
               <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
               <LoadingModal

@@ -10,7 +10,7 @@ import {
   View,
   Text
 } from 'react-native'
-import { FontSizes, Colours} from '../../GlobalStyles'
+import { FontSizes, Colours} from '../GlobalStyles'
 
 export default class HistoryChildItem extends Component {
   constructor(props) {

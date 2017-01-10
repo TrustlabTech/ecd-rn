@@ -24,11 +24,13 @@ import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'
 
-import ScrollableWaitableView from '../Components/WaitableView'
-import SceneHeading from '../Components/SceneHeading'
-import FormHeading from '../Components/FormHeading'
-import TextField from '../Components/TextField'
-import Button from '../Components/Button'
+import {
+  ScrollableWaitableView,
+  SceneHeading,
+  FormHeading,
+  TextField,
+  Button
+} from '../Components'
 
 /**
  * A scene allowing users to login using their phone number and pin
@@ -48,16 +50,13 @@ export default class LoginScene extends IMPComponent {
   componentWillMount() {
     super.componentWillMount()
     this.serverStatus()
-
     // Load phone number from persistent storage
     AsyncStorage.getItem('@phoneNumber', (error, phoneNumber) => {
-
       if(!error){
         this.setState({phoneNumber: phoneNumber})
         if(Config.debug) {
           IMPLog.async(`Loaded ${phoneNumber} from Async storage`)
         }
-
       } else {
         const errorMessage = 'Could not load stored phone number from devices. This is normal if it is the first time.'
         if(Config.debug) {
@@ -133,7 +132,6 @@ export default class LoginScene extends IMPComponent {
             user: data.user,
             token: data._token
           })
-
         }
       })
 
@@ -159,7 +157,7 @@ export default class LoginScene extends IMPComponent {
     }
 
     // Never overwrite with empty phone number
-    if(phoneNumber != '') {
+    if(phoneNumber !== '') {
 
       // Put phone number in persistant storage
       AsyncStorage.setItem('@phoneNumber',  phoneNumber,(error) => {
@@ -167,13 +165,13 @@ export default class LoginScene extends IMPComponent {
         if(error) {
 
           if(Config.debug) {
-            IMPLog.async(this._className, 'Could not store phone number with Async storage' + error.toString())
+            IMPLog.async('Could not store phone number with Async storage' + error.toString())
 
           } else {
             Sentry.captureEvent(errorMessage + error.toString(), this._className )
           }
         } else {
-          IMPLog.async(this._className, `Phone number ${phoneNumber} stored to Async storage`)
+          IMPLog.async(`Phone number ${phoneNumber} stored to Async storage`)
         }
       })
     }

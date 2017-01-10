@@ -22,12 +22,14 @@ import Session from '../Session'
 import Api from '../Api'
 import { FontSizes } from '../GlobalStyles'
 
-import ScrollableWaitableView from '../Components/ScrollableWaitableView'
-import NavBar from '../Components/NavBar'
-import SceneHeading from '../Components/SceneHeading'
-import FormHeading from '../Components/FormHeading'
-import Button from '../Components/Button'
-import HistoryDayItem from '../Components/History/HistoryDayItem'
+import {
+  ScrollableWaitableView,
+  NavBar,
+  SceneHeading,
+  FormHeading,
+  Button,
+  HistoryDayItem
+} from '../Components'
 
 /** A scene for viewing the attendance history of the centre */
 export default class HistoryScene extends IMPComponent {

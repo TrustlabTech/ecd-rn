@@ -25,10 +25,12 @@ import Session from '../Session'
 import Routes from '../Routes'
 import { Colours, FontSizes } from '../GlobalStyles'
 
-import NavBar from '../Components/NavBar'
-import ScrollableWaitableView from '../Components/ScrollableWaitableView'
-import SceneHeading from '../Components/SceneHeading'
-import Button from '../Components/Button'
+import {
+  NavBar,
+  ScrollableWaitableView,
+  SceneHeading,
+  Button
+} from '../Components'
 
 /**
  * The main scene of the application show after login

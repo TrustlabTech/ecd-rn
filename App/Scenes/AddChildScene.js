@@ -27,13 +27,15 @@ import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'
 
-import ScrollableWaitableView from '../Components/ScrollableWaitableView'
-import SceneHeading from '../Components/SceneHeading'
-import FormHeading from '../Components/FormHeading'
-import NavBar from '../Components/NavBar'
-import TextField from '../Components/TextField'
-import Button from '../Components/Button'
-import Selector from '../Components/Selector'
+import {
+  ScrollableWaitableView,
+  SceneHeading,
+  FormHeading,
+  NavBar,
+  TextField,
+  Button,
+  Selector
+} from '../Components'
 
 /**
  * A scene for adding children to the centre

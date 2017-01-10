@@ -54,8 +54,8 @@ export default {
   // Server details
   http: {
     // baseUrl: 'http://ecd.cnsnt.io/api/v1/',
-    // baseUrl: 'http://172.16.20.125:8080/api/v1/',
-    baseUrl: 'http://staging.ecd.cnsnt.io/',
+    baseUrl: 'http://172.16.20.125:8080/api/v1/',
+    // baseUrl: 'http://staging.ecd.cnsnt.io/api/v1/',
     headers: {
       'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,
       'X-Client-Version': pkg.version,
