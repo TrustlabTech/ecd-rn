@@ -1,4 +1,0 @@
-### TODO ###
-
-# stylesheets
-# hardware back
