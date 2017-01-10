@@ -70,7 +70,7 @@ export default class AddChildScene extends IMPComponent {
   }
 
   componentWillMount() {
-    super.componentWillFocus()
+    super.componentWillMount()
     this._fetchData()
   }
 
@@ -110,22 +110,23 @@ export default class AddChildScene extends IMPComponent {
     })
 
     .then( ({action, year, month, day}) => {
-      if(year && month && day) {
+      if(action === "dateSetAction") {
         this.setState({
           dateOfBirth: new Date(year, month, day)
         })
+      } else {
+        // User canceled do nothing
       }
     })
 
     .catch( (error) => {
       if(Config.debug) IMPLog.error('Could not open date picker', this._fileName)
     })
-
   }
 
   _friendlyDate() {
     if(this.state.dateOfBirth === null) {
-      return ''
+      return 'Please select'
     } else {
       return moment(this.state.dateOfBirth).format('Do MMMM YYYY')
     }
@@ -146,6 +147,7 @@ export default class AddChildScene extends IMPComponent {
           <SceneHeading text="Add Child"/>
           <View style={{marginLeft: 20, marginRight: 20}}>
 
+            {/* Class */}
             <Text style={{fontSize: FontSizes.small}}>Class:</Text>
             <Selector
               selectedValue={this.state.classSelected}
@@ -153,23 +155,27 @@ export default class AddChildScene extends IMPComponent {
               items={this.state.classData}
             />
 
+            {/* First Name */}
             <Text style={{fontSize: FontSizes.small}}>First Name:</Text>
             <TextField
               value={ this.state.givenName }
               ref="givenName"
               onChangeText={ text => this.setState({ givenName: text }) }
               returnKeyType="next"
-              onSubmitEditing={ () => this.refs.familyName.focus() }
+              onSubmitEditing={ () => this.refs.familyName.textInput.focus() }
             />
 
+            {/* Family Name */}
             <Text style={{fontSize: FontSizes.small}}>Family Name:</Text>
             <TextField
               value={ this.state.familyName }
               ref="familyName"
               onChangeText={ text => this.setState({ familyName: text }) }
-              onSubmitEditing={ () => this._submit() }
+              onSubmitEditing={ () => this.refs.familyName.textInput.focus() }
+
             />
 
+            {/* Date of Birth */}
             <Text style={{fontSize: FontSizes.small}}>Date Of Birth:</Text>
             <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
 

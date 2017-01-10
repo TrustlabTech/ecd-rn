@@ -73,7 +73,7 @@ export default class IMPLog {
    * @param {string} Timestamp
    * @param {any} data
    */
-  static networkResponse = (status, timestamp , data) => {
+  static networkResponse = (status, timestamp, data) => {
     const prefix = `${ANSI.blue.open}[NW]${ANSI.blue.close}`
 
 
@@ -82,7 +82,7 @@ export default class IMPLog {
       {code: 401, color: ANSI.yellow},
       {code: 500, color: ANSI.red },
       {code: 404, color: ANSI.yellow }
-    ].find((item) => status === item.code ? item.color : false) ||
+    ].find( item => status === item.code ? item.color : false) ||
     {code: status || "unknown", color: ANSI.white }
 
     const timestamp_color = `${ANSI.gray.open}${ANSI.underline.open}${timestamp}${ANSI.underline.close}${ANSI.gray.close}`
