@@ -46,7 +46,7 @@ export default {
   rnVersion: pkg.dependencies['react-native'].substring(1),
 
   // Android navigator transitions
-  sceneConfig: Navigator.SceneConfigs.FadeAndroid,
+  sceneConfig: Navigator.SceneConfigs.FloatFromRight,
 
   // Modal settings
   progressBarColor: Colours.consentOrange,

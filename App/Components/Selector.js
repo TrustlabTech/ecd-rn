@@ -41,9 +41,9 @@ export default class Selector extends Component{
               <Picker
                 style={{color: Colours.primaryLowlight}}
                 selectedValue={this.props.selectedValue}
-                onValueChange={ (value) => this.props.onValueChange(value) }
+                onValueChange={ value => this.props.onValueChange(value) }
               >
-                {this.props.items.map((x, i) => (<Picker.Item key={i} label={x} value={x}/>) )}
+                {this.props.items.map((x, i) => (<Picker.Item key={i} label={x.name} value={x.id}/>) )}
               </Picker>
             </View>)
   }

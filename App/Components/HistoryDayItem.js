@@ -9,11 +9,12 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  TouchableHighlight
+  TouchableNativeFeedback
 } from 'react-native'
 import { HistoryChildItem } from './'
 import { FontSizes, Colours} from '../GlobalStyles'
 import moment from 'moment'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default class HistoryDayItem extends Component {
   /*
@@ -54,14 +55,14 @@ export default class HistoryDayItem extends Component {
     return (
       <View style={{marginBottom: 5}}>
 
-        <View>
-          <TouchableHighlight onPress={() => this._toggleChildItemsVisible() }>
-            <View>
-              <Text style={{fontSize: FontSizes.h5, backgroundColor: Colours.sceneBackgroundColour}}>
-                {this.props.day + " " + moment(new Date(0,this.props.month - 1)).format("MMMM")} ({ (this.props.totalChildren - this.props.absentChildren.length )+"/"+(this.props.totalChildren) })
-              </Text>
-            </View>
-          </TouchableHighlight>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableNativeFeedback onPress={() => this._toggleChildItemsVisible() }>
+            <Text style={{fontSize: FontSizes.h5}}>
+              <Icon name="arrow-right-bold-circle-outline"/>
+              {this.props.day + " " + moment(new Date(0,this.props.month - 1)).format("MMMM")} ({ (this.props.totalChildren - this.props.absentChildren.length )+"/"+(this.props.totalChildren) })
+            </Text>
+          </TouchableNativeFeedback>
+          <View style={{flex: 2}}/>
         </View>
 
 

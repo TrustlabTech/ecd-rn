@@ -64,7 +64,6 @@ export default class ClassScene extends IMPComponent {
   _fetchData() {
 
     const sessionState = Session.getState()
-
     Api.fetchClasses(
       sessionState.userData.user.id,
       sessionState.userData._token

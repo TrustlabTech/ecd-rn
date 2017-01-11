@@ -13,6 +13,7 @@ import {
   Text,
   View,
   TouchableHighlight,
+  TouchableNativeFeedback,
   DrawerLayoutAndroid,
   Alert,
   StyleSheet
@@ -139,35 +140,45 @@ export default class MainScene extends IMPComponent {
    * @returns {undefined}
    */
   _goToClassScene() {
-
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
-
-    this._closeDrawer()
-    this.navigator.push(Routes.class)
     this.setState({
       loaded: false,
       summaryData: null
     })
+
+    setTimeout(() => {
+      this.navigator.push(Routes.class)
+    },10)
+    setTimeout(() => {
+      this._closeDrawer()
+    },10)
+
+    setTimeout(() => {
+
+Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
+    },100)
+    // setTimeout(() => Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene"),200)
+
+
   }
 
   _goToHistoryScene() {
     Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
     this._closeDrawer()
-    this.navigator.push(Routes.history)
     this.setState({
       loaded: false,
       summaryData: null
     })
+    this.navigator.push(Routes.history)
   }
 
   _goToAddChildScene() {
     Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
     this._closeDrawer()
-    this.navigator.push(Routes.addChild)
     this.setState({
       loaded: false,
       summaryData: null
     })
+    this.navigator.push(Routes.addChild)
   }
 
   /**
@@ -224,47 +235,59 @@ export default class MainScene extends IMPComponent {
                   <View style={ss.menuItemWrapperView}/>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._drawer.closeDrawer() }>
-                      <Text style={ss.menuItemText}>Home</Text>
-                    </TouchableHighlight>
+                    <TouchableNativeFeedback onPress={ () => this._drawer.closeDrawer() }>
+                      <View>
+                        <Text style={ss.menuItemText}><Icon name="home" color={Colours.lightText} size={26}/> Home</Text>
+                      </View>
+                    </TouchableNativeFeedback>
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._goToClassScene() }>
-                      <Text style={ss.menuItemText}>Take Attendance</Text>
-                    </TouchableHighlight>
+                    <TouchableNativeFeedback onPress={ () => this._goToClassScene() }>
+                      <View>
+                        <Text style={ss.menuItemText}><Icon name="playlist-check" color={Colours.lightText} size={26}/> Take Attendance</Text>
+                      </View>
+                    </TouchableNativeFeedback>
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._goToHistoryScene() }>
-                      <Text style={ss.menuItemText}>Attendance History</Text>
-                    </TouchableHighlight>
+                    <TouchableNativeFeedback onPress={ () => this._goToHistoryScene() }>
+                      <View>
+                        <Text style={ss.menuItemText}><Icon name="history" color={Colours.lightText} size={26}/> Attendance History</Text>
+                      </View>
+                    </TouchableNativeFeedback>
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._goToAddChildScene() }>
-                      <Text style={ss.menuItemText}>Add Child</Text>
-                    </TouchableHighlight>
+                    <TouchableNativeFeedback onPress={ () => this._goToAddChildScene() }>
+                      <View>
+                        <Text style={ss.menuItemText}><Icon name="account-plus" color={Colours.lightText} size={26}/> Add Child</Text>
+                      </View>
+                    </TouchableNativeFeedback>
                   </View>
 
                   <View style={ss.menuItemWrapperView}/>
 
                   <View>
-                    <TouchableHighlight onPress={ () => {
+                    <TouchableNativeFeedback onPress={ () => {
                       Alert.alert(
                         'Help & Instructions',
                         'Press the Take Attendance button to take today\'s attendance',
                         [{text: 'Okay'}]
                       )
                     }}>
-                      <Text style={ss.menuItemText}>Help & Instructions</Text>
-                    </TouchableHighlight>
+                      <View>
+                        <Text style={ss.menuItemText}><Icon name="help-circle" color={Colours.lightText} size={26}/> Help & Instructions</Text>
+                      </View>
+                    </TouchableNativeFeedback>
                   </View>
 
                   <View>
-                    <TouchableHighlight onPress={ () => this._logout() }>
-                      <Text style={ss.menuItemText}>Logout</Text>
-                    </TouchableHighlight>
+                    <TouchableNativeFeedback onPress={ () => this._logout() }>
+                      <View>
+                        <Text style={ss.menuItemText}><Icon name="logout" color={Colours.lightText} size={26}/> Logout</Text>
+                      </View>
+                    </TouchableNativeFeedback>
                   </View>
 
               </View>
@@ -307,11 +330,6 @@ export default class MainScene extends IMPComponent {
 }
 
 const ss = StyleSheet.create({
-  loggedInAsText: {
-    padding: 5,
-    fontSize: FontSizes.p,
-    color: Colours.offWhite
-  },
   menuTitleText : {
     fontSize: FontSizes.h6,
     color: Colours.offWhite,
@@ -327,7 +345,7 @@ const ss = StyleSheet.create({
     marginBottom: 5
   },
   menuItemText: {
-    fontSize: FontSizes.h4,
+    fontSize: FontSizes.h5,
     color: Colours.offWhite,
     paddingLeft: 10,
     paddingRight: 10,
