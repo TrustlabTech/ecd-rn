@@ -19,7 +19,7 @@ import {
 
 import Config from '../Config'
 import Routes from '../Routes'
-import { FontSizes } from '../GlobalStyles'
+import { FontSizes, Colours } from '../GlobalStyles'
 import Api from '../Api'
 import Sentry from '../Sentry'
 import Session from '../Session'

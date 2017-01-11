@@ -31,6 +31,7 @@ import {
   SceneHeading,
   Button
 } from '../Components'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 /**
  * The main scene of the application show after login
@@ -205,7 +206,7 @@ export default class MainScene extends IMPComponent {
         <AndroidBackButton onPress={ () => this._hardwareBackHandler() }/>
         <NavBar
           navigator={ this.props.navigator }
-          leftButtonText="|||"
+          leftButtonIcon={<Icon name="menu" size={30} color={Colours.lightText}/>}
           leftButtonAction={ () => this._toggleDrawer() }
         />
 
