@@ -4,8 +4,6 @@ exports[`test renders correctly 1`] = `
     Object {
       "justifyContent": "center",
       "marginBottom": 8,
-      "marginLeft": 20,
-      "marginRight": 20,
       "marginTop": 8,
       "paddingLeft": 5,
       "paddingRight": 5,

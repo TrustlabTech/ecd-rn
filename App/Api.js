@@ -57,6 +57,12 @@ function request(route, opts ) {
 /** API functions avaialble to the App */
 export default {
 
+  /**
+   * Log the user in and receive a token
+   * @param {string} phoneNumber
+   * @param {string} pin
+   * @returns {undefined}
+   */
   login: (phoneNumber, pin) => {
     const formData = new FormData()
     formData.append('username', phoneNumber)

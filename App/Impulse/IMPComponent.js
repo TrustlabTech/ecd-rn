@@ -1,5 +1,5 @@
 /**
- * (c)2016 IO Digital
+ * @copyright 2016 IO Digital
  * 33 Loop Street, Cape Town, South Africa
  * @author Werner Roets <werner@io.co.za>
  */

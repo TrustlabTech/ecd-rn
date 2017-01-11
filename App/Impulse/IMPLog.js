@@ -1,11 +1,10 @@
 /**
- * (c)2016 IO Digital
+ * @copyright 2016 IO Digital
  * 33 Loop Street, Cape Town, South Africa
  * @author Werner Roets <werner@io.co.za>
  */
 
 import ANSI from 'ansi-styles'
-
 import * as Lifecycle from './lib/Lifecycle'
 
 /** Provides a wide variety of logging features */
@@ -44,7 +43,7 @@ export default class IMPLog {
 
   /**
    * Log an AsyncStorage action
-   * @param {string} Filename
+   * @param {string} filename
    * @returns {undefined}
    */
   static async = message => {
@@ -54,9 +53,9 @@ export default class IMPLog {
 
   /**
    * Log a network request
-   * @param {string} Method
-   * @param {string} Timestamp
-   * @param {string} Route
+   * @param {string} method
+   * @param {string} timestamp
+   * @param {string} route
    * @returns {undefined}
    */
   static networkRequest = (method, timestamp, route) => {
@@ -69,9 +68,10 @@ export default class IMPLog {
 
   /**
    * Log a network response
-   * @param {string} Response status
-   * @param {string} Timestamp
+   * @param {string} response status
+   * @param {string} timestamp
    * @param {any} data
+   * @returns {undefined}
    */
   static networkResponse = (status, timestamp, data) => {
     const prefix = `${ANSI.blue.open}[NW]${ANSI.blue.close}`
@@ -95,8 +95,8 @@ export default class IMPLog {
 
   /**
    * Log an error
-   * @param {string} Message
-   * @param {string} Filename
+   * @param {string} message
+   * @param {string} filename
    * @returns {undefined}
    */
   static error = (message, fileName) => {
@@ -107,8 +107,8 @@ export default class IMPLog {
 
   /**
    * Log a React lifecycle method
-   * @param {string} Filename
-   * @param {string} Event
+   * @param {string} filename
+   * @param {string} event
    * @returns {undefined}
    */
   static react = (filename, event) => {

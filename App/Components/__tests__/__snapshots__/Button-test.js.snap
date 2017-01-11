@@ -50,7 +50,9 @@ exports[`test renders correctly disabled 1`] = `
             4290756543,
           ]
         }
+        end={undefined}
         locations={null}
+        start={undefined}
         style={
           Object {
             "alignItems": "center",
@@ -63,11 +65,14 @@ exports[`test renders correctly disabled 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
           style={
-            Object {
-              "color": "#393939",
-              "fontSize": 22,
-              "textAlign": "center",
-            }
+            Array [
+              Object {
+                "color": "#393939",
+                "fontSize": 22,
+                "textAlign": "center",
+              },
+              undefined,
+            ]
           }>
           Test
         </Text>
@@ -129,7 +134,9 @@ exports[`test renders correctly minimal 1`] = `
             4292861919,
           ]
         }
+        end={undefined}
         locations={null}
+        start={undefined}
         style={
           Object {
             "alignItems": "center",
@@ -142,11 +149,14 @@ exports[`test renders correctly minimal 1`] = `
           allowFontScaling={true}
           ellipsizeMode="tail"
           style={
-            Object {
-              "color": "#393939",
-              "fontSize": 22,
-              "textAlign": "center",
-            }
+            Array [
+              Object {
+                "color": "#393939",
+                "fontSize": 22,
+                "textAlign": "center",
+              },
+              undefined,
+            ]
           }>
           Test
         </Text>
