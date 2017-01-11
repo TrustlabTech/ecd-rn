@@ -14,6 +14,7 @@ exports[`test renders correctly 1`] = `
     style={
       Object {
         "fontSize": 22,
+        "fontWeight": "bold",
       }
     }>
     Test FormHeading

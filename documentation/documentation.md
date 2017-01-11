@@ -26,6 +26,17 @@ Early Childhood Development App
 
 API functions avaialble to the App
 
+# login
+
+Log the user in and receive a token
+
+**Parameters**
+
+-   `phoneNumber` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `pin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+Returns **[undefined](#undefined)** 
+
 # Navigator
 
 Early Childhood Development App
@@ -77,11 +88,9 @@ A list of available scenes to navigate to
 
 # Component
 
-(c)2016 IO Digital
-33 Loop Street, Cape Town, South Africa
-
 **Meta**
 
+-   **copyright**: \[object Object]
 -   **author**: Werner Roets &lt;werner@io.co.za>
 
 # Component
@@ -616,11 +625,9 @@ Set the modal's state
 
 # ANSI
 
-(c)2016 IO Digital
-33 Loop Street, Cape Town, South Africa
-
 **Meta**
 
+-   **copyright**: \[object Object]
 -   **author**: Werner Roets &lt;werner@io.co.za>
 
 # IMPLog
@@ -633,7 +640,7 @@ Log an AsyncStorage action
 
 **Parameters**
 
--   `Filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[undefined](#undefined)** 
 
@@ -643,9 +650,9 @@ Log a network request
 
 **Parameters**
 
--   `Method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `Timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `Route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[undefined](#undefined)** 
 
@@ -655,9 +662,11 @@ Log a network response
 
 **Parameters**
 
--   `Response` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** status
--   `Timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `response` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** status
+-   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `data` **any** 
+
+Returns **[undefined](#undefined)** 
 
 ## error
 
@@ -665,8 +674,8 @@ Log an error
 
 **Parameters**
 
--   `Message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `Filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[undefined](#undefined)** 
 
@@ -676,7 +685,16 @@ Log a React lifecycle method
 
 **Parameters**
 
--   `Filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `Event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 Returns **[undefined](#undefined)** 
+
+# CONSTRUCTOR
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+**Meta**
+
+-   **copyright**: \[object Object]
+-   **author**: Werner Roets &lt;werner@io.co.za>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for App/Components/Link.js</title>
+    <title>Code coverage report for App/Components/ScrollableWaitableView.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,18 +16,18 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">App/Components</a> Link.js
+      <a href="../../index.html">All files</a> / <a href="index.html">App/Components</a> ScrollableWaitableView.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>4/4</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -37,7 +37,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>4/4</span>
       </div>
     </div>
   </div>
@@ -76,7 +76,20 @@
 31
 32
 33
-34</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -94,12 +107,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -118,31 +144,44 @@
 &nbsp;
 import React, { Component } from 'react'
 import {
+  ScrollView,
   View,
-  Text,
-  TouchableHighlight
+  ActivityIndicator
 } from 'react-native'
+import { Colours } from '../GlobalStyles'
 &nbsp;
-import { Colours, FontSizes } from '../GlobalStyles'
-export default class Link extends Component {
+/**
+ * A scrollable view that will display an ActivityIndicator until
+ * the data is available to render the screen
+ * @example
+ * &lt;ScrollableWaitableView loaded={this.state.loaded}&gt;
+ *  {this.state.apiData}
+ * &lt;/ScrollableWaitableView&gt;
+ */
+export default class ScrollableWaitableView extends Component {
+&nbsp;
 &nbsp;
   constructor(props) {
     super(props)
   }
 &nbsp;
   render() {
-    return (
-        &lt;TouchableHighlight style={{padding: 5, margin: 2}} onPress={ this.props.onPress }&gt;
-          &lt;Text style={{
-            color: Colours.secondary,
-            fontSize: FontSizes.p
-          }}
-        &gt;
-          {this.props.text}&lt;/Text&gt;
-        &lt;/TouchableHighlight&gt;
-    )
+    if(this.props.loaded) {
+      return (&lt;ScrollView style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}&gt;
+                {this.props.children}
+              &lt;/ScrollView&gt;)
+    } else {
+      return (&lt;View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}&gt;
+                &lt;ActivityIndicator
+                  animating={true}
+                  style={{height: 80}}
+                  size="large"
+                /&gt;
+              &lt;/View&gt;)
+    }
   }
-}</pre></td></tr>
+}
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
