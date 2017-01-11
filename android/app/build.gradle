@@ -8,6 +8,7 @@ apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
+// react
 project.ext.react = [
     bundleAssetName: "index.android.bundle",
     entryFile: "index.android.js",
@@ -17,6 +18,9 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+
+// react-native-vector-icons
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 def enableSeparateBuildPerCPUArchitecture = true
 def enableProguardInReleaseBuilds = true

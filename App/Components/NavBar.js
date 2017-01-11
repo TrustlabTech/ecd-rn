@@ -51,16 +51,18 @@ export default class NavBar extends Component {
     var leftButton, centerTitle, rightButton,  iOSSpacer = null
     let { leftButtonAction,
           leftButtonText,
+          leftButtonIcon,
           rightButtonAction,
           rightButtonText } = this.props
 
-    if( leftButtonText ) {
+
+    if( leftButtonText && !leftButtonIcon) {
 
       if( !leftButtonAction )
-        leftButtonAction = () => alert(" No action specified")
 
-      leftButton =
-        <TouchableHighlight
+        leftButtonAction = () => alert(" No action specified")
+        leftButton =
+        (<TouchableHighlight
           underlayColor={Colours.offWhite}
           activeOpacity={0.9}
           onPress={ () => this.pressLeftButton() }
@@ -68,8 +70,33 @@ export default class NavBar extends Component {
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>{leftButtonText}</Text>
           </View>
+        </TouchableHighlight>)
 
-        </TouchableHighlight>
+    } else if (leftButtonIcon && !leftButtonText) {
+
+        leftButton =
+        (<TouchableHighlight
+          underlayColor={Colours.offWhite}
+          activeOpacity={0.9}
+          onPress={ () => this.pressLeftButton() }
+        >
+          <View style={styles.sideButtonsViewWrapper}>
+            {leftButtonIcon}
+          </View>
+        </TouchableHighlight>)
+
+    } else if( leftButtonIcon && leftButtonText) {
+
+        leftButton =
+        (<TouchableHighlight
+          underlayColor={Colours.offWhite}
+          activeOpacity={0.9}
+          onPress={ () => this.pressLeftButton() }
+        >
+          <View style={styles.sideButtonsViewWrapper}>
+            <Text style={styles.navButtonText}>{leftButtonIcon}{leftButtonText}</Text>
+          </View>
+        </TouchableHighlight>)
 
     } else if (this.canGoBack()) {
 
