@@ -51,7 +51,7 @@ export default class AddChildScene extends IMPComponent {
       givenName: '',
       familyName: '',
       dateOfBirth: null,
-      classSelected: null
+      classSelectedId: null
     }
   }
 
@@ -82,9 +82,21 @@ export default class AddChildScene extends IMPComponent {
    */
   _fetchData() {
     // Fetch list of available classes
-    this.setState({
-      classData: this._mockData(),
-      loaded: true
+    const sessionState = Session.getState()
+    Api.fetchClasses(
+      sessionState.userData.user.id,
+      sessionState.userData._token
+    )
+
+    .then( data => {
+      this.setState({
+        classData: data,
+        loaded: true
+      })
+    })
+
+    .catch( error => {
+      alert('There was an error fetching the classes')
     })
   }
 
@@ -102,6 +114,21 @@ export default class AddChildScene extends IMPComponent {
 
   _submit() {
     // submit the form
+    const sessionState = Session.getState()
+    Api.addChild(
+      this.state.givenName,
+      this.state.familyName,
+      this.state.idNumber,
+      this.state.classSelectedId,
+      sessionState.userData._token)
+
+    .then( response => {
+      alert('Child added');
+    })
+
+    .catch( error => {
+      alert('Could not add child');
+    })
   }
 
   _pickDateOfBirth() {
@@ -134,6 +161,10 @@ export default class AddChildScene extends IMPComponent {
     }
   }
 
+  // _makeClassList() {
+  //   return this.state.classData.map( x => x.name )
+  // }
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -152,8 +183,8 @@ export default class AddChildScene extends IMPComponent {
             {/* Class */}
             <Text style={{fontSize: FontSizes.small}}>Class:</Text>
             <Selector
-              selectedValue={this.state.classSelected}
-              onValueChange={ (classSelected) => this.setState({classSelected: classSelected}) }
+              selectedValue={this.state.classSelectedId}
+              onValueChange={ classSelectedId => this.setState({classSelectedId: classSelectedId}) }
               items={this.state.classData}
             />
 

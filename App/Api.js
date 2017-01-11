@@ -132,6 +132,21 @@ export default {
       headers: {...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer: ' + token.trim() }
     })
 
-  }
-}
+  },
 
+  addChild: (givenName, familyName, idNumber, classId, token) => {
+    console.log(classId)
+    const jsonData = {
+      given_name: givenName,
+      family_name: familyName,
+      id_number: idNumber,
+      centre_class_id: classId
+    }
+    return request('child' ,{
+      method: 'POST',
+      body: JSON.stringify(jsonData),
+      headers: {...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.trim() }
+    })
+  }
+
+}
