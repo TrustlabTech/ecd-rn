@@ -33,7 +33,7 @@ export default class ScrollableWaitableView extends Component {
       return (<ScrollView
                 style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
                 keyboardDismissMode="none"
-                keyboardShouldPersistTaps="never"
+                keyboardShouldPersistTaps={false} // "never"
                 scrollEnable={true}
                 showsVerticalScrollIndicator={false}
               >

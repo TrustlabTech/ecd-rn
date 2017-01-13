@@ -20,7 +20,7 @@ exports[`test renders correctly disabled 1`] = `
         },
         Array [
           Object {
-            "borderRadius": 5,
+            "borderRadius": 4,
             "marginBottom": 8,
             "marginTop": 8,
           },
@@ -36,11 +36,11 @@ exports[`test renders correctly disabled 1`] = `
       style={
         Object {
           "borderColor": "#353535",
-          "borderRadius": 5,
+          "borderRadius": 4,
           "borderStyle": "solid",
-          "borderWidth": 1,
+          "borderWidth": 0.8,
           "flex": 1,
-          "padding": 1,
+          "paddingBottom": 0.1,
         }
       }>
       <BVLinearGradient
@@ -56,6 +56,7 @@ exports[`test renders correctly disabled 1`] = `
         style={
           Object {
             "alignItems": "center",
+            "borderRadius": 4,
             "flex": 1,
             "justifyContent": "center",
           }
@@ -104,7 +105,7 @@ exports[`test renders correctly minimal 1`] = `
         },
         Array [
           Object {
-            "borderRadius": 5,
+            "borderRadius": 4,
             "marginBottom": 8,
             "marginTop": 8,
           },
@@ -120,11 +121,11 @@ exports[`test renders correctly minimal 1`] = `
       style={
         Object {
           "borderColor": "#353535",
-          "borderRadius": 5,
+          "borderRadius": 4,
           "borderStyle": "solid",
-          "borderWidth": 1,
+          "borderWidth": 0.8,
           "flex": 1,
-          "padding": 1,
+          "paddingBottom": 0.1,
         }
       }>
       <BVLinearGradient
@@ -140,6 +141,7 @@ exports[`test renders correctly minimal 1`] = `
         style={
           Object {
             "alignItems": "center",
+            "borderRadius": 4,
             "flex": 1,
             "justifyContent": "center",
           }
