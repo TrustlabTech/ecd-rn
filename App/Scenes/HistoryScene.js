@@ -12,7 +12,8 @@ import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
   Text,
-  Alert
+  Alert,
+  InteractionManager
 } from 'react-native'
 import moment from 'moment'
 
@@ -81,9 +82,11 @@ export default class HistoryScene extends IMPComponent {
     )
 
     .then((data) => {
-      this.setState({
-        historyData: data,
-        loaded: true
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({
+          historyData: data,
+          loaded: true
+        })
       })
 
     })
@@ -217,7 +220,6 @@ export default class HistoryScene extends IMPComponent {
         <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
         <NavBar
           navigator={ this.props.navigator }
-          leftButtonText="Back"
           leftButtonAction={ () => this._goBack() }
         />
         <ScrollableWaitableView loaded={this.state.loaded}>

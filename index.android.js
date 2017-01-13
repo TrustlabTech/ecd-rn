@@ -159,7 +159,7 @@ export default class Ecdrn extends Component {
               <LoadingModal
                 visible={this.state.modal.visible}
               />
-                <View style={{flex: 1}}>
+                <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
                   {React.createElement(
                     route.scene,
                     {
@@ -174,7 +174,11 @@ export default class Ecdrn extends Component {
               </View>
             )
           }}
-          configureScene={ (route, routeStack ) => Config.sceneConfig }
+          configureScene={ (route, routeStack ) =>
+            ({
+              ...Config.sceneConfig,
+              gestures: {}} // Prevents the user from being able to swipe to go back
+            )}
         />
     )
   }

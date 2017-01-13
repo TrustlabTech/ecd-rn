@@ -30,6 +30,7 @@ export default class Button extends Component {
       bgColour1: '#fefefe',
       bgColour2: Colours.offwhite,
     }
+    // To prevent double taps
     this.guardDelay = 500
     this.recentlyTouched = false
 

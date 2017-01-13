@@ -12,7 +12,8 @@ import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
   Alert,
-  ToastAndroid
+  ToastAndroid,
+  InteractionManager
 } from 'react-native'
 
 import Config from '../Config'
@@ -88,10 +89,11 @@ export default class AttendanceScene extends IMPComponent {
 
       // Data fetched
       Session.update({classData: data})
-
-      this.setState({
-        loaded: true,
-        attendanceData: this.initAttendance(data)
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({
+          loaded: true,
+          attendanceData: this.initAttendance(data)
+        })
       })
     })
 
@@ -195,6 +197,9 @@ export default class AttendanceScene extends IMPComponent {
 
     this.setModal({visible: true})
     const sessionState = Session.getState()
+    InteractionManager.runAfterInteractions(() => {
+    })
+
     Api.submitAttendance(
       location,
       this.props.route.centreId,
@@ -257,12 +262,11 @@ export default class AttendanceScene extends IMPComponent {
 
     return (
 
-      <View style={{flex: 1, backgroundColor: Colours.offWhite}}>
+      <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
         <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
 
         <NavBar
           navigator={ this.props.navigator }
-          leftButtonText="Back"
           leftButtonAction={ () => this._goBack() }
         />
 

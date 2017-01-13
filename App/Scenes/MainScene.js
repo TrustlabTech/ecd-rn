@@ -16,16 +16,16 @@ import {
   TouchableNativeFeedback,
   DrawerLayoutAndroid,
   Alert,
-  StyleSheet
+  StyleSheet,
+  InteractionManager
 } from 'react-native'
+import { Colours, FontSizes } from '../GlobalStyles'
 
 import Api from '../Api'
 import Config from '../Config'
-import Sentry from '../Sentry'
 import Session from '../Session'
+import Sentry from '../Sentry'
 import Routes from '../Routes'
-import { Colours, FontSizes } from '../GlobalStyles'
-
 import {
   NavBar,
   ScrollableWaitableView,
@@ -140,45 +140,39 @@ export default class MainScene extends IMPComponent {
    * @returns {undefined}
    */
   _goToClassScene() {
-    this.setState({
-      loaded: false,
-      summaryData: null
-    })
-
-    setTimeout(() => {
-      this.navigator.push(Routes.class)
-    },10)
-    setTimeout(() => {
+    this.navigator.push(Routes.class)
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        loaded: false,
+        summaryData: null
+      })
       this._closeDrawer()
-    },10)
-
-    setTimeout(() => {
-
-Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
-    },100)
-    // setTimeout(() => Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene"),200)
-
-
+      Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
+    })
   }
 
   _goToHistoryScene() {
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
-    this._closeDrawer()
-    this.setState({
-      loaded: false,
-      summaryData: null
-    })
     this.navigator.push(Routes.history)
+    InteractionManager.runAfterInteractions(() => {
+      this._closeDrawer()
+      this.setState({
+        loaded: false,
+        summaryData: null
+      })
+      Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
+    })
   }
 
   _goToAddChildScene() {
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
-    this._closeDrawer()
-    this.setState({
-      loaded: false,
-      summaryData: null
-    })
     this.navigator.push(Routes.addChild)
+    InteractionManager.runAfterInteractions(() => {
+      Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
+      this._closeDrawer()
+      this.setState({
+        loaded: false,
+        summaryData: null
+      })
+    })
   }
 
   /**

@@ -29,7 +29,7 @@ export default class ScrollableWaitableView extends Component {
       )
     } else {
       return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
           <ActivityIndicator
             animating={true}
             style={{height: 80}}

@@ -40,10 +40,19 @@ export default class LoginScene extends IMPComponent {
 
   constructor(props) {
     super(props)
-    this.state = {
-      serverOnline: false,
-      phoneNumber: '',
-      pin: ''
+    if(Config.debug && Config.debugAutoLogin) {
+      this.state = {
+        serverOnline: false,
+        phoneNumber: '0000',
+        pin: '0000'
+      }
+      setTimeout(() => this._login(),100)
+    } else {
+      this.state = {
+        serverOnline: false,
+        phoneNumber: '',
+        pin: ''
+      }
     }
   }
 

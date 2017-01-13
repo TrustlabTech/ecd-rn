@@ -39,6 +39,7 @@ export default {
   debugNetwork: true,   // HTTP
   debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
+  debugAutoLogin: true,
   // App version
   version: pkg.version,
 
@@ -54,7 +55,7 @@ export default {
   // Server details
   http: {
     // baseUrl: 'http://ecd.cnsnt.io/api/v1/',
-    baseUrl: 'http://172.16.20.125:8080/api/v1/',
+    baseUrl: 'http://172.16.20.151:8080/api/v1/',
     // baseUrl: 'http://staging.ecd.cnsnt.io/api/v1/',
     headers: {
       'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,

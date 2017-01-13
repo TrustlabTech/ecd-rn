@@ -15,7 +15,9 @@ import {
   Alert,
   StyleSheet,
   Picker,
-  DatePickerAndroid
+  DatePickerAndroid,
+  ToastAndroid,
+  InteractionManager
 } from 'react-native'
 
 import moment from 'moment'
@@ -36,6 +38,7 @@ import {
   Button,
   Selector
 } from '../Components'
+import validRSAId from '../validRSAID'
 
 /**
  * A scene for adding children to the centre
@@ -47,23 +50,14 @@ export default class AddChildScene extends IMPComponent {
     super(props)
     this.state = {
       loaded: false,
+      validationErrors: [],
       classData: [],
       givenName: '',
       familyName: '',
+      idNumber: '',
       dateOfBirth: null,
       classSelectedId: null
     }
-  }
-
-  _mockData() {
-    return [
-      'Class 1',
-      'Class 2',
-      'Class 3',
-      'Class 4',
-      'Class 5',
-      'Class 6'
-    ]
   }
 
   componentWillFocus() {
@@ -89,9 +83,11 @@ export default class AddChildScene extends IMPComponent {
     )
 
     .then( data => {
-      this.setState({
-        classData: data,
-        loaded: true
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({
+          classData: data,
+          loaded: true
+        })
       })
     })
 
@@ -112,7 +108,37 @@ export default class AddChildScene extends IMPComponent {
     })
   }
 
+  _validateForm() {
+    let validationErrors = []
+    // First Name
+    if(!this.state.givenName) validationErrors.push("Please enter a first name.")
+    // Last Name
+    if(!this.state.familyName) validationErrors.push("Please enter a family name.")
+    // Date of Birth
+    if(!this.state.dateOfBirth) validationErrors.push("Please select a date of birth.")
+    // RSA ID
+    if(this.state.idNumber.length !== 13 ||
+       !this.state.idNumber.match(/^[0-9]{13}/) ||
+       !validRSAId(this.state.idNumber)
+    ) {
+         validationErrors.push("Please enter a valid 13 digit RSA ID number.")
+    }
+
+    if(validationErrors.length > 0) {
+      Alert.alert(
+        "Validation errors",
+        validationErrors.join(" "),
+        [{text: 'Okay'}]
+      )
+      return false
+    }
+    return true
+  }
+
   _submit() {
+    if(!this._validateForm()) {
+      return
+    }
     // submit the form
     const sessionState = Session.getState()
     Api.addChild(
@@ -123,11 +149,24 @@ export default class AddChildScene extends IMPComponent {
       sessionState.userData._token)
 
     .then( response => {
-      alert('Child added');
+      console.log('SERVER SAID', response)
+      ToastAndroid.show('Child added', ToastAndroid.SHORT)
+      this._resetForm()
     })
 
     .catch( error => {
       alert('Could not add child');
+    })
+  }
+
+  _resetForm() {
+    this.setState({
+      givenName: null,
+      familyName: null,
+      idNumber: '',
+      classSelectedId: null,
+      dateOfBirth: null,
+      validationErrors: []
     })
   }
 
@@ -143,8 +182,6 @@ export default class AddChildScene extends IMPComponent {
         this.setState({
           dateOfBirth: new Date(year, month, day)
         })
-      } else {
-        // User canceled do nothing
       }
     })
 
@@ -161,10 +198,6 @@ export default class AddChildScene extends IMPComponent {
     }
   }
 
-  // _makeClassList() {
-  //   return this.state.classData.map( x => x.name )
-  // }
-
   render() {
     return (
       <View style={{flex: 1}}>
@@ -172,7 +205,6 @@ export default class AddChildScene extends IMPComponent {
 
         <NavBar
           navigator={ this.props.navigator }
-          leftButtonText="Back"
           leftButtonAction={ () => this._goBack() }
         />
 
@@ -204,8 +236,17 @@ export default class AddChildScene extends IMPComponent {
               value={ this.state.familyName }
               ref="familyName"
               onChangeText={ text => this.setState({ familyName: text }) }
-              onSubmitEditing={ () => this.refs.familyName.textInput.focus() }
+              onSubmitEditing={ () => this.refs.idNumber.textInput.focus() }
 
+            />
+
+            {/* ID Number */}
+            <Text style={{fontSize: FontSizes.small}}>ID Number:</Text>
+            <TextField
+              value={ this.state.idNumber }
+              ref="idNumber"
+              onChangeText={ text => this.setState({ idNumber: text}) }
+              keyboardType="phone-pad"
             />
 
             {/* Date of Birth */}
