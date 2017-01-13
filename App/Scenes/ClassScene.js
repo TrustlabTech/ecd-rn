@@ -64,17 +64,17 @@ export default class ClassScene extends IMPComponent {
    * @returns {undefined}
    */
   _fetchData() {
-    InteractionManager.runAfterInteractions(() => {
       const sessionState = Session.getState()
       Api.fetchClasses(
         sessionState.userData.user.id,
         sessionState.userData._token
       ).then((data) => {
-
-        this.setState({
-          loaded: true,
-          centreData: data
-        })
+        setTimeout( () => {
+          this.setState({
+            loaded: true,
+            centreData: data
+          })
+        },Config.sceneTransitionMinumumTime)
       }).catch((error) => {
         if(Config.debug) {
           IMPLog.error(error.toString(), this._fileName)
@@ -86,7 +86,6 @@ export default class ClassScene extends IMPComponent {
         )
         this._goBack()
       })
-    })
 
   }
 

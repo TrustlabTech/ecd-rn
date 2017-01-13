@@ -24,12 +24,15 @@ import LinearGradient from 'react-native-linear-gradient'
  */
 export default class Button extends Component {
 
+  bgColour1 = Colours.buttonColour1
+  bgColour2 = Colours.buttonColour2
+
   constructor(props) {
     super(props)
 
     this.state = {
-      bgColour1: '#fefefe',
-      bgColour2: Colours.offwhite,
+      bgColour1: this.bgColour1,
+      bgColour2: this.bgColour2,
     }
     // To prevent double taps
     this.guardDelay = 500
@@ -40,13 +43,13 @@ export default class Button extends Component {
   componentWillMount() {
     if(this.props.disabled) {
       this.setState({
-        bgColour1: Colours.offWhite,
-        bgColour2: '#bfbfbf'
+        bgColour1: this.bgColour1,
+        bgColour2: this.bgColour2
       })
     } else {
       this.setState({
-        bgColour1: '#fefefe',
-        bgColour2: Colours.offWhite
+        bgColour1: this.bgColour1,
+        bgColour2: this.bgColour2
       })
     }
   }
@@ -55,11 +58,9 @@ export default class Button extends Component {
     if(!this.recentlyTouched) {
       if(this.props.disabled !== true) {
 
+        // Executing immediately here WILL prevent animation
         setTimeout(() => {
           InteractionManager.runAfterInteractions( () => {
-            // Executing immediately here WILL prevent animation
-            // setTimeout(() => this.props.onPress(),1)
-            // setTimeout(() => this.props.onPress(),0)
             this.props.onPress()
           })
         },0)
@@ -104,7 +105,7 @@ export default class Button extends Component {
 
           activeOpacity={this.props.disabled ? 0.4: 0.2}
 
-          style={[styles.tH, { width: this.props.width || 140, height: this.props.height || 45 }]}
+          style={[styles.tH, { width: this.props.width || 140, height: this.props.height || 50 }]}
 
           onPress={ () => this.onPress() }
         >
@@ -126,8 +127,8 @@ export default class Button extends Component {
 
 const styles = StyleSheet.create({
   tH: {
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 4,
+    marginBottom: 4,
     borderRadius: 4
   },
   view: {

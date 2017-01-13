@@ -15,7 +15,7 @@ import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
-const DEBUG = true // Master debug switch
+const DEBUG = false // Master debug switch
 
 /** The configuration file for the App */
 export default {
@@ -36,12 +36,13 @@ export default {
     }
   },
 
-  debug: DEBUG,         // Master switch
+  debug: DEBUG,         // Main switch
   debugAction: false,   // Redux actions
   debugNetwork: true,   // HTTP
   debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
   debugAutoLogin: true,
+
   // App version
   version: pkg.version,
 
@@ -50,7 +51,7 @@ export default {
 
   // Android navigator transitions
   sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-
+  sceneTransitionMinumumTime: 100,
   // Modal settings
   progressBarColor: Colours.consentOrange,
 

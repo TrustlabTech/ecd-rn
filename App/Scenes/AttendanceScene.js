@@ -56,7 +56,7 @@ export default class AttendanceScene extends IMPComponent {
 
   _goBack() {
     this.navigator.pop()
-    this.setState({loaded: false})
+      this.setState({loaded: false})
   }
 
   _hardwareBackHandler = () => {
@@ -91,13 +91,13 @@ export default class AttendanceScene extends IMPComponent {
 
       // Data fetched
       Session.update({classData: data})
-      InteractionManager.runAfterInteractions(() => {
-        this.setState({
-          loaded: true,
-          attendanceData: this.initAttendance(data)
-        })
+        setTimeout(() => {
+          this.setState({
+            loaded: true,
+            attendanceData: this.initAttendance(data)
+          })
+        },Config.sceneTransitionMinumumTime)
       })
-    })
 
     .catch((error) => {
       if(Config.debug) {

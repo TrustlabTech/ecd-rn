@@ -220,9 +220,9 @@ export default class LoginScene extends IMPComponent {
         <AndroidBackButton onPress={ () => false }/>
         <View style={ss.sceneViewWrapper}>
 
-          <View style={{height: 20}}/>
 
-          <View style={{height: 320}}>
+
+          <View style={{height: 320, flex: 1, marginTop: 50}}>
             <SceneHeading text={ Config.appName.toUpperCase() }/>
 
             <FormHeading text="Login"/>
@@ -254,8 +254,8 @@ export default class LoginScene extends IMPComponent {
 
           </View>
 
-          { this.makeFooter() }
 
+          { this.makeFooter() }
         </View>
       </ScrollableWaitableView>
     )

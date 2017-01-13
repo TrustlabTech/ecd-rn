@@ -57,10 +57,20 @@ export default class HistoryDayItem extends Component {
 
         <View style={{flexDirection: 'row'}}>
           <TouchableNativeFeedback onPress={() => this._toggleChildItemsVisible() }>
-            <Text style={{fontSize: FontSizes.h5}}>
-              <Icon name="arrow-right-bold-circle-outline"/>
-              {this.props.day + " " + moment(new Date(0,this.props.month - 1)).format("MMMM")} ({ (this.props.totalChildren - this.props.absentChildren.length )+"/"+(this.props.totalChildren) })
-            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <View>
+                {
+                  this.state.childItemsVisible ?
+                  <Icon name="chevron-down" size={25}/> :
+                  <Icon name="chevron-right" size={25}/>
+                }
+              </View>
+              <View>
+                <Text style={{fontSize: FontSizes.h5}}>
+                  {this.props.day + " " + moment(new Date(0,this.props.month - 1)).format("MMMM")} ({ (this.props.totalChildren - this.props.absentChildren.length )+"/"+(this.props.totalChildren) })
+                </Text>
+              </View>
+            </View>
           </TouchableNativeFeedback>
           <View style={{flex: 2}}/>
         </View>

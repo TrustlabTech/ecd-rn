@@ -71,6 +71,7 @@ export default class TextField extends Component {
             blurOnSubmit={ this.props.blurOnSubmit || false }
             maxLength={ this.props.maxLength || 20 }
             autoFocus={ this.props.autoFocus || false }
+            selectTextOnFocus={ true }
             style={{
               marginLeft: 5,
               marginRight: 5,
