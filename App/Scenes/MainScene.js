@@ -73,10 +73,12 @@ export default class MainScene extends IMPComponent {
     Api.fetchCentreSummary(centre_id,token)
 
     .then( (data) => {
-      this.setState({
-        loaded: true,
-        summaryData: data
-      })
+      setTimeout(() => {
+        this.setState({
+          loaded: true,
+          summaryData: data
+        })
+      },Config.sceneTransitionMinumumTime)
     })
 
     .catch((error) => {
@@ -288,27 +290,29 @@ export default class MainScene extends IMPComponent {
             }
           >
             <ScrollableWaitableView loaded={this.state.loaded}>
-              <View style={ss.mainViewWrapper}>
-                <SceneHeading text={ Session.getState().userData.user.centre.name }/>
+              <SceneHeading text={ Session.getState().userData.user.centre.name }/>
+              <View style={{flex: 1, flexDirection: 'column', paddingLeft: 20, paddingRight: 20}}>
                 <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>{loggedInAs}</Text>
                 <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Classes: {numClasses}</Text>
                 <Text style={[ss.loggedInAsText,{color: Colours.darkText}]}>Children: {numChildren}</Text>
+              </View>
+              <View style={ss.mainViewWrapper}>
                 <Button
                   text={mainBtnText}
                   onPress={ () => this._goToClassScene() }
-                  width={250}
+                  width={280}
                   height={80}
                 />
                 <Button
                   text={historyBtnText}
                   onPress={ () => this._goToHistoryScene() }
-                  width={250}
+                  width={280}
                   height={80}
                 />
                 <Button
                   text="Add Child"
                   onPress={ () => this._goToAddChildScene() }
-                  width={250}
+                  width={280}
                   height={50}
                 />
               </View>

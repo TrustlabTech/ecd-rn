@@ -36,10 +36,11 @@ import {
   NavBar,
   TextField,
   Button,
-  Selector
+  Selector,
+  DatePicker
 } from '../Components'
 import validRSAId from '../validRSAID'
-
+const dismissKeyboard = require('dismissKeyboard')
 /**
  * A scene for adding children to the centre
  * @extends IMPComponent
@@ -84,12 +85,12 @@ export default class AddChildScene extends IMPComponent {
     )
 
     .then( data => {
-      InteractionManager.runAfterInteractions(() => {
+      setTimeout( () => {
         this.setState({
           classData: data,
           loaded: true
         })
-      })
+      },Config.sceneTransitionMinumumTime)
     })
 
     .catch( error => {
@@ -227,8 +228,9 @@ export default class AddChildScene extends IMPComponent {
               value={ this.state.givenName }
               ref="givenName"
               onChangeText={ text => this.setState({ givenName: text }) }
-              returnKeyType="next"
-              onSubmitEditing={ () => this.refs.familyName.textInput.focus() }
+              returnKeyType="done"
+              autoCapitalize="sentences"
+              onSubmitEditing={ () => dismissKeyboard() }
             />
 
             {/* Family Name */}
@@ -237,7 +239,9 @@ export default class AddChildScene extends IMPComponent {
               value={ this.state.familyName }
               ref="familyName"
               onChangeText={ text => this.setState({ familyName: text }) }
-              onSubmitEditing={ () => this.refs.idNumber.textInput.focus() }
+              returnKeyType="done"
+              autoCapitalize="sentences"
+              onSubmitEditing={ () => dismissKeyboard() }
 
             />
 
@@ -247,34 +251,18 @@ export default class AddChildScene extends IMPComponent {
               value={ this.state.idNumber }
               ref="idNumber"
               onChangeText={ text => this.setState({ idNumber: text}) }
+              returnKeyType="done"
+              autoCapitalize="sentences"
               keyboardType="phone-pad"
+              onSubmitEditing={ () => dismissKeyboard() }
             />
 
             {/* Date of Birth */}
             <Text style={{fontSize: FontSizes.small}}>Date Of Birth:</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
-
-              <View style={{
-                width: 180,
-                height: 50,
-                marginRight: 3,
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderRadius: 5,
-                paddingTop: 12
-              }}>
-                <Text style={{marginLeft: 8, fontSize: FontSizes.p}}>{this._friendlyDate(this.state.dateOfBirth)}</Text>
-              </View>
-
-              <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5, paddingLeft: 5}}>
-                <Button text="Select" width={80} onPress={ () => this._pickDateOfBirth() }/>
-              </View>
-
-            </View>
-
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-              <Button text="Add" onPress={ () => this._submit() }/>
-            </View>
+            <DatePicker
+              onPress={ () => this._pickDateOfBirth() }
+              dateOfBirth={this.state.dateOfBirth}
+            />
 
           </View>
         </ScrollableWaitableView>

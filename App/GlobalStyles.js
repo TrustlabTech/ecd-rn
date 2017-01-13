@@ -20,7 +20,9 @@ export const Colours = {
   darkText: '#030303',
   offWhite: '#dfdfdf',
   touchableUnderLay: '#ebebeb',
-  sceneBackgroundColour: '#fefefe'
+  sceneBackgroundColour: '#fefefe',
+  buttonColour1: '#f9f9f9',
+  buttonColour2: '#d2d2d2'
 
 }
 

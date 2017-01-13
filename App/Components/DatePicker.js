@@ -9,8 +9,10 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  DatePickerAndroid
+  DatePickerAndroid,
+  TouchableWithoutFeedback
 } from 'react-native'
+import { Button } from './'
 import moment from 'moment'
 
 export default class DatePicker extends Component {
@@ -20,34 +22,38 @@ export default class DatePicker extends Component {
   }
 
   _friendlyDate() {
-    if(this.state.dateOfBirth === null) {
-      return ''
+    if(this.props.dateOfBirth === null) {
+      return 'Tap to select'
     } else {
-      return moment(this.state.dateOfBirth).format('Do MMMM YYYY')
+      return moment(this.props.dateOfBirth).format('Do MMMM YYYY')
     }
   }
 
   render() {
-    return (<View style={{flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
-              <View style={{
-                width: 220,
-                height: 50,
-                marginRight: 3,
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderRadius: 5,
-                paddingTop: 10
-              }}>
-                <Text style={{marginLeft: 8, fontSize: 20}}>
-                  {this._friendlyDate(this.state.dateOfBirth)}
-                </Text>
+    return (
+      <TouchableWithoutFeedback onPress={ () => this.props.onPress() }>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+          <View style={{
+            flex: 1,
+            height: 50,
+            marginRight: 3,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderRadius: 5,
+            paddingTop: 10
+          }}>
+            <Text style={{marginLeft: 8, fontSize: 20}}>
+              {this._friendlyDate(this.props.dateOfBirth)}
+            </Text>
 
-              </View>
+          </View>
 
-              <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5, paddingLeft: 5}}>
-                <Button text="Select" width={80} onPress={ () => this._pickDateOfBirth() }/>
-              </View>
+          <View style={{paddingRight: 5, paddingLeft: 5}}>
+            <Button text="Select" width={100} onPress={ () => this.props.onPress() }/>
+          </View>
 
-            </View>)
-    }
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
 }

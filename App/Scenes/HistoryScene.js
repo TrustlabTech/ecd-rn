@@ -83,13 +83,12 @@ export default class HistoryScene extends IMPComponent {
     )
 
     .then((data) => {
-      InteractionManager.runAfterInteractions(() => {
+      setTimeout(() => {
         this.setState({
           historyData: data,
           loaded: true
         })
-      })
-
+      },Config.sceneTransitionMinumumTime)
     })
 
     .catch((error) => {

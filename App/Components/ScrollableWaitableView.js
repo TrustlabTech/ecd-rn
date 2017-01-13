@@ -9,9 +9,11 @@ import React, { Component } from 'react'
 import {
   ScrollView,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableWithoutFeedback
 } from 'react-native'
 import { Colours } from '../GlobalStyles'
+const dismissKeyboard = require('dismissKeyboard')
 
 /**
  * A scrollable view that will display an ActivityIndicator until
@@ -32,12 +34,17 @@ export default class ScrollableWaitableView extends Component {
     if(this.props.loaded) {
       return (<ScrollView
                 style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
-                keyboardDismissMode="none"
-                keyboardShouldPersistTaps={false} // "never"
+                keyboardDismissMode="interactive"
+                keyboardShouldPersistTaps="never"
                 scrollEnable={true}
-                showsVerticalScrollIndicator={false}
+                showsVerticalScrollIndicator={true}
               >
-                {this.props.children}
+                { /* This allows us to dismiss the keyboard by tapping away */}
+                <TouchableWithoutFeedback style={{flex: 1}} onPress={ () => { dismissKeyboard() }}>
+                  <View style={{flex: 1}}>
+                    {this.props.children}
+                  </View>
+                </TouchableWithoutFeedback>
               </ScrollView>)
     } else {
       return (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
