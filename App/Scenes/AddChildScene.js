@@ -72,6 +72,7 @@ export default class AddChildScene extends IMPComponent {
 
   /**
    * Fetch server data needed to render the page
+   * @memberof AddChildScene
    * @returns {undefined}
    */
   _fetchData() {

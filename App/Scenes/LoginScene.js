@@ -133,7 +133,7 @@ export default class LoginScene extends IMPComponent {
           Session.update({userData: data})
 
           // and track her with GA
-          this.props.gaTrackers.tracker1.setUser(data.user.id+' '+data.user.given_name +' ')
+          this.props._gaTrackers.tracker1.setUser(data.user.id+' '+data.user.given_name +' ')
 
           // Go to main scene
           this.navigator.push({
@@ -190,7 +190,7 @@ export default class LoginScene extends IMPComponent {
 
   /**
    * Get the information to be displayed in the footer
-   * @returns {array} The text items to display
+   * @returns {Array} The text items to display
    */
   footerTexts = () =>
     Config.debug ?

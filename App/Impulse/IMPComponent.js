@@ -57,7 +57,7 @@ export default class IMPComponent extends Component {
         IMPLog.react(this._className, Lifecycle.COMPONENT_DID_FOCUS)
       }
     } else {
-      this.props.gaTrackers.tracker1.trackScreenView(this._className)
+      this.props._gaTrackers.tracker1.trackScreenView(this._className)
     }
   }
 
@@ -76,7 +76,7 @@ export default class IMPComponent extends Component {
         IMPLog.react(this._className, Lifecycle.COMPONENT_DID_MOUNT)
       }
     } else {
-      this.props.gaTrackers.tracker1.trackScreenView(this._className)
+      this.props._gaTrackers.tracker1.trackScreenView(this._className)
     }
   }
 

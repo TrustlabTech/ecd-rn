@@ -11,7 +11,8 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  ToastAndroid
+  ToastAndroid,
+  InteractionManager
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 import LinearGradient from 'react-native-linear-gradient'
@@ -54,8 +55,14 @@ export default class Button extends Component {
     if(!this.recentlyTouched) {
       if(this.props.disabled !== true) {
 
-        // Blocking here will prevent animation
-        setTimeout(() => this.props.onPress(),0)
+        setTimeout(() => {
+          InteractionManager.runAfterInteractions( () => {
+            // Executing immediately here WILL prevent animation
+            // setTimeout(() => this.props.onPress(),1)
+            // setTimeout(() => this.props.onPress(),0)
+            this.props.onPress()
+          })
+        },0)
 
       } else {
 
@@ -121,18 +128,19 @@ const styles = StyleSheet.create({
   tH: {
     marginTop: 8,
     marginBottom: 8,
-    borderRadius: 5
+    borderRadius: 4
   },
   view: {
     flex: 1,
     borderColor: Colours.primaryLowlight,
-    borderWidth: 1,
+    borderWidth: 0.8,
     borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 1
+    borderRadius: 4,
+    paddingBottom: 0.1
   },
   lG: {
     flex: 1,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },

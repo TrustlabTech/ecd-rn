@@ -15,6 +15,8 @@ import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
+const DEBUG = true // Master debug switch
+
 /** The configuration file for the App */
 export default {
   // The full name of the application
@@ -34,7 +36,7 @@ export default {
     }
   },
 
-  debug: true,          // Master switch
+  debug: DEBUG,         // Master switch
   debugAction: false,   // Redux actions
   debugNetwork: true,   // HTTP
   debugReact: true,     // Show react lifescylce data
@@ -54,9 +56,7 @@ export default {
 
   // Server details
   http: {
-    // baseUrl: 'http://ecd.cnsnt.io/api/v1/',
-    baseUrl: 'http://172.16.20.151:8080/api/v1/',
-    // baseUrl: 'http://staging.ecd.cnsnt.io/api/v1/',
+    baseUrl: DEBUG ? 'http://staging.ecd.cnsnt.io/api/v1/' : 'http://ecd.cnsnt.io/api/v1/',
     headers: {
       'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,
       'X-Client-Version': pkg.version,
@@ -75,3 +75,4 @@ export default {
     optOut: false
   }
 }
+

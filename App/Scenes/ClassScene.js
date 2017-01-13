@@ -60,6 +60,7 @@ export default class ClassScene extends IMPComponent {
 
   /**
    * Fetch server data needed to render the page
+   * @memberof ClassScene
    * @returns {undefined}
    */
   _fetchData() {

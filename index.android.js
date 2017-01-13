@@ -10,7 +10,8 @@ import Config from './App/Config'
 import {
   AppRegistry,
   Navigator,
-  View
+  View,
+  Platform
 } from 'react-native'
 
 import Routes from './App/Routes'
@@ -23,7 +24,7 @@ import { Colours } from './App/GlobalStyles'
 import IMPLog from './App/Impulse/IMPLog'
 import * as Lifecycle from './App/Impulse/lib/Lifecycle'
 import LoadingModal from './App/Components/LoadingModal'
-
+console.log('Platform',Platform)
 /**
  * The root component of Ecdrn
  * @extends React.Component
@@ -46,7 +47,7 @@ export default class Ecdrn extends Component {
   _className = null
 
   /** An object to hold google analytics tracks */
-  gaTrackers = {}
+  _gaTrackers = {}
 
   constructor(props) {
     super(props)
@@ -111,12 +112,12 @@ export default class Ecdrn extends Component {
    * @returns {undefined}
    */
   _initAnalytics = () => {
-    this.gaTrackers = {
+    this._gaTrackers = {
       tracker1: new GoogleAnalyticsTracker(Config.googleAnalytics.trackers.tracker1)
     }
-    this.gaTrackers.tracker1.setAppName(Config.appName + ' v' + Config.version)
-    this.gaTrackers.tracker1.setAnonymizeIp(Config.googleAnalytics.anonymizeIp)
-    this.gaTrackers.tracker1.setSamplingRate(Config.googleAnalytics.samplingRate)
+    this._gaTrackers.tracker1.setAppName(Config.appName + ' v' + Config.version)
+    this._gaTrackers.tracker1.setAnonymizeIp(Config.googleAnalytics.anonymizeIp)
+    this._gaTrackers.tracker1.setSamplingRate(Config.googleAnalytics.samplingRate)
 
     GoogleAnalyticsSettings.setDispatchInterval(Config.googleAnalytics.dispatchInterval)
     GoogleAnalyticsSettings.setDryRun(Config.debug)
@@ -165,7 +166,7 @@ export default class Ecdrn extends Component {
                     {
                       route,
                       navigator,
-                      gaTrackers: this.gaTrackers,  // Google Analytics
+                      _gaTrackers: this._gaTrackers,  // Google Analytics
                       _navigationEventEmitter: this._navigationEventEmitter, // Navigator events
                       _modalEventEmitter: this._modalEventEmitter // LoadingModal events
                     }
