@@ -16,6 +16,7 @@ import {
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 import Config from '../Config'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default class NavBar extends Component {
 
@@ -101,7 +102,7 @@ export default class NavBar extends Component {
     } else if (this.canGoBack()) {
 
       let text = leftButtonText ?
-        leftButtonText : "Back"
+        leftButtonText : "Prev"
 
       leftButton =
         <TouchableHighlight
@@ -110,7 +111,7 @@ export default class NavBar extends Component {
           onPress={ () => this.goBack() }
         >
           <View style={styles.sideButtonsViewWrapper}>
-            <Text style={styles.navButtonText}>{text}</Text>
+            <Icon name="arrow-left" size={30} color={Colours.lightText}/>
           </View>
         </TouchableHighlight>
 

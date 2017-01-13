@@ -30,11 +30,17 @@ export default class ScrollableWaitableView extends Component {
 
   render() {
     if(this.props.loaded) {
-      return (<ScrollView style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}>
+      return (<ScrollView
+                style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
+                keyboardDismissMode="none"
+                keyboardShouldPersistTaps="never"
+                scrollEnable={true}
+                showsVerticalScrollIndicator={false}
+              >
                 {this.props.children}
               </ScrollView>)
     } else {
-      return (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      return (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
                 <ActivityIndicator
                   animating={true}
                   style={{height: 80}}

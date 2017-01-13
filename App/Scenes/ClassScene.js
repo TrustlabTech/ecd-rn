@@ -11,7 +11,8 @@ import IMPLog from '../Impulse/IMPLog'
 import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
-  Alert
+  Alert,
+  InteractionManager
 } from 'react-native'
 
 import Config from '../Config'
@@ -62,27 +63,28 @@ export default class ClassScene extends IMPComponent {
    * @returns {undefined}
    */
   _fetchData() {
+    InteractionManager.runAfterInteractions(() => {
+      const sessionState = Session.getState()
+      Api.fetchClasses(
+        sessionState.userData.user.id,
+        sessionState.userData._token
+      ).then((data) => {
 
-    const sessionState = Session.getState()
-    Api.fetchClasses(
-      sessionState.userData.user.id,
-      sessionState.userData._token
-    ).then((data) => {
-
-      this.setState({
-        loaded: true,
-        centreData: data
+        this.setState({
+          loaded: true,
+          centreData: data
+        })
+      }).catch((error) => {
+        if(Config.debug) {
+          IMPLog.error(error.toString(), this._fileName)
+        }
+        Alert.alert(
+          Config.errorMessage.network.title,
+          Config.errorMessage.network.message,
+          [{text: "Okay"}]
+        )
+        this._goBack()
       })
-    }).catch((error) => {
-      if(Config.debug) {
-        IMPLog.error(error.toString(), this._fileName)
-      }
-      Alert.alert(
-        Config.errorMessage.network.title,
-        Config.errorMessage.network.message,
-        [{text: "Okay"}]
-      )
-      this._goBack()
     })
 
   }
@@ -96,7 +98,7 @@ export default class ClassScene extends IMPComponent {
   }
 
   takeAttendance(val) {
-    const sessionState = Session.getState()
+    // const sessionState = Session.getState()
 
     this.navigator.push({...Routes.attendance, classId: val.id })
 
@@ -129,7 +131,6 @@ export default class ClassScene extends IMPComponent {
         <AndroidBackButton onPress={ () => this._hardwareBackHandler() }/>
         <NavBar
           navigator={ this.props.navigator }
-          leftButtonText="Back"
           leftButtonAction={ () => this._goBack() }
         />
         <ScrollableWaitableView loaded={this.state.loaded}>
