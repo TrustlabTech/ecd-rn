@@ -671,7 +671,7 @@ export default class LoginScene extends IMPComponent {
 <span class="cstat-no" title="statement not covered" >          Session.update({userData: data})</span>
 &nbsp;
           // and track her with GA
-<span class="cstat-no" title="statement not covered" >          this.props.gaTrackers.tracker1.setUser(data.user.id+' '+data.user.given_name +' ')</span>
+<span class="cstat-no" title="statement not covered" >          this.props._gaTrackers.tracker1.setUser(data.user.id+' '+data.user.given_name +' ')</span>
 &nbsp;
           // Go to main scene
 <span class="cstat-no" title="statement not covered" >          this.navigator.push({</span>

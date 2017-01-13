@@ -26,16 +26,30 @@ Early Childhood Development App
 
 API functions avaialble to the App
 
-# login
+## login
 
 Log the user in and receive a token
 
 **Parameters**
 
--   `phoneNumber` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `pin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `phoneNumber` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `pin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
+
+## fetchCentreSummary
+
+## fetchCentres
+
+## fetchClasses
+
+## fetchClass
+
+## fetchHistory
+
+## submitAttendance
+
+## addChild
 
 # Navigator
 
@@ -68,7 +82,7 @@ Early Childhood Development App
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 # ClassScene
 
@@ -80,7 +94,7 @@ A scene for selecting a class in the centre
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 # Routes
 
@@ -297,7 +311,7 @@ Emits events for the LoadingModal
 
 **Parameters**
 
--   `options`  
+-   `options`
 
 # Button
 
@@ -376,10 +390,6 @@ A simple picker with a border that displays a Array<String>
 
 A scene allowing the user to submit attendance for the chosen class
 
-## \_fetchData
-
-Fetch data for this scene from the server
-
 ## initAttendance
 
 Initialise the attendanceData based on the classData
@@ -419,6 +429,12 @@ Upload the attendance data to the server
 Submit the attendance.
 Get the location and upload the data if successful
 
+## \_fetchData
+
+Fetch data for this scene from the server
+
+Returns **[undefined](#undefined)**
+
 # LoginScene
 
 **Extends IMPComponent**
@@ -429,37 +445,25 @@ A scene allowing users to login using their phone number and pin
 
 Check if the server is online
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## \_login
 
 Log the user in
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## footerTexts
 
 Get the information to be displayed in the footer
 
-Returns **[array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** The text items to display
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** The text items to display
 
 # MainScene
 
 **Extends IMPComponent**
 
 The main scene of the application show after login
-
-## constructor
-
-**Parameters**
-
--   `props`  
-
-## \_fetchData
-
-Fetch server data needed to render the page
-
-Returns **[undefined](#undefined)** 
 
 ## \_hardwareBackHandler
 
@@ -471,29 +475,35 @@ Returns **any** undefined
 
 Closes the drawer
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## \_openDrawer
 
 Opens the drawer
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## \_toggleDrawer
 
 Open the drawer if it is closed, close the drawer if it is open.
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## \_goToClassScene
 
 Navigate to ClassScene.
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## \_logout
 
 Log the current user out and return to the login screen.
+
+## \_fetchData
+
+Fetch server data needed to render the page
+
+Returns **[undefined](#undefined)**
 
 # \_fetchData
 
@@ -511,23 +521,35 @@ A scene for viewing the attendance history of the centre
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## reformatHistory
 
 Convert the api data to a more appropriate form
+
+## MonthNavButtons
+
+Returns **[Component](#component)** MonthNavButtons
 
 ## makeHistoryDayItems
 
 Make an array of HistoryDayItem components based on
 z (data), month and year.
 
+**Parameters**
+
+-   `z` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** data
+-   `month` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The month
+-   `year` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The year
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** components - An array containing the resulting components
+
 ## makeMainView
 
 Create either an array of HistoryDayItem components or a
 text component informing the user that there was no data.
 
-# 
+#
 
 **Extends IMPComponent**
 
@@ -537,7 +559,7 @@ A scene for adding children to the centre
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 # NativeModules
 
@@ -573,7 +595,7 @@ Update the current state
 
 -   Throws **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Update only accepts objects
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 # Ecdrn
 
@@ -601,7 +623,7 @@ The name of the file of the current Scene
 
 The name of the class of the current Scene
 
-## gaTrackers
+## _gaTrackers
 
 An object to hold google analytics tracks
 
@@ -609,7 +631,7 @@ An object to hold google analytics tracks
 
 Initialise google analytics
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## \_onWillFocus
 
@@ -640,9 +662,9 @@ Log an AsyncStorage action
 
 **Parameters**
 
--   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## networkRequest
 
@@ -650,11 +672,11 @@ Log a network request
 
 **Parameters**
 
--   `method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## networkResponse
 
@@ -663,10 +685,10 @@ Log a network response
 **Parameters**
 
 -   `response` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** status
--   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `data` **any** 
+-   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `data` **any**
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## error
 
@@ -674,10 +696,10 @@ Log an error
 
 **Parameters**
 
--   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 ## react
 
@@ -685,10 +707,10 @@ Log a React lifecycle method
 
 **Parameters**
 
--   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
-Returns **[undefined](#undefined)** 
+Returns **[undefined](#undefined)**
 
 # CONSTRUCTOR
 
@@ -698,3 +720,47 @@ Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 
 -   **copyright**: \[object Object]
 -   **author**: Werner Roets &lt;werner@io.co.za>
+
+# CONSTRUCTOR
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_WILL_MOUNT
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_DID_MOUNT
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_WILL_RECEIEVE_PROPS
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# SHOULD_COMPONENT_UPDATE
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_WILL_UPDATE
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_DID_UPDATE
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_WILL_UNMOUNT
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# RENDER
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_WILL_FOCUS
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)
+
+# COMPONENT_DID_FOCUS
+
+Type: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)

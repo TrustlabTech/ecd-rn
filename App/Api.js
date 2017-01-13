@@ -59,6 +59,7 @@ export default {
 
   /**
    * Log the user in and receive a token
+   * @memberof Api
    * @param {string} phoneNumber
    * @param {string} pin
    * @returns {undefined}
@@ -75,6 +76,9 @@ export default {
 
   },
 
+  /**
+   * @memberof Api
+   */
   fetchCentreSummary: (centreId, token) => {
     return request(`centre/${centreId}/summary`,{
       method: 'GET',
@@ -82,6 +86,9 @@ export default {
     })
   },
 
+  /**
+   * @memberof Api
+   */
   fetchCentres: (token) => {
     return request('centre',{
       method: 'GET',
@@ -89,7 +96,9 @@ export default {
     })
   },
 
-
+  /**
+   * @memberof Api
+   */
   fetchClasses: (staffId, token) => {
     return request('class/attendance/' + staffId,{
       method: 'GET',
@@ -97,6 +106,9 @@ export default {
     })
   },
 
+  /**
+   * @memberof Api
+   */
   fetchClass: (classId, token) => {
     return request('child/class/' + classId ,{
       method: 'GET',
@@ -104,6 +116,9 @@ export default {
     })
   },
 
+  /**
+   * @memberof Api
+   */
   fetchHistory: (centreId, year, month, token) => {
     return request(`attendance/${centreId}/history/${year}/${month}`, {
       method: 'GET',
@@ -111,6 +126,9 @@ export default {
     })
   },
 
+  /**
+   * @memberof Api
+   */
   submitAttendance: (location, centreId, classId, attendanceData, token) => {
 
     const children = attendanceData.map((x,i) => ({
@@ -134,6 +152,9 @@ export default {
 
   },
 
+  /**
+   * @memberof Api
+   */
   addChild: (givenName, familyName, idNumber, classId, token) => {
     console.log(classId)
     const jsonData = {

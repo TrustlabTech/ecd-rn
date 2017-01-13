@@ -66,6 +66,7 @@ export default class HistoryScene extends IMPComponent {
 
   /**
    * Fetch server data needed to render the page
+   * @memberof
    * @returns {undefined}
    */
   _fetchData() {
@@ -166,6 +167,9 @@ export default class HistoryScene extends IMPComponent {
     return days
   }
 
+  /**
+   * @returns {Component} MonthNavButtons
+   */
   MonthNavButtons = () =>
  (<View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10}}>
     <View style={{flex: 1, marginLeft: 5, marginRight: 5, marginTop: 10, marginBottom: 10}}>
@@ -186,6 +190,10 @@ export default class HistoryScene extends IMPComponent {
   /**
    * Make an array of HistoryDayItem components based on
    * z (data), month and year.
+   * @param {Array} z - data
+   * @param {number} month - The month
+   * @param {number} year - The year
+   * @returns {Array} components - An array containing the resulting components
    */
   makeHistoryDayItems = (z, month, year) =>
     z.map((x) =>

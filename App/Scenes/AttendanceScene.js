@@ -66,6 +66,8 @@ export default class AttendanceScene extends IMPComponent {
 
   /**
    * Fetch data for this scene from the server
+   * @memberof AttendanceScene
+   * @returns {undefined}
    */
   _fetchData() {
     const sessionState = Session.getState()

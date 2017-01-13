@@ -36,11 +36,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 /**
  * The main scene of the application show after login
- * @augments IMPComponent
+ * @extends IMPComponent
  */
 export default class MainScene extends IMPComponent {
 
-  /** @constructor */
   constructor(props) {
     super(props)
 
@@ -64,6 +63,7 @@ export default class MainScene extends IMPComponent {
 
   /**
    * Fetch server data needed to render the page
+   * @memberof MainScene
    * @returns {undefined}
    */
   _fetchData() {
