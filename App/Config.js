@@ -6,7 +6,6 @@
  */
 
 import {
-  Dimensions,
   Platform,
   Navigator
 } from 'react-native'
@@ -15,7 +14,7 @@ import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
-const DEBUG = false // Master debug switch
+const DEBUG = true // Master debug switch
 
 /** The configuration file for the App */
 export default {

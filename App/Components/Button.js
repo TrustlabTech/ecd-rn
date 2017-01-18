@@ -24,24 +24,22 @@ import LinearGradient from 'react-native-linear-gradient'
  */
 export default class Button extends Component {
 
-  bgColour1 = Colours.buttonColour1
-  bgColour2 = Colours.buttonColour2
-
-  constructor(props) {
+  constructor (props) {
     super(props)
+    this.bgColour1 = Colours.buttonColour1
+    this.bgColour2 = Colours.buttonColour2
 
     this.state = {
       bgColour1: this.bgColour1,
-      bgColour2: this.bgColour2,
+      bgColour2: this.bgColour2
     }
     // To prevent double taps
     this.guardDelay = 500
     this.recentlyTouched = false
-
   }
 
-  componentWillMount() {
-    if(this.props.disabled) {
+  componentWillMount () {
+    if (this.props.disabled) {
       this.setState({
         bgColour1: this.bgColour1,
         bgColour2: this.bgColour2
@@ -54,35 +52,30 @@ export default class Button extends Component {
     }
   }
 
-  onPress() {
-    if(!this.recentlyTouched) {
-      if(this.props.disabled !== true) {
-
+  onPress () {
+    if (!this.recentlyTouched) {
+      if (this.props.disabled !== true) {
         // Executing immediately here WILL prevent animation
         setTimeout(() => {
-          InteractionManager.runAfterInteractions( () => {
+          InteractionManager.runAfterInteractions(() => {
             this.props.onPress()
           })
-        },0)
-
+        }, 0)
       } else {
-
         // If a message was given display it
-        if(this.props.disabledText)
-          ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT);
-
+        if (this.props.disabledText) {
+          ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT)
+        }
       }
-
       // Gaurd
       this.recentlyTouched = true
       // Ungaurd after delay
-      setTimeout(() => this.recentlyTouched = false ,this.guardDelay)
+      setTimeout(() => { this.recentlyTouched = false }, this.guardDelay)
     }
-
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
-    if(this.props.disabled) {
+  componentWillReceiveProps (nextProps, nextState) {
+    if (this.props.disabled) {
       this.setState({
         bgColour1: Colours.offWhite,
         bgColour2: '#bfbfbf'
@@ -95,7 +88,7 @@ export default class Button extends Component {
     }
   }
 
-  render() {
+  render () {
     return (
       <View>
 
@@ -103,15 +96,15 @@ export default class Button extends Component {
 
           underlayColor={Colours.offWhite}
 
-          activeOpacity={this.props.disabled ? 0.4: 0.2}
+          activeOpacity={this.props.disabled ? 0.4 : 0.2}
 
           style={[styles.tH, { width: this.props.width || 140, height: this.props.height || 50 }]}
 
-          onPress={ () => this.onPress() }
+          onPress={() => this.onPress()}
         >
 
           <View style={styles.view}>
-            <LinearGradient colors={[this.state.bgColour1, this.state.bgColour2 ]} style={styles.lG}>
+            <LinearGradient colors={[ this.state.bgColour1, this.state.bgColour2 ]} style={styles.lG}>
               <Text style={[styles.text, this.props.style]}>
                 {this.props.text}
               </Text>
@@ -143,11 +136,21 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 4,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
-  text : {
+  text: {
     color: Colours.primary,
     fontSize: FontSizes.h5,
     textAlign: 'center'
   }
 })
+
+Button.propTypes = {
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+  text: React.PropTypes.string,
+  disabledText: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
+  onPress: React.PropTypes.func,
+  style: React.PropTypes.object
+}

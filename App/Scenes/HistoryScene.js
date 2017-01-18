@@ -59,7 +59,7 @@ export default class HistoryScene extends IMPComponent {
     this.navigator.pop()
   }
 
-  _hardwareBackHandler = () => {
+  _hardwareBackHandler() {
     this._goBack()
     return true
   }
@@ -103,7 +103,7 @@ export default class HistoryScene extends IMPComponent {
     })
   }
 
-  nextMonth = () => {
+  nextMonth () {
     // get current month/year
     const currentMoment = moment(new Date(this.state.year, this.state.month - 1))
 
@@ -118,7 +118,7 @@ export default class HistoryScene extends IMPComponent {
     this._fetchData()
   }
 
-  previousMonth = () => {
+  previousMonth () {
     // get current month/year
     const currentMoment = moment(new Date(this.state.year, this.state.month - 1))
 
@@ -136,7 +136,7 @@ export default class HistoryScene extends IMPComponent {
   /**
    * Convert the api data to a more appropriate form
    */
-  reformatHistory = z => {
+  reformatHistory (z) {
 
     let days = []
 
@@ -186,24 +186,24 @@ export default class HistoryScene extends IMPComponent {
   </View>)
 
 
-  /**
-   * Make an array of HistoryDayItem components based on
-   * z (data), month and year.
-   * @param {Array} z - data
-   * @param {number} month - The month
-   * @param {number} year - The year
-   * @returns {Array} components - An array containing the resulting components
-   */
-  makeHistoryDayItems = (z, month, year) =>
-    z.map((x) =>
-      (<HistoryDayItem
-        key={x.day}
-        day={x.day}
-        month={month}
-        absentChildren={x.absent}
-        totalChildren={(x.absent.length + x.present.length)}
-      />)
-    )
+    /**
+     * Make an array of HistoryDayItem components based on
+     * z (data), month and year.
+     * @param {Array} z - data
+     * @param {number} month - The month
+     * @param {number} year - The year
+     * @returns {Array} components - An array containing the resulting components
+     */
+    makeHistoryDayItems = (z, month, year) =>
+      z.map((x) =>
+        (<HistoryDayItem
+          key={x.day}
+          day={x.day}
+          month={month}
+          absentChildren={x.absent}
+          totalChildren={(x.absent.length + x.present.length)}
+        />)
+      )
 
   /**
    * Create either an array of HistoryDayItem components or a

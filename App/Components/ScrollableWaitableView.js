@@ -10,7 +10,8 @@ import {
   ScrollView,
   View,
   ActivityIndicator,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  PanResponder
 } from 'react-native'
 import { Colours } from '../GlobalStyles'
 const dismissKeyboard = require('dismissKeyboard')
@@ -25,35 +26,40 @@ const dismissKeyboard = require('dismissKeyboard')
  */
 export default class ScrollableWaitableView extends Component {
 
+  render () {
+    if (this.props.loaded) {
+      return (
+        <ScrollView
+          style={{ flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
+          keyboardDismissMode='interactive'
+          keyboardShouldPersistTaps='interactive'
+          scrollEnable
+          showsVerticalScrollIndicator
+          >
 
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    if(this.props.loaded) {
-      return (<ScrollView
-                style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
-                keyboardDismissMode="interactive"
-                keyboardShouldPersistTaps="never"
-                scrollEnable={true}
-                showsVerticalScrollIndicator={true}
-              >
-                { /* This allows us to dismiss the keyboard by tapping away */}
-                <TouchableWithoutFeedback style={{flex: 1}} onPress={ () => { dismissKeyboard() }}>
-                  <View style={{flex: 1}}>
-                    {this.props.children}
-                  </View>
-                </TouchableWithoutFeedback>
-              </ScrollView>)
+          { /* This allows us to dismiss the keyboard by tapping away */}
+          <TouchableWithoutFeedback onPress={() => { dismissKeyboard() }}>
+            <View>
+              {this.props.children}
+            </View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      )
     } else {
-      return (<View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
-                <ActivityIndicator
-                  animating={true}
-                  style={{height: 80}}
-                  size="large"
-                />
-              </View>)
+      return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
+          <ActivityIndicator
+            animating
+            style={{height: 80}}
+            size='large'
+          />
+        </View>
+      )
     }
   }
+}
+
+ScrollableWaitableView.propTypes = {
+  loaded: React.PropTypes.boolean,
+  children: React.PropTypes.array
 }

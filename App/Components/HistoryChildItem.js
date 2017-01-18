@@ -10,19 +10,23 @@ import {
   View,
   Text
 } from 'react-native'
-import { FontSizes, Colours} from '../GlobalStyles'
+import { FontSizes } from '../GlobalStyles'
 
 export default class HistoryChildItem extends Component {
-  constructor(props) {
-    super(props)
 
-  }
-
-  render() {
+  render () {
     return (
       <View>
         <Text style={{fontSize: FontSizes.p}}>{this.props.index}. {this.props.givenName} {this.props.familyName} ({this.props.className})</Text>
       </View>
     )
   }
+}
+
+
+HistoryChildItem.propTypes = {
+  index: React.PropTypes.number,
+  givenName: React.PropTypes.givenName,
+  familyName: React.PropTypes.familyName,
+  className: React.PropTypes.className
 }

@@ -1,11 +1,11 @@
-/*
- * Early Childhood Development
- * (c) 2016 Global Consent Ltd
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
- * Author: Werner Roets <werner@io.co.za>
+ * @author Werner Roets <werner@io.co.za>
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
 import AndroidBackButton from 'react-native-android-back-button'
@@ -32,7 +32,7 @@ import {
 /**
  * A scene for selecting a class in the centre
  * @extends IMPComponent
- * */
+ */
 export default class ClassScene extends IMPComponent {
 
   constructor(props) {
@@ -53,7 +53,7 @@ export default class ClassScene extends IMPComponent {
     this._fetchData()
   }
 
-  _hardwareBackHandler = () => {
+  _hardwareBackHandler () {
     this._goBack()
     return true
   }

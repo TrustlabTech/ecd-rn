@@ -9,7 +9,6 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  DatePickerAndroid,
   TouchableWithoutFeedback
 } from 'react-native'
 import { Button } from './'
@@ -17,21 +16,17 @@ import moment from 'moment'
 
 export default class DatePicker extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
-  _friendlyDate() {
-    if(this.props.dateOfBirth === null) {
+  _friendlyDate () {
+    if (this.props.dateOfBirth === null) {
       return 'Tap to select'
     } else {
       return moment(this.props.dateOfBirth).format('Do MMMM YYYY')
     }
   }
 
-  render() {
+  render () {
     return (
-      <TouchableWithoutFeedback onPress={ () => this.props.onPress() }>
+      <TouchableWithoutFeedback onPress={() => this.props.onPress()}>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
           <View style={{
             flex: 1,
@@ -49,11 +44,16 @@ export default class DatePicker extends Component {
           </View>
 
           <View style={{paddingRight: 5, paddingLeft: 5}}>
-            <Button text="Select" width={100} onPress={ () => this.props.onPress() }/>
+            <Button text='Select' width={100} onPress={() => this.props.onPress()} />
           </View>
 
         </View>
       </TouchableWithoutFeedback>
     )
   }
+}
+
+DatePicker.propTypes = {
+  dateOfBirth: React.PropTypes.string,
+  onPress: React.PropTypes.func
 }
