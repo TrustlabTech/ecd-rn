@@ -21,31 +21,34 @@ import { Colours } from '../GlobalStyles'
  *  items={['Item 1', 'Item 2', 'Item 3']}
  * />
  */
-export default class Selector extends Component{
+export default class Selector extends Component {
 
-  constructor(props){
-    super(props)
+  render () {
+    return (
+      <View style={{
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: Colours.primaryLowlight,
+        borderRadius: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 8,
+        marginBottom: 8
+      }}>
+        <Picker
+          style={{color: Colours.primaryLowlight}}
+          selectedValue={this.props.selectedValue}
+          onValueChange={value => this.props.onValueChange(value)}
+        >
+          {this.props.items.map((x, i) => (<Picker.Item key={i} label={x.name} value={x.id} />))}
+        </Picker>
+      </View>
+    )
   }
+}
 
-  render() {
-    return (<View style={{
-              borderWidth: 1,
-              borderStyle: 'solid',
-              borderColor: Colours.primaryLowlight,
-              borderRadius: 5,
-              marginLeft: 5,
-              marginRight: 5,
-              marginTop: 8,
-              marginBottom: 8
-            }}>
-              <Picker
-                style={{color: Colours.primaryLowlight}}
-                selectedValue={this.props.selectedValue}
-                onValueChange={ value => this.props.onValueChange(value) }
-              >
-                {this.props.items.map((x, i) => (<Picker.Item key={i} label={x.name} value={x.id}/>) )}
-              </Picker>
-            </View>)
-  }
-
+Selector.propTypes = {
+  items: React.PropTypes.array,
+  selectedValue: React.PropTypes.string,
+  onValueChange: React.PropTypes.func
 }

@@ -5,10 +5,8 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import { StyleSheet } from 'react-native'
-
 export const Colours = {
-  primary: '#393939',           //Consent Gray
+  primary: '#393939',           // Consent Gray
   consentBlue: '#1886BC',       // Consent Blue
   primaryHighlight: '#a9a9a9',  // Highlight
   primaryLowlight: '#353535',

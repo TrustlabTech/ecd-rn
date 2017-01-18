@@ -5,7 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
 import AndroidBackButton from 'react-native-android-back-button'
@@ -31,7 +31,10 @@ import {
   Checkbox
 } from '../Components'
 
-/** A scene allowing the user to submit attendance for the chosen class */
+/**
+ * A scene allowing the user to submit attendance for the chosen class
+ * @extends IMPComponent
+ * */
 export default class AttendanceScene extends IMPComponent {
 
   constructor(props) {
@@ -59,7 +62,7 @@ export default class AttendanceScene extends IMPComponent {
       this.setState({loaded: false})
   }
 
-  _hardwareBackHandler = () => {
+  _hardwareBackHandler () {
     this._goBack()
     return true
   }
@@ -120,26 +123,30 @@ export default class AttendanceScene extends IMPComponent {
    * Initialise the attendanceData based on the classData
    * received from the server
    */
-  initAttendance = classData =>
-    classData.map( x =>
+  initAttendance (classData) {
+    return classData.map( x =>
       ({ id: x.id, givenName: x.given_name, familyName: x.family_name, checked: true })
     )
+  }
 
   /**
    * Press a checkbox and change the checked value
    */
-  pressCheckbox = (id, attendanceData ) =>
-    attendanceData.map( (x) =>
+  pressCheckbox (id, attendanceData ) {
+    return attendanceData.map( (x) =>
       x.id === id ?({ ...x, checked: !x.checked }) : x
     )
+  }
 
   /**
    * Select all checkboxes
    */
-  selectAll = attendanceData => setState({
-    attendanceData: attendanceData.map((x) =>
-      x.checked = true )
-  })
+  selectAll (attendanceData) {
+    setState({
+      attendanceData: attendanceData.map(x =>
+        x.checked = true
+    )})
+  }
 
   /**
    * Count number of children not selected
@@ -293,5 +300,4 @@ export default class AttendanceScene extends IMPComponent {
       </View>
     )
   }
-
 }

@@ -7,7 +7,6 @@
 
 import React, { Component } from 'react'
 import {
-  View,
   Modal,
   Dimensions
 } from 'react-native'
@@ -17,7 +16,7 @@ import Config from '../Config'
 export default class LoadingModal extends Component {
 
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     const windowWidth = Dimensions.get('window').width
     this.state = {
@@ -25,31 +24,38 @@ export default class LoadingModal extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const windowWidth = Dimensions.get('window').width
-    this.setState( { width: windowWidth } )
+    this.setState({ width: windowWidth })
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps () {
     const windowWidth = Dimensions.get('window').width
-    this.setState( { width: windowWidth } )
+    this.setState({ width: windowWidth })
   }
 
-  render = () => (
-    <Modal
-      animationType={"none"}
-      transparent={true}
-      visible={this.props.visible}
-      onRequestClose={ () => console.log('FIXME: modal request close')}
-    >
-      <Progress.Bar
-        indeterminate={true}
-        width={this.state.width}
-        color={Config.progressBarColor}
-        borderWidth={0}
-      />
+  render () {
+    return (
+      <Modal
+        animationType='none'
+        transparent
+        visible={this.props.visible}
+        onRequestClose={() => console.log('FIXME: modal request close')}
+      >
+        <Progress.Bar
+          indeterminate
+          width={this.state.width}
+          color={Config.progressBarColor}
+          borderWidth={0}
+        />
 
-    </Modal>
+      </Modal>
 
-  )
+    )
+  }
+}
+
+LoadingModal.propTypes = {
+  width: React.PropTypes.number,
+  visible: React.PropTypes.bool
 }

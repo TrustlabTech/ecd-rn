@@ -5,55 +5,43 @@
  */
 
 import React, { Component } from 'react'
-import { Modal } from 'react-native'
 import IMPLog from './IMPLog'
 import * as Lifecycle from './lib/Lifecycle'
-import EventEmitter from 'EventEmitter'
 import Sentry from '../Sentry'
 import Config from '../Config'
 
 /** Impulse Component - A component that extends the functionality of React.Component */
 export default class IMPComponent extends Component {
 
-  /** The name of the current file */
-  _fileName
-
-  /** The class of the current file */
-  _className
-
-  /** A proxy object for the navigator */
-  navigator
-
-
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this._fileName = this.constructor.name+'.js'
+    this._fileName = this.constructor.name + '.js'
     this._className = this.constructor.name
 
     this.navigator = this.props.navigator
 
-    this.props._navigationEventEmitter.addListener('onWillFocus'+this._className, this.componentWillFocus, this)
-    this.props._navigationEventEmitter.addListener('onDidFocus'+this._className, this.componentDidFocus, this)
+    this.props._navigationEventEmitter.addListener('onWillFocus' + this._className, this.componentWillFocus, this)
+    this.props._navigationEventEmitter.addListener('onDidFocus' + this._className, this.componentDidFocus, this)
 
-    if(Config.debug && Config.debugReact) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.CONSTRUCTOR)
     }
   }
 
   /** Emits events for the LoadingModal */
-  setModal(options) {
+  setModal (options) {
     this.props._modalEventEmitter.emit('modal', options)
   }
 
-  componentWillFocus() {
-    if(Config.debug && Config.debugReact) {
+  componentWillFocus () {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_FOCUS)
     }
   }
 
-  componentDidFocus() {
-    if(Config.debug) {
-      if(Config.debugReact) {
+  componentDidFocus () {
+    if (Config.debug) {
+      if (Config.debugReact) {
         IMPLog.react(this._className, Lifecycle.COMPONENT_DID_FOCUS)
       }
     } else {
@@ -61,18 +49,17 @@ export default class IMPComponent extends Component {
     }
   }
 
-  componentWillMount() {
-    if(Config.debug && Config.debugReact) {
+  componentWillMount () {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
     } else {
       Sentry.addBreadcrumb(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
     }
-
   }
 
-  componentDidMount() {
-    if(Config.debug) {
-      if(Config.debugReact) {
+  componentDidMount () {
+    if (Config.debug) {
+      if (Config.debugReact) {
         IMPLog.react(this._className, Lifecycle.COMPONENT_DID_MOUNT)
       }
     } else {
@@ -80,14 +67,14 @@ export default class IMPComponent extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(Config.debug && Config.debugReact) {
+  componentWillReceiveProps (nextProps) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if(Config.debug && Config.debugReact) {
+  shouldComponentUpdate (nextProps, nextState) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.SHOULD_COMPONENT_UPDATE)
     }
 
@@ -95,32 +82,39 @@ export default class IMPComponent extends Component {
     return true
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if(Config.debug && Config.debugReact) {
+  componentWillUpdate (nextProps, nextState) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_UPDATE)
     }
   }
 
-  componentDidUpdate(preProps, prevState) {
-    if(Config.debug && Config.debugReact) {
+  componentDidUpdate (preProps, prevState) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_DID_UPDATE)
     }
   }
 
-  componentWillUnmount() {
-    if(Config.debug && Config.debugReact) {
+  componentWillUnmount () {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_UNMOUNT)
     }
 
     // Remove event listeners
-    this.props._navigationEventEmitter.removeListener('onWillFocus'+this._className, this.componentWillFocus, this)
-    this.props._navigationEventEmitter.removeListener('onDidFocus'+this._className,this.componentDidFocus, this)
+    this.props._navigationEventEmitter.removeListener('onWillFocus' + this._className, this.componentWillFocus, this)
+    this.props._navigationEventEmitter.removeListener('onDidFocus' + this._className, this.componentDidFocus, this)
   }
 
-  render() {
-
-    if(Config.debug && Config.debugReact) {
+  render () {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.RENDER)
     }
   }
+}
+
+
+IMPComponent.propTypes = {
+  navigator: React.PropTypes.Component,
+  _navigationEventEmitter: React.PropTypes.object,
+  _gaTrackers: React.PropTypes.object,
+  _modalEventEmitter: React.PropTypes.object
 }

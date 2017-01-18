@@ -5,7 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import React, { Component } from 'react'
+import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
 import AndroidBackButton from 'react-native-android-back-button'
@@ -46,7 +46,7 @@ export default class LoginScene extends IMPComponent {
         phoneNumber: '0000',
         pin: '0000'
       }
-      setTimeout(() => this._login(),100)
+      setTimeout(() => this._login(), 100)
     } else {
       this.state = {
         serverOnline: false,
@@ -180,7 +180,9 @@ export default class LoginScene extends IMPComponent {
             Sentry.captureEvent(errorMessage + error.toString(), this._className )
           }
         } else {
-          IMPLog.async(`Phone number ${phoneNumber} stored to Async storage`)
+          if(Config.debug) {
+            IMPLog.async(`Phone number ${phoneNumber} stored to Async storage`)
+          }
         }
       })
     }

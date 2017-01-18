@@ -8,22 +8,17 @@
 import React, { Component } from 'react'
 import {
   View,
-  Text,
   ActivityIndicator
 } from 'react-native'
 import { Colours } from '../GlobalStyles'
 
 export default class ScrollableWaitableView extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    if(this.props.loaded) {
+  render () {
+    if (this.props.loaded) {
       return (
 
-        <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour }}>
+        <View style={{ flex: 1, backgroundColor: Colours.sceneBackgroundColour }}>
           {this.props.children}
         </View>
       )
@@ -31,12 +26,18 @@ export default class ScrollableWaitableView extends Component {
       return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
           <ActivityIndicator
-            animating={true}
+            animating
             style={{height: 80}}
-            size="large"
+            size='large'
           />
         </View>
       )
     }
   }
+}
+
+
+ScrollableWaitableView.propTypes = {
+  loaded: React.PropTypes.bool,
+  children: React.PropTypes.array
 }
