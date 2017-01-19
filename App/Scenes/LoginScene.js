@@ -180,7 +180,7 @@ export default class LoginScene extends IMPComponent {
             Sentry.captureEvent(errorMessage + error.toString(), this._className )
           }
         } else {
-          if(Config.debug) {
+          if (Config.debug) {
             IMPLog.async(`Phone number ${phoneNumber} stored to Async storage`)
           }
         }
@@ -194,44 +194,35 @@ export default class LoginScene extends IMPComponent {
    * Get the information to be displayed in the footer
    * @returns {Array} The text items to display
    */
-  footerTexts = () =>
-    Config.debug ?
-      [
-        `ECD v${Config.version}`,
-        `RN v${Config.rnVersion}`,
-        `Server: ${Config.http.baseUrl}`,
-        'Server Status: ' + (this.state.serverOnline ? "Online" : "Offline")
-      ]
-    :
-      [ `v${Config.version}` ]
+  footerTexts () {
+    return Config.debug
+    ? [`ECD v${Config.version}`, `RN v${Config.rnVersion}`, `Server: ${Config.http.baseUrl}`, 'Server Status: ' + (this.state.serverOnline ? 'Online' : 'Offline')]
+    : [`v${Config.version}`, `${Config.http.server}`]
+  }
 
-
-  makeFooter = () =>
-    (<View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
-      {this.footerTexts().map( (x, i ) => (<Text key ={i} style={ss.footerText}>{x}</Text>))}
+  makeFooter () {
+    return (<View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
+      {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
     </View>)
+  }
 
-
-  render() {
+  render () {
     super.render()
 
     const { phoneNumber, pin } = this.state
 
     return (
-      <ScrollableWaitableView loaded={true}>
-        <AndroidBackButton onPress={ () => false }/>
+      <ScrollableWaitableView loaded>
+        <AndroidBackButton onPress={() => false} />
         <View style={ss.sceneViewWrapper}>
-
-
-
           <View style={{height: 320, flex: 1, marginTop: 50}}>
-            <SceneHeading text={ Config.appName.toUpperCase() }/>
+            <SceneHeading text={Config.appName.toUpperCase()} />
 
-            <FormHeading text="Login"/>
+            <FormHeading text='Login' />
             <TextField
-              value={ phoneNumber }
-              ref="phoneNumber"
-              onChangeText={ text => this.setState({ phoneNumber: text }) }
+              value={phoneNumber}
+              ref='phoneNumber'
+              onChangeText={(text) => this.setState({ phoneNumber: text }) }
               placeholder="Phone Number"
               maxLength={10}
               keyboardType="phone-pad"
@@ -242,7 +233,7 @@ export default class LoginScene extends IMPComponent {
             <TextField
               value={ pin }
               ref="pin"
-              onChangeText={ text => this.setState({ pin: text }) }
+              onChangeText={ (text) => this.setState({ pin: text }) }
               placeholder="PIN"
               maxLength={4}
               secureTextEntry={true}

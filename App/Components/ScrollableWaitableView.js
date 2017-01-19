@@ -10,8 +10,7 @@ import {
   ScrollView,
   View,
   ActivityIndicator,
-  TouchableWithoutFeedback,
-  PanResponder
+  TouchableWithoutFeedback
 } from 'react-native'
 import { Colours } from '../GlobalStyles'
 const dismissKeyboard = require('dismissKeyboard')
@@ -32,7 +31,7 @@ export default class ScrollableWaitableView extends Component {
         <ScrollView
           style={{ flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
           keyboardDismissMode='interactive'
-          keyboardShouldPersistTaps='interactive'
+          keyboardShouldPersistTaps='handled'
           scrollEnable
           showsVerticalScrollIndicator
           >
@@ -60,6 +59,6 @@ export default class ScrollableWaitableView extends Component {
 }
 
 ScrollableWaitableView.propTypes = {
-  loaded: React.PropTypes.boolean,
+  loaded: React.PropTypes.bool,
   children: React.PropTypes.array
 }

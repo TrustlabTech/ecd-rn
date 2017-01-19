@@ -83,6 +83,7 @@ export default class MainScene extends IMPComponent {
       if (Config.debug) {
         IMPLog.error(error.toString(), this._fileName)
       }
+      console.log(error)
       Alert.alert(
         Config.errorMessage.network.title,
         Config.errorMessage.network.message,

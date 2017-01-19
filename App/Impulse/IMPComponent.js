@@ -113,7 +113,7 @@ export default class IMPComponent extends Component {
 
 
 IMPComponent.propTypes = {
-  navigator: React.PropTypes.Component,
+  navigator: React.PropTypes.object,
   _navigationEventEmitter: React.PropTypes.object,
   _gaTrackers: React.PropTypes.object,
   _modalEventEmitter: React.PropTypes.object

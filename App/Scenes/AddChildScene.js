@@ -20,7 +20,7 @@ import {
 import moment from 'moment'
 
 import Config from '../Config'
-import { FontSizes } from '../GlobalStyles'
+import { FontSizes, Colours } from '../GlobalStyles'
 import Api from '../Api'
 import Session from '../Session'
 
@@ -35,6 +35,9 @@ import {
 } from '../Components'
 import validRSAId from '../validRSAID'
 const dismissKeyboard = require('dismissKeyboard')
+import MaterialsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { Kohana } from 'react-native-textinput-effects'
+
 /**
  * A scene for adding children to the centre
  * @extends IMPComponent
@@ -216,7 +219,16 @@ export default class AddChildScene extends IMPComponent {
               onValueChange={classSelectedId => this.setState({classSelectedId: classSelectedId})}
               items={this.state.classData}
             />
-
+            <Kohana
+              style={{ backgroundColor: 'white' }}
+              label={'First Name'}
+              iconClass={MaterialsIcon}
+              iconName={'directions-bus'}
+              iconColor={Colours.primaryLowlight}
+              labelStyle={{ color: '#000000' }}
+              inputStyle={{ color: '#000000' }}
+            />
+            
             {/* First Name */}
             <Text style={{fontSize: FontSizes.small}}>First Name:</Text>
             <TextField

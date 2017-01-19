@@ -90,7 +90,7 @@ TextField.propTypes = {
   autoFocus: React.PropTypes.bool,
   selectTextOnFocus: React.PropTypes.bool,
   fontSize: React.PropTypes.number,
-  onChangeText: React.PropTypes.number,
+  onChangeText: React.PropTypes.func,
   width: React.PropTypes.number,
   height: React.PropTypes.number
 }

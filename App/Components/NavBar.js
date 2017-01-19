@@ -196,8 +196,8 @@ NavBar.propTypes = {
   rightButtonText: React.PropTypes.string,
   leftButtonText: React.PropTypes.string,
   title: React.PropTypes.string,
-  navigator: React.PropTypes.Component,
+  navigator: React.PropTypes.object,
   leftButtonAction: React.PropTypes.func,
   rightButtonAction: React.PropTypes.func,
-  leftButtonIcon: React.PropTypes.Component
+  leftButtonIcon: React.PropTypes.object
 }
