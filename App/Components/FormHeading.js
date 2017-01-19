@@ -24,5 +24,5 @@ export default class FormHeading extends Component {
 }
 
 FormHeading.propTypes = {
-  text: React.PropTypes.text
+  text: React.PropTypes.string
 }

@@ -13,7 +13,7 @@ import renderer from 'react-test-renderer'
 
 it('renders correctly', () => {
   const tree = renderer.create(
-    <Link text="Test link" onPress={() => ({}) }/>
+    <Link text='Test link' onPress={() => ({})} />
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

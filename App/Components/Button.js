@@ -126,17 +126,18 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    borderColor: Colours.primaryLowlight,
-    borderWidth: 0.8,
+    borderColor: '#a9a9a9',
+    borderWidth: 1.5,
     borderStyle: 'solid',
-    borderRadius: 4,
-    paddingBottom: 0.1
+    borderRadius: 4
+    // paddingBottom: 0.1
   },
   lG: {
     flex: 1,
     borderRadius: 4,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: -0.5
   },
   text: {
     color: Colours.primary,

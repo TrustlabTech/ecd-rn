@@ -22,7 +22,8 @@ export default class Link extends Component {
           color: Colours.secondary,
           fontSize: FontSizes.p
         }}>
-          { this.props.text}</Text>
+          {this.props.text}
+        </Text>
       </TouchableHighlight>
     )
   }

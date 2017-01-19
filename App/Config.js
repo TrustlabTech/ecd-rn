@@ -14,7 +14,11 @@ import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
-const DEBUG = true // Master debug switch
+
+const SERVER = 'staging.ecd.cnsnt.io'
+const DEBUG = false // Master debug switch
+const API_VERSION = 1
+// const SERVER = 'ecd.cnsnt.io'
 
 /** The configuration file for the App */
 export default {
@@ -22,7 +26,6 @@ export default {
   appName: 'ECD APP',
   // First scene to show
   initialRoute: Routes.login,
-
   // Predefined error messages
   errorMessage: {
     login: {
@@ -36,7 +39,7 @@ export default {
   },
 
   debug: DEBUG,         // Main switch
-  debugAction: false,   // Redux actions
+  // @deprecated debugAction: false,   // Redux actions
   debugNetwork: true,   // HTTP
   debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
@@ -50,13 +53,14 @@ export default {
 
   // Android navigator transitions
   sceneConfig: Navigator.SceneConfigs.FloatFromRight,
-  sceneTransitionMinumumTime: 100,
+  sceneTransitionMinumumTime: 200,
   // Modal settings
   progressBarColor: Colours.consentOrange,
 
   // Server details
   http: {
-    baseUrl: DEBUG ? 'http://staging.ecd.cnsnt.io/api/v1/' : 'http://ecd.cnsnt.io/api/v1/',
+    server: SERVER,
+    baseUrl: 'http://' + SERVER + '/api/v' + API_VERSION + '/',
     headers: {
       'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,
       'X-Client-Version': pkg.version,

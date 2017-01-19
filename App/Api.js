@@ -5,7 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import Config from  './Config'
+import Config from './Config'
 import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
 
@@ -26,7 +26,7 @@ function request (route, opts) {
     } else {
       Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
     }
-
+    console.log('response', response)
     return response.json()
   })
 
