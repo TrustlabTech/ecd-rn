@@ -32,8 +32,8 @@ export default class Selector extends Component {
         borderRadius: 5,
         marginLeft: 5,
         marginRight: 5,
-        marginTop: 8,
-        marginBottom: 8
+        marginTop: 4,
+        marginBottom: 4
       }}>
         <Picker
           style={{color: Colours.primaryLowlight}}
