@@ -15,7 +15,8 @@ import {
   View,
   AsyncStorage,
   Alert,
-  StyleSheet
+  StyleSheet,
+  InteractionManager
 } from 'react-native'
 
 import Config from '../Config'
@@ -106,99 +107,100 @@ export default class LoginScene extends IMPComponent {
    * @returns {undefined}
    */
   _login () {
-    const { phoneNumber, pin } = this.state
-    if (!phoneNumber) {
-      Alert.alert(
-        'Please enter your phone number',
-        'Please enter the phone number you registered with.',
-        [{text: 'Okay'}]
-      )
-      return
-    }
-    if (!pin) {
-      Alert.alert(
-        'Please enter your pin',
-        'Please enter your 4 digit ECD pin.',
-        [{text: 'Okay'}]
-      )
-      return
-    }
-    this.setModal({visible: true})
-
-    // Check for the devil
-    if (phoneNumber === '666' && pin === '666') {
-      Sentry.crashTheApp('El diablo!')
-    } else {
-      dismissKeyboard()
-
-      // Login to server
-      Api.login(phoneNumber, pin)
-
-      .then((data) => {
-        this.setModal({visible: false})
-        this.setState({pin: ''})
-
-        // Check for error
-        if (data.error) {
-          IMPLog.error(data.error, this._fileName)
-          Alert.alert(
-            Config.errorMessage.login.title,
-            data.error,
-            [{text: 'Okay'}]
-          )
-        } else {
-          // Save user info to session
-          Session.update({userData: data})
-
-          // and track her with GA
-          this.props._gaTrackers.tracker1.setUser(data.user.id + ' ' + data.user.given_name + ' ')
-          Sentry.addNavigationBreadcrumb(this._className, this._className, 'MainScene')
-
-          // Go to main scene
-          this.navigator.push({
-            ...Routes.main,
-            user: data.user,
-            token: data._token
-          })
-        }
-      })
-
-      .catch((error) => {
-        this.setModal({visible: false})
-        this.setState({pin: ''})
-
-        // Handle error
-        if (Config.debug) {
-          IMPLog.error(error.toString(), this._fileName)
-        } else {
-          Sentry.captureEvent(error.stack, this._fileName)
-        }
-        console.log('aSDASDAS', error)
+    InteractionManager.runAfterInteractions(() => {
+      const { phoneNumber, pin } = this.state
+      if (!phoneNumber) {
         Alert.alert(
-          Config.errorMessage.network.title,
-          Config.errorMessage.network.message,
+          'Please enter your phone number',
+          'Please enter the phone number you registered with.',
           [{text: 'Okay'}]
         )
-      })
-    }
+        return
+      }
+      if (!pin) {
+        Alert.alert(
+          'Please enter your pin',
+          'Please enter your 4 digit ECD pin.',
+          [{text: 'Okay'}]
+        )
+        return
+      }
+      this.setModal({visible: true})
 
-    // Never overwrite with empty phone number
-    if (phoneNumber !== '') {
-      // Put phone number in persistant storage
-      AsyncStorage.setItem('@phoneNumber', phoneNumber, (error) => {
-        if (error) {
-          if (Config.debug) {
-            IMPLog.async('Could not store phone number with Async storage' + error.toString())
+      // Check for the devil
+      if (phoneNumber === '666' && pin === '666') {
+        Sentry.crashTheApp('El diablo!')
+      } else {
+        // dismissKeyboard()
+
+        // Login to server
+        Api.login(phoneNumber, pin)
+
+        .then((data) => {
+          this.setModal({visible: false})
+          this.setState({pin: ''})
+
+          // Check for error
+          if (data.error) {
+            IMPLog.error(data.error, this._fileName)
+            Alert.alert(
+              Config.errorMessage.login.title,
+              data.error,
+              [{text: 'Okay'}]
+            )
           } else {
-            Sentry.captureEvent(error.toString(), this._className)
+            // Save user info to session
+            Session.update({userData: data})
+
+            // and track her with GA
+            this.props._gaTrackers.tracker1.setUser(data.user.id + ' ' + data.user.given_name + ' ')
+            Sentry.addNavigationBreadcrumb(this._className, this._className, 'MainScene')
+
+            // Go to main scene
+            this.navigator.push({
+              ...Routes.main,
+              user: data.user,
+              token: data._token
+            })
           }
-        } else {
+        })
+
+        .catch((error) => {
+          this.setModal({visible: false})
+          this.setState({pin: ''})
+
+          // Handle error
           if (Config.debug) {
-            IMPLog.async(`Phone number ${phoneNumber} stored to Async storage`)
+            IMPLog.error(error.toString(), this._fileName)
+          } else {
+            Sentry.captureEvent(error.stack, this._fileName)
           }
-        }
-      })
-    }
+          Alert.alert(
+            Config.errorMessage.network.title,
+            Config.errorMessage.network.message,
+            [{text: 'Okay'}]
+          )
+        })
+      }
+
+      // Never overwrite with empty phone number
+      if (phoneNumber !== '') {
+        // Put phone number in persistant storage
+        AsyncStorage.setItem('@phoneNumber', phoneNumber, (error) => {
+          if (error) {
+            if (Config.debug) {
+              IMPLog.async('Could not store phone number with Async storage' + error.toString())
+            } else {
+              Sentry.captureEvent(error.toString(), this._className)
+            }
+          } else {
+            if (Config.debug) {
+              IMPLog.async(`Phone number ${phoneNumber} stored to Async storage`)
+            }
+          }
+        })
+      }
+    })
   }
 
   /**
@@ -211,12 +213,6 @@ export default class LoginScene extends IMPComponent {
     : [`v${Config.version}`, `${Config.http.server}`]
   }
 
-  // makeFooter () {
-  //   return (<View style={{ height: 120, alignItems: 'center', marginBottom: 10, backgroundColor: '#23f301', justifyContent: 'flex-end' }}>
-  //     {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
-  //   </View>)
-  // }
-
   render () {
     super.render()
 
@@ -226,7 +222,6 @@ export default class LoginScene extends IMPComponent {
         <AndroidBackButton onPress={() => false} />
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
 
-        {/* <View style={{height: this.props.screenHeight > this.props.screenWidth ? this.props.screenHeight - 156 : this.props.screenWidth - 156}}>*/}
           <View style={{flex: 1}}>
             <View style={{ marginTop: 10 }}>
               <Hoshi
@@ -234,7 +229,7 @@ export default class LoginScene extends IMPComponent {
                 value={this.state.phoneNumber}
                 label={'Phone Number'}
                 borderColor={Colours.primary}
-                keyboardType='phone-pad'
+                keyboardType='numeric'
                 autoCapitalize={'none'}
                 inputStyle={{ color: Colours.darkText, fontSize: 24 }}
                 labelStyle={{ color: Colours.darkText }}
@@ -252,7 +247,7 @@ export default class LoginScene extends IMPComponent {
                 value={this.state.pin}
                 label={'Pin'}
                 borderColor={Colours.primary}
-                keyboardType='phone-pad'
+                keyboardType='numeric'
                 autoCapitalize={'none'}
                 inputStyle={{ color: Colours.darkText, fontSize: 24 }}
                 labelStyle={{ color: Colours.darkText }}
@@ -260,7 +255,7 @@ export default class LoginScene extends IMPComponent {
                 onChangeText={(text) => this.setState({ pin: text })}
                 maxLength={4}
                 secureTextEntry
-                returnKeyType='submit'
+                returnKeyType='send'
                 onSubmitEditing={() => this._login()}
                 selectionColor={Colours.primaryLowlight}
               />
@@ -276,70 +271,6 @@ export default class LoginScene extends IMPComponent {
         </View>
       </ScrollableWaitableView>
     )
-
-    // return (
-    //   <ScrollableWaitableView loaded={this.state.loaded}>
-    //     <AndroidBackButton onPress={() => false} />
-    //     <View style={
-    //       // { backgroundColor: 'green', height: this.props.screenHeight > this.props.screenWidth ? this.props.screenHeight : this.props.screenWidth }
-    //       {flex: 1, flexDirection: 'column', justifyContent: 'space-between', backgroundColor: 'green'}
-    //     }>
-    //       {/* Body */}
-    //       <View style={{backgroundColor: 'yellow'}}>
-    //         <SceneHeading text={Config.appName.toUpperCase()} />
-
-    //         <View style={{ marginTop: 0 }}>
-    //           <Hoshi
-    //             ref='phoneNumber'
-    //             value={this.state.phoneNumber}
-    //             label={'Phone Number'}
-    //             borderColor={Colours.primary}
-    //             keyboardType='phone-pad'
-    //             autoCapitalize={'none'}
-    //             inputStyle={{ color: Colours.darkText, fontSize: 24 }}
-    //             labelStyle={{ color: Colours.darkText }}
-    //             selectTextOnFocus
-    //             onChangeText={(text) => this.setState({ phoneNumber: text })}
-    //             returnKeyType='next'
-    //             onSubmitEditing={() => this.refs.pin.focus()}
-    //             selectionColor={Colours.secondaryHighlight}
-    //           />
-    //         </View>
-
-    //         <View style={{ marginTop: 15, marginBottom: 20 }}>
-    //           <Hoshi
-    //             ref='pin'
-    //             value={this.state.pin}
-    //             label={'Pin'}
-    //             borderColor={Colours.primary}
-    //             keyboardType='phone-pad'
-    //             autoCapitalize={'none'}
-    //             inputStyle={{ color: Colours.darkText, fontSize: 24 }}
-    //             labelStyle={{ color: Colours.darkText }}
-    //             selectTextOnFocus
-    //             onChangeText={(text) => this.setState({ pin: text })}
-    //             maxLength={4}
-    //             secureTextEntry
-    //             returnKeyType='submit'
-    //             onSubmitEditing={() => this._login()}
-    //             selectionColor={Colours.primaryLowlight}
-    //           />
-    //         </View>
-
-    //         <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'purple'}}>
-    //           <Button text='Login' onPress={() => this._login()} />
-    //         </View>
-
-    //       </View>
-
-    //       {/* Footer */}
-    //       <View style={{ alignItems: 'center', marginBottom: 5, backgroundColor: 'red' }}>
-    //         {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
-    //       </View>
-
-    //     </View>
-    //   </ScrollableWaitableView>
-    // )
   }
 }
 

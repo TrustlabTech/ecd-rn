@@ -30,7 +30,6 @@ import {
   ScrollableWaitableView,
   SceneHeading,
   NavBar,
-  TextField,
   Button,
   Selector,
   DatePicker
@@ -119,7 +118,7 @@ export default class AddChildScene extends IMPComponent {
     // Last Name
     if (!this.state.familyName) validationErrors.push('Please enter a family name.')
     // Date of Birth
-    if (!this.state.dateOfBirth) validationErrors.push('Please select a date of birth.')
+    // if (!this.state.dateOfBirth) validationErrors.push('Please select a date of birth.')
     // RSA ID
     if (this.state.idNumber.length !== 13 ||
        !this.state.idNumber.match(/^[0-9]{13}/) ||
@@ -154,7 +153,6 @@ export default class AddChildScene extends IMPComponent {
         sessionState.userData._token)
 
       .then(response => {
-        console.log('SERVER SAID', response)
         ToastAndroid.show('Child added', ToastAndroid.SHORT)
         this._resetForm()
       })
@@ -221,7 +219,7 @@ export default class AddChildScene extends IMPComponent {
           >
 
             {/* Class */}
-            <Text style={{marginLeft: 20, fontSize: FontSizes.p, color: Colours.darkText}}>Class</Text>
+            <Text style={{marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText}}>Class</Text>
             <Selector
               selectedValue={this.state.classSelectedId}
               onValueChange={classSelectedId => this.setState({classSelectedId: classSelectedId})}
@@ -271,14 +269,17 @@ export default class AddChildScene extends IMPComponent {
               labelStyle={{ color: Colours.darkText }}
               onChangeText={(text) => this.setState({ idNumber: text })}
               returnKeyType='done'
-              onSubmitEditing={() => dismissKeyboard()}
+              keyboardType='numeric'
+              onSubmitEditing={() => this._submit()}
               selectionColor={Colours.secondaryHighlight}
             />
 
-            <DatePicker
+            {/*
+              <DatePicker
               onPress={() => this._pickDateOfBirth()}
               dateOfBirth={this.state.dateOfBirth}
             />
+            */}
 
             <View style={{paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
               <Button text='Add' onPress={() => this._submit()} />
