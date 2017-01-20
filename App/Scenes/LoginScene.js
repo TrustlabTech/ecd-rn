@@ -4,6 +4,7 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Werner Roets <werner@io.co.za>
  */
+/* globals fetch */
 
 import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
@@ -27,10 +28,12 @@ import Session from '../Session'
 import {
   ScrollableWaitableView,
   SceneHeading,
-  FormHeading,
-  TextField,
+  // FormHeading,
   Button
 } from '../Components'
+
+import { Hoshi } from 'react-native-textinput-effects'
+const dismissKeyboard = require('dismissKeyboard')
 
 /**
  * A scene allowing users to login using their phone number and pin
@@ -38,9 +41,9 @@ import {
  */
 export default class LoginScene extends IMPComponent {
 
-  constructor(props) {
+  constructor (props) {
     super(props)
-    if(Config.debug && Config.debugAutoLogin) {
+    if (Config.debug && Config.debugAutoLogin) {
       this.state = {
         serverOnline: false,
         phoneNumber: '0000',
@@ -56,39 +59,45 @@ export default class LoginScene extends IMPComponent {
     }
   }
 
-  componentWillMount() {
+  componentWillMount () {
     super.componentWillMount()
     this.serverStatus()
     // Load phone number from persistent storage
     AsyncStorage.getItem('@phoneNumber', (error, phoneNumber) => {
-      if(!error){
-        this.setState({phoneNumber: phoneNumber})
-        if(Config.debug) {
+      if (!error) {
+        setTimeout(() => this.setState({phoneNumber: phoneNumber}), Config.sceneTransitionMinumumTime)
+        if (Config.debug) {
           IMPLog.async(`Loaded ${phoneNumber} from Async storage`)
         }
       } else {
         const errorMessage = 'Could not load stored phone number from devices. This is normal if it is the first time.'
-        if(Config.debug) {
+        if (Config.debug) {
           IMPLog.async(errorMessage + error.toString())
         } else {
           Sentry.addBreadcrumb(this._className, errorMessage + error.toString())
         }
       }
     })
+  }
 
+  componentDidMount () {
+    setTimeout(() => this.setState({loaded: true}), Config.sceneTransitionMinumumTime)
   }
 
   /**
    * Check if the server is online
    * @returns {undefined}
    */
-  serverStatus() {
+  serverStatus () {
     fetch(Config.http.baseUrl)
     .then((response) => {
       this.setState({serverOnline: true})
     })
     .catch((error) => {
       this.setState({serverOnline: false})
+      if (Config.debug) {
+        IMPLog.error('Could not connect to server: ' + error.toString(), this._fileName)
+      }
     })
   }
 
@@ -96,44 +105,54 @@ export default class LoginScene extends IMPComponent {
    * Log the user in
    * @returns {undefined}
    */
-  _login() {
-
-    Sentry.addNavigationBreadcrumb(this._className, this._className, "MainScene")
-
+  _login () {
     const { phoneNumber, pin } = this.state
-
+    if (!phoneNumber) {
+      Alert.alert(
+        'Please enter your phone number',
+        'Please enter the phone number you registered with.',
+        [{text: 'Okay'}]
+      )
+      return
+    }
+    if (!pin) {
+      Alert.alert(
+        'Please enter your pin',
+        'Please enter your 4 digit ECD pin.',
+        [{text: 'Okay'}]
+      )
+      return
+    }
     this.setModal({visible: true})
 
     // Check for the devil
-    if(phoneNumber == '666' && pin == '666'){
-
-      Sentry.crashTheApp("El diablo!")
+    if (phoneNumber === '666' && pin === '666') {
+      Sentry.crashTheApp('El diablo!')
     } else {
+      dismissKeyboard()
 
       // Login to server
       Api.login(phoneNumber, pin)
 
       .then((data) => {
-
         this.setModal({visible: false})
         this.setState({pin: ''})
 
         // Check for error
-        if(data.error) {
+        if (data.error) {
           IMPLog.error(data.error, this._fileName)
           Alert.alert(
             Config.errorMessage.login.title,
             data.error,
-            [{text: "Okay"}]
+            [{text: 'Okay'}]
           )
-
         } else {
-
           // Save user info to session
           Session.update({userData: data})
 
           // and track her with GA
-          this.props._gaTrackers.tracker1.setUser(data.user.id+' '+data.user.given_name +' ')
+          this.props._gaTrackers.tracker1.setUser(data.user.id + ' ' + data.user.given_name + ' ')
+          Sentry.addNavigationBreadcrumb(this._className, this._className, 'MainScene')
 
           // Go to main scene
           this.navigator.push({
@@ -145,39 +164,33 @@ export default class LoginScene extends IMPComponent {
       })
 
       .catch((error) => {
-
         this.setModal({visible: false})
         this.setState({pin: ''})
 
         // Handle error
-        if(Config.debug){
+        if (Config.debug) {
           IMPLog.error(error.toString(), this._fileName)
         } else {
           Sentry.captureEvent(error.stack, this._fileName)
         }
-
+        console.log('aSDASDAS', error)
         Alert.alert(
           Config.errorMessage.network.title,
           Config.errorMessage.network.message,
-          [{text: "Okay"}]
+          [{text: 'Okay'}]
         )
-
       })
     }
 
     // Never overwrite with empty phone number
-    if(phoneNumber !== '') {
-
+    if (phoneNumber !== '') {
       // Put phone number in persistant storage
-      AsyncStorage.setItem('@phoneNumber',  phoneNumber,(error) => {
-
-        if(error) {
-
-          if(Config.debug) {
+      AsyncStorage.setItem('@phoneNumber', phoneNumber, (error) => {
+        if (error) {
+          if (Config.debug) {
             IMPLog.async('Could not store phone number with Async storage' + error.toString())
-
           } else {
-            Sentry.captureEvent(errorMessage + error.toString(), this._className )
+            Sentry.captureEvent(error.toString(), this._className)
           }
         } else {
           if (Config.debug) {
@@ -186,8 +199,6 @@ export default class LoginScene extends IMPComponent {
         }
       })
     }
-
-
   }
 
   /**
@@ -200,58 +211,135 @@ export default class LoginScene extends IMPComponent {
     : [`v${Config.version}`, `${Config.http.server}`]
   }
 
-  makeFooter () {
-    return (<View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', padding: 10}}>
-      {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
-    </View>)
-  }
+  // makeFooter () {
+  //   return (<View style={{ height: 120, alignItems: 'center', marginBottom: 10, backgroundColor: '#23f301', justifyContent: 'flex-end' }}>
+  //     {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
+  //   </View>)
+  // }
 
   render () {
     super.render()
 
-    const { phoneNumber, pin } = this.state
-
     return (
-      <ScrollableWaitableView loaded>
+      <ScrollableWaitableView loaded={this.state.loaded}>
+        <SceneHeading text='ECD APP' />
         <AndroidBackButton onPress={() => false} />
-        <View style={ss.sceneViewWrapper}>
-          <View style={{height: 320, flex: 1, marginTop: 50}}>
-            <SceneHeading text={Config.appName.toUpperCase()} />
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
 
-            <FormHeading text='Login' />
-            <TextField
-              value={phoneNumber}
-              ref='phoneNumber'
-              onChangeText={(text) => this.setState({ phoneNumber: text }) }
-              placeholder="Phone Number"
-              maxLength={10}
-              keyboardType="phone-pad"
-              returnKeyType="next"
-              onSubmitEditing={ () => this.refs.pin.textInput.focus() }
-            />
-
-            <TextField
-              value={ pin }
-              ref="pin"
-              onChangeText={ (text) => this.setState({ pin: text }) }
-              placeholder="PIN"
-              maxLength={4}
-              secureTextEntry={true}
-              keyboardType="phone-pad"
-              onSubmitEditing={ () => this._login() }
-            />
-
-            <View style={{flex: 1, alignItems: 'center'}}>
-              <Button text="Login" onPress={ () => this._login() }/>
+        {/* <View style={{height: this.props.screenHeight > this.props.screenWidth ? this.props.screenHeight - 156 : this.props.screenWidth - 156}}>*/}
+          <View style={{flex: 1}}>
+            <View style={{ marginTop: 10 }}>
+              <Hoshi
+                ref='phoneNumber'
+                value={this.state.phoneNumber}
+                label={'Phone Number'}
+                borderColor={Colours.primary}
+                keyboardType='phone-pad'
+                autoCapitalize={'none'}
+                inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+                labelStyle={{ color: Colours.darkText }}
+                selectTextOnFocus
+                onChangeText={(text) => this.setState({ phoneNumber: text })}
+                returnKeyType='next'
+                onSubmitEditing={() => this.refs.pin.focus()}
+                selectionColor={Colours.secondaryHighlight}
+              />
             </View>
 
+            <View style={{ paddingTop: 15, paddingBottom: 20 }}>
+              <Hoshi
+                ref='pin'
+                value={this.state.pin}
+                label={'Pin'}
+                borderColor={Colours.primary}
+                keyboardType='phone-pad'
+                autoCapitalize={'none'}
+                inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+                labelStyle={{ color: Colours.darkText }}
+                selectTextOnFocus
+                onChangeText={(text) => this.setState({ pin: text })}
+                maxLength={4}
+                secureTextEntry
+                returnKeyType='submit'
+                onSubmitEditing={() => this._login()}
+                selectionColor={Colours.primaryLowlight}
+              />
+            </View>
+
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Button text='Login' onPress={() => this._login()} />
+              <View style={{alignItems: 'center', height: 200, justifyContent: 'flex-end'}}>
+                {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
+              </View>
+            </View>
           </View>
-
-
-          { this.makeFooter() }
         </View>
       </ScrollableWaitableView>
     )
+
+    // return (
+    //   <ScrollableWaitableView loaded={this.state.loaded}>
+    //     <AndroidBackButton onPress={() => false} />
+    //     <View style={
+    //       // { backgroundColor: 'green', height: this.props.screenHeight > this.props.screenWidth ? this.props.screenHeight : this.props.screenWidth }
+    //       {flex: 1, flexDirection: 'column', justifyContent: 'space-between', backgroundColor: 'green'}
+    //     }>
+    //       {/* Body */}
+    //       <View style={{backgroundColor: 'yellow'}}>
+    //         <SceneHeading text={Config.appName.toUpperCase()} />
+
+    //         <View style={{ marginTop: 0 }}>
+    //           <Hoshi
+    //             ref='phoneNumber'
+    //             value={this.state.phoneNumber}
+    //             label={'Phone Number'}
+    //             borderColor={Colours.primary}
+    //             keyboardType='phone-pad'
+    //             autoCapitalize={'none'}
+    //             inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+    //             labelStyle={{ color: Colours.darkText }}
+    //             selectTextOnFocus
+    //             onChangeText={(text) => this.setState({ phoneNumber: text })}
+    //             returnKeyType='next'
+    //             onSubmitEditing={() => this.refs.pin.focus()}
+    //             selectionColor={Colours.secondaryHighlight}
+    //           />
+    //         </View>
+
+    //         <View style={{ marginTop: 15, marginBottom: 20 }}>
+    //           <Hoshi
+    //             ref='pin'
+    //             value={this.state.pin}
+    //             label={'Pin'}
+    //             borderColor={Colours.primary}
+    //             keyboardType='phone-pad'
+    //             autoCapitalize={'none'}
+    //             inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+    //             labelStyle={{ color: Colours.darkText }}
+    //             selectTextOnFocus
+    //             onChangeText={(text) => this.setState({ pin: text })}
+    //             maxLength={4}
+    //             secureTextEntry
+    //             returnKeyType='submit'
+    //             onSubmitEditing={() => this._login()}
+    //             selectionColor={Colours.primaryLowlight}
+    //           />
+    //         </View>
+
+    //         <View style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'purple'}}>
+    //           <Button text='Login' onPress={() => this._login()} />
+    //         </View>
+
+    //       </View>
+
+    //       {/* Footer */}
+    //       <View style={{ alignItems: 'center', marginBottom: 5, backgroundColor: 'red' }}>
+    //         {this.footerTexts().map((x, i) => (<Text key={i} style={ss.footerText}>{x}</Text>))}
+    //       </View>
+
+    //     </View>
+    //   </ScrollableWaitableView>
+    // )
   }
 }
 
@@ -262,15 +350,7 @@ const ss = StyleSheet.create({
   },
   footerTextWrapperView: {
     flex: 1,
-    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 10
-  },
-  sceneViewWrapper: {
-    flex: 1,
-    marginLeft: 20,
-    marginRight: 20,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
   }
 })

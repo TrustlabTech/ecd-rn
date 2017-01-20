@@ -10,14 +10,14 @@ import {
   View,
   Text
 } from 'react-native'
-import { FontSizes } from '../GlobalStyles'
+import { FontSizes, Colours } from '../GlobalStyles'
 
 export default class SceneHeading extends Component {
 
   render () {
     return (
       <View style={{alignItems: 'center', marginTop: 8, marginBottom: 5}}>
-        <Text style={{fontSize: FontSizes.h4, fontWeight: 'bold'}}>{this.props.text}</Text>
+        <Text style={{color: Colours.darkText, fontSize: FontSizes.h4, fontWeight: 'bold'}}>{this.props.text}</Text>
       </View>
     )
   }

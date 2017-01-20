@@ -11,7 +11,8 @@ import {
   AppRegistry,
   Navigator,
   View,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native'
 
 import Routes from './App/Routes'
@@ -24,36 +25,42 @@ import { Colours } from './App/GlobalStyles'
 import IMPLog from './App/Impulse/IMPLog'
 import * as Lifecycle from './App/Impulse/lib/Lifecycle'
 import LoadingModal from './App/Components/LoadingModal'
-console.log('Platform',Platform)
+
+const PORTRAIT = 0
+const LANDSCAPE = 1
+
 /**
  * The root component of Ecdrn
  * @extends React.Component
  */
 export default class Ecdrn extends Component {
 
-  /** The route navigator will be instantiated with */
-  _initialRoute = null
-
-  /** Navigation event emitter */
-  _navigationEventEmitter = null
-
-  /** Modal event emitter */
-  _modalEventEmitter = null
-
-  /** The name of the file of the current Scene */
-  _fileName = null
-
-  /** The name of the class of the current Scene*/
-  _className = null
-
-  /** An object to hold google analytics tracks */
-  _gaTrackers = {}
-
-  constructor(props) {
+  constructor (props) {
     super(props)
+
+    /** The route navigator will be instantiated with */
+    this.initialRoute = null
+
+    /** Navigation event emitter */
+    this._navigationEventEmitter = null
+
+    /** Modal event emitter */
+    this._modalEventEmitter = null
+
+    /** The name of the file of the current Scene */
+    this._fileName = null
+
+    /** The name of the class of the current Scene*/
+    this._className = null
+
+    /** An object to hold google analytics tracks */
+    this._gaTrackers = {}
+
     this.state = {
       modal: {
-        visible: false
+        visible: false,
+        screenWidth: null,
+        screenHeight: null
       }
     }
     // Initialise values
@@ -71,9 +78,30 @@ export default class Ecdrn extends Component {
     }
   }
 
+  componentWillMount () {
+    const initialDimensions = Dimensions.get('window')
+    this.setState({
+      screenWidth: Math.round(initialDimensions.width),
+      screenHeight: Math.round(initialDimensions.height)
+    })
+    if (Config.debug && Config.debugReact) {
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_MOUNT)
+    }
+  }
+
+  /** Relay the event on to the scene */
+  _onWillFocus = (route) => {
+    this._navigationEventEmitter.emit('onWillFocus' + route.scene.name)
+  }
+
+  /** Relay the event to the scene */
+  _onDidFocus = route => {
+    this._navigationEventEmitter.emit('onDidFocus' + route.scene.name)
+  }
+
   componentWillUnmount() {
     if(Config.debug && Config.debugReact) {
-      IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_MOUNT)
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UNMOUNT)
     }
   }
 
@@ -107,6 +135,28 @@ export default class Ecdrn extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    if(nextState.screenWidth !== this.state.screenWidth) {
+      if (Config.debug) {
+        if(nextState.screenWidth > nextState.screenHeight) {
+          console.log('LANDSCAPE')
+        } else {
+          console.log('PORTRAIT')
+        }
+      }
+      return true
+    }
+
+    if(JSON.stringify(this.props) !== JSON.stringify(nextProps)) {
+      return true
+    }
+
+    if(JSON.stringify(this.state) !== JSON.stringify(nextState)) {
+      return true
+    }
+    return false
+  }
+
   /**
    * Initialise google analytics
    * @returns {undefined}
@@ -125,14 +175,17 @@ export default class Ecdrn extends Component {
 
   }
 
-  /** Relay the event on to the scene */
-  _onWillFocus = route => {
-    this._navigationEventEmitter.emit('onWillFocus'+route.scene.name)
+
+  _onLayout = event => {
+    this.updateDimensions(event.nativeEvent.layout)
   }
 
-  /** Relay the event to the scene */
-  _onDidFocus = route => {
-    this._navigationEventEmitter.emit('onDidFocus'+route.scene.name)
+  updateDimensions (event) {
+    this.setState({
+      screenWidth: Math.round(event.width),
+      screenHeight: Math.round(event.height),
+      screenOrientation: event.width > event.height ? LANDSCAPE : PORTRAIT
+    })
   }
 
   /** Set the modal's state */
@@ -160,10 +213,13 @@ export default class Ecdrn extends Component {
               <LoadingModal
                 visible={this.state.modal.visible}
               />
-                <View style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
+                <View onLayout={this._onLayout} style={{flex: 1, backgroundColor: Colours.sceneBackgroundColour}}>
                   {React.createElement(
                     route.scene,
                     {
+                      screenWidth: this.state.screenWidth,
+                      screenHeight: this.state.screenHeight,
+                      screenOrientation: this.state.screenOrientation,
                       route,
                       navigator,
                       _gaTrackers: this._gaTrackers,  // Google Analytics

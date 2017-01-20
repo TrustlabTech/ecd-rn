@@ -10,14 +10,14 @@ import {
   View,
   Text
 } from 'react-native'
-import { FontSizes } from '../GlobalStyles'
+import { FontSizes, Colours } from '../GlobalStyles'
 
 export default class FormHeading extends Component {
 
   render () {
     return (
       <View style={{marginTop: 5, marginBottom: 5, marginLeft: 25}}>
-        <Text style={{fontWeight: 'bold', fontSize: FontSizes.h5}}>{this.props.text}</Text>
+        <Text style={{color: Colours.darkText, fontWeight: 'bold', fontSize: FontSizes.h5}}>{this.props.text}</Text>
       </View>
     )
   }

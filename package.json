@@ -13,7 +13,13 @@
   "standard": {
     "ignore": [
       "documentation/"
-    ]
+    ],
+    "globals": [
+      "fetch",
+      "it",
+      "FormData"
+    ],
+    "parser": "babel-eslint"
   },
   "dependencies": {
     "ansi-styles": "^2.2.1",

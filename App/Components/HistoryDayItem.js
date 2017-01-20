@@ -9,7 +9,8 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  ToastAndroid
 } from 'react-native'
 import { HistoryChildItem } from './'
 import { FontSizes } from '../GlobalStyles'
@@ -32,6 +33,8 @@ export default class HistoryDayItem extends Component {
   _toggleChildItemsVisible () {
     if (this.props.absentChildren.length > 0) {
       this.setState({childItemsVisible: !this.state.childItemsVisible})
+    } else {
+      ToastAndroid.show('Nobody absent on this day', ToastAndroid.SHORT)
     }
   }
 

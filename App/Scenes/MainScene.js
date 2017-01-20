@@ -209,7 +209,7 @@ export default class MainScene extends IMPComponent {
         <AndroidBackButton onPress={() => this._hardwareBackHandler()} />
         <NavBar
           navigator={this.props.navigator}
-          leftButtonIcon={<Icon name='menu' size={30} color={Colours.lightText} />}
+          leftButtonIcon={<Icon name='menu' size={30} color={Colours.spierWit} />}
           leftButtonAction={() => this._toggleDrawer()}
         />
         <DrawerLayoutAndroid
@@ -220,7 +220,7 @@ export default class MainScene extends IMPComponent {
           ref={(ref) => { this._drawer = ref }}
           renderNavigationView={() =>
 
-            <View style={{flex: 1, backgroundColor: Colours.primary}}>
+            <View style={{flex: 1, backgroundColor: Colours.primaryDarklight}}>
 
               <Text style={ss.menuTitleText}>Menu</Text>
               <View style={ss.menuItemWrapperView} />
@@ -228,7 +228,7 @@ export default class MainScene extends IMPComponent {
               <View>
                 <TouchableNativeFeedback onPress={() => this._drawer.closeDrawer()}>
                   <View>
-                    <Text style={ss.menuItemText}><Icon name='home' color={Colours.lightText} size={26}/> Home</Text>
+                    <Text style={ss.menuItemText}><Icon name='home' color={Colours.spierWit} size={26} /> Home</Text>
                   </View>
                 </TouchableNativeFeedback>
               </View>
@@ -236,7 +236,7 @@ export default class MainScene extends IMPComponent {
               <View>
                 <TouchableNativeFeedback onPress={() => this._goToClassScene()}>
                   <View>
-                    <Text style={ss.menuItemText}><Icon name='playlist-check' color={Colours.lightText} size={26} /> Take Attendance</Text>
+                    <Text style={ss.menuItemText}><Icon name='playlist-check' color={Colours.spierWit} size={26} /> Take Attendance</Text>
                   </View>
                 </TouchableNativeFeedback>
               </View>
@@ -244,7 +244,7 @@ export default class MainScene extends IMPComponent {
               <View>
                 <TouchableNativeFeedback onPress={() => this._goToHistoryScene()}>
                   <View>
-                    <Text style={ss.menuItemText}><Icon name='history' color={Colours.lightText} size={26} /> Attendance History</Text>
+                    <Text style={ss.menuItemText}><Icon name='history' color={Colours.spierWit} size={26} /> Attendance History</Text>
                   </View>
                 </TouchableNativeFeedback>
               </View>
@@ -252,7 +252,7 @@ export default class MainScene extends IMPComponent {
               <View>
                 <TouchableNativeFeedback onPress={() => this._goToAddChildScene()}>
                   <View>
-                    <Text style={ss.menuItemText}><Icon name='account-plus' color={Colours.lightText} size={26} /> Add Child</Text>
+                    <Text style={ss.menuItemText}><Icon name='account-plus' color={Colours.spierWit} size={26} /> Add Child</Text>
                   </View>
                 </TouchableNativeFeedback>
               </View>
