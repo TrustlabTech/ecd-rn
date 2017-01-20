@@ -14,7 +14,9 @@ import {
   View,
   Alert,
   DatePickerAndroid,
-  ToastAndroid
+  ToastAndroid,
+  StyleSheet,
+  InteractionManager
 } from 'react-native'
 
 import moment from 'moment'
@@ -35,8 +37,8 @@ import {
 } from '../Components'
 import validRSAId from '../validRSAID'
 const dismissKeyboard = require('dismissKeyboard')
-import MaterialsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { Kohana } from 'react-native-textinput-effects'
+// import MaterialsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { Hoshi } from 'react-native-textinput-effects'
 
 /**
  * A scene for adding children to the centre
@@ -100,9 +102,13 @@ export default class AddChildScene extends IMPComponent {
   }
 
   _goBack () {
-    this.navigator.pop()
-    this.setState({
-      loaded: false
+    InteractionManager.runAfterInteractions(() => {
+      setTimeout(() => {
+        this.navigator.pop()
+        this.setState({
+          loaded: false
+        })
+      }, 100)
     })
   }
 
@@ -138,23 +144,25 @@ export default class AddChildScene extends IMPComponent {
       return
     }
     // submit the form
-    const sessionState = Session.getState()
-    Api.addChild(
-      this.state.givenName,
-      this.state.familyName,
-      this.state.idNumber,
-      this.state.classSelectedId,
-      sessionState.userData._token)
+    InteractionManager.runAfterInteractions(() => {
+      const sessionState = Session.getState()
+      Api.addChild(
+        this.state.givenName,
+        this.state.familyName,
+        this.state.idNumber,
+        this.state.classSelectedId,
+        sessionState.userData._token)
 
-    .then(response => {
-      console.log('SERVER SAID', response)
-      ToastAndroid.show('Child added', ToastAndroid.SHORT)
-      this._resetForm()
-    })
+      .then(response => {
+        console.log('SERVER SAID', response)
+        ToastAndroid.show('Child added', ToastAndroid.SHORT)
+        this._resetForm()
+      })
 
-    .catch(error => {
-      // FIXME with a proper alert
-      alert('Could not add child ' + error.toString())
+      .catch(error => {
+        // FIXME with a proper alert
+        alert('Could not add child ' + error.toString())
+      })
     })
   }
 
@@ -209,69 +217,70 @@ export default class AddChildScene extends IMPComponent {
         <ScrollableWaitableView loaded={this.state.loaded}>
           <SceneHeading text='Add Child' />
           <View
-            style={{marginLeft: 20, marginRight: 20}}
+
           >
 
             {/* Class */}
-            <Text style={{fontSize: FontSizes.small}}>Class:</Text>
+            <Text style={{marginLeft: 20, fontSize: FontSizes.p, color: Colours.darkText}}>Class</Text>
             <Selector
               selectedValue={this.state.classSelectedId}
               onValueChange={classSelectedId => this.setState({classSelectedId: classSelectedId})}
               items={this.state.classData}
             />
-            <Kohana
-              style={{ backgroundColor: 'white' }}
-              label={'First Name'}
-              iconClass={MaterialsIcon}
-              iconName={'directions-bus'}
-              iconColor={Colours.primaryLowlight}
-              labelStyle={{ color: '#000000' }}
-              inputStyle={{ color: '#000000' }}
-            />
-            
             {/* First Name */}
-            <Text style={{fontSize: FontSizes.small}}>First Name:</Text>
-            <TextField
+            <Hoshi
+              style={ss.formRow}
+              ref='firstName'
               value={this.state.givenName}
-              ref='givenName'
-              onChangeText={text => this.setState({ givenName: text })}
-              returnKeyType='done'
-              autoCapitalize='sentences'
-              onSubmitEditing={() => dismissKeyboard()}
+              label={'First Name'}
+              borderColor={Colours.primary}
+              autoCapitalize={'words'}
+              inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+              labelStyle={{ color: Colours.darkText }}
+              onChangeText={(text) => this.setState({ givenName: text })}
+              returnKeyType='next'
+              onSubmitEditing={() => this.refs.familyName.focus()}
+              selectionColor={Colours.secondaryHighlight}
             />
 
             {/* Family Name */}
-            <Text style={{fontSize: FontSizes.small}}>Family Name:</Text>
-            <TextField
-              value={this.state.familyName}
+            <Hoshi
+              style={ss.formRow}
               ref='familyName'
-              onChangeText={text => this.setState({ familyName: text })}
-              returnKeyType='done'
-              autoCapitalize='sentences'
-              onSubmitEditing={() => dismissKeyboard()}
-
+              value={this.state.familyName}
+              label={'Last Name'}
+              borderColor={Colours.primary}
+              autoCapitalize={'words'}
+              inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+              labelStyle={{ color: Colours.darkText }}
+              onChangeText={(text) => this.setState({ familyName: text })}
+              returnKeyType='next'
+              onSubmitEditing={() => this.refs.idNumber.focus()}
+              selectionColor={Colours.secondaryHighlight}
             />
 
             {/* ID Number */}
-            <Text style={{fontSize: FontSizes.small}}>ID Number:</Text>
-            <TextField
-              value={this.state.idNumber}
+            <Hoshi
+              style={ss.formRow}
               ref='idNumber'
-              onChangeText={ text => this.setState({ idNumber: text})}
+              value={this.state.idNumber}
+              label={'ID '}
+              borderColor={Colours.primary}
+              autoCapitalize={'words'}
+              inputStyle={{ color: Colours.darkText, fontSize: 24 }}
+              labelStyle={{ color: Colours.darkText }}
+              onChangeText={(text) => this.setState({ idNumber: text })}
               returnKeyType='done'
-              autoCapitalize='sentences'
-              keyboardType='phone-pad'
               onSubmitEditing={() => dismissKeyboard()}
+              selectionColor={Colours.secondaryHighlight}
             />
 
-            {/* Date of Birth */}
-            <Text style={{fontSize: FontSizes.small}}>Date Of Birth:</Text>
             <DatePicker
               onPress={() => this._pickDateOfBirth()}
               dateOfBirth={this.state.dateOfBirth}
             />
 
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+            <View style={{paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
               <Button text='Add' onPress={() => this._submit()} />
             </View>
 
@@ -285,3 +294,11 @@ export default class AddChildScene extends IMPComponent {
 AddChildScene.propTypes = {
   navigator: React.PropTypes.Component
 }
+
+
+const ss = StyleSheet.create({
+  formRow: {
+    paddingTop: 5,
+    paddingBottom: 5
+  }
+})

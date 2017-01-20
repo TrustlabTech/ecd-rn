@@ -29,16 +29,16 @@ export default class ScrollableWaitableView extends Component {
     if (this.props.loaded) {
       return (
         <ScrollView
-          style={{ flex: 1, backgroundColor: Colours.sceneBackgroundColour }}
           keyboardDismissMode='interactive'
           keyboardShouldPersistTaps='handled'
           scrollEnable
-          showsVerticalScrollIndicator
-          >
+          showsVerticalScrollIndicator={false}
+          automaticallyAdjustContentInsets
+        >
 
           { /* This allows us to dismiss the keyboard by tapping away */}
           <TouchableWithoutFeedback onPress={() => { dismissKeyboard() }}>
-            <View>
+            <View style={{flex: 1}}>
               {this.props.children}
             </View>
           </TouchableWithoutFeedback>

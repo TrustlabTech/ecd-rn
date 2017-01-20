@@ -6,22 +6,30 @@
  */
 
 export const Colours = {
-  primary: '#393939',           // Consent Gray
+  primary: '#949494',           // Consent Gray
+  primaryHighlight: '#BFBFBF',  // Highlight
+  primaryBrightlight: '#F2F2F2',
+  primaryLowlight: '#666666',
+  primaryDarklight: '#2C2B2B',
+
+  secondary: '#767676',
+  secondaryHighlight: '#999999',
+  secondaryLowlight: '#525252',
+
+
+
   consentBlue: '#1886BC',       // Consent Blue
-  primaryHighlight: '#a9a9a9',  // Highlight
-  primaryLowlight: '#353535',
   consentOrange: '#ff9215',
-  secondary: '#5b5b5b',
-  secondaryHighlight: '#ffc786',
-  secondaryLowlight: '#aa7a42',
-  lightText: '#fefefe',
-  darkText: '#030303',
-  offWhite: '#dfdfdf',
-  touchableUnderLay: '#ebebeb',
-  sceneBackgroundColour: '#dfdfdf',
+  lightText: '#F2F2F2',
+  darkText: '#666666',
+  offWhite: '#F2F2F2',
+  // touchableUnderLay: '#ebebeb',
+  sceneBackgroundColour: '#FEFEFE',
   // sceneBackgroundColour: '#fefefe',
-  buttonColour1: '#f9f9f9',
-  buttonColour2: '#d2d2d2'
+  buttonColour1: '#f8f8f8',
+  buttonColour2: '#ebebeb',
+  spierWit: '#ffffff'
+  // buttonColour2: '#d5d5d5'
 
 }
 
@@ -32,6 +40,7 @@ export const FontSizes = {
   h3: 30,
   h4: 26,
   h5: 22,
+  h56: 20,
   h6: 18,
   p: 16,
   small: 14,

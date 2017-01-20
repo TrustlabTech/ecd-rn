@@ -40,7 +40,7 @@ export default {
 
   debug: DEBUG,         // Main switch
   // @deprecated debugAction: false,   // Redux actions
-  debugNetwork: true,   // HTTP
+  debugNetwork: false,   // HTTP
   debugReact: true,     // Show react lifescylce data
   debugNavigator: false,
   debugAutoLogin: true,

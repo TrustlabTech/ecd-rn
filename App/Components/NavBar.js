@@ -63,7 +63,7 @@ export default class NavBar extends Component {
       }
       leftButton =
         (<TouchableHighlight
-          underlayColor={Colours.offWhite}
+          underlayColor={Colours.primaryHighlight}
           activeOpacity={0.9}
           onPress={() => this.pressLeftButton()}
         >
@@ -101,7 +101,7 @@ export default class NavBar extends Component {
           onPress={() => this.goBack()}
         >
           <View style={styles.sideButtonsViewWrapper}>
-            <Icon name='arrow-left' size={30} color={Colours.lightText} />
+            <Icon name='arrow-left' size={30} color={Colours.spierWit} />
           </View>
         </TouchableHighlight>
     } else {
@@ -111,7 +111,7 @@ export default class NavBar extends Component {
       */
       leftButton =
         <TouchableHighlight>
-          <View style={styles.sideButtonsViewWrapper}/>
+          <View style={styles.sideButtonsViewWrapper} />
         </TouchableHighlight>
     }
 
@@ -144,14 +144,14 @@ export default class NavBar extends Component {
     return (
       <View>
         <StatusBar
-          backgroundColor='silver'
+          backgroundColor='black'
           barStyle='default'
         />
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           height: 60,
-          backgroundColor: Colours.primary
+          backgroundColor: Colours.primaryDarklight
         }}>
           {leftButton}
           {centerTitle}
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   sideButtonsViewWrapper: {
     flex: 1,
-    backgroundColor: Colours.primary,
+    backgroundColor: Colours.primaryDarklight,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',

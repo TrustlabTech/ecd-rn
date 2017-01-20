@@ -27,7 +27,7 @@ export default class DatePicker extends Component {
   render () {
     return (
       <TouchableWithoutFeedback onPress={() => this.props.onPress()}>
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5}}>
+        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 5, marginRight: 5, paddingTop: 5}}>
           <View style={{
             flex: 1,
             height: 50,
@@ -37,7 +37,7 @@ export default class DatePicker extends Component {
             borderRadius: 5,
             paddingTop: 10
           }}>
-            <Text style={{marginLeft: 8, fontSize: 20}}>
+            <Text style={{marginLeft: 8, fontSize: 18}}>
               {this._friendlyDate(this.props.dateOfBirth)}
             </Text>
 

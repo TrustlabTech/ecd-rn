@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: -0.5
   },
   text: {
-    color: Colours.primary,
+    color: Colours.primaryLowlight,
     fontSize: FontSizes.h5,
     textAlign: 'center'
   }

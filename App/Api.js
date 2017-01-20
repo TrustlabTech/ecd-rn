@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+/* global fetch FormData */
 import Config from './Config'
 import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
