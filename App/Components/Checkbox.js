@@ -27,13 +27,13 @@ import { Colours, FontSizes } from '../GlobalStyles'
  */
 export default class Checkbox extends Component {
 
-  render () {
+  render() {
     let checkbox = null
     switch (this.props.style) {
 
-      case 'classic':
-        checkbox =
-          <TouchableHighlight
+    case 'classic':
+      checkbox =
+          (<TouchableHighlight
             onPress={() => this.props.onPress(!this.props.checked)}
             style={{
               borderRadius: 5
@@ -53,26 +53,26 @@ export default class Checkbox extends Component {
             >
               <Text>{this.props.checked ? 'X' : ''}</Text>
             </View>
-          </TouchableHighlight>
-        break
+          </TouchableHighlight>)
+      break
 
-      case 'switch':
-        checkbox =
-          <Switch
+    case 'switch':
+      checkbox =
+          (<Switch
             value={this.props.checked}
             ref={(ref) => { this._switch = ref }}
             onValueChange={() => this.props.onPress()}
-          />
-        break
+          />)
+      break
 
-      default:
-        checkbox =
-          <Switch
+    default:
+      checkbox =
+          (<Switch
             value={this.props.checked}
             ref={(ref) => { this._switch = ref }}
             onValueChange={() => this.props.onPress()}
-          />
-        break
+          />)
+      break
     }
 
     return (
@@ -82,18 +82,15 @@ export default class Checkbox extends Component {
         marginRight: 10,
         marginTop: 5,
         marginBottom: 5,
-        height: 45}}
+        height: 45 }}
       >
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-
             <Text style={{ color: Colours.primary, fontSize: FontSizes.h5, textAlign: 'left', marginLeft: 10 }}>
               {this.props.text}
             </Text>
           </View>
           {checkbox}
-
         </View>
       </View>
     )

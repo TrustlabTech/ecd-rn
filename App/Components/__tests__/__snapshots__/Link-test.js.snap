@@ -30,7 +30,7 @@ exports[`test renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
-        "color": "#5b5b5b",
+        "color": "#767676",
         "fontSize": 16,
       }
     }>

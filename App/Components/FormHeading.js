@@ -14,10 +14,10 @@ import { FontSizes, Colours } from '../GlobalStyles'
 
 export default class FormHeading extends Component {
 
-  render () {
+  render() {
     return (
-      <View style={{marginTop: 5, marginBottom: 5, marginLeft: 25}}>
-        <Text style={{color: Colours.darkText, fontWeight: 'bold', fontSize: FontSizes.h5}}>{this.props.text}</Text>
+      <View style={{ marginTop: 5, marginBottom: 5, marginLeft: 25 }}>
+        <Text style={{ color: Colours.darkText, fontWeight: 'bold', fontSize: FontSizes.h5 }}>{this.props.text}</Text>
       </View>
     )
   }

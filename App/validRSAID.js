@@ -1,19 +1,19 @@
   // Converts an integer into an array of digits
-  function digits (n) {
+  function digits(n) {
     return Array.from(n.toString && n.toString())
   }
 
   /* Validates a South African ID number based on the formula from
   * http://geekswithblogs.net/willemf/archive/2005/10/30/58561.aspx
   */
-  function validRSAId (idInput) {
+  function validRSAId(idInput) {
     if (idInput === null || typeof idInput === 'undefined') {
       return false
     }
 
     const id = digits(idInput)
 
-    if (id.length !== 13) return false
+    if (id.length !== 13) {return false}
 
     // Add up all the even digits (excluding the last)
     const a = id.slice(0, 12).reduce((sum, d, i) => {

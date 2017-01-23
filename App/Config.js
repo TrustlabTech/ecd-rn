@@ -1,4 +1,4 @@
-/**
+/*
  * Early Childhood Development App
  * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
@@ -14,11 +14,10 @@ import { Colours } from './GlobalStyles'
 
 const pkg = require('../package.json')
 
-
 const SERVER = 'staging.ecd.cnsnt.io'
+// const SERVER = 'ecd.cnsnt.io'
 const DEBUG = false // Master debug switch
 const API_VERSION = 1
-// const SERVER = 'ecd.cnsnt.io'
 
 /** The configuration file for the App */
 export default {

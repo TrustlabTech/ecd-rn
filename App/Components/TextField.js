@@ -16,19 +16,17 @@ import { Colours, FontSizes } from '../GlobalStyles'
 
 export default class TextField extends Component {
 
-  render () {
-    var label = null
+  render() {
+    let label = null
     if (this.props.label) {
       label =
-        <Text style={{padding: 5, fontSize: 16, color: Colours.primaryLowlight}}>
+        (<Text style={{ padding: 5, fontSize: 16, color: Colours.primaryLowlight }}>
           { this.props.label }
-        </Text>
+        </Text>)
     }
 
     return (
       <View
-        // onStartShouldSetResponderCapture={evt => { console.log('onStart'); return true }}
-        // onMoveShouldSetResponderCapture={evt => { console.log('onMove'); return false }}
         style={{
           paddingLeft: 5,
           paddingRight: 5,

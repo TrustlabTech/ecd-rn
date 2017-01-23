@@ -104,7 +104,6 @@ export default class AttendanceScene extends IMPComponent {
 
     .catch((error) => {
       if(Config.debug) {
-        console.log('Error ' + error.toString())
         IMPLog.error(error.toString(), this._fileName)
       } else {
         Sentry.captureEvent(error.stack, this._fileName)
@@ -261,8 +260,6 @@ export default class AttendanceScene extends IMPComponent {
       ]
     )
   }
-
-
 
   render() {
     super.render()

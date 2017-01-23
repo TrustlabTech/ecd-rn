@@ -13,7 +13,7 @@ exports[`test renders correctly 1`] = `
     style={
       Object {
         "backgroundColor": "white",
-        "borderColor": "#353535",
+        "borderColor": "#666666",
         "borderRadius": 5,
         "borderStyle": "solid",
         "borderWidth": 1,
@@ -32,6 +32,7 @@ exports[`test renders correctly 1`] = `
       placeholder="Phone Number"
       returnKeyType="next"
       secureTextEntry={false}
+      selectTextOnFocus={true}
       style={
         Object {
           "fontSize": 22,

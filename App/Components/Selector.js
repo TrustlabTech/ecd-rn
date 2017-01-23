@@ -23,7 +23,7 @@ import { Colours } from '../GlobalStyles'
  */
 export default class Selector extends Component {
 
-  render () {
+  render() {
     return (
       <View style={{
         borderWidth: 1,
@@ -36,7 +36,7 @@ export default class Selector extends Component {
         marginBottom: 4
       }}>
         <Picker
-          style={{color: Colours.primaryLowlight}}
+          style={{ color: Colours.primaryLowlight }}
           selectedValue={this.props.selectedValue}
           onValueChange={value => this.props.onValueChange(value)}
         >

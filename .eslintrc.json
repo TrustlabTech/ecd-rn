@@ -1,0 +1,61 @@
+{
+    "plugins": [
+        "react",
+        "react-native"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "globals": {
+        "require": false,
+        "setTimeout": false,
+        "jest": false,
+        "it": false,
+        "expect": false,
+        "alert": false,
+        "console": false,
+        "Promise": false
+    },
+    "rules": {
+        "strict": "error",
+        "semi": 0,
+        "eqeqeq": "error",
+        "indent": ["warn", 2],
+        "no-undef": "error",
+        "jsx-quotes": ["warn", "prefer-double"],
+        "no-unused-vars": "warn",
+        "keyword-spacing": ["warn", { "before": true, "after": true }],
+        "space-before-function-paren": ["error", "never"],
+        "space-infix-ops": "warn",
+        "comma-spacing": ["warn", {"after": true}],
+        "brace-style": ["warn", "1tbs", {"allowSingleLine": true}],
+        "curly": "warn",
+        "no-irregular-whitespace": "warn",
+        "no-new": "error",
+        "no-redeclare": "error",
+        "no-useless-return": "error",
+        "no-var": "error",
+        "no-multi-spaces":"warn",
+        "no-unreachable": "error",
+        "no-alert":"warn",
+        "camelcase":"warn",
+        "no-multiple-empty-lines": "warn",
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
+        "react/prefer-es6-class": "error",
+        "react/require-render-return": "warn",
+        "react/jsx-wrap-multilines": "error",
+        "react/jsx-pascal-case": 2,
+        "valid-jsdoc": "warn",
+        "eol-last": "error",
+        "space-in-parens": ["error", "never"],
+        "array-bracket-spacing": "error",
+        "object-curly-spacing": ["error", "always"]
+
+    }
+}

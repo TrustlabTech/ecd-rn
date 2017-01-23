@@ -16,7 +16,7 @@ import Config from '../Config'
 export default class LoadingModal extends Component {
 
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const windowWidth = Dimensions.get('window').width
     this.state = {
@@ -24,20 +24,20 @@ export default class LoadingModal extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const windowWidth = Dimensions.get('window').width
     this.setState({ width: windowWidth })
   }
 
-  componentWillReceiveProps () {
+  componentWillReceiveProps() {
     const windowWidth = Dimensions.get('window').width
     this.setState({ width: windowWidth })
   }
 
-  render () {
+  render() {
     return (
       <Modal
-        animationType='none'
+        animationType="none"
         transparent
         visible={this.props.visible}
         onRequestClose={() => console.log('FIXME: modal request close')}

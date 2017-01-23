@@ -16,21 +16,15 @@ export const Colours = {
   secondaryHighlight: '#999999',
   secondaryLowlight: '#525252',
 
-
-
   consentBlue: '#1886BC',       // Consent Blue
   consentOrange: '#ff9215',
   lightText: '#F2F2F2',
   darkText: '#666666',
   offWhite: '#F2F2F2',
-  // touchableUnderLay: '#ebebeb',
   sceneBackgroundColour: '#FEFEFE',
-  // sceneBackgroundColour: '#fefefe',
   buttonColour1: '#f8f8f8',
   buttonColour2: '#ebebeb',
   spierWit: '#ffffff'
-  // buttonColour2: '#d5d5d5'
-
 }
 
 export const FontSizes = {

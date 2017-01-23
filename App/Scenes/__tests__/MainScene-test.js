@@ -29,8 +29,8 @@ const MainScene = require('../MainScene')
 it('renders correctly', () => {
   const tree = renderer.create(
     <MainScene
-      route={{hi: 'there'}}
-      navigator={{more: 'tests'}}
+      route={{ hi: 'there' }}
+      navigator={{ more: 'tests' }}
     />
   ).toJSON()
   // expect(tree).toMatchSnapshot()

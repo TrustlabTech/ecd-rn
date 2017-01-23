@@ -9,7 +9,7 @@ var tocElements = document.getElementById('toc')
   .getElementsByTagName('li');
 
 document.getElementById('filter-input')
-  .addEventListener('keyup', function (e) {
+  .addEventListener('keyup', function(e) {
 
     var i, element, children;
 
@@ -25,14 +25,14 @@ document.getElementById('filter-input')
       }
     }
 
-    var match = function () {
+    var match = function() {
       return true;
     };
 
     var value = this.value.toLowerCase();
 
     if (!value.match(/^\s*$/)) {
-      match = function (element) {
+      match = function(element) {
         return element.firstChild.innerHTML.toLowerCase().indexOf(value) !== -1;
       };
     }
