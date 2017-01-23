@@ -32,10 +32,10 @@ Log the user in and receive a token
 
 **Parameters**
 
--   `phoneNumber` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `pin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `phoneNumber` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `pin` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## fetchCentreSummary
 
@@ -60,7 +60,7 @@ Early Childhood Development App
 -   **copyright**: \[object Object]
 -   **author**: Werner Roets &lt;werner@io.co.za>
 
-# StyleSheet
+# Colours
 
 Early Childhood Development App
 
@@ -82,7 +82,7 @@ Early Childhood Development App
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # ClassScene
 
@@ -94,20 +94,49 @@ A scene for selecting a class in the centre
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # Routes
 
 A list of available scenes to navigate to
 
-# Component
+# React
+
+Early Childhood Development App
 
 **Meta**
 
 -   **copyright**: \[object Object]
 -   **author**: Werner Roets &lt;werner@io.co.za>
 
-# Component
+# React
+
+Early Childhood Development App
+
+**Meta**
+
+-   **copyright**: \[object Object]
+-   **author**: Werner Roets &lt;werner@io.co.za>
+
+# React
+
+Early Childhood Development App
+
+**Meta**
+
+-   **copyright**: \[object Object]
+-   **author**: Werner Roets &lt;werner@io.co.za>
+
+# React
+
+Early Childhood Development App
+
+**Meta**
+
+-   **copyright**: \[object Object]
+-   **author**: Werner Roets &lt;werner@io.co.za>
+
+# React
 
 Early Childhood Development App
 
@@ -117,26 +146,6 @@ Early Childhood Development App
 -   **author**: Werner Roets &lt;werner@io.co.za>
 
 # Component
-
-Early Childhood Development App
-
-**Meta**
-
--   **copyright**: \[object Object]
--   **author**: Werner Roets &lt;werner@io.co.za>
-
-# Component
-
-Early Childhood Development App
-
-**Meta**
-
--   **copyright**: \[object Object]
--   **author**: Werner Roets &lt;werner@io.co.za>
-
-# Component
-
-Early Childhood Development App
 
 **Meta**
 
@@ -293,25 +302,13 @@ Early Childhood Development App
 
 Impulse Component - A component that extends the functionality of React.Component
 
-## \_fileName
-
-The name of the current file
-
-## \_className
-
-The class of the current file
-
-## navigator
-
-A proxy object for the navigator
-
 ## setModal
 
 Emits events for the LoadingModal
 
 **Parameters**
 
--   `options`
+-   `options`  
 
 # Button
 
@@ -353,9 +350,7 @@ A configurable Checkbox
 />
 ```
 
-# ScrollableWaitableView
-
-**Extends Component**
+# 
 
 A scrollable view that will display an ActivityIndicator until
 the data is available to render the screen
@@ -395,13 +390,26 @@ A scene allowing the user to submit attendance for the chosen class
 Initialise the attendanceData based on the classData
 received from the server
 
+**Parameters**
+
+-   `classData`  
+
 ## pressCheckbox
 
 Press a checkbox and change the checked value
 
+**Parameters**
+
+-   `id`  
+-   `attendanceData`  
+
 ## selectAll
 
 Select all checkboxes
+
+**Parameters**
+
+-   `attendanceData`  
 
 ## countAbsent
 
@@ -433,7 +441,7 @@ Get the location and upload the data if successful
 
 Fetch data for this scene from the server
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # LoginScene
 
@@ -445,13 +453,13 @@ A scene allowing users to login using their phone number and pin
 
 Check if the server is online
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## \_login
 
 Log the user in
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## footerTexts
 
@@ -475,25 +483,25 @@ Returns **any** undefined
 
 Closes the drawer
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## \_openDrawer
 
 Opens the drawer
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## \_toggleDrawer
 
 Open the drawer if it is closed, close the drawer if it is open.
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## \_goToClassScene
 
 Navigate to ClassScene.
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## \_logout
 
@@ -503,7 +511,7 @@ Log the current user out and return to the login screen.
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # \_fetchData
 
@@ -521,11 +529,15 @@ A scene for viewing the attendance history of the centre
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## reformatHistory
 
 Convert the api data to a more appropriate form
+
+**Parameters**
+
+-   `z`  
 
 ## MonthNavButtons
 
@@ -549,7 +561,7 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 Create either an array of HistoryDayItem components or a
 text component informing the user that there was no data.
 
-#
+# 
 
 **Extends IMPComponent**
 
@@ -559,7 +571,7 @@ A scene for adding children to the centre
 
 Fetch server data needed to render the page
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # NativeModules
 
@@ -595,7 +607,7 @@ Update the current state
 
 -   Throws **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Update only accepts objects
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # Ecdrn
 
@@ -603,7 +615,7 @@ Returns **[undefined](#undefined)**
 
 The root component of Ecdrn
 
-## \_initialRoute
+## initialRoute
 
 The route navigator will be instantiated with
 
@@ -623,15 +635,9 @@ The name of the file of the current Scene
 
 The name of the class of the current Scene
 
-## _gaTrackers
+## \_gaTrackers
 
 An object to hold google analytics tracks
-
-## \_initAnalytics
-
-Initialise google analytics
-
-Returns **[undefined](#undefined)**
 
 ## \_onWillFocus
 
@@ -640,6 +646,12 @@ Relay the event on to the scene
 ## \_onDidFocus
 
 Relay the event to the scene
+
+## \_initAnalytics
+
+Initialise google analytics
+
+Returns **[undefined](#undefined)** 
 
 ## \_setModal
 
@@ -662,9 +674,9 @@ Log an AsyncStorage action
 
 **Parameters**
 
--   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## networkRequest
 
@@ -672,11 +684,11 @@ Log a network request
 
 **Parameters**
 
--   `method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `method` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `route` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## networkResponse
 
@@ -685,10 +697,10 @@ Log a network response
 **Parameters**
 
 -   `response` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** status
--   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `data` **any**
+-   `timestamp` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `data` **any** 
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## error
 
@@ -696,10 +708,10 @@ Log an error
 
 **Parameters**
 
--   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `message` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 ## react
 
@@ -707,10 +719,10 @@ Log a React lifecycle method
 
 **Parameters**
 
--   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+-   `filename` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `event` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-Returns **[undefined](#undefined)**
+Returns **[undefined](#undefined)** 
 
 # CONSTRUCTOR
 

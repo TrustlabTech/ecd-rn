@@ -13,7 +13,7 @@ import Config from '../Config'
 /** Impulse Component - A component that extends the functionality of React.Component */
 export default class IMPComponent extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this._fileName = this.constructor.name + '.js'
     this._className = this.constructor.name
@@ -29,17 +29,17 @@ export default class IMPComponent extends Component {
   }
 
   /** Emits events for the LoadingModal */
-  setModal (options) {
+  setModal(options) {
     this.props._modalEventEmitter.emit('modal', options)
   }
 
-  componentWillFocus () {
+  componentWillFocus() {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_FOCUS)
     }
   }
 
-  componentDidFocus () {
+  componentDidFocus() {
     if (Config.debug) {
       if (Config.debugReact) {
         IMPLog.react(this._className, Lifecycle.COMPONENT_DID_FOCUS)
@@ -49,7 +49,7 @@ export default class IMPComponent extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
     } else {
@@ -57,7 +57,7 @@ export default class IMPComponent extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (Config.debug) {
       if (Config.debugReact) {
         IMPLog.react(this._className, Lifecycle.COMPONENT_DID_MOUNT)
@@ -67,13 +67,13 @@ export default class IMPComponent extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
     }
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.SHOULD_COMPONENT_UPDATE)
     }
@@ -82,19 +82,19 @@ export default class IMPComponent extends Component {
     return true
   }
 
-  componentWillUpdate (nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_UPDATE)
     }
   }
 
-  componentDidUpdate (preProps, prevState) {
+  componentDidUpdate(preProps, prevState) {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_DID_UPDATE)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_UNMOUNT)
     }
@@ -104,7 +104,7 @@ export default class IMPComponent extends Component {
     this.props._navigationEventEmitter.removeListener('onDidFocus' + this._className, this.componentDidFocus, this)
   }
 
-  render () {
+  render() {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.RENDER)
     }

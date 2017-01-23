@@ -10,8 +10,8 @@ import Config from './Config'
 import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
 
-function request (route, opts) {
-  const options = opts || {method: 'GET'}
+function request(route, opts) {
+  const options = opts || { method: 'GET' }
   if (Config.debug && Config.debugNetwork) {
     IMPLog.networkRequest(options.method, new Date(), Config.http.baseUrl + route)
   } else {
@@ -27,13 +27,12 @@ function request (route, opts) {
     } else {
       Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
     }
-    console.log('response', response)
     return response.json()
   })
 
   .then((json) => {
     if (json.error) {
-      return {error: json.error.toString()}
+      return { error: json.error.toString() }
     } else {
       return json
     }
@@ -149,7 +148,6 @@ export default {
    * @memberof Api
    */
   addChild: (givenName, familyName, idNumber, classId, token) => {
-    console.log(classId)
     const jsonData = {
       given_name: givenName,
       family_name: familyName,

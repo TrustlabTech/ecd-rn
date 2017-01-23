@@ -45,7 +45,7 @@ import { Hoshi } from 'react-native-textinput-effects'
  */
 export default class AddChildScene extends IMPComponent {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loaded: false,
@@ -59,12 +59,12 @@ export default class AddChildScene extends IMPComponent {
     }
   }
 
-  componentWillFocus () {
+  componentWillFocus() {
     super.componentWillFocus()
     this._fetchData()
   }
 
-  componentWillMount () {
+  componentWillMount() {
     super.componentWillMount()
     this._fetchData()
   }
@@ -74,7 +74,7 @@ export default class AddChildScene extends IMPComponent {
    * @memberof AddChildScene
    * @returns {undefined}
    */
-  _fetchData () {
+  _fetchData() {
     // Fetch list of available classes
     const sessionState = Session.getState()
     Api.fetchClasses(
@@ -95,12 +95,12 @@ export default class AddChildScene extends IMPComponent {
     })
   }
 
-  _hardwareBackHandler () {
+  _hardwareBackHandler() {
     this._goBack()
     return true
   }
 
-  _goBack () {
+  _goBack() {
     InteractionManager.runAfterInteractions(() => {
       setTimeout(() => {
         this.navigator.pop()
@@ -111,14 +111,12 @@ export default class AddChildScene extends IMPComponent {
     })
   }
 
-  _validateForm () {
+  _validateForm() {
     let validationErrors = []
     // First Name
-    if (!this.state.givenName) validationErrors.push('Please enter a first name.')
+    if (!this.state.givenName) {validationErrors.push('Please enter a first name.')}
     // Last Name
-    if (!this.state.familyName) validationErrors.push('Please enter a family name.')
-    // Date of Birth
-    // if (!this.state.dateOfBirth) validationErrors.push('Please select a date of birth.')
+    if (!this.state.familyName) {validationErrors.push('Please enter a family name.')}
     // RSA ID
     if (this.state.idNumber.length !== 13 ||
        !this.state.idNumber.match(/^[0-9]{13}/) ||
@@ -131,14 +129,14 @@ export default class AddChildScene extends IMPComponent {
       Alert.alert(
         'Validation errors',
         validationErrors.join(' '),
-        [{text: 'Okay'}]
+        [{ text: 'Okay' }]
       )
       return false
     }
     return true
   }
 
-  _submit () {
+  _submit() {
     if (!this._validateForm()) {
       return
     }
@@ -164,7 +162,7 @@ export default class AddChildScene extends IMPComponent {
     })
   }
 
-  _resetForm () {
+  _resetForm() {
     this.setState({
       givenName: null,
       familyName: null,
@@ -175,13 +173,13 @@ export default class AddChildScene extends IMPComponent {
     })
   }
 
-  _pickDateOfBirth () {
+  _pickDateOfBirth() {
     DatePickerAndroid.open({
       date: new Date(),
       mode: 'spinner'
     })
 
-    .then(({action, year, month, day}) => {
+    .then(({ action, year, month, day }) => {
       if (action === 'dateSetAction') {
         this.setState({
           dateOfBirth: new Date(year, month, day)
@@ -190,11 +188,11 @@ export default class AddChildScene extends IMPComponent {
     })
 
     .catch(error => {
-      if (Config.debug) IMPLog.error('Could not open date picker ' + error.toString(), this._fileName)
+      if (Config.debug) {IMPLog.error('Could not open date picker ' + error.toString(), this._fileName)}
     })
   }
 
-  _friendlyDate () {
+  _friendlyDate() {
     if (this.state.dateOfBirth === null) {
       return 'Please select'
     } else {
@@ -202,9 +200,9 @@ export default class AddChildScene extends IMPComponent {
     }
   }
 
-  render () {
+  render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <AndroidBackButton onPress={() => this._hardwareBackHandler()} />
 
         <NavBar
@@ -213,22 +211,22 @@ export default class AddChildScene extends IMPComponent {
         />
 
         <ScrollableWaitableView loaded={this.state.loaded}>
-          <SceneHeading text='Add Child' />
+          <SceneHeading text="Add Child" />
           <View
 
           >
 
             {/* Class */}
-            <Text style={{marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText}}>Class</Text>
+            <Text style={{ marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText }}>Class</Text>
             <Selector
               selectedValue={this.state.classSelectedId}
-              onValueChange={classSelectedId => this.setState({classSelectedId: classSelectedId})}
+              onValueChange={classSelectedId => this.setState({ classSelectedId: classSelectedId })}
               items={this.state.classData}
             />
             {/* First Name */}
             <Hoshi
               style={ss.formRow}
-              ref='firstName'
+              ref="firstName"
               value={this.state.givenName}
               label={'First Name'}
               borderColor={Colours.primary}
@@ -236,7 +234,7 @@ export default class AddChildScene extends IMPComponent {
               inputStyle={{ color: Colours.darkText, fontSize: 24 }}
               labelStyle={{ color: Colours.darkText }}
               onChangeText={(text) => this.setState({ givenName: text })}
-              returnKeyType='next'
+              returnKeyType="next"
               onSubmitEditing={() => this.refs.familyName.focus()}
               selectionColor={Colours.secondaryHighlight}
             />
@@ -244,7 +242,7 @@ export default class AddChildScene extends IMPComponent {
             {/* Family Name */}
             <Hoshi
               style={ss.formRow}
-              ref='familyName'
+              ref="familyName"
               value={this.state.familyName}
               label={'Last Name'}
               borderColor={Colours.primary}
@@ -252,7 +250,7 @@ export default class AddChildScene extends IMPComponent {
               inputStyle={{ color: Colours.darkText, fontSize: 24 }}
               labelStyle={{ color: Colours.darkText }}
               onChangeText={(text) => this.setState({ familyName: text })}
-              returnKeyType='next'
+              returnKeyType="next"
               onSubmitEditing={() => this.refs.idNumber.focus()}
               selectionColor={Colours.secondaryHighlight}
             />
@@ -260,7 +258,7 @@ export default class AddChildScene extends IMPComponent {
             {/* ID Number */}
             <Hoshi
               style={ss.formRow}
-              ref='idNumber'
+              ref="idNumber"
               value={this.state.idNumber}
               label={'ID '}
               borderColor={Colours.primary}
@@ -268,8 +266,8 @@ export default class AddChildScene extends IMPComponent {
               inputStyle={{ color: Colours.darkText, fontSize: 24 }}
               labelStyle={{ color: Colours.darkText }}
               onChangeText={(text) => this.setState({ idNumber: text })}
-              returnKeyType='done'
-              keyboardType='numeric'
+              returnKeyType="done"
+              keyboardType="numeric"
               onSubmitEditing={() => this._submit()}
               selectionColor={Colours.secondaryHighlight}
             />
@@ -281,8 +279,8 @@ export default class AddChildScene extends IMPComponent {
             />
             */}
 
-            <View style={{paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-              <Button text='Add' onPress={() => this._submit()} />
+            <View style={{ paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <Button text="Add" onPress={() => this._submit()} />
             </View>
 
           </View>

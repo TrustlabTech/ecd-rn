@@ -14,7 +14,7 @@ import { Colours } from '../GlobalStyles'
 
 export default class ScrollableWaitableView extends Component {
 
-  render () {
+  render() {
     if (this.props.loaded) {
       return (
 
@@ -24,11 +24,11 @@ export default class ScrollableWaitableView extends Component {
       )
     } else {
       return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour }}>
           <ActivityIndicator
             animating
-            style={{height: 80}}
-            size='large'
+            style={{ height: 80 }}
+            size="large"
           />
         </View>
       )

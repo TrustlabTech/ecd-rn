@@ -20,17 +20,17 @@ function AnchorJS(options) {
 
   this.add = function(selector) {
     var elements,
-        elsWithIds,
-        idList,
-        elementID,
-        i,
-        roughText,
-        tidyText,
-        index,
-        count,
-        newTidyText,
-        readableID,
-        anchor;
+      elsWithIds,
+      idList,
+      elementID,
+      i,
+      roughText,
+      tidyText,
+      index,
+      count,
+      newTidyText,
+      readableID,
+      anchor;
 
     this._applyRemainingDefaultOptions(this.options);
 
@@ -132,7 +132,7 @@ function AnchorJS(options) {
 
   this.remove = function(selector) {
     var domAnchor,
-        elements = document.querySelectorAll(selector);
+      elements = document.querySelectorAll(selector);
     for (var i = 0; i < elements.length; i++) {
       domAnchor = elements[i].querySelector('.anchorjs-link');
       if (domAnchor) {
@@ -149,30 +149,30 @@ function AnchorJS(options) {
     }
 
     var style = document.createElement('style'),
-        linkRule =
+      linkRule =
         ' .anchorjs-link {'                       +
         '   opacity: 0;'                          +
         '   text-decoration: none;'               +
         '   -webkit-font-smoothing: antialiased;' +
         '   -moz-osx-font-smoothing: grayscale;'  +
         ' }',
-        hoverRule =
+      hoverRule =
         ' *:hover > .anchorjs-link,'              +
         ' .anchorjs-link:focus  {'                +
         '   opacity: 1;'                          +
         ' }',
-        anchorjsLinkFontFace =
+      anchorjsLinkFontFace =
         ' @font-face {'                           +
         '   font-family: "anchorjs-icons";'       +
         '   font-style: normal;'                  +
         '   font-weight: normal;'                 + // Icon from icomoon; 10px wide & 10px tall; 2 empty below & 4 above
         '   src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBTUAAAC8AAAAYGNtYXAWi9QdAAABHAAAAFRnYXNwAAAAEAAAAXAAAAAIZ2x5Zgq29TcAAAF4AAABNGhlYWQEZM3pAAACrAAAADZoaGVhBhUDxgAAAuQAAAAkaG10eASAADEAAAMIAAAAFGxvY2EAKACuAAADHAAAAAxtYXhwAAgAVwAAAygAAAAgbmFtZQ5yJ3cAAANIAAAB2nBvc3QAAwAAAAAFJAAAACAAAwJAAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpywPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAOAAAAAoACAACAAIAAQAg6cv//f//AAAAAAAg6cv//f//AAH/4xY5AAMAAQAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAACADEARAJTAsAAKwBUAAABIiYnJjQ/AT4BMzIWFxYUDwEGIicmND8BNjQnLgEjIgYPAQYUFxYUBw4BIwciJicmND8BNjIXFhQPAQYUFx4BMzI2PwE2NCcmNDc2MhcWFA8BDgEjARQGDAUtLXoWOR8fORYtLTgKGwoKCjgaGg0gEhIgDXoaGgkJBQwHdR85Fi0tOAobCgoKOBoaDSASEiANehoaCQkKGwotLXoWOR8BMwUFLYEuehYXFxYugC44CQkKGwo4GkoaDQ0NDXoaShoKGwoFBe8XFi6ALjgJCQobCjgaShoNDQ0NehpKGgobCgoKLYEuehYXAAEAAAABAACiToc1Xw889QALBAAAAAAA0XnFFgAAAADRecUWAAAAAAJTAsAAAAAIAAIAAAAAAAAAAQAAA8D/wAAABAAAAAAAAlMAAQAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAACAAAAAoAAMQAAAAAACgAUAB4AmgABAAAABQBVAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEADgAAAAEAAAAAAAIABwCfAAEAAAAAAAMADgBLAAEAAAAAAAQADgC0AAEAAAAAAAUACwAqAAEAAAAAAAYADgB1AAEAAAAAAAoAGgDeAAMAAQQJAAEAHAAOAAMAAQQJAAIADgCmAAMAAQQJAAMAHABZAAMAAQQJAAQAHADCAAMAAQQJAAUAFgA1AAMAAQQJAAYAHACDAAMAAQQJAAoANAD4YW5jaG9yanMtaWNvbnMAYQBuAGMAaABvAHIAagBzAC0AaQBjAG8AbgBzVmVyc2lvbiAxLjAAVgBlAHIAcwBpAG8AbgAgADEALgAwYW5jaG9yanMtaWNvbnMAYQBuAGMAaABvAHIAagBzAC0AaQBjAG8AbgBzYW5jaG9yanMtaWNvbnMAYQBuAGMAaABvAHIAagBzAC0AaQBjAG8AbgBzUmVndWxhcgBSAGUAZwB1AGwAYQByYW5jaG9yanMtaWNvbnMAYQBuAGMAaABvAHIAagBzAC0AaQBjAG8AbgBzRm9udCBnZW5lcmF0ZWQgYnkgSWNvTW9vbi4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==) format("truetype");' +
         ' }',
-        pseudoElContent =
+      pseudoElContent =
         ' [data-anchorjs-icon]::after {'          +
         '   content: attr(data-anchorjs-icon);'   +
         ' }',
-        firstStyleEl;
+      firstStyleEl;
 
     style.className = 'anchorjs';
     style.appendChild(document.createTextNode('')); // Necessary for Webkit.

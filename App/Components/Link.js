@@ -14,10 +14,9 @@ import {
 import { Colours, FontSizes } from '../GlobalStyles'
 
 export default class Link extends Component {
-
-  render () {
+  render() {
     return (
-      <TouchableHighlight style={{padding: 5, margin: 2}} onPress={() => this.props.onPress()}>
+      <TouchableHighlight style={{ padding: 5, margin: 2 }} onPress={() => this.props.onPress()}>
         <Text style={{
           color: Colours.secondary,
           fontSize: FontSizes.p

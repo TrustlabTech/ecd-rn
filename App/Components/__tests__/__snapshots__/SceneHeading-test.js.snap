@@ -13,6 +13,7 @@ exports[`test renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
+        "color": "#666666",
         "fontSize": 26,
         "fontWeight": "bold",
       }

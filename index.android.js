@@ -11,11 +11,9 @@ import {
   AppRegistry,
   Navigator,
   View,
-  Platform,
   Dimensions
 } from 'react-native'
 
-import Routes from './App/Routes'
 import EventEmitter from 'EventEmitter'
 import {
   GoogleAnalyticsTracker,
@@ -38,22 +36,34 @@ export default class Ecdrn extends Component {
   constructor (props) {
     super(props)
 
-    /** The route navigator will be instantiated with */
+    /**
+     * The route navigator will be instantiated with
+     */
     this.initialRoute = null
 
-    /** Navigation event emitter */
+    /**
+     * Navigation event emitter
+     */
     this._navigationEventEmitter = null
 
-    /** Modal event emitter */
+    /**
+     * Modal event emitter
+     */
     this._modalEventEmitter = null
 
-    /** The name of the file of the current Scene */
+    /**
+     * The name of the file of the current Scene
+     */
     this._fileName = null
 
-    /** The name of the class of the current Scene*/
+    /**
+     * The name of the class of the current Scene
+     */
     this._className = null
 
-    /** An object to hold google analytics tracks */
+    /**
+     * An object to hold google analytics tracks
+     */
     this._gaTrackers = {}
 
     this.state = {
@@ -73,7 +83,7 @@ export default class Ecdrn extends Component {
 
     this._modalEventEmitter.addListener('modal', this._setModal, this)
 
-    if(Config.debug && Config.debugReact) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._fileName, Lifecycle.CONSTRUCTOR)
     }
   }
@@ -100,45 +110,45 @@ export default class Ecdrn extends Component {
   }
 
   componentWillUnmount() {
-    if(Config.debug && Config.debugReact) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UNMOUNT)
     }
   }
 
   componentDidMount() {
-    if(Config.debug && Config.debugReact) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_MOUNT)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if(Config.debug && Config.debugReact) {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_RECEIEVE_PROPS)
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
-      if(Config.debug && Config.debugReact) {
-        IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UPDATE)
-      }
+    if (Config.debug && Config.debugReact) {
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UPDATE)
+    }
   }
 
   componentDidUpdate(nextProps, nextState) {
-      if(Config.debug && Config.debugReact) {
-        IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_UPDATE)
-      }
+    if (Config.debug && Config.debugReact) {
+      IMPLog.react(this._fileName, Lifecycle.COMPONENT_DID_UPDATE)
+    }
   }
 
   componentWillUnmount() {
-    if(Config.debug && Config.debugReact) {
+    if (Config.debug && Config.debugReact) {
         IMPLog.react(this._fileName, Lifecycle.COMPONENT_WILL_UNMOUNT)
     }
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    if(nextState.screenWidth !== this.state.screenWidth) {
+    if (nextState.screenWidth !== this.state.screenWidth) {
       if (Config.debug) {
-        if(nextState.screenWidth > nextState.screenHeight) {
+        if (nextState.screenWidth > nextState.screenHeight) {
           console.log('LANDSCAPE')
         } else {
           console.log('PORTRAIT')
@@ -147,11 +157,11 @@ export default class Ecdrn extends Component {
       return true
     }
 
-    if(JSON.stringify(this.props) !== JSON.stringify(nextProps)) {
+    if (JSON.stringify(this.props) !== JSON.stringify(nextProps)) {
       return true
     }
 
-    if(JSON.stringify(this.state) !== JSON.stringify(nextState)) {
+    if (JSON.stringify(this.state) !== JSON.stringify(nextState)) {
       return true
     }
     return false
@@ -193,8 +203,8 @@ export default class Ecdrn extends Component {
     this.setState({modal: options})
   }
 
-  render() {
-    if(Config.debug && Config.debugReact) {
+  render () {
+    if (Config.debug && Config.debugReact) {
       IMPLog.react(this._fileName, Lifecycle.RENDER)
     }
     return (

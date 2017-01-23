@@ -25,12 +25,12 @@ const dismissKeyboard = require('dismissKeyboard')
  */
 export default class ScrollableWaitableView extends Component {
 
-  render () {
+  render() {
     if (this.props.loaded) {
       return (
         <ScrollView
-          keyboardDismissMode='interactive'
-          keyboardShouldPersistTaps='handled'
+          keyboardDismissMode="interactive"
+          keyboardShouldPersistTaps="handled"
           scrollEnable
           showsVerticalScrollIndicator={false}
           automaticallyAdjustContentInsets
@@ -38,7 +38,7 @@ export default class ScrollableWaitableView extends Component {
 
           { /* This allows us to dismiss the keyboard by tapping away */}
           <TouchableWithoutFeedback onPress={() => { dismissKeyboard() }}>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               {this.props.children}
             </View>
           </TouchableWithoutFeedback>
@@ -46,11 +46,11 @@ export default class ScrollableWaitableView extends Component {
       )
     } else {
       return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour }}>
           <ActivityIndicator
             animating
-            style={{height: 80}}
-            size='large'
+            style={{ height: 80 }}
+            size="large"
           />
         </View>
       )

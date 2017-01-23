@@ -23,22 +23,22 @@ export default class HistoryDayItem extends Component {
     date : string
     totalChildren : number
   */
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       childItemsVisible: false
     }
   }
 
-  _toggleChildItemsVisible () {
+  _toggleChildItemsVisible() {
     if (this.props.absentChildren.length > 0) {
-      this.setState({childItemsVisible: !this.state.childItemsVisible})
+      this.setState({ childItemsVisible: !this.state.childItemsVisible })
     } else {
       ToastAndroid.show('Nobody absent on this day', ToastAndroid.SHORT)
     }
   }
 
-  makeHistoryChildItems (absentChildren) {
+  makeHistoryChildItems(absentChildren) {
     return this.state.childItemsVisible
       ? (
         <View>
@@ -56,33 +56,33 @@ export default class HistoryDayItem extends Component {
       : null
   }
 
-  render () {
+  render() {
     return (
-      <View style={{marginBottom: 5}}>
+      <View style={{ marginBottom: 5 }}>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <TouchableNativeFeedback onPress={() => this._toggleChildItemsVisible()}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <View>
                 {
                   this.state.childItemsVisible
-                  ? <Icon name='chevron-down' size={25} />
-                  : <Icon name='chevron-right' size={25} />
+                  ? <Icon name="chevron-down" size={25} />
+                  : <Icon name="chevron-right" size={25} />
                 }
               </View>
               <View>
-                <Text style={{fontSize: FontSizes.h5}}>
+                <Text style={{ fontSize: FontSizes.h5 }}>
                   {this.props.day + ' ' + moment(new Date(0, this.props.month - 1)).format('MMMM')}
                   ({ (this.props.totalChildren - this.props.absentChildren.length) + '/ ' + (this.props.totalChildren) })
                 </Text>
               </View>
             </View>
           </TouchableNativeFeedback>
-          <View style={{flex: 2}} />
+          <View style={{ flex: 2 }} />
         </View>
 
 
-        <View style={{marginLeft: 10}}>
+        <View style={{ marginLeft: 10 }}>
           {this.makeHistoryChildItems(this.props.absentChildren)}
 
         </View>

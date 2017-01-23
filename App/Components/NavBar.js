@@ -18,37 +18,37 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default class NavBar extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       navigator: props.navigator
     }
   }
 
-  canGoBack () {
+  canGoBack() {
     return this.props.navigator.getCurrentRoutes().length > 1
   }
 
-  goBack () {
+  goBack() {
     setTimeout(() => this.props.navigator.pop(), 0)
   }
 
-  pressRightButton () {
+  pressRightButton() {
     if (this.props.rightButtonAction) {
       setTimeout(() => this.props.rightButtonAction(), 0)
     }
   }
 
-  pressLeftButton () {
+  pressLeftButton() {
     if (this.props.leftButtonAction) {
       setTimeout(() => this.props.leftButtonAction(), 0)
     }
   }
 
-  render () {
-    var leftButton
-    var centerTitle
-    var rightButton
+  render() {
+    let leftButton
+    let centerTitle
+    let rightButton
 
     let { leftButtonAction,
           leftButtonText,
@@ -95,36 +95,36 @@ export default class NavBar extends Component {
         </TouchableHighlight>)
     } else if (this.canGoBack()) {
       leftButton =
-        <TouchableHighlight
+        (<TouchableHighlight
           underlayColor={Colours.offWhite}
           activeOpacity={0.9}
           onPress={() => this.goBack()}
         >
           <View style={styles.sideButtonsViewWrapper}>
-            <Icon name='arrow-left' size={30} color={Colours.spierWit} />
+            <Icon name="arrow-left" size={30} color={Colours.spierWit} />
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight>)
     } else {
       /*
         This is a bit of a hack,
         for layout to render correctly
       */
       leftButton =
-        <TouchableHighlight>
+        (<TouchableHighlight>
           <View style={styles.sideButtonsViewWrapper} />
-        </TouchableHighlight>
+        </TouchableHighlight>)
     }
 
     centerTitle =
-      <View style={styles.centerTitleViewWrapper}>
+      (<View style={styles.centerTitleViewWrapper}>
         <Text style={[styles.navButtonText, { fontSize: FontSizes.h5 }]}>
           {this.props.title}
         </Text>
-      </View>
+      </View>)
 
     if (rightButtonText) {
       rightButton =
-        <TouchableHighlight
+        (<TouchableHighlight
           underlayColor={Colours.offWhite}
           activeOpacity={0.9}
           onPress={() => this.pressRightButton()}
@@ -132,20 +132,20 @@ export default class NavBar extends Component {
           <View style={styles.sideButtonsViewWrapper}>
             <Text style={styles.navButtonText}>{this.props.rightButtonText}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight>)
     } else {
       rightButton =
-        <TouchableHighlight>
+        (<TouchableHighlight>
           <View style={styles.sideButtonsViewWrapper} />
-        </TouchableHighlight>
+        </TouchableHighlight>)
     }
 
 
     return (
       <View>
         <StatusBar
-          backgroundColor='black'
-          barStyle='default'
+          backgroundColor="black"
+          barStyle="default"
         />
         <View style={{
           flexDirection: 'row',

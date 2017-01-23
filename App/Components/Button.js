@@ -24,7 +24,7 @@ import LinearGradient from 'react-native-linear-gradient'
  */
 export default class Button extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.bgColour1 = Colours.buttonColour1
     this.bgColour2 = Colours.buttonColour2
@@ -38,7 +38,7 @@ export default class Button extends Component {
     this.recentlyTouched = false
   }
 
-  componentWillMount () {
+  componentWillMount() {
     if (this.props.disabled) {
       this.setState({
         bgColour1: this.bgColour1,
@@ -52,7 +52,7 @@ export default class Button extends Component {
     }
   }
 
-  onPress () {
+  onPress() {
     if (!this.recentlyTouched) {
       if (this.props.disabled !== true) {
         // Executing immediately here WILL prevent animation
@@ -61,11 +61,8 @@ export default class Button extends Component {
             this.props.onPress()
           })
         }, 0)
-      } else {
-        // If a message was given display it
-        if (this.props.disabledText) {
-          ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT)
-        }
+      } else if (this.props.disabledText) {
+        ToastAndroid.show(this.props.disabledText, ToastAndroid.SHORT)
       }
       // Gaurd
       this.recentlyTouched = true
@@ -74,7 +71,7 @@ export default class Button extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps, nextState) {
+  componentWillReceiveProps(nextProps, nextState) {
     if (this.props.disabled) {
       this.setState({
         bgColour1: Colours.offWhite,
@@ -88,31 +85,24 @@ export default class Button extends Component {
     }
   }
 
-  render () {
+  render() {
     return (
       <View>
 
         <TouchableHighlight
-
           underlayColor={Colours.offWhite}
-
           activeOpacity={this.props.disabled ? 0.4 : 0.2}
-
           style={[styles.tH, { width: this.props.width || 140, height: this.props.height || 50 }]}
-
           onPress={() => this.onPress()}
         >
-
           <View style={styles.view}>
-            <LinearGradient colors={[ this.state.bgColour1, this.state.bgColour2 ]} style={styles.lG}>
+            <LinearGradient colors={[this.state.bgColour1, this.state.bgColour2]} style={styles.lG}>
               <Text style={[styles.text, this.props.style]}>
                 {this.props.text}
               </Text>
             </LinearGradient>
           </View>
-
         </TouchableHighlight>
-
       </View>
     )
   }

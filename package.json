@@ -4,22 +4,12 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "standard && jest"
+    "test": "jest",
+    "precommit": "eslint ."
   },
   "jest": {
     "preset": "react-native",
     "testEnvironment": "node"
-  },
-  "standard": {
-    "ignore": [
-      "documentation/"
-    ],
-    "globals": [
-      "fetch",
-      "it",
-      "FormData"
-    ],
-    "parser": "babel-eslint"
   },
   "dependencies": {
     "ansi-styles": "^2.2.1",
@@ -36,12 +26,16 @@
     "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "babel-jest": "^17.0.2",
     "babel-polyfill": "^6.16.0",
     "babel-preset-react-native": "^1.9.0",
+    "eslint": "^3.14.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-react-native": "^2.2.1",
     "jest": "^17.0.3",
     "jest-react-native": "^17.0.3",
-    "react-test-renderer": "^15.4.1",
-    "standard": "^8.6.0"
+    "react-test-renderer": "^15.4.1"
   }
 }

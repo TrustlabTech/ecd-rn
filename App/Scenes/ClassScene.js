@@ -12,7 +12,6 @@ import AndroidBackButton from 'react-native-android-back-button'
 import {
   View,
   Alert,
-  InteractionManager
 } from 'react-native'
 
 import Config from '../Config'
@@ -53,7 +52,7 @@ export default class ClassScene extends IMPComponent {
     this._fetchData()
   }
 
-  _hardwareBackHandler () {
+  _hardwareBackHandler() {
     this._goBack()
     return true
   }
@@ -64,25 +63,25 @@ export default class ClassScene extends IMPComponent {
    * @returns {undefined}
    */
   _fetchData() {
-      const sessionState = Session.getState()
-      Api.fetchClasses(
+    const sessionState = Session.getState()
+    Api.fetchClasses(
         sessionState.userData.user.id,
         sessionState.userData._token
       ).then((data) => {
-        setTimeout( () => {
+        setTimeout(() => {
           this.setState({
             loaded: true,
             centreData: data
           })
-        },Config.sceneTransitionMinumumTime)
+        }, Config.sceneTransitionMinumumTime)
       }).catch((error) => {
-        if(Config.debug) {
+        if (Config.debug) {
           IMPLog.error(error.toString(), this._fileName)
         }
         Alert.alert(
           Config.errorMessage.network.title,
           Config.errorMessage.network.message,
-          [{text: "Okay"}]
+          [{ text: "Okay" }]
         )
         this._goBack()
       })
@@ -90,29 +89,29 @@ export default class ClassScene extends IMPComponent {
   }
 
   _goBack() {
-    if(!Config.debug)
-      Sentry.addNavigationBreadcrumb(this._className,'ClassScene','MainScene')
+    if (!Config.debug){
+      Sentry.addNavigationBreadcrumb(this._className, 'ClassScene', 'MainScene')
+    }
 
     this.navigator.pop()
-    this.setState({loaded: false})
+    this.setState({ loaded: false })
   }
 
   takeAttendance(val) {
-    // const sessionState = Session.getState()
+    this.navigator.push({ ...Routes.attendance, classId: val.id })
 
-    this.navigator.push({...Routes.attendance, classId: val.id })
 
-    this.setState({loaded: false})
+    this.setState({ loaded: false })
   }
 
-  buildList = (data) => {
-    if(!data) {
+  buildList(data){
+    if (!data) {
       return null
     } else {
-      return data.map((val,i) =>
+      return data.map((val, i) =>
         <Button
         disabled={val.attended}
-        disabledText={"Attendance has already been submitted for "+val.name+" today."}
+        disabledText={"Attendance has already been submitted for " + val.name + " today."}
         width={250}
         key={i}
         text={val.name}
@@ -127,7 +126,7 @@ export default class ClassScene extends IMPComponent {
   render() {
     super.render()
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <AndroidBackButton onPress={ () => this._hardwareBackHandler() }/>
         <NavBar
           navigator={ this.props.navigator }
@@ -140,7 +139,7 @@ export default class ClassScene extends IMPComponent {
             marginLeft: 20,
             marginRight: 20
           }}>
-            <View style={{flex: 1, alignItems: 'center'}}>
+            <View style={{ flex: 1, alignItems: 'center' }}>
               { this.buildList(this.state.centreData) }
             </View>
           </View>
