@@ -31,8 +31,7 @@ import {
   SceneHeading,
   NavBar,
   Button,
-  Selector,
-  DatePicker
+  Selector
 } from '../Components'
 import validRSAId from '../validRSAID'
 const dismissKeyboard = require('dismissKeyboard')

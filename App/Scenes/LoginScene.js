@@ -16,7 +16,6 @@ import {
   AsyncStorage,
   Alert,
   StyleSheet,
-  InteractionManager
 } from 'react-native'
 
 import Config from '../Config'
@@ -106,7 +105,6 @@ export default class LoginScene extends IMPComponent {
    * @returns {undefined}
    */
   _login() {
-    // InteractionManager.runAfterInteractions(() => {
     const { phoneNumber, pin } = this.state
     if (!phoneNumber) {
       Alert.alert(
@@ -199,7 +197,6 @@ export default class LoginScene extends IMPComponent {
         }
       })
     }
-    // })
   }
 
   /**
