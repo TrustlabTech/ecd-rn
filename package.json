@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "precommit": "eslint ."
+    "test": "node node_modules/jest/bin/jest.js",
+    "precommit": "node node_modules/eslint/bin/eslint.js eslint"
   },
   "jest": {
     "preset": "react-native",
