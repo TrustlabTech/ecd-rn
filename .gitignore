@@ -43,3 +43,4 @@ android/keystores/debug.keystore
 # VSCODE
 .vscode/
 coverage/
+cfg/runtime.json
