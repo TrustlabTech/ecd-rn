@@ -1,6 +1,7 @@
 import groovy.json.JsonSlurper
 def packageSlurper = new JsonSlurper()
 def packageJson = packageSlurper.parse file('../../package.json')
+def runtimeCfgJson = packageSlurper.parse file('../../cfg/runtime.json')
 
 println "Building ECDRN v"+packageJson.version
 
@@ -67,6 +68,7 @@ android {
     }
     buildTypes {
         release {
+            applicationIdSuffix runtimeCfgJson.UNSTABLE ? ".unstable" : ""
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             debuggable false
@@ -76,6 +78,7 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
