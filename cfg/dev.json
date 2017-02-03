@@ -1,5 +1,6 @@
 {
     "SERVER": "http://staging.ecd.cnsnt.io",
+    "UNSTABLE": true,
     "API_VERSION": 1,
     "DEBUG": {
         "MASTER": false,

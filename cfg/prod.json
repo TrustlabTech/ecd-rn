@@ -1,5 +1,6 @@
 {
     "SERVER": "http://ecd.cnsnt.io",
+    "UNSTABLE": false,
     "API_VERSION": 1,
     "DEBUG": {
         "MASTER": false,
