@@ -35,7 +35,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId runtimeCfgJson.DEBUG.MASTER ? ".unstable" : ""
+        applicationId "com.ecdrn"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -68,6 +68,7 @@ android {
     }
     buildTypes {
         release {
+            applicationIdSuffix runtimeCfgJson.DEBUG.MASTER ? ".unstable" : ""
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             debuggable false
