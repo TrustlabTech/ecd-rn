@@ -4,7 +4,6 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Werner Roets <werner@io.co.za>
  */
-// BUILD HOOK TESTGIT STA
 
 import React, { Component } from 'react'
 import Config from './App/Config'
