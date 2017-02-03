@@ -58,8 +58,8 @@ export default {
 
   // Server details
   http: {
-    server: RUNTIME.DEBUG.SERVER,
-    baseUrl: RUNTIME.DEBUG.SERVER + '/api/v' + RUNTIME.API_VERSION + '/',
+    server: RUNTIME.SERVER,
+    baseUrl: RUNTIME.SERVER + '/api/v' + RUNTIME.API_VERSION + '/',
     headers: {
       'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + PKG.version,
       'X-Client-Server': RUNTIME.SERVER,
