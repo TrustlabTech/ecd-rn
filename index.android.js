@@ -69,9 +69,9 @@ export default class Ecdrn extends Component {
     this.state = {
       modal: {
         visible: false,
-        screenWidth: null,
-        screenHeight: null
-      }
+      },
+      screenWidth: null,
+      screenHeight: null
     }
     // Initialise values
     this._fileName = 'index.android.js'

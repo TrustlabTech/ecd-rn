@@ -1,0 +1,12 @@
+{
+    "SERVER": "http://staging.ecd.cnsnt.io",
+    "API_VERSION": 1,
+    "DEBUG": {
+        "MASTER": false,
+        "ACTION": false,
+        "NETWORK": false,
+        "REACT": false,
+        "NAVIGATOR": false,
+        "AUTO_LOGIN": false
+    }
+}

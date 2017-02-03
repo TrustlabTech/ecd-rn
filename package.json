@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "node node_modules/jest/bin/jest.js",
-    "precommit": "node node_modules/eslint/bin/eslint.js eslint"
+    "precommit": "node node_modules/eslint/bin/eslint.js eslint",
+    "set_cfg": "./set_cfg.bash"
   },
   "jest": {
     "preset": "react-native",

@@ -12,19 +12,25 @@ import {
 import Routes from './Routes'
 import { Colours } from './GlobalStyles'
 
-const pkg = require('../package.json')
-
-const SERVER = 'staging.ecd.cnsnt.io'
-// const SERVER = 'ecd.cnsnt.io'
-const DEBUG = false // Master debug switch
-const API_VERSION = 1
+const PKG = require('../package.json')
+const RUNTIME = require('../cfg/runtime.json')
 
 /** The configuration file for the App */
 export default {
+
   // The full name of the application
   appName: 'ECD APP',
+
   // First scene to show
   initialRoute: Routes.login,
+
+  // Debug settings
+  debug: RUNTIME.DEBUG.MASTER,         // Main switch
+  debugNetwork: RUNTIME.DEBUG.NETWORK,   // HTTP
+  debugReact: RUNTIME.DEBUG.REACT,     // Show react lifescylce data
+  debugNavigator: RUNTIME.DEBUG.NAVIGATOR,
+  debugAutoLogin: RUNTIME.DEBUG.AUTO_LOGIN,
+
   // Predefined error messages
   errorMessage: {
     login: {
@@ -37,32 +43,27 @@ export default {
     }
   },
 
-  debug: DEBUG,         // Main switch
-  // @deprecated debugAction: false,   // Redux actions
-  debugNetwork: false,   // HTTP
-  debugReact: true,     // Show react lifescylce data
-  debugNavigator: false,
-  debugAutoLogin: true,
-
   // App version
-  version: pkg.version,
+  version: PKG.version,
 
   // React Native version
-  rnVersion: pkg.dependencies['react-native'].substring(1),
+  rnVersion: PKG.dependencies['react-native'].substring(1),
 
   // Android navigator transitions
   sceneConfig: Navigator.SceneConfigs.FloatFromRight,
   sceneTransitionMinumumTime: 200,
+
   // Modal settings
   progressBarColor: Colours.consentOrange,
 
   // Server details
   http: {
-    server: SERVER,
-    baseUrl: 'http://' + SERVER + '/api/v' + API_VERSION + '/',
+    server: RUNTIME.DEBUG.SERVER,
+    baseUrl: RUNTIME.DEBUG.SERVER + '/api/v' + RUNTIME.API_VERSION + '/',
     headers: {
-      'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + pkg.version,
-      'X-Client-Version': pkg.version,
+      'X-Client-Platform': 'ECD ' + Platform.OS + ' v' + PKG.version,
+      'X-Client-Server': RUNTIME.SERVER,
+      'X-Client-Version': PKG.version,
       'X-Requested-With': 'XMLHttpRequest'
     }
   },
