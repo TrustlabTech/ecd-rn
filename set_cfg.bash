@@ -4,3 +4,4 @@ if [[ $(git rev-parse --abbrev-ref HEAD) == "unstable" ]]; then
 else
     cp -R cfg/prod.json cfg/runtime.json
 fi
+# EOF
