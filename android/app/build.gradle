@@ -68,7 +68,7 @@ android {
     }
     buildTypes {
         release {
-            applicationIdSuffix runtimeCfgJson.DEBUG.MASTER ? ".unstable" : ""
+            applicationIdSuffix runtimeCfgJson.UNSTABLE ? ".unstable" : ""
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             debuggable false
