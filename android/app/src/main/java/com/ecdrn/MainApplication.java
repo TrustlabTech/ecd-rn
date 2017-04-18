@@ -3,6 +3,7 @@ package com.ecdrn;
 import android.app.Application;
 import android.util.Log;
 
+import com.ecdrn.reactnative.ReactNativePackages;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -29,9 +30,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new ReactNativePackages(),
           new LinearGradientPackage(),
-          new ReactNativeSentryAndroidPackage(),
-          new GoogleAnalyticsBridgePackage()
+          new GoogleAnalyticsBridgePackage(),
+          new ReactNativeSentryAndroidPackage()
       );
     }
   };
