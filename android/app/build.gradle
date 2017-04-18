@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         applicationId "com.ecdrn"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
         versionName packageJson.version
@@ -104,6 +104,8 @@ dependencies {
     compile project(':react-native-google-analytics-bridge')
     compile "com.android.support:appcompat-v7:23.0.1"
     compile 'com.joshdholtz.sentry:sentry-android:1.5.0'
+    compile 'com.madgag.spongycastle:core:1.54.0.0'
+    compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile "com.facebook.react:react-native:+"
     compile fileTree(dir: "libs", include: ["*.jar"])
 }

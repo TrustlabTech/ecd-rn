@@ -5,7 +5,6 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-/* global fetch FormData */
 import Config from './Config'
 import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
@@ -18,7 +17,9 @@ function request(route, opts) {
     Sentry.addBreadcrumb('HTTP ' + options.method, Config.http.baseUrl + route)
   }
 
-  return fetch(Config.http.baseUrl + route, options)
+  console.log(Config.http.baseUrl + route)
+  console.log(JSON.stringify(options))
+  return fetch(Config.http.baseUrl + route, options) // eslint-disable-line no-undef
 
   // Response received
   .then((response) => {
@@ -60,11 +61,11 @@ export default {
    * @returns {undefined}
    */
   login: (phoneNumber, pin) => {
-    const formData = new FormData()
-    formData.append('username', phoneNumber)
-    formData.append('password', pin)
     return request('staff/login', {
-      body: formData,
+      body: JSON.stringify({
+        username: phoneNumber,
+        password: pin,
+      }),
       method: 'POST',
       headers: Config.http.headers
     })
@@ -147,12 +148,13 @@ export default {
   /**
    * @memberof Api
    */
-  addChild: (givenName, familyName, idNumber, classId, token) => {
+  addChild: (givenName, familyName, idNumber, classId, keypair, token) => {
     const jsonData = {
       given_name: givenName,
       family_name: familyName,
       id_number: idNumber,
-      centre_class_id: classId
+      keypair,
+      centre_class_id: classId,
     }
     return request('child', {
       method: 'POST',

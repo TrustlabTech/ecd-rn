@@ -22,6 +22,7 @@ import {
 import moment from 'moment'
 
 import Config from '../Config'
+import Crypto from '../Crypto'
 import { FontSizes, Colours } from '../GlobalStyles'
 import Api from '../Api'
 import Session from '../Session'
@@ -140,25 +141,26 @@ export default class AddChildScene extends IMPComponent {
       return
     }
     // submit the form
-    InteractionManager.runAfterInteractions(() => {
-      const sessionState = Session.getState()
-      Api.addChild(
+    InteractionManager.runAfterInteractions(this.callApi)
+  }
+
+  callApi = async () => {
+    try {
+      const keypair = await Crypto.createECKeyPair()
+      const response = await Api.addChild(
         this.state.givenName,
         this.state.familyName,
         this.state.idNumber,
         this.state.classSelectedId,
-        sessionState.userData._token)
+        keypair,
+        Session.getState().userData._token
+      )
 
-      .then(response => {
-        ToastAndroid.show('Child added', ToastAndroid.SHORT)
-        this._resetForm()
-      })
-
-      .catch(error => {
-        // FIXME with a proper alert
-        alert('Could not add child ' + error.toString())
-      })
-    })
+      response && !ToastAndroid.show('Child added', ToastAndroid.SHORT) && this._resetForm()
+    } catch (e) {
+      // FIXME with a proper alert
+      alert('Could not add child ' + e.toString())
+    }
   }
 
   _resetForm() {

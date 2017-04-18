@@ -1,7 +1,7 @@
 {
-    "SERVER": "http://staging.ecd.cnsnt.io",
+    "SERVER": "http://amply-api.cloudapp.net",
     "UNSTABLE": true,
-    "API_VERSION": 1,
+    "API_VERSION": 2,
     "DEBUG": {
         "MASTER": false,
         "ACTION": false,
