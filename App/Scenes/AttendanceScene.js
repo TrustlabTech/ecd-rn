@@ -276,8 +276,14 @@ export default class AttendanceScene extends IMPComponent {
       try {
         if (json.success) {
           const data = json.data
+          
           const bulkAttendanceClaim = await createBulkAttendanceClaim(data, attendanceData, location)
-          const childrenAttendanceClaims = await Promise.all(createChildAttendaceClaims(data, childData, location))
+          const childrenAttendanceClaims = []
+
+          // TODO: object reference bug
+          for (const childData of attendanceData) {
+            childrenAttendanceClaims.push(await createChildAttendaceClaims(data, childData, location))
+          }
 
           console.log(childrenAttendanceClaims)
 
