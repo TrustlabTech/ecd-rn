@@ -145,6 +145,14 @@ export default {
     })
   },
 
+  submitAttendanceClaim: (centreId, centreClaim, childrenClaims, token) => {
+    return request('attendance/claims', {
+      method: 'POST',
+      body: JSON.stringify({ centreId, centre: centreClaim, children: childrenClaims }),
+      headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer: ' + token.trim() }
+    })
+  },
+
   /**
    * @memberof Api
    */

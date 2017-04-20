@@ -16,12 +16,14 @@ import {
   DrawerLayoutAndroid,
   Alert,
   StyleSheet,
-  InteractionManager
+  InteractionManager,
+  NativeModules,
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 
 import Api from '../Api'
 import Config from '../Config'
+import Crypto from '../Crypto'
 import Session from '../Session'
 import Sentry from '../Sentry'
 import Routes from '../Routes'
@@ -45,7 +47,8 @@ export default class MainScene extends IMPComponent {
     this.state = {
       loaded: false,     // Nothing to fetch
       drawerOpen: false,
-      summaryData: null
+      summaryData: null,
+      hasStaffKey: true,
     }
   }
 
@@ -61,6 +64,31 @@ export default class MainScene extends IMPComponent {
   }
 
   /**
+   * Check whether staff member has a keypair for signing
+   * @memberof MainScene
+   * @returns undefined
+   */
+  keypairExist = async (state) => {
+    let newState = state
+    if (await Crypto.createKeyStore('staff.keystore', 'test-password'))
+      if (await Crypto.loadKeyStore('staff.keystore', 'test-password')) {
+        const keys = await NativeModules.Crypto.getKeyAliases()
+        if (keys.indexOf('publicstaff') === -1 && keys.indexOf('privatestaff') === -1)
+          newState.hasStaffKey = false
+      }
+    
+    this.setState(newState)
+  }
+
+  createKeyPair = async () => {
+    const keypair = Crypto.createStaffKeyPair('test-password')
+    if (keypair === false) {
+      Alert.alert('Error', 'Could not create keypair, contact the support')
+    } else
+      this.setState({ hasStaffKey: true })
+  }
+
+  /**
    * Fetch server data needed to render the page
    * @memberof MainScene
    * @returns {undefined}
@@ -72,7 +100,7 @@ export default class MainScene extends IMPComponent {
 
     .then(data => {
       setTimeout(() => {
-        this.setState({
+        this.keypairExist({
           loaded: true,
           summaryData: data
         })
@@ -289,26 +317,39 @@ export default class MainScene extends IMPComponent {
               <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>Classes: {numClasses}</Text>
               <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>Children: {numChildren}</Text>
             </View>
-            <View style={ss.mainViewWrapper}>
-              <Button
-                text={mainBtnText}
-                onPress={() => this._goToClassScene()}
-                width={280}
-                height={80}
-              />
-              <Button
-                text={historyBtnText}
-                onPress={() => this._goToHistoryScene()}
-                width={280}
-                height={80}
-              />
-              <Button
-                text="Add Child"
-                onPress={() => this._goToAddChildScene()}
-                width={280}
-                height={50}
-              />
-            </View>
+            {
+              this.state.hasStaffKey ? (
+                <View style={ss.mainViewWrapper}>
+                  <Button
+                    text={mainBtnText}
+                    onPress={() => this._goToClassScene()}
+                    width={280}
+                    height={80}
+                  />
+                  <Button
+                    text={historyBtnText}
+                    onPress={() => this._goToHistoryScene()}
+                    width={280}
+                    height={80}
+                  />
+                  <Button
+                    text="Add Child"
+                    onPress={() => this._goToAddChildScene()}
+                    width={280}
+                    height={50}
+                  />              
+                </View>
+              ) : (
+                <View style={ss.mainViewWrapper}>
+                  <Button
+                    text="Generate Staff Key"
+                    onPress={() => this.createKeyPair()}
+                    width={280}
+                    height={50}
+                  />
+                </View>
+              )
+            }            
 
             <View style={{ padding: 20 }}>
               <Button text="Logout" onPress={() => this._logout()} />

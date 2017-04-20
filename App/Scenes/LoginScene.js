@@ -19,6 +19,7 @@ import {
 } from 'react-native'
 
 import Api from '../Api'
+import Crypto from '../Crypto'
 import Config from '../Config'
 import Routes from '../Routes'
 import Sentry from '../Sentry'

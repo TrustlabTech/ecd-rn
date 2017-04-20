@@ -28,9 +28,24 @@ export default class Crypto {
 
   static loadKeyStore  = async (name, password) => {
     try {
-      return !!await NativeModules.Crypto.loadKeyStore(name, password)      
+      await NativeModules.Crypto.loadKeyStore(name, password)
+      return true
     } catch (e) {
-      console.log('[FATAL] cannot load keystore')
+      console.log('[FATAL] could not load keystore')
+      console.log(e)
+      return false
+    }
+  }
+
+  static createStaffKeyPair = async (password, certificateFilename = 'cert.pem') => {
+    const type = NativeModules.Crypto.KEYPAIR_EC,
+          alias = 'staff',
+          spec = 'secp256k1'
+
+    try {
+      return await NativeModules.Crypto.addKeyPair(type, alias, spec, password, certificateFilename)
+    } catch (e) {
+      console.log('[FATAL] could not create keypair in keystore')
       console.log(e)
       return false
     }
@@ -40,9 +55,19 @@ export default class Crypto {
     try {
       return await NativeModules.Crypto.createECKeyPair(type, spec)
     } catch (e) {
-      console.log('[FATAL] cannot create new keypair')
+      console.log('[FATAL] could not create new keypair')
       console.log(e)
       return false
     }
+  }
+
+  static sign = async (data, alias, password, algo = NativeModules.Crypto.SIG_SHA256_WITH_ECDSA) => {
+    try {
+      return await NativeModules.Crypto.sign(data, 'private' + alias, password, true, algo)
+    } catch (e) {
+      console.log('[FATAL] could not sign data')
+      console.log(e)
+      return false
+    } 
   }
 }
