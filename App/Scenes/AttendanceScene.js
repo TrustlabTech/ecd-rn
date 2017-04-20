@@ -16,11 +16,12 @@ import {
   InteractionManager
 } from 'react-native'
 
-import Config from '../Config'
 import Api from '../Api'
+import Config from '../Config'
 import Sentry from '../Sentry'
-import { Colours } from '../GlobalStyles'
+import Crypto from '../Crypto'
 import Session from '../Session'
+import { Colours } from '../GlobalStyles'
 
 import {
   NavBar,
@@ -30,6 +31,65 @@ import {
   SceneHeading,
   Checkbox
 } from '../Components'
+
+const createBulkAttendanceClaim = async (samples, attendanceData, location) => {
+  // get the samples/empty objs
+  const attendanceSample = samples.attendanceSample,
+        attendanceObjectSample = samples.attendanceObject,
+        verifiableClaimSample = samples.verifiableClaim
+  
+  // fill samples in
+  const attendances = []
+  attendanceData.forEach(childData => {
+    let attendance = attendanceSample
+    attendance['@id'] = childData.id
+    attendance['date'] = new Date().toISOString()
+    attendance['attended'] = childData.checked || false
+    attendances.push(attendance)
+  })
+
+  let attendanceObject = attendanceObjectSample
+  attendanceObject.createdDate = new Date().toISOString()
+  attendanceObject.geo.latitude = location.coords.latitude
+  attendanceObject.geo.longitude = location.coords.longitude
+  attendanceObject['@graph'] = attendances
+
+  const signature = await Crypto.sign(JSON.stringify(attendanceObject), 'staff', 'test-password')
+
+  let verifiableClaim = verifiableClaimSample
+  verifiableClaim.issuer = 'not_implemented'
+  verifiableClaim.issued = new Date().toISOString()
+  verifiableClaim.claim = attendanceObject
+  verifiableClaim.signature = signature
+
+  return verifiableClaim
+}
+
+const createChildAttendaceClaims = async (samples, childData, location) => {
+  // get the samples/empty objs
+  const attendanceSample = samples.attendanceSample,
+        attendanceObjectSample = samples.attendanceObject,
+        verifiableClaimSample = samples.verifiableClaim
+
+  let attendanceObject = Object.assign({}, attendanceObjectSample)
+  attendanceObject.createdDate = new Date().toISOString()
+  attendanceObject.geo.latitude = location.coords.latitude
+  attendanceObject.geo.longitude = location.coords.longitude
+  attendanceObject['@graph'] = JSON.parse(JSON.stringify(attendanceSample))
+  attendanceObject['@graph']['@id'] = childData.id
+  attendanceObject['@graph']['date'] = new Date().toISOString()
+  attendanceObject['@graph']['attended'] = childData.checked || false
+
+  const signature = await Crypto.sign(JSON.stringify(attendanceObject), 'staff', 'test-password')
+
+  let verifiableClaim = verifiableClaimSample
+  verifiableClaim.issuer = 'not_implemented'
+  verifiableClaim.issued = new Date().toISOString()
+  verifiableClaim.claim = attendanceObject
+  verifiableClaim.signature = signature
+
+  return verifiableClaim
+}
 
 /**
  * A scene allowing the user to submit attendance for the chosen class
@@ -202,11 +262,8 @@ export default class AttendanceScene extends IMPComponent {
    * Upload the attendance data to the server
    */
   uploadData = (location, attendanceData) => {
-
     this.setModal({visible: true})
     const sessionState = Session.getState()
-    InteractionManager.runAfterInteractions(() => {
-    })
 
     Api.submitAttendance(
       location,
@@ -214,11 +271,41 @@ export default class AttendanceScene extends IMPComponent {
       this.props.route.classId,
       attendanceData,
       sessionState.userData._token
-    ).then( (data) => {
-      // We're done
-      this.setModal({visible: false})
-      this._goBack()
-      ToastAndroid.show('Upload complete', ToastAndroid.SHORT)
+    ).then(async (json) => {
+      // We're done, fill in and sign attendance claim
+      try {
+        if (json.success) {
+          const data = json.data
+          const bulkAttendanceClaim = await createBulkAttendanceClaim(data, attendanceData, location)
+          const childrenAttendanceClaims = await Promise.all(createChildAttendaceClaims(data, childData, location))
+
+          console.log(childrenAttendanceClaims)
+
+          const requestBody = {
+            centre: bulkAttendanceClaim,
+            children: childrenAttendanceClaims,
+          }
+
+          try {
+            const attendanceClaimResponse = await Api.submitAttendanceClaim(this.props.route.centreId, requestBody.centre, requestBody.children, sessionState.userData._token)
+
+            if (attendanceClaimResponse.success)
+              this.clearAndGoBack()
+            else
+              this.clearAndGoBack(attendanceClaimResponse.message)
+
+          } catch (e) {
+            this.clearAndGoBack('Could not submit claims')
+            console.log(e)
+          }
+        } else {
+          this.clearAndGoBack('Could not get Attendance schema, verifiable claim not created')
+          console.log('[ALERT] Could not get Attendance schema from server: ' + response.message)
+        }
+      } catch (e) {
+        this.clearAndGoBack('Could not get Attendance schema, verifiable claim not created')
+        console.log(e)
+      }
     })
 
     .catch((error) => {
@@ -259,6 +346,12 @@ export default class AttendanceScene extends IMPComponent {
         {text: 'No'}
       ]
     )
+  }
+
+  clearAndGoBack = (error) => {
+    this.setModal({visible: false})
+    this._goBack()
+    ToastAndroid.show(error ? error : 'Upload complete', ToastAndroid.SHORT)
   }
 
   render() {

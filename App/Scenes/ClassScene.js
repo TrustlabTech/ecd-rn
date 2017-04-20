@@ -110,7 +110,7 @@ export default class ClassScene extends IMPComponent {
     } else {
       return data.map((val, i) =>
         <Button
-        disabled={val.attended}
+        disabled={/*val.attended*/false}
         disabledText={"Attendance has already been submitted for " + val.name + " today."}
         width={250}
         key={i}

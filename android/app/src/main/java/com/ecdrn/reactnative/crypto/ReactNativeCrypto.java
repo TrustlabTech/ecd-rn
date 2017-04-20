@@ -23,8 +23,6 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.Arguments;
 
-import org.spongycastle.jce.provider.BouncyCastleProvider;
-
 public class ReactNativeCrypto extends ReactContextBaseJavaModule {
 
     // Errors
@@ -114,6 +112,10 @@ public class ReactNativeCrypto extends ReactContextBaseJavaModule {
     private String alias = null;
     private Context context = null;
     private FileOutputStream loadedStoreFOS = null;
+
+    static {
+        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+    }
 
     public ReactNativeCrypto(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -442,7 +444,7 @@ public class ReactNativeCrypto extends ReactContextBaseJavaModule {
      * Sign a message with a key
      */
     @ReactMethod
-    public void sign(String dataString, String privateKeyAlias, String privateKeyPassword, String algorithm, Promise promise) {
+    public void sign(String dataString, String privateKeyAlias, String privateKeyPassword, boolean hashDataString, String algorithm, Promise promise) {
         // Sign with keys
         try {
             if(this.keyStore == null) {
@@ -452,6 +454,10 @@ public class ReactNativeCrypto extends ReactContextBaseJavaModule {
             Signature sig = Signature.getInstance(algorithm);
             sig.initSign(privateKey, this.newSecureRandom());
             byte[] data = dataString.getBytes(StandardCharsets.UTF_8);
+            if (!hashDataString) {
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                data = md.digest(data);
+            }
             sig.update(data);
             byte[] signature = sig.sign();
             String sigB64 = Base64.encodeToString(signature, Base64.NO_WRAP);
@@ -570,7 +576,7 @@ public class ReactNativeCrypto extends ReactContextBaseJavaModule {
                 }
             }
 
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(type, new BouncyCastleProvider());
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(type);
             ECGenParameterSpec ecGenParameterSpec = new ECGenParameterSpec(spec);
 
             try {
@@ -644,7 +650,7 @@ public class ReactNativeCrypto extends ReactContextBaseJavaModule {
     public void createECKeyPair(String type, String spec, Promise promise) {
 
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(type, new BouncyCastleProvider());
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(type);
             ECGenParameterSpec ecGenParameterSpec = new ECGenParameterSpec(spec);
 
             keyPairGenerator.initialize(ecGenParameterSpec, this.newSecureRandom());
