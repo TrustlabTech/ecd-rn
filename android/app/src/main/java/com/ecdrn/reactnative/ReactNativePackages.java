@@ -1,6 +1,6 @@
 package com.ecdrn.reactnative;
 
-import com.ecdrn.reactnative.crypto.ReactNativeCrypto;
+import com.ecdrn.reactnative.crypto.ReactNativeEthereumCrypto;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -20,7 +20,7 @@ public class ReactNativePackages implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new ReactNativeCrypto(reactContext));
+        modules.add(new ReactNativeEthereumCrypto(reactContext));
         return modules;
     }
 

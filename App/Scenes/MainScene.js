@@ -72,7 +72,7 @@ export default class MainScene extends IMPComponent {
     let newState = state
     if (await Crypto.createKeyStore('staff.keystore', 'test-password'))
       if (await Crypto.loadKeyStore('staff.keystore', 'test-password')) {
-        const keys = await NativeModules.Crypto.getKeyAliases()
+        const keys = await NativeModules.EthereumCrypto.getKeyAliases()
         if (keys.indexOf('publicstaff') === -1 && keys.indexOf('privatestaff') === -1)
           newState.hasStaffKey = false
       }

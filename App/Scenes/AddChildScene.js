@@ -146,7 +146,8 @@ export default class AddChildScene extends IMPComponent {
 
   callApi = async () => {
     try {
-      const keypair = await Crypto.createECKeyPair()
+      const keypair = await Crypto.createECKeypair()
+      console.log(keypair)
       const response = await Api.addChild(
         this.state.givenName,
         this.state.familyName,
