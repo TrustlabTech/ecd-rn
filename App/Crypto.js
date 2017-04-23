@@ -6,7 +6,7 @@ export default class Crypto {
   static createKeyStore = async (name, password) => {
     let keyStoresList = []
     try {
-      keyStoresList = await NativeModules.Crypto.getKeyStoreList()
+      keyStoresList = await NativeModules.EthereumCrypto.getKeyStoreList()
       if (Array.isArray(keyStoresList) && keyStoresList.indexOf(name) > -1) {
         console.log('[INFO] keystore ' + name + ' exists, creation skipped')
         return true
@@ -18,7 +18,7 @@ export default class Crypto {
     }
 
     try {      
-      return await NativeModules.Crypto.createKeyStore(name, password)
+      return await NativeModules.EthereumCrypto.createKeyStore(name, password)
     } catch (e) {
       console.log('[FATAL] keystore creation failed')
       console.log(e)
@@ -28,7 +28,7 @@ export default class Crypto {
 
   static loadKeyStore  = async (name, password) => {
     try {
-      await NativeModules.Crypto.loadKeyStore(name, password)
+      await NativeModules.EthereumCrypto.loadKeyStore(name, password)
       return true
     } catch (e) {
       console.log('[FATAL] could not load keystore')
@@ -38,22 +38,12 @@ export default class Crypto {
   }
 
   static createStaffKeyPair = async (password, certificateFilename = 'cert.pem') => {
-    const type = NativeModules.Crypto.KEYPAIR_EC,
-          alias = 'staff',
-          spec = 'secp256k1'
-
-    try {
-      return await NativeModules.Crypto.addKeyPair(type, alias, spec, password, certificateFilename)
-    } catch (e) {
-      console.log('[FATAL] could not create keypair in keystore')
-      console.log(e)
-      return false
-    }
+    return await Crypto.createECKeypair(true, 'staff', password, certificateFilename)
   }
 
-  static createECKeyPair = async (type = NativeModules.Crypto.KEYPAIR_EC, spec = 'secp256k1') => {
+  static createECKeypair = async (store = false, alias = '', password = '', certificateFilename = 'cert.pem') => {
     try {
-      return await NativeModules.Crypto.createECKeyPair(type, spec)
+      return await NativeModules.EthereumCrypto.createECKeypair(store, alias, password, certificateFilename)
     } catch (e) {
       console.log('[FATAL] could not create new keypair')
       console.log(e)
@@ -61,9 +51,9 @@ export default class Crypto {
     }
   }
 
-  static sign = async (data, alias, password, algo = NativeModules.Crypto.SIG_SHA256_WITH_ECDSA) => {
+  static sign = async (data, alias, password, algo = NativeModules.EthereumCrypto.SIG_SHA256_WITH_ECDSA) => {
     try {
-      return await NativeModules.Crypto.sign(data, 'private' + alias, password, true, algo)
+      return await NativeModules.EthereumCrypto.sign(data, 'private' + alias, password, true, algo)
     } catch (e) {
       console.log('[FATAL] could not sign data')
       console.log(e)
