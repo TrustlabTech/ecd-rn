@@ -247,10 +247,6 @@ public class ECKey implements Serializable {
         return pub.getEncoded();
     }
 
-    public ECPoint getPubKeyRaw() {
-        return pub;
-    }
-
     /** Gets the public key in the form of an elliptic curve point object from Bouncy Castle. */
     public ECPoint getPubKeyPoint() {
         return pub;

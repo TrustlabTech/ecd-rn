@@ -77,7 +77,7 @@ export default {
   fetchCentreSummary: (centreId, token) => {
     return request(`centre/${centreId}/summary`, {
       method: 'GET',
-      headers: { ...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      headers: { ...Config.http.headers, 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
@@ -87,7 +87,7 @@ export default {
   fetchCentres: (token) => {
     return request('centre', {
       method: 'GET',
-      headers: { ...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      headers: { ...Config.http.headers, 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
@@ -97,7 +97,7 @@ export default {
   fetchClasses: (staffId, token) => {
     return request('class/attendance/' + staffId, {
       method: 'GET',
-      headers: { ...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      headers: { ...Config.http.headers, 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
@@ -107,7 +107,7 @@ export default {
   fetchClass: (classId, token) => {
     return request('child/class/' + classId, {
       method: 'GET',
-      headers: { ...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      headers: { ...Config.http.headers, 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
@@ -117,7 +117,7 @@ export default {
   fetchHistory: (centreId, year, month, token) => {
     return request(`attendance/${centreId}/history/${year}/${month}`, {
       method: 'GET',
-      headers: { ...Config.http.headers, 'Authorization': 'Bearer: ' + token.trim() }
+      headers: { ...Config.http.headers, 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
@@ -141,15 +141,15 @@ export default {
     return request('attendance/bulk', {
       method: 'POST',
       body: JSON.stringify(jsonData),
-      headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer: ' + token.trim() }
+      headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
-  submitAttendanceClaim: (centreId, centreClaim, childrenClaims, token) => {
+  submitAttendanceClaim: (centreId, centreClaim, token) => {
     return request('attendance/claims', {
       method: 'POST',
-      body: JSON.stringify({ centreId, centre: centreClaim, children: childrenClaims }),
-      headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer: ' + token.trim() }
+      body: JSON.stringify({ centreId, claim: centreClaim }),
+      headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.trim() }
     })
   },
 
