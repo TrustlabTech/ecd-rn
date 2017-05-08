@@ -38,7 +38,7 @@ const createBulkAttendanceClaim = async (samples, attendanceData, location) => {
   const date = new Date().toISOString()
   // get the samples/empty objs
   const attendeeSample = samples.attendeeSample,
-        claimObjectSample = samples.claimObject,
+        claimObjectSample = samples.attendenceObject,
         verifiableClaimSample = samples.verifiableClaim
   
   // fill samples in
