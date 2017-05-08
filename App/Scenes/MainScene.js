@@ -12,14 +12,15 @@ import AndroidBackButton from 'react-native-android-back-button'
 import {
   Text,
   View,
-  TouchableNativeFeedback,
-  DrawerLayoutAndroid,
   Alert,
   StyleSheet,
   InteractionManager,
-  NativeModules,
+  DrawerLayoutAndroid,
+  TouchableNativeFeedback,
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
+import buffer from 'buffer/'
+const Buffer = buffer.Buffer
 
 import Api from '../Api'
 import Config from '../Config'
@@ -29,9 +30,9 @@ import Sentry from '../Sentry'
 import Routes from '../Routes'
 import {
   NavBar,
-  ScrollableWaitableView,
+  Button,
   SceneHeading,
-  Button
+  ScrollableWaitableView,
 } from '../Components'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -70,18 +71,14 @@ export default class MainScene extends IMPComponent {
    */
   keypairExist = async (state) => {
     let newState = state
-    if (await Crypto.createKeyStore('staff.keystore', 'test-password'))
-      if (await Crypto.loadKeyStore('staff.keystore', 'test-password')) {
-        const keys = await NativeModules.EthereumCrypto.getKeyAliases()
-        if (keys.indexOf('publicstaff') === -1 && keys.indexOf('privatestaff') === -1)
-          newState.hasStaffKey = false
-      }
+    if (!await Crypto.hasKey())
+      newState.hasStaffKey = false
     
     this.setState(newState)
   }
 
   createKeyPair = async () => {
-    const keypair = Crypto.createStaffKeyPair('test-password')
+    const keypair = Crypto.createStaffKeyPair()
     if (keypair === false) {
       Alert.alert('Error', 'Could not create keypair, contact the support')
     } else

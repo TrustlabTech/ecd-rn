@@ -15,6 +15,8 @@ import {
   ToastAndroid,
   InteractionManager
 } from 'react-native'
+import buffer from 'buffer/'
+const Buffer = buffer.Buffer
 
 import Api from '../Api'
 import Config from '../Config'
@@ -33,60 +35,34 @@ import {
 } from '../Components'
 
 const createBulkAttendanceClaim = async (samples, attendanceData, location) => {
+  const date = new Date().toISOString()
   // get the samples/empty objs
-  const attendanceSample = samples.attendanceSample,
-        attendanceObjectSample = samples.attendanceObject,
+  const attendeeSample = samples.attendeeSample,
+        claimObjectSample = samples.claimObject,
         verifiableClaimSample = samples.verifiableClaim
   
   // fill samples in
-  const attendances = []
+  const attendees = []
   attendanceData.forEach(childData => {
-    let attendance = attendanceSample
-    attendance['@id'] = childData.id
-    attendance['date'] = new Date().toISOString()
-    attendance['attended'] = childData.checked || false
-    attendances.push(attendance)
+    let attendee = Object.assign({}, attendeeSample)
+    attendee.id = childData.id
+    attendee.date = date
+    attendee.attended = childData.checked || false
+    attendees.push(attendee)
   })
 
-  let attendanceObject = attendanceObjectSample
-  attendanceObject.createdDate = new Date().toISOString()
-  attendanceObject.geo.latitude = location.coords.latitude
-  attendanceObject.geo.longitude = location.coords.longitude
-  attendanceObject['@graph'] = attendances
+  let claimObject = claimObjectSample
+  claimObject.deliveredService.geo.latitude = location.coords.latitude
+  claimObject.deliveredService.geo.longitude = location.coords.longitude
+  claimObject.attendees = attendees
 
-  const signature = await Crypto.sign(JSON.stringify(attendanceObject), 'staff', 'test-password')
-
-  let verifiableClaim = verifiableClaimSample
-  verifiableClaim.issuer = 'not_implemented'
-  verifiableClaim.issued = new Date().toISOString()
-  verifiableClaim.claim = attendanceObject
-  verifiableClaim.signature = signature
-
-  return verifiableClaim
-}
-
-const createChildAttendaceClaims = async (samples, childData, location) => {
-  // get the samples/empty objs
-  const attendanceSample = samples.attendanceSample,
-        attendanceObjectSample = samples.attendanceObject,
-        verifiableClaimSample = samples.verifiableClaim
-
-  let attendanceObject = Object.assign({}, attendanceObjectSample)
-  attendanceObject.createdDate = new Date().toISOString()
-  attendanceObject.geo.latitude = location.coords.latitude
-  attendanceObject.geo.longitude = location.coords.longitude
-  attendanceObject['@graph'] = JSON.parse(JSON.stringify(attendanceSample))
-  attendanceObject['@graph']['@id'] = childData.id
-  attendanceObject['@graph']['date'] = new Date().toISOString()
-  attendanceObject['@graph']['attended'] = childData.checked || false
-
-  const signature = await Crypto.sign(JSON.stringify(attendanceObject), 'staff', 'test-password')
+  const signature = await Crypto.sign(new Buffer(JSON.stringify(claimObject)))
 
   let verifiableClaim = verifiableClaimSample
-  verifiableClaim.issuer = 'not_implemented'
-  verifiableClaim.issued = new Date().toISOString()
-  verifiableClaim.claim = attendanceObject
-  verifiableClaim.signature = signature
+  verifiableClaim.issued = date
+  verifiableClaim.claim = claimObject
+  verifiableClaim.signature.created = date
+  verifiableClaim.signature.signatureValue = signature
 
   return verifiableClaim
 }
@@ -99,6 +75,7 @@ export default class AttendanceScene extends IMPComponent {
 
   constructor(props) {
     super(props)
+
     this.state = {
       classData: [],
       attendanceData: [],
@@ -275,25 +252,14 @@ export default class AttendanceScene extends IMPComponent {
       // We're done, fill in and sign attendance claim
       try {
         if (json.success) {
-          const data = json.data
-          
-          const bulkAttendanceClaim = await createBulkAttendanceClaim(data, attendanceData, location)
-          const childrenAttendanceClaims = []
 
-          // TODO: object reference bug
-          for (const childData of attendanceData) {
-            childrenAttendanceClaims.push(await createChildAttendaceClaims(data, childData, location))
-          }
-
-          console.log(childrenAttendanceClaims)
-
-          const requestBody = {
-            centre: bulkAttendanceClaim,
-            children: childrenAttendanceClaims,
-          }
+          const data = json.data,
+                bulkAttendanceClaim = await createBulkAttendanceClaim(data, attendanceData, location)
 
           try {
-            const attendanceClaimResponse = await Api.submitAttendanceClaim(this.props.route.centreId, requestBody.centre, requestBody.children, sessionState.userData._token)
+            const attendanceClaimResponse = await Api.submitAttendanceClaim(sessionState.userData.user.centre_id,
+                                                                            bulkAttendanceClaim,
+                                                                            sessionState.userData._token)
 
             if (attendanceClaimResponse.success)
               this.clearAndGoBack()
