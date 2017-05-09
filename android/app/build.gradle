@@ -24,7 +24,8 @@ apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 def enableSeparateBuildPerCPUArchitecture = true
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
+def enableProguardInDebugBuilds = true
 
 android {
     // lintOptions {
@@ -76,6 +77,12 @@ android {
             zipAlignEnabled true
             signingConfig signingConfigs.release
         }
+
+        debug {
+            debuggable true
+            minifyEnabled enableProguardInDebugBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
     }
 
     // applicationVariants are e.g. debug, release
@@ -106,7 +113,6 @@ dependencies {
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile "com.facebook.react:react-native:+"
-    compile 'com.google.guava:guava:14.0.1'
     compile fileTree(dir: "libs", include: ["*.jar"])
 }
 

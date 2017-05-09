@@ -2,7 +2,6 @@ package com.ecdrn.reactnative.crypto;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
