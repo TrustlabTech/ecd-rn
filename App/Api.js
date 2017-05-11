@@ -145,10 +145,10 @@ export default {
     })
   },
 
-  submitAttendanceClaim: (centreId, centreClaim, token) => {
+  submitAttendanceClaim: (centreId, bulkClaim, singleClaims, token) => {
     return request('attendance/claims', {
       method: 'POST',
-      body: JSON.stringify({ centreId, claim: centreClaim }),
+      body: JSON.stringify({ centreId, bulkClaim, singleClaims }),
       headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.trim() }
     })
   },

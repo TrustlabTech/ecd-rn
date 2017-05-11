@@ -34,37 +34,31 @@ import {
   Checkbox
 } from '../Components'
 
-const createBulkAttendanceClaim = async (samples, attendanceData, location) => {
-  const date = new Date().toISOString()
-  // get the samples/empty objs
-  const attendeeSample = samples.attendeeSample,
-        claimObjectSample = samples.attendenceObject,
-        verifiableClaimSample = samples.verifiableClaim
-  
-  // fill samples in
-  const attendees = []
-  attendanceData.forEach(childData => {
-    let attendee = Object.assign({}, attendeeSample)
-    attendee.id = childData.id
-    attendee.date = date
-    attendee.attended = childData.checked || false
-    attendees.push(attendee)
+const createBulkAttendanceClaim = (samples, singleClaims, location) => {
+  return new Promise((resolve, reject) => {
+    const date = new Date().toISOString()
+    // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
+    const attendeeSample = JSON.parse(JSON.stringify(samples.attendeeSample)),
+          claimObjectSample = JSON.parse(JSON.stringify(samples.attendenceObject)),
+          verifiableClaimSample = JSON.parse(JSON.stringify(samples.verifiableClaim))
+
+    let claimObject = Object.assign({}, claimObjectSample)
+    claimObject.deliveredService.geo.latitude = location.coords.latitude
+    claimObject.deliveredService.geo.longitude = location.coords.longitude
+    claimObject.deliveredService.attendees = singleClaims
+
+    Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
+      let verifiableClaim = verifiableClaimSample
+      verifiableClaim.issued = date
+      verifiableClaim.claim = claimObject
+      verifiableClaim.signature.created = date
+      verifiableClaim.signature.signatureValue = signature
+
+      resolve(verifiableClaim)
+    }).catch(e => {
+      reject(e)
+    })
   })
-
-  let claimObject = claimObjectSample
-  claimObject.deliveredService.geo.latitude = location.coords.latitude
-  claimObject.deliveredService.geo.longitude = location.coords.longitude
-  claimObject.attendees = attendees
-
-  const signature = await Crypto.sign(new Buffer(JSON.stringify(claimObject)))
-
-  let verifiableClaim = verifiableClaimSample
-  verifiableClaim.issued = date
-  verifiableClaim.claim = claimObject
-  verifiableClaim.signature.created = date
-  verifiableClaim.signature.signatureValue = signature
-
-  return verifiableClaim
 }
 
 /**
@@ -248,28 +242,55 @@ export default class AttendanceScene extends IMPComponent {
       this.props.route.classId,
       attendanceData,
       sessionState.userData._token
-    ).then(async (json) => {
+    ).then((json) => {
       // We're done, fill in and sign attendance claim
       try {
         if (json.success) {
+          
+          const samples = json.data
+          const promises = attendanceData.map(childData => {
+            const date = new Date().toISOString()
+            return new Promise((resolve, reject) => {
+              // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
+              const attendeeSample = JSON.parse(JSON.stringify(samples.attendeeSample)),
+                    claimObjectSample = JSON.parse(JSON.stringify(samples.attendenceObject)),
+                    verifiableClaimSample = JSON.parse(JSON.stringify(samples.verifiableClaim))
+              
+              let claimObject = claimObjectSample
+              claimObject.deliveredService.geo.latitude = location.coords.latitude
+              claimObject.deliveredService.geo.longitude = location.coords.longitude
+              claimObject.deliveredService.attendees[0] = {
+                id: childData.id,
+                date,
+                attended: childData.checked || false,
+              }
 
-          const data = json.data,
-                bulkAttendanceClaim = await createBulkAttendanceClaim(data, attendanceData, location)
+              Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
+                let verifiableClaim = verifiableClaimSample
+                verifiableClaim.issued = date
+                verifiableClaim.claim = JSON.parse(JSON.stringify(claimObject))
+                verifiableClaim.signature.created = date
+                verifiableClaim.signature.signatureValue = signature
 
-          try {
-            const attendanceClaimResponse = await Api.submitAttendanceClaim(sessionState.userData.user.centre_id,
-                                                                            bulkAttendanceClaim,
-                                                                            sessionState.userData._token)
+                resolve(JSON.parse(JSON.stringify(verifiableClaim)))
+              }).catch(e => {
+                reject(e)
+              })
+            })
+          })
 
-            if (attendanceClaimResponse.success)
-              this.clearAndGoBack()
-            else
-              this.clearAndGoBack(attendanceClaimResponse.message)
-
-          } catch (e) {
-            this.clearAndGoBack('Could not submit claims')
-            console.log(e)
-          }
+          Promise.all(promises).then(singleClaims => {
+            createBulkAttendanceClaim(samples, singleClaims, location).then((bulkAttendanceClaim) => {
+              const centreId = sessionState.userData.user.centre_id,
+                    token = sessionState.userData._token
+              Api.submitAttendanceClaim(centreId, bulkAttendanceClaim, singleClaims, token).then((attendanceClaimResponse) => {
+                if (attendanceClaimResponse.success)
+                  this.clearAndGoBack()
+                else
+                  this.clearAndGoBack(attendanceClaimResponse.message)
+              })
+            })
+          })
         } else {
           this.clearAndGoBack('Could not get Attendance schema, verifiable claim not created')
           console.log('[ALERT] Could not get Attendance schema from server: ' + response.message)
