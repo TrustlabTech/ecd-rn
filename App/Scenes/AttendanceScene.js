@@ -34,7 +34,7 @@ import {
   Checkbox
 } from '../Components'
 
-const createBulkAttendanceClaim = (samples, singleClaims, location) => {
+const createBulkAttendanceClaim = (samples, singleClaims, location, digitalIds) => {
   return new Promise((resolve, reject) => {
     const date = new Date().toISOString()
     // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
@@ -49,6 +49,7 @@ const createBulkAttendanceClaim = (samples, singleClaims, location) => {
 
     Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
       let verifiableClaim = verifiableClaimSample
+      verifiableClaim.issuer = digitalIds.centre
       verifiableClaim.issued = date
       verifiableClaim.claim = claimObject
       verifiableClaim.signature.created = date
@@ -247,7 +248,12 @@ export default class AttendanceScene extends IMPComponent {
       try {
         if (json.success) {
           
-          const samples = json.data
+          const samples = json.data,
+                digitalIds = {
+                  centre: Session.getState().userData.user.centre.did,
+                  practitioner: Session.getState().userData.user.did
+                }
+
           const promises = attendanceData.map(childData => {
             const date = new Date().toISOString()
             return new Promise((resolve, reject) => {
@@ -257,6 +263,8 @@ export default class AttendanceScene extends IMPComponent {
                     verifiableClaimSample = JSON.parse(JSON.stringify(samples.verifiableClaim))
               
               let claimObject = claimObjectSample
+              claimObject.id = digitalIds.practitioner
+              claimObject.deliveredService.practitioner = digitalIds.practitioner
               claimObject.deliveredService.geo.latitude = location.coords.latitude
               claimObject.deliveredService.geo.longitude = location.coords.longitude
               claimObject.deliveredService.attendees[0] = {
@@ -267,6 +275,7 @@ export default class AttendanceScene extends IMPComponent {
 
               Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
                 let verifiableClaim = verifiableClaimSample
+                verifiableClaim.issuer = digitalIds.centre
                 verifiableClaim.issued = date
                 verifiableClaim.claim = JSON.parse(JSON.stringify(claimObject))
                 verifiableClaim.signature.created = date
@@ -280,7 +289,7 @@ export default class AttendanceScene extends IMPComponent {
           })
 
           Promise.all(promises).then(singleClaims => {
-            createBulkAttendanceClaim(samples, singleClaims, location).then((bulkAttendanceClaim) => {
+            createBulkAttendanceClaim(samples, singleClaims, location, digitalIds).then((bulkAttendanceClaim) => {
               const centreId = sessionState.userData.user.centre_id,
                     token = sessionState.userData._token
               Api.submitAttendanceClaim(centreId, bulkAttendanceClaim, singleClaims, token).then((attendanceClaimResponse) => {
