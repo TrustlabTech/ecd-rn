@@ -43,6 +43,8 @@ const createBulkAttendanceClaim = (samples, singleClaims, location, digitalIds) 
           verifiableClaimSample = JSON.parse(JSON.stringify(samples.verifiableClaim))
 
     let claimObject = Object.assign({}, claimObjectSample)
+    claimObject.id = digitalIds.practitioner
+    claimObject.deliveredService.practitioner = digitalIds.practitioner
     claimObject.deliveredService.geo.latitude = location.coords.latitude
     claimObject.deliveredService.geo.longitude = location.coords.longitude
     claimObject.deliveredService.attendees = singleClaims
