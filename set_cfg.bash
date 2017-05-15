@@ -4,4 +4,6 @@ if [[ "$(git rev-parse --abbrev-ref HEAD)" == "unstable" ]]; then
 else
     cp -R cfg/prod.json cfg/runtime.json
 fi
+
+sed -i "s|<ECD_APP_SENTRY_DSN>|$ECD_APP_SENTRY_DSN|" android/app/src/main/java/com/ecdrn/MainActivity.java
 # EOF
