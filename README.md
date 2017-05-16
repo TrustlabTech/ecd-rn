@@ -11,3 +11,8 @@
 * response.json() hangs when chrome debugging [Github Issue](https://github.com/facebook/react-native/issues/6679)
 * [ActivityIndicator][Android] Indicator stays hidden if initialized as animating={false} [Github Issue](https://github.com/facebook/react-native/issues/9023)
 * Status bar cannot change before activity is active, RN does not handle the promise rejection [Github Issue](https://github.com/facebook/react-native/issues/6700)
+
+## License
+
+Copyright (c) 2017 Trustlab Pty Ltd, under licence from Global Consent Limited
+See our [License](https://github.com/TrustlabTech/ecd-rn/blob/master/LICENSE.md).
