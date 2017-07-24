@@ -1,5 +1,5 @@
 {
-    "SERVER": "http://amply-api.cloudapp.net",
+    "SERVER": "http://api.amply.tech",
     "UNSTABLE": true,
     "API_VERSION": 2,
     "DEBUG": {

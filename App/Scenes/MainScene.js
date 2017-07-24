@@ -51,16 +51,18 @@ export default class MainScene extends IMPComponent {
       summaryData: null,
       hasStaffKey: true,
     }
+
+    this._logout = this._logout.bind(this)
+    this._closeDrawer = this._closeDrawer.bind(this)
+    this._goToClassScene = this._goToClassScene.bind(this)
+    this._goToHistoryScene = this._goToHistoryScene.bind(this)
+    this._goToAddChildScene = this._goToAddChildScene.bind(this)
+    this._hardwareBackHandler = this._hardwareBackHandler.bind(this)
+    this._goToAssignChildScene = this._goToAssignChildScene.bind(this)
+    this._goToUnassignChildScene = this._goToUnassignChildScene.bind(this)
   }
 
-  componentDidFocus() {
-    super.componentDidFocus()
-    /**
-     * We must use didFocus because login is not complete on willMount.
-     * We don't need didMount because then the page will be initialised
-     * twice
-     */
-
+  componentDidMount() {
     this._fetchData()
   }
 
@@ -96,12 +98,10 @@ export default class MainScene extends IMPComponent {
     Api.fetchCentreSummary(centreId, token)
 
     .then(data => {
-      setTimeout(() => {
-        this.keypairExist({
-          loaded: true,
-          summaryData: data
-        })
-      }, Config.sceneTransitionMinumumTime)
+      this.keypairExist({
+        loaded: true,
+        summaryData: data
+      })
     })
 
     .catch(error => {
@@ -163,39 +163,33 @@ export default class MainScene extends IMPComponent {
    * @returns {undefined}
    */
   _goToClassScene() {
+    this._closeDrawer()
     this.navigator.push(Routes.class)
-    InteractionManager.runAfterInteractions(() => {
-      this.setState({
-        loaded: false,
-        summaryData: null
-      })
-      this._closeDrawer()
-      Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
-    })
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
   }
 
   _goToHistoryScene() {
+    this._closeDrawer()
     this.navigator.push(Routes.history)
-    InteractionManager.runAfterInteractions(() => {
-      this._closeDrawer()
-      this.setState({
-        loaded: false,
-        summaryData: null
-      })
-      Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
-    })
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
   }
 
   _goToAddChildScene() {
+    this._closeDrawer()
     this.navigator.push(Routes.addChild)
-    InteractionManager.runAfterInteractions(() => {
-      Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
-      this._closeDrawer()
-      this.setState({
-        loaded: false,
-        summaryData: null
-      })
-    })
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
+  }
+
+  _goToAssignChildScene() {
+    this._closeDrawer()
+    this.navigator.push(Routes.assignChild)
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AssignChildScene")
+  }
+
+  _goToUnassignChildScene() {
+    this._closeDrawer()
+    this.navigator.push(Routes.unassignChild)
+    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "UnassignChildScene")
   }
 
   /**
@@ -230,7 +224,7 @@ export default class MainScene extends IMPComponent {
     // Draw the scene
     return (
       <View style={{ flex: 1 }}>
-        <AndroidBackButton onPress={() => this._hardwareBackHandler()} />
+        <AndroidBackButton onPress={this._hardwareBackHandler} />
         <NavBar
           navigator={this.props.navigator}
           leftButtonIcon={<Icon name="menu" size={30} color={Colours.spierWit} />}
@@ -250,7 +244,7 @@ export default class MainScene extends IMPComponent {
               <View style={ss.menuItemWrapperView} />
 
               <View>
-                <TouchableNativeFeedback onPress={() => this._drawer.closeDrawer()}>
+                <TouchableNativeFeedback onPress={this._closeDrawer}>
                   <View>
                     <Text style={ss.menuItemText}><Icon name="home" color={Colours.spierWit} size={26} /> Home</Text>
                   </View>
@@ -258,7 +252,7 @@ export default class MainScene extends IMPComponent {
               </View>
 
               <View>
-                <TouchableNativeFeedback onPress={() => this._goToClassScene()}>
+                <TouchableNativeFeedback onPress={this._goToClassScene}>
                   <View>
                     <Text style={ss.menuItemText}><Icon name="playlist-check" color={Colours.spierWit} size={26} /> Take Attendance</Text>
                   </View>
@@ -266,7 +260,7 @@ export default class MainScene extends IMPComponent {
               </View>
 
               <View>
-                <TouchableNativeFeedback onPress={() => this._goToHistoryScene()}>
+                <TouchableNativeFeedback onPress={this._goToHistoryScene}>
                   <View>
                     <Text style={ss.menuItemText}><Icon name="history" color={Colours.spierWit} size={26} /> Attendance History</Text>
                   </View>
@@ -274,9 +268,25 @@ export default class MainScene extends IMPComponent {
               </View>
 
               <View>
-                <TouchableNativeFeedback onPress={() => this._goToAddChildScene()}>
+                <TouchableNativeFeedback onPress={this._goToAddChildScene}>
                   <View>
                     <Text style={ss.menuItemText}><Icon name="account-plus" color={Colours.spierWit} size={26} /> Add Child</Text>
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+
+              <View>
+                <TouchableNativeFeedback onPress={this._goToAssignChildScene}>
+                  <View>
+                    <Text style={ss.menuItemText}><Icon name="account-edit" color={Colours.spierWit} size={26} /> Assign Child</Text>
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+
+              <View>
+                <TouchableNativeFeedback onPress={this._goToUnassignChildScene}>
+                  <View>
+                    <Text style={ss.menuItemText}><Icon name="account-edit" color={Colours.spierWit} size={26} /> Unassign Child</Text>
                   </View>
                 </TouchableNativeFeedback>
               </View>
@@ -298,49 +308,62 @@ export default class MainScene extends IMPComponent {
               </View>
 
               <View>
-                <TouchableNativeFeedback onPress={() => this._logout()}>
+                <TouchableNativeFeedback onPress={this._logout}>
                   <View>
                     <Text style={ss.menuItemText}><Icon name="logout" color={Colours.lightText} size={26} /> Logout</Text>
                   </View>
                 </TouchableNativeFeedback>
               </View>
             </View>
-          }
-        >
+          }>
+
+          <SceneHeading text={Session.getState().userData.user.centre.name} />
+          <View style={{ paddingHorizontal: 20 }}>
+            <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>{loggedInAs}</Text>
+            <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>Classes: {numClasses}</Text>
+            <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>Children: {numChildren}</Text>
+          </View>
+
           <ScrollableWaitableView loaded={this.state.loaded}>
-            <SceneHeading text={Session.getState().userData.user.centre.name} />
-            <View style={{ flex: 1, flexDirection: 'column', paddingLeft: 20, paddingRight: 20 }}>
-              <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>{loggedInAs}</Text>
-              <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>Classes: {numClasses}</Text>
-              <Text style={[ss.loggedInAsText, { color: Colours.darkText }]}>Children: {numChildren}</Text>
-            </View>
             {
               this.state.hasStaffKey ? (
                 <View style={ss.mainViewWrapper}>
                   <Button
                     text={mainBtnText}
-                    onPress={() => this._goToClassScene()}
+                    onPress={this._goToClassScene}
                     width={280}
                     height={80}
                   />
                   <Button
                     text={historyBtnText}
-                    onPress={() => this._goToHistoryScene()}
+                    onPress={this._goToHistoryScene}
                     width={280}
                     height={80}
                   />
                   <Button
                     text="Add Child"
-                    onPress={() => this._goToAddChildScene()}
+                    onPress={this._goToAddChildScene}
                     width={280}
                     height={50}
-                  />              
+                  />
+                  <Button
+                    text="Assign Child"
+                    onPress={this._goToAssignChildScene}
+                    width={280}
+                    height={50}
+                  />
+                  <Button
+                    text="Unassign Child"
+                    onPress={this._goToUnassignChildScene}
+                    width={280}
+                    height={50}
+                  />
                 </View>
               ) : (
                 <View style={ss.mainViewWrapper}>
                   <Button
                     text="Generate Staff Key"
-                    onPress={() => this.createKeyPair()}
+                    onPress={this.createKeyPair}
                     width={280}
                     height={50}
                   />
@@ -349,7 +372,7 @@ export default class MainScene extends IMPComponent {
             }            
 
             <View style={{ padding: 20 }}>
-              <Button text="Logout" onPress={() => this._logout()} />
+              <Button text="Logout" onPress={this._logout} />
             </View>
           </ScrollableWaitableView>
         </DrawerLayoutAndroid>

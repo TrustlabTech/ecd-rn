@@ -33,8 +33,7 @@ export default class ScrollableWaitableView extends Component {
           keyboardShouldPersistTaps="handled"
           scrollEnable
           showsVerticalScrollIndicator={false}
-          automaticallyAdjustContentInsets
-        >
+          automaticallyAdjustContentInsets>
 
           { /* This allows us to dismiss the keyboard by tapping away */}
           <TouchableWithoutFeedback onPress={() => { dismissKeyboard() }}>
@@ -46,13 +45,10 @@ export default class ScrollableWaitableView extends Component {
       )
     } else {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Colours.sceneBackgroundColour }}>
-          <ActivityIndicator
-            animating
-            style={{ height: 80 }}
-            size="large"
-          />
-        </View>
+        <ActivityIndicator
+          animating
+          style={{ height: 80, alignSelf: 'center' }}
+          size="large" />
       )
     }
   }

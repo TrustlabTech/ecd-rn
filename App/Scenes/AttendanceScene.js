@@ -81,13 +81,7 @@ export default class AttendanceScene extends IMPComponent {
     }
   }
 
-  componentWillMount() {
-    super.componentWillMount()
-    this._fetchData()
-  }
-
-  componentWillFocus() {
-    super.componentWillFocus()
+  componentDidMount() {
     this._fetchData()
   }
 
@@ -128,13 +122,11 @@ export default class AttendanceScene extends IMPComponent {
 
       // Data fetched
       Session.update({classData: data})
-        setTimeout(() => {
-          this.setState({
-            loaded: true,
-            attendanceData: this.initAttendance(data)
-          })
-        },Config.sceneTransitionMinumumTime)
+      this.setState({
+        loaded: true,
+        attendanceData: this.initAttendance(data)
       })
+    })
 
     .catch((error) => {
       if(Config.debug) {

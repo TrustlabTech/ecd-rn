@@ -34,7 +34,7 @@
         "space-infix-ops": "warn",
         "comma-spacing": ["warn", {"after": true}],
         "brace-style": ["warn", "1tbs", {"allowSingleLine": true}],
-        "curly": "warn",
+        "curly": 0,
         "no-irregular-whitespace": "warn",
         "no-new": "error",
         "no-redeclare": "error",
