@@ -169,6 +169,16 @@ export default {
       body: JSON.stringify(jsonData),
       headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.trim() }
     })
+  },
+
+  updateChildClass: (childId, unassignedClassId, token) => {
+    const body = { centre_class_id: unassignedClassId }
+
+    return request(`child/${childId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      headers: { ...Config.http.headers, 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token.trim() }
+    })
   }
 
 }

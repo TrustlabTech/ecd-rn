@@ -102,5 +102,5 @@ Checkbox.propTypes = {
   text: React.PropTypes.string,
   checked: React.PropTypes.bool,
   onPress: React.PropTypes.func,
-  style: React.PropTypes.object
+  style: React.PropTypes.string
 }

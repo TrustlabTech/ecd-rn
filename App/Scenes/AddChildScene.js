@@ -59,13 +59,7 @@ export default class AddChildScene extends IMPComponent {
     }
   }
 
-  componentWillFocus() {
-    super.componentWillFocus()
-    this._fetchData()
-  }
-
-  componentWillMount() {
-    super.componentWillMount()
+  componentDidMount() {
     this._fetchData()
   }
 
@@ -82,12 +76,11 @@ export default class AddChildScene extends IMPComponent {
       sessionState.userData._token
     )
     .then(data => {
-      setTimeout(() => {
-        this.setState({
-          classData: data,
-          loaded: true
-        })
-      }, Config.sceneTransitionMinumumTime)
+      this.setState({
+        loaded: true,
+        classData: data,
+        classSelectedId: data[0].id,
+      })
     })
     .catch(error => {
       // FIXME with a proper alert
@@ -147,7 +140,6 @@ export default class AddChildScene extends IMPComponent {
   callApi = async () => {
     try {
       const keypair = await Crypto.createECKeypair()
-      console.log(keypair)
       const response = await Api.addChild(
         this.state.givenName,
         this.state.familyName,
@@ -293,7 +285,7 @@ export default class AddChildScene extends IMPComponent {
 }
 
 AddChildScene.propTypes = {
-  navigator: React.PropTypes.Component
+  navigator: React.PropTypes.object.isRequired
 }
 
 

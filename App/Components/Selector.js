@@ -5,7 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import {
   Picker,
   View
@@ -36,19 +36,35 @@ export default class Selector extends Component {
         marginBottom: 4
       }}>
         <Picker
-          style={{ color: Colours.primaryLowlight }}
           selectedValue={this.props.selectedValue}
-          onValueChange={value => this.props.onValueChange(value)}
-        >
-          {this.props.items.map((x, i) => (<Picker.Item key={i} label={x.name} value={x.id} />))}
+          onValueChange={this.props.onValueChange}
+          style={{ color: Colours.primaryLowlight }}>
+          {
+            this.props.items.map((x, i) => {
+              let label = ''
+              if (typeof this.props.pickerLabelDataAttribute === 'string')
+                label = x[this.props.pickerLabelDataAttribute]
+              else if (typeof this.props.pickerLabelDataAttribute === 'function')
+                label = this.props.pickerLabelDataAttribute(x)
+
+              return (
+                <Picker.Item key={`selector-item-${Math.random()}`} label={label} value={x.id} />
+              )
+            })
+          }
         </Picker>
       </View>
     )
   }
 }
 
+Selector.defaultProps = {
+  pickerLabelDataAttribute: 'name'
+}
+
 Selector.propTypes = {
-  items: React.PropTypes.array,
-  selectedValue: React.PropTypes.string,
-  onValueChange: React.PropTypes.func
+  items: PropTypes.array,
+  onValueChange: PropTypes.func,
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  pickerLabelDataAttribute: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
 }
