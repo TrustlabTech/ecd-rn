@@ -49,6 +49,7 @@ export default class AssignChildScene extends IMPComponent {
     }
 
     this.submit = this.submit.bind(this)
+    this._goBack = this._goBack.bind(this)
     this.onChildSelectorChange = this.onChildSelectorChange.bind(this)
     this.onClassSelectorChange = this.onClassSelectorChange.bind(this)
   }
@@ -73,33 +74,31 @@ export default class AssignChildScene extends IMPComponent {
       sessionState.userData._token
     )
     .then(data => {
-      this.setState({
-        loaded: true,
-        unassignedChildren: data,
-        childSelectedId: data[childIndex].id,
-      })
+      if (data.length > 0) {
+        this.setState({
+          loaded: true,
+          unassignedChildren: data,
+          childSelectedId: data[childIndex].id,
+        })
 
-      return Api.fetchClasses(
-        sessionState.userData.user.id,
-        sessionState.userData._token
-      )
-    })
-    .then(classes => {
-      this.setState({
-        classesLoaded: true,
-        classes,
-        classSelectedId: classes[0].id,
-      })
+        return Api.fetchClasses(
+          sessionState.userData.user.id,
+          sessionState.userData._token
+        ).then(classes => {
+          this.setState({
+            classesLoaded: true,
+            classes,
+            classSelectedId: classes[0].id,
+          })
+        })
+      } else {
+        this.setState({ loaded: true })
+      }
     })
     .catch(error => {
       // FIXME with a proper alert
       alert('There was an error fetching the classes' + error.toString())
     })
-  }
-
-  _hardwareBackHandler() {
-    this._goBack()
-    return true
   }
 
   _goBack() {
@@ -132,7 +131,7 @@ export default class AssignChildScene extends IMPComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <AndroidBackButton onPress={() => this._hardwareBackHandler()} />
+        <AndroidBackButton onPress={() => !!!this._goBack()} />
 
         <NavBar
           navigator={this.props.navigator}
@@ -143,31 +142,60 @@ export default class AssignChildScene extends IMPComponent {
           <View>
 
             {/* Unassigned children */}
-            <Text style={{ marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText }}>Unassigned Children</Text>
-            <Selector
-              items={this.state.unassignedChildren}
-              selectedValue={this.state.childSelectedId}
-              onValueChange={this.onChildSelectorChange}
-              pickerLabelDataAttribute={(object) => `${object.given_name} ${object.family_name}`} />
-            {/* Available classes */}
-            <Text style={{ marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText }}>Classes</Text>
             {
-              this.state.classLoaded ? (
-                <Selector
-                  items={this.state.classes}
-                  selectedValue={this.state.classSelectedId}
-                  onValueChange={this.onClassSelectorChange} />
+              /* Empty Unassigned class */
+              this.state.unassignedChildren.length === 0 ? (
+                 <Text style={{ marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText }}>
+                  There are currently no unassigned children.
+                </Text>
               ) : (
-                <ActivityIndicator
-                  animating
-                  style={{ height: 60, alignSelf: 'center' }}
-                  size="large" />
+                <Text style={{ marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText }}>Unassigned Children</Text>
               )
             }
 
-            <View style={{ paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-              <Button text="Confirm" onPress={() => {}} />
-            </View>
+            {
+              this.state.unassignedChildren.length > 0 && (
+                <Selector
+                  items={this.state.unassignedChildren}
+                  selectedValue={this.state.childSelectedId}
+                  onValueChange={this.onChildSelectorChange}
+                  pickerLabelDataAttribute={(object) => `${object.given_name} ${object.family_name}`} />
+              )
+            }
+
+            {/* Available classes */}
+            {
+              this.state.unassignedChildren.length === 0 ? null : (
+                <Text style={{ marginLeft: 18, fontSize: FontSizes.p, color: Colours.darkText }}>Classes</Text>
+              )
+            }
+            {
+              this.state.unassignedChildren.length === 0 ? null : (
+                this.state.classLoaded ? (
+                  <Selector
+                    items={this.state.classes}
+                    selectedValue={this.state.classSelectedId}
+                    onValueChange={this.onClassSelectorChange} />
+                ) : (
+                  <ActivityIndicator
+                    animating
+                    style={{ height: 60, alignSelf: 'center' }}
+                    size="large" />
+                )
+              )
+            }
+
+            {
+              this.state.unassignedChildren.length === 0 ? (
+                <View style={{ paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                  <Button text="Go back" onPress={this._goBack} />
+                </View>
+              ) : (
+                <View style={{ paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+                  <Button text="Confirm" onPress={() => {}} />
+                </View>
+              )
+            }
 
           </View>
         </ScrollableWaitableView>
