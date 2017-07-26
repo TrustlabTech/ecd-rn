@@ -8,7 +8,7 @@
 import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
-import AndroidBackButton from 'react-native-android-back-button'
+import AndroidBackButton from '../modules/AndroidBackButton'
 import {
   Text,
   View,

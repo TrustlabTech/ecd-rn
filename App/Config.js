@@ -5,12 +5,10 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import {
-  Platform,
-  Navigator
-} from 'react-native'
 import Routes from './Routes'
+import { Platform } from 'react-native'
 import { Colours } from './GlobalStyles'
+import { Navigator } from 'react-native-deprecated-custom-components'
 
 const PKG = require('../package.json')
 const RUNTIME = require('../cfg/runtime.json')

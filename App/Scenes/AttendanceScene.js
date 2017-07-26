@@ -8,7 +8,7 @@
 import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
-import AndroidBackButton from 'react-native-android-back-button'
+import AndroidBackButton from '../modules/AndroidBackButton'
 import {
   View,
   Alert,
@@ -20,7 +20,6 @@ const Buffer = buffer.Buffer
 
 import Api from '../Api'
 import Config from '../Config'
-import Sentry from '../Sentry'
 import Crypto from '../Crypto'
 import Session from '../Session'
 import { Colours } from '../GlobalStyles'
@@ -132,7 +131,8 @@ export default class AttendanceScene extends IMPComponent {
       if(Config.debug) {
         IMPLog.error(error.toString(), this._fileName)
       } else {
-        Sentry.captureEvent(error.stack, this._fileName)
+        // TODO: GA
+        // Sentry.captureEvent(error.stack, this._fileName)
       }
 
       Alert.alert(
@@ -312,7 +312,8 @@ export default class AttendanceScene extends IMPComponent {
         alert(this._fileName + " " + error.toString())
         console.log(this._fileName + " " + error.stack)
       } else {
-        Sentry.captureEvent(error.stack,this._fileName)
+        // TODO: GA
+        // Sentry.captureEvent(error.stack,this._fileName)
         Alert.alert(
           'Unknown Error',
           'An unknown error has occured',

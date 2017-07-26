@@ -8,7 +8,7 @@
 import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
-import AndroidBackButton from 'react-native-android-back-button'
+import AndroidBackButton from '../modules/AndroidBackButton'
 import {
   Text,
   View,
@@ -26,7 +26,6 @@ import Api from '../Api'
 import Config from '../Config'
 import Crypto from '../Crypto'
 import Session from '../Session'
-import Sentry from '../Sentry'
 import Routes from '../Routes'
 import {
   NavBar,
@@ -165,31 +164,36 @@ export default class MainScene extends IMPComponent {
   _goToClassScene() {
     this._closeDrawer()
     this.navigator.push(Routes.class)
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "ClassScene")
   }
 
   _goToHistoryScene() {
     this._closeDrawer()
     this.navigator.push(Routes.history)
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "HistoryScene")
   }
 
   _goToAddChildScene() {
     this._closeDrawer()
     this.navigator.push(Routes.addChild)
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AddChildScene")
   }
 
   _goToAssignChildScene() {
     this._closeDrawer()
     this.navigator.push(Routes.assignChild)
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AssignChildScene")
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AssignChildScene")
   }
 
   _goToUnassignChildScene() {
     this._closeDrawer()
     this.navigator.push(Routes.unassignChild)
-    Sentry.addNavigationBreadcrumb(this._className, "MainScene", "UnassignChildScene")
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "UnassignChildScene")
   }
 
   /**

@@ -1,15 +1,14 @@
 package com.ecdrn;
 
 import android.app.Application;
-import android.util.Log;
+import android.support.multidex.MultiDexApplication;
 
 import com.ecdrn.reactnative.ReactNativePackages;
 import com.facebook.react.ReactApplication;
-import com.facebook.react.ReactInstanceManager;
+import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
-import za.co.io.sentry.ReactNativeSentryAndroidPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.facebook.soloader.SoLoader;
@@ -17,12 +16,17 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
     @Override
-    protected boolean getUseDeveloperSupport() {
+    protected String getJSBundleFile() {
+      return CodePush.getJSBundleFile();
+    }
+
+    @Override
+    public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
@@ -33,7 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
           new ReactNativePackages(),
           new LinearGradientPackage(),
           new GoogleAnalyticsBridgePackage(),
-          new ReactNativeSentryAndroidPackage()
+          new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG)
       );
     }
   };
