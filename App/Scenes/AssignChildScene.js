@@ -65,7 +65,7 @@ export default class AssignChildScene extends IMPComponent {
    */
   _fetchData(childIndex = 0) {
     if (this.state.childrenLoaded) {
-      this.setState({ childrenLoaded: false })
+      this.setState({ classesLoaded: false })
     }
     // Fetch list of available classes
     const sessionState = Session.getState()
@@ -116,12 +116,9 @@ export default class AssignChildScene extends IMPComponent {
   submit() {
     const sessionState = Session.getState()
 
-    Api.unassignChild(this.state.childSelectedId, sessionState.userData.meta.unassignedClass[0].id, sessionState.userData._token)
-    .then(response => {
-      if (response.ok)
-        ToastAndroid.show('Child successfully unassigned', ToastAndroid.SHORT)
-      else
-        Alert.alert('Error', 'An error occurrend, try again later. If the problem persist, please contact an admin.')
+    Api.updateChildClass(this.state.childSelectedId, this.state.classSelectedId, sessionState.userData._token)
+    .then(() => {
+      ToastAndroid.show('Child successfully assigned', ToastAndroid.SHORT)
     })
     .catch(error => { // eslint-disable-line no-unused-vars
       Alert.alert(Config.errorMessage.network.title, Config.errorMessage.network.message)
@@ -171,7 +168,7 @@ export default class AssignChildScene extends IMPComponent {
             }
             {
               this.state.unassignedChildren.length === 0 ? null : (
-                this.state.classLoaded ? (
+                this.state.classesLoaded ? (
                   <Selector
                     items={this.state.classes}
                     selectedValue={this.state.classSelectedId}
@@ -192,7 +189,7 @@ export default class AssignChildScene extends IMPComponent {
                 </View>
               ) : (
                 <View style={{ paddingTop: 20, paddingRight: 10, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
-                  <Button text="Confirm" onPress={() => {}} />
+                  <Button text="Assign" onPress={this.submit} />
                 </View>
               )
             }

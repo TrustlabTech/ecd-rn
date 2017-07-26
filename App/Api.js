@@ -42,6 +42,7 @@ function request(route, opts) {
 
   // On reject
   .catch((error) => {
+    console.log(error)
     if (Config.debug && Config.debugNetwork) {
       IMPLog.error('API Error', error)
       return Promise.reject(error.toString())
