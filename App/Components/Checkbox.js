@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -98,9 +99,9 @@ export default class Checkbox extends Component {
 }
 
 Checkbox.propTypes = {
-  height: React.PropTypes.number,
-  text: React.PropTypes.string,
-  checked: React.PropTypes.bool,
-  onPress: React.PropTypes.func,
-  style: React.PropTypes.string
+  height: PropTypes.number,
+  text: PropTypes.string,
+  checked: PropTypes.bool,
+  onPress: PropTypes.func,
+  style: PropTypes.string
 }

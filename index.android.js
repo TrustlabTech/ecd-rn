@@ -5,8 +5,9 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
-import React, { Component } from 'react'
 import Config from './App/Config'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { View, AppRegistry, Dimensions } from 'react-native'
 import { Navigator } from 'react-native-deprecated-custom-components'
 

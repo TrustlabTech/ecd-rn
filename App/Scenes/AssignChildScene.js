@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import IMPComponent from '../Impulse/IMPComponent'
 import AndroidBackButton from '../modules/AndroidBackButton'
 import {
@@ -14,7 +15,6 @@ import {
   Alert,
   ToastAndroid,
   ActivityIndicator,
-  InteractionManager
 } from 'react-native'
 
 import Config from '../Config'
@@ -202,5 +202,5 @@ export default class AssignChildScene extends IMPComponent {
 }
 
 AssignChildScene.propTypes = {
-  navigator: React.PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired
 }

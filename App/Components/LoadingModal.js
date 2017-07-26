@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   Modal,
@@ -14,8 +15,6 @@ import * as Progress from 'react-native-progress'
 import Config from '../Config'
 
 export default class LoadingModal extends Component {
-
-
   constructor(props) {
     super(props)
     const windowWidth = Dimensions.get('window').width
@@ -46,8 +45,7 @@ export default class LoadingModal extends Component {
           indeterminate
           width={this.state.width}
           color={Config.progressBarColor}
-          borderWidth={0}
-        />
+          borderWidth={0} />
 
       </Modal>
 
@@ -56,6 +54,6 @@ export default class LoadingModal extends Component {
 }
 
 LoadingModal.propTypes = {
-  width: React.PropTypes.number,
-  visible: React.PropTypes.bool
+  width: PropTypes.number,
+  visible: PropTypes.bool
 }

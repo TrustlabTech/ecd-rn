@@ -5,14 +5,18 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   Text,
   View,
+  StatusBar,
+  Dimensions,
   StyleSheet,
   TouchableHighlight,
-  StatusBar
 } from 'react-native'
+import Config from '../Config'
+import * as Progress from 'react-native-progress'
 import { Colours, FontSizes } from '../GlobalStyles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -157,6 +161,15 @@ export default class NavBar extends Component {
           {centerTitle}
           {rightButton}
         </View>
+        {
+          this.props.showProgress && (
+            <Progress.Bar
+              indeterminate
+              borderWidth={0}
+              color={Config.progressBarColor}
+              width={Dimensions.get('screen').width} />
+          )
+        }
       </View>
     )
   }
@@ -193,11 +206,11 @@ const styles = StyleSheet.create({
 })
 
 NavBar.propTypes = {
-  rightButtonText: React.PropTypes.string,
-  leftButtonText: React.PropTypes.string,
-  title: React.PropTypes.string,
-  navigator: React.PropTypes.object,
-  leftButtonAction: React.PropTypes.func,
-  rightButtonAction: React.PropTypes.func,
-  leftButtonIcon: React.PropTypes.object
+  rightButtonText: PropTypes.string,
+  leftButtonText: PropTypes.string,
+  title: PropTypes.string,
+  navigator: PropTypes.object,
+  leftButtonAction: PropTypes.func,
+  rightButtonAction: PropTypes.func,
+  leftButtonIcon: PropTypes.object
 }

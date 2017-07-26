@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import IMPComponent from '../Impulse/IMPComponent'
 import AndroidBackButton from '../modules/AndroidBackButton'
 import {
@@ -15,8 +16,7 @@ import {
   Dimensions,
   StyleSheet,
   ToastAndroid,
-  ActivityIndicator,
-  InteractionManager
+  ActivityIndicator
 } from 'react-native'
 
 import Config from '../Config'
@@ -181,7 +181,7 @@ export default class UnassignChildScene extends IMPComponent {
 }
 
 UnassignChildScene.propTypes = {
-  navigator: React.PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

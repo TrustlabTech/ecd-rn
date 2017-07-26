@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -24,5 +25,5 @@ export default class SceneHeading extends Component {
 }
 
 SceneHeading.propTypes = {
-  text: React.PropTypes.string
+  text: PropTypes.string
 }

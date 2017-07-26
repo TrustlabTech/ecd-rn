@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -54,6 +55,6 @@ export default class DatePicker extends Component {
 }
 
 DatePicker.propTypes = {
-  dateOfBirth: React.PropTypes.string,
-  onPress: React.PropTypes.func
+  dateOfBirth: PropTypes.string,
+  onPress: PropTypes.func
 }

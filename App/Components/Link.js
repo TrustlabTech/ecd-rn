@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   Text,
@@ -29,6 +30,6 @@ export default class Link extends Component {
 }
 
 Link.propTypes = {
-  text: React.PropTypes.string,
-  onPress: React.PropTypes.func
+  text: PropTypes.string,
+  onPress: PropTypes.func
 }

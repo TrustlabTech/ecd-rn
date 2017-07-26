@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -25,8 +26,8 @@ export default class HistoryChildItem extends Component {
 
 
 HistoryChildItem.propTypes = {
-  index: React.PropTypes.number,
-  givenName: React.PropTypes.givenName,
-  familyName: React.PropTypes.familyName,
-  className: React.PropTypes.className
+  index: PropTypes.number,
+  givenName: PropTypes.givenName,
+  familyName: PropTypes.familyName,
+  className: PropTypes.className
 }
