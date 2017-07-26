@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -38,6 +39,6 @@ export default class ScrollableWaitableView extends Component {
 
 
 ScrollableWaitableView.propTypes = {
-  loaded: React.PropTypes.bool,
-  children: React.PropTypes.array
+  loaded: PropTypes.bool,
+  children: PropTypes.array
 }

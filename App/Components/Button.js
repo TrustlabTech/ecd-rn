@@ -5,14 +5,15 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
   Text,
-  TouchableHighlight,
   StyleSheet,
   ToastAndroid,
-  InteractionManager
+  InteractionManager,
+  TouchableHighlight,
 } from 'react-native'
 import { Colours, FontSizes } from '../GlobalStyles'
 import LinearGradient from 'react-native-linear-gradient'
@@ -137,11 +138,11 @@ const styles = StyleSheet.create({
 })
 
 Button.propTypes = {
-  width: React.PropTypes.number,
-  height: React.PropTypes.number,
-  text: React.PropTypes.string,
-  disabledText: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  onPress: React.PropTypes.func,
-  style: React.PropTypes.object
+  width: PropTypes.number,
+  height: PropTypes.number,
+  text: PropTypes.string,
+  disabledText: PropTypes.string,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func,
+  style: PropTypes.object
 }

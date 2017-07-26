@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
 import AndroidBackButton from '../modules/AndroidBackButton'
@@ -285,7 +286,7 @@ export default class AddChildScene extends IMPComponent {
 }
 
 AddChildScene.propTypes = {
-  navigator: React.PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired
 }
 
 

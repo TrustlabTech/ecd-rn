@@ -6,6 +6,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
 import AndroidBackButton from '../modules/AndroidBackButton'
@@ -33,15 +34,16 @@ import {
   Checkbox
 } from '../Components'
 
-const createBulkAttendanceClaim = (samples, singleClaims, location, digitalIds) => {
+const templateUrl = 'https://test.ipdb.io/api/v1/transactions/3d842916193bcc5124befeffca6715d3340a4be07184d0a04a05890ca266ae3e'
+
+const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds) => {
   return new Promise((resolve, reject) => {
     const date = new Date().toISOString()
     // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
-    const attendeeSample = JSON.parse(JSON.stringify(samples.attendeeSample)),
-          claimObjectSample = JSON.parse(JSON.stringify(samples.attendenceObject)),
-          verifiableClaimSample = JSON.parse(JSON.stringify(samples.verifiableClaim))
+    const claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
+          verifiableClaimSample = JSON.parse(JSON.stringify(template))
 
-    let claimObject = Object.assign({}, claimObjectSample)
+    let claimObject = claimObjectSample
     claimObject.id = digitalIds.practitioner
     claimObject.deliveredService.practitioner = digitalIds.practitioner
     claimObject.deliveredService.geo.latitude = location.coords.latitude
@@ -73,11 +75,14 @@ export default class AttendanceScene extends IMPComponent {
     super(props)
 
     this.state = {
+      loaded: false,
       classData: [],
       attendanceData: [],
       initialised: false,
-      loaded: false
+      showProgress: false,
     }
+
+    this._goBack = this._goBack.bind(this)
   }
 
   componentDidMount() {
@@ -189,8 +194,7 @@ export default class AttendanceScene extends IMPComponent {
     " of " +
     attendanceData.length +
     " children present?"
-
-
+  
   /**
    * Make the checkboxes based on attendanceData
    */
@@ -227,100 +231,125 @@ export default class AttendanceScene extends IMPComponent {
   /**
    * Upload the attendance data to the server
    */
-  uploadData = (location, attendanceData) => {
-    this.setModal({visible: true})
+  uploadData = async (location, attendanceData) => {
+    this.setState({ showProgress: true })
     const sessionState = Session.getState()
 
-    Api.submitAttendance(
-      location,
-      this.props.route.centreId,
-      this.props.route.classId,
-      attendanceData,
-      sessionState.userData._token
-    ).then((json) => {
-      // We're done, fill in and sign attendance claim
-      try {
-        if (json.success) {
-          
-          const samples = json.data,
-                digitalIds = {
-                  centre: Session.getState().userData.user.centre.did,
-                  practitioner: Session.getState().userData.user.did
-                }
+    // submit attendence on v1 endpoint
+    let json = {}
+    try {
+      json = await Api.submitAttendance(
+        location,
+        this.props.route.centreId,
+        this.props.route.classId,
+        attendanceData,
+        sessionState.userData._token
+      )
+    } catch (e) {
+      console.log(e)
+      // TODO: GA
+      this.alertAndPop('Attendence not submitted')
+      return false
+    }
 
-          const promises = attendanceData.map(childData => {
-            const date = new Date().toISOString()
-            return new Promise((resolve, reject) => {
-              // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
-              const attendeeSample = JSON.parse(JSON.stringify(samples.attendeeSample)),
-                    claimObjectSample = JSON.parse(JSON.stringify(samples.attendenceObject)),
-                    verifiableClaimSample = JSON.parse(JSON.stringify(samples.verifiableClaim))
-              
-              let claimObject = claimObjectSample
-              claimObject.id = digitalIds.practitioner
-              claimObject.deliveredService.practitioner = digitalIds.practitioner
-              claimObject.deliveredService.geo.latitude = location.coords.latitude
-              claimObject.deliveredService.geo.longitude = location.coords.longitude
-              claimObject.deliveredService.attendees[0] = {
-                id: childData.id,
-                date,
-                attended: childData.checked || false,
-              }
+    // get template from IPD
+    let templateJson = {}
+    try {
+      const templateResponse = await fetch(templateUrl)
+      templateJson = await templateResponse.json()
+    } catch (e) {
+      console.log(e)
+      // TODO: GA
+      this.alertAndPop('Could not get verifiable claim template')
+      return false
+    }
 
-              Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
-                let verifiableClaim = verifiableClaimSample
-                verifiableClaim.issuer = digitalIds.centre
-                verifiableClaim.issued = date
-                verifiableClaim.claim = JSON.parse(JSON.stringify(claimObject))
-                verifiableClaim.signature.created = date
-                verifiableClaim.signature.signatureValue = signature
+    // actual template
+    const template = JSON.parse(JSON.stringify(templateJson.asset.data))
 
-                resolve(JSON.parse(JSON.stringify(verifiableClaim)))
-              }).catch(e => {
-                reject(e)
-              })
-            })
-          })
+    // digital IDs of the involved entities from api v2 response
+    const digitalIds = {
+      centre: Session.getState().userData.user.centre.did,
+      practitioner: Session.getState().userData.user.did
+    }
 
-          Promise.all(promises).then(singleClaims => {
-            createBulkAttendanceClaim(samples, singleClaims, location, digitalIds).then((bulkAttendanceClaim) => {
-              const centreId = sessionState.userData.user.centre_id,
-                    token = sessionState.userData._token
-              Api.submitAttendanceClaim(centreId, bulkAttendanceClaim, singleClaims, token).then((attendanceClaimResponse) => {
-                if (attendanceClaimResponse.success)
-                  this.clearAndGoBack()
-                else
-                  this.clearAndGoBack(attendanceClaimResponse.message)
-              })
-            })
-          })
-        } else {
-          this.clearAndGoBack('Could not get Attendance schema, verifiable claim not created')
-          console.log('[ALERT] Could not get Attendance schema from server: ' + response.message)
-        }
-      } catch (e) {
-        this.clearAndGoBack('Could not get Attendance schema, verifiable claim not created')
-        console.log(e)
-      }
+    const date = new Date().toISOString()
+
+    // create all single verifiable claims
+    const promises = attendanceData.map(childData => {
+      return new Promise((resolve, reject) => {
+        // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
+        const attendeeSample = JSON.parse(JSON.stringify(template.claim.deliveredService.attendees)),
+              claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
+              verifiableClaimSample = JSON.parse(JSON.stringify(template))
+        // subject portion
+        let attendee = attendeeSample
+        attendee.id = childData.id,
+        attendee.date = date
+        attendee.attended = childData.checked || false
+        // claim portion
+        let claimObject = claimObjectSample
+        claimObject.id = digitalIds.practitioner
+        claimObject.deliveredService.practitioner = digitalIds.practitioner
+        claimObject.deliveredService.geo.latitude = location.coords.latitude
+        claimObject.deliveredService.geo.longitude = location.coords.longitude
+        claimObject.deliveredService.attendees[0] = attendee
+
+        Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
+          // verifiable claim portion
+          let verifiableClaim = verifiableClaimSample
+          verifiableClaim.issuer = digitalIds.centre
+          verifiableClaim.issued = date
+          verifiableClaim.claim = claimObject
+          verifiableClaim.signature.created = date
+          verifiableClaim.signature.signatureValue = signature
+
+          resolve(verifiableClaim)
+        }).catch(e => {
+          reject(e)
+        })
+      })
     })
 
-    .catch((error) => {
+    // group all signed verifiable claims for creating the bulk claim
+    let singleClaims = []
+    try {
+      singleClaims = await Promise.all(promises)
+    } catch (e) {
+      console.log(e)
+      // TODO: GA
+      this.alertAndPop('Could not create verifiable claims')
+      return false
+    }
 
-      this.setModal({visible: false})
+    // create bulk attendence verifiable claim
+    let bulkAttendanceClaim = {}
+    try {
+      bulkAttendanceClaim = await createBulkAttendanceClaim(template, singleClaims, location, digitalIds)
+    } catch (e) {
+      console.log(e)
+      // TODO: GA
+      this.alertAndPop('Could not create verifiable claims')
+      return false
+    }
 
-      if(Config.debug) {
-        alert(this._fileName + " " + error.toString())
-        console.log(this._fileName + " " + error.stack)
-      } else {
-        // TODO: GA
-        // Sentry.captureEvent(error.stack,this._fileName)
-        Alert.alert(
-          'Unknown Error',
-          'An unknown error has occured',
-          [{text: 'Okay'}]
-        )
-      }
-    })
+    // submit the verifiable claims to api v2
+    try {
+      const centreId = sessionState.userData.user.centre_id,
+            token = sessionState.userData._token,
+            attendanceClaimResponse = await Api.submitAttendanceClaim(centreId, bulkAttendanceClaim, singleClaims, token)
+
+      if (attendanceClaimResponse.success)
+        this.alertAndPop('All verifiable claims have been uploaded', 'Success')
+      else
+        throw new Error(attendanceClaimResponse.error || '')
+
+    } catch (e) {
+      console.log(e)
+      // TODO: GA
+      this.alertAndPop('Could not submit verifiable claims')
+      return false
+    }
   }
 
   /**
@@ -336,7 +365,6 @@ export default class AttendanceScene extends IMPComponent {
         {
           text: 'Yes',
           onPress: () => {
-            this.setModal({visible: true})
             this.getLocation((location) => this.uploadData(location, attendanceData) )
           }
         },
@@ -345,10 +373,11 @@ export default class AttendanceScene extends IMPComponent {
     )
   }
 
-  clearAndGoBack = (error) => {
-    this.setModal({visible: false})
-    this._goBack()
-    ToastAndroid.show(error ? error : 'Upload complete', ToastAndroid.SHORT)
+  alertAndPop = (message, title = 'Error') => {
+    if (this.state.showProgress)
+      this.setState({ showProgress: false })
+    
+    Alert.alert(title, message, [{ text: 'Okay', onPress: this._goBack }])
   }
 
   render() {
@@ -362,9 +391,9 @@ export default class AttendanceScene extends IMPComponent {
         <AndroidBackButton onPress={ () => this._hardwareBackHandler()}/>
 
         <NavBar
-          navigator={ this.props.navigator }
-          leftButtonAction={ () => this._goBack() }
-        />
+          navigator={this.props.navigator}
+          showProgress={this.state.showProgress}
+          leftButtonAction={ () => this._goBack() } />
 
         <ScrollableWaitableView loaded={this.state.loaded}>
 

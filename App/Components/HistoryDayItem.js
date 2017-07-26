@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -93,8 +94,8 @@ export default class HistoryDayItem extends Component {
 }
 
 HistoryDayItem.propTypes = {
-  month: React.PropTypes.number,
-  day: React.PropTypes.number,
-  absentChildren: React.PropTypes.array,
-  totalChildren: React.PropTypes.number
+  month: PropTypes.number,
+  day: PropTypes.number,
+  absentChildren: PropTypes.array,
+  totalChildren: PropTypes.number
 }

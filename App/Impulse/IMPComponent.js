@@ -4,6 +4,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import IMPLog from './IMPLog'
 import * as Lifecycle from './lib/Lifecycle'
@@ -113,8 +114,8 @@ export default class IMPComponent extends Component {
 
 
 IMPComponent.propTypes = {
-  navigator: React.PropTypes.object,
-  _navigationEventEmitter: React.PropTypes.object,
-  _gaTrackers: React.PropTypes.object,
-  _modalEventEmitter: React.PropTypes.object
+  navigator: PropTypes.object,
+  _navigationEventEmitter: PropTypes.object,
+  _gaTrackers: PropTypes.object,
+  _modalEventEmitter: PropTypes.object
 }

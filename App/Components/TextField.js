@@ -5,6 +5,7 @@
  * @author Werner Roets <werner@io.co.za>
  */
 
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import {
   View,
@@ -75,20 +76,20 @@ export default class TextField extends Component {
 }
 
 TextField.propTypes = {
-  onSubmitEditing: React.PropTypes.func,
-  returnKeyType: React.PropTypes.string,
-  autoCapitalize: React.PropTypes.string,
-  keyboardType: React.PropTypes.string,
-  value: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
-  label: React.PropTypes.string,
-  secureTextEntry: React.PropTypes.bool,
-  blurOnSubmit: React.PropTypes.bool,
-  maxLength: React.PropTypes.number,
-  autoFocus: React.PropTypes.bool,
-  selectTextOnFocus: React.PropTypes.bool,
-  fontSize: React.PropTypes.number,
-  onChangeText: React.PropTypes.func,
-  width: React.PropTypes.number,
-  height: React.PropTypes.number
+  onSubmitEditing: PropTypes.func,
+  returnKeyType: PropTypes.string,
+  autoCapitalize: PropTypes.string,
+  keyboardType: PropTypes.string,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+  secureTextEntry: PropTypes.bool,
+  blurOnSubmit: PropTypes.bool,
+  maxLength: PropTypes.number,
+  autoFocus: PropTypes.bool,
+  selectTextOnFocus: PropTypes.bool,
+  fontSize: PropTypes.number,
+  onChangeText: PropTypes.func,
+  width: PropTypes.number,
+  height: PropTypes.number
 }
