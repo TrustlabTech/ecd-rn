@@ -50,6 +50,7 @@ export default class UnassignChildScene extends IMPComponent {
       childSelectedId: null,
     }
 
+    this._goBack = this._goBack.bind(this)
     this.unassign = this.unassign.bind(this)
     this.graduate = this.graduate.bind(this)
     this.onClassSelectorChange = this.onClassSelectorChange.bind(this)
@@ -99,20 +100,8 @@ export default class UnassignChildScene extends IMPComponent {
     })
   }
 
-  _hardwareBackHandler() {
-    this._goBack()
-    return true
-  }
-
   _goBack() {
-    InteractionManager.runAfterInteractions(() => {
-      setTimeout(() => {
-        this.navigator.pop()
-        this.setState({
-          loaded: false
-        })
-      }, 100)
-    })
+    this.navigator.pop()
   }
 
   onClassSelectorChange(classId) {
@@ -124,22 +113,19 @@ export default class UnassignChildScene extends IMPComponent {
   }
 
   unassign() {
-    this.submit(sessionState.userData.meta.unassignedClass[0].id)
+    this.submit(Session.getState().userData.meta.unassignedClass[0].id)
   }
 
   graduate() {
-    this.submit(sessionState.userData.meta.graduatedClass[0].id)
+    this.submit(Session.getState().userData.meta.graduatedClass[0].id)
   }
 
   submit(classId) {
     const sessionState = Session.getState()
 
     Api.updateChildClass(this.state.childSelectedId, classId, sessionState.userData._token)
-    .then(response => {
-      if (response.ok)
-        ToastAndroid.show('Child successfully modified', ToastAndroid.SHORT)
-      else
-        Alert.alert('Error', 'An error occurrend, try again later. If the problem persist, please contact an admin.')
+    .then(() => {
+      ToastAndroid.show('Child successfully modified', ToastAndroid.SHORT)
     })
     .catch(error => { // eslint-disable-line no-unused-vars
       Alert.alert(Config.errorMessage.network.title, Config.errorMessage.network.message)
@@ -149,7 +135,7 @@ export default class UnassignChildScene extends IMPComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <AndroidBackButton onPress={() => this._hardwareBackHandler()} />
+        <AndroidBackButton onPress={() => !!!this._goBack} />
 
         <NavBar
           navigator={this.props.navigator}
