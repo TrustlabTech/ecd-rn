@@ -7,7 +7,6 @@
 import React, { Component } from 'react'
 import IMPLog from './IMPLog'
 import * as Lifecycle from './lib/Lifecycle'
-import Sentry from '../Sentry'
 import Config from '../Config'
 
 /** Impulse Component - A component that extends the functionality of React.Component */
@@ -53,7 +52,8 @@ export default class IMPComponent extends Component {
     if (Config.debug && Config.debugReact) {
       IMPLog.react(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
     } else {
-      Sentry.addBreadcrumb(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
+      // TODO: GA
+      // Sentry.addBreadcrumb(this._className, Lifecycle.COMPONENT_WILL_MOUNT)
     }
   }
 

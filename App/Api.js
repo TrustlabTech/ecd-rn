@@ -6,7 +6,6 @@
  */
 
 import Config from './Config'
-import Sentry from './Sentry'
 import IMPLog from './Impulse/IMPLog'
 
 function request(route, opts) {
@@ -14,7 +13,8 @@ function request(route, opts) {
   if (Config.debug && Config.debugNetwork) {
     IMPLog.networkRequest(options.method, new Date(), Config.http.baseUrl + route)
   } else {
-    Sentry.addBreadcrumb('HTTP ' + options.method, Config.http.baseUrl + route)
+    // TODO: GA
+    // Sentry.addBreadcrumb('HTTP ' + options.method, Config.http.baseUrl + route)
   }
 
   console.log(Config.http.baseUrl + route)
@@ -26,7 +26,8 @@ function request(route, opts) {
     if (Config.debug && Config.debugNetwork) {
       IMPLog.networkResponse(response.status, new Date(), response._bodyText)
     } else {
-      Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
+      // TODO: GA
+      // Sentry.addHttpBreadcrumb(Config.http.baseUrl + route, options.method, response.status)
     }
     return response.json()
   })

@@ -7,12 +7,8 @@
 
 import React, { Component } from 'react'
 import Config from './App/Config'
-import {
-  AppRegistry,
-  Navigator,
-  View,
-  Dimensions
-} from 'react-native'
+import { View, AppRegistry, Dimensions } from 'react-native'
+import { Navigator } from 'react-native-deprecated-custom-components'
 
 import EventEmitter from 'EventEmitter'
 import {

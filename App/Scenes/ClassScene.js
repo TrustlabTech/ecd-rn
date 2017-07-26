@@ -8,7 +8,7 @@
 import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
-import AndroidBackButton from 'react-native-android-back-button'
+import AndroidBackButton from '../modules/AndroidBackButton'
 import {
   View,
   Alert,
@@ -16,7 +16,6 @@ import {
 
 import Config from '../Config'
 import Routes from '../Routes'
-import Sentry from '../Sentry'
 import Session from '../Session'
 import Api from '../Api'
 
@@ -90,7 +89,8 @@ export default class ClassScene extends IMPComponent {
 
   _goBack() {
     if (!Config.debug){
-      Sentry.addNavigationBreadcrumb(this._className, 'ClassScene', 'MainScene')
+      // TODO: GA
+      // Sentry.addNavigationBreadcrumb(this._className, 'ClassScene', 'MainScene')
     }
 
     this.navigator.pop()

@@ -8,7 +8,7 @@
 import React, { Component } from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
-import AndroidBackButton from 'react-native-android-back-button'
+import AndroidBackButton from '../modules/AndroidBackButton'
 import {
   View,
   Text,
@@ -17,7 +17,6 @@ import {
 } from 'react-native'
 import moment from 'moment'
 
-import Sentry from '../Sentry'
 import Config from '../Config'
 import Session from '../Session'
 import Api from '../Api'
@@ -53,8 +52,10 @@ export default class HistoryScene extends IMPComponent {
   }
 
   _goBack() {
-    if(!Config.debug)
-      Sentry.addNavigationBreadcrumb(this._className, 'HistoryScene', 'MainScene')
+    if(!Config.debug) {
+      // TODO: GA
+      // Sentry.addNavigationBreadcrumb(this._className, 'HistoryScene', 'MainScene')
+    }
 
     this.navigator.pop()
   }

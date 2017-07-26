@@ -9,7 +9,7 @@
 import React from 'react'
 import IMPComponent from '../Impulse/IMPComponent'
 import IMPLog from '../Impulse/IMPLog'
-import AndroidBackButton from 'react-native-android-back-button'
+import AndroidBackButton from '../modules/AndroidBackButton'
 import {
   Text,
   View,
@@ -19,10 +19,8 @@ import {
 } from 'react-native'
 
 import Api from '../Api'
-import Crypto from '../Crypto'
 import Config from '../Config'
 import Routes from '../Routes'
-import Sentry from '../Sentry'
 import Session from '../Session'
 import { FontSizes, Colours } from '../GlobalStyles'
 
@@ -33,7 +31,6 @@ import {
 } from '../Components'
 
 import { Hoshi } from 'react-native-textinput-effects'
-const dismissKeyboard = require('dismissKeyboard')
 
 /**
  * A scene allowing users to login using their phone number and pin
@@ -74,7 +71,8 @@ export default class LoginScene extends IMPComponent {
         if (Config.debug) {
           IMPLog.async(errorMessage + error.toString())
         } else {
-          Sentry.addBreadcrumb(this._className, errorMessage + error.toString())
+          // TODO: GA
+          // Sentry.addBreadcrumb(this._className, errorMessage + error.toString())
         }
       }
     })
@@ -127,7 +125,8 @@ export default class LoginScene extends IMPComponent {
 
       // Check for the devil
     if (phoneNumber === '666' && pin === '666') {
-      Sentry.crashTheApp('El diablo!')
+      // TODO: GA
+      // Sentry.crashTheApp('El diablo!')
     } else {
         // dismissKeyboard()
 
@@ -152,7 +151,8 @@ export default class LoginScene extends IMPComponent {
 
             // and track her with GA
             this.props._gaTrackers.tracker1.setUser(data.user.id + ' ' + data.user.given_name + ' ')
-            Sentry.addNavigationBreadcrumb(this._className, this._className, 'MainScene')
+            // TODO: GA
+            // Sentry.addNavigationBreadcrumb(this._className, this._className, 'MainScene')
 
             // Go to main scene
             this.navigator.push({
@@ -171,7 +171,8 @@ export default class LoginScene extends IMPComponent {
           if (Config.debug) {
             IMPLog.error(error.toString(), this._fileName)
           } else {
-            Sentry.captureEvent(error.stack, this._fileName)
+            // TODO: GA
+            // Sentry.captureEvent(error.stack, this._fileName)
           }
           Alert.alert(
             Config.errorMessage.network.title,
@@ -189,7 +190,8 @@ export default class LoginScene extends IMPComponent {
           if (Config.debug) {
             IMPLog.async('Could not store phone number with Async storage' + error.toString())
           } else {
-            Sentry.captureEvent(error.toString(), this._className)
+            // TODO: GA
+            // Sentry.captureEvent(error.toString(), this._className)
           }
         } else {
           if (Config.debug) {
