@@ -8,6 +8,10 @@ apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
 
+project.ext.vectoricons = [
+        iconFontNames: [ 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf' ]
+]
+
 apply plugin: 'io.fabric'
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -31,7 +35,7 @@ android {
 
     defaultConfig {
         applicationId "com.ecdrn"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName packageJson.version
@@ -114,7 +118,8 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile "com.facebook.react:react-native:+"
     compile project(':react-native-code-push')
-    compile project(':react-native-linear-gradient')
+    compile project(':react-native-navigation')
+    compile project(':react-native-vector-icons')
     compile project(':react-native-google-analytics-bridge')
     compile "com.android.support:appcompat-v7:25.3.1"
     compile 'com.madgag.spongycastle:core:1.54.0.0'

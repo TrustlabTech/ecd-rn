@@ -1,12 +1,13 @@
 {
-  "name": "Ecdrn",
+  "name": "Ecd",
   "version": "0.6.4",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "node node_modules/jest/bin/jest.js",
     "precommit": "node node_modules/eslint/bin/eslint.js eslint",
-    "set_cfg": "./set_cfg.bash"
+    "set_cfg": "./set_cfg.bash",
+    "remotedev": "remotedev --hostname=localhost --port=8082"
   },
   "jest": {
     "preset": "react-native",
@@ -21,15 +22,16 @@
     "prop-types": "^15.5.10",
     "react": "^16.0.0-alpha.12",
     "react-native": "^0.46.4",
-    "react-native-android-back-button": "^0.3.0",
     "react-native-code-push": "^4.1.0-beta",
     "react-native-datepicker": "^1.4.3",
-    "react-native-deprecated-custom-components": "^0.1.1",
     "react-native-google-analytics-bridge": "^4.0.2",
-    "react-native-linear-gradient": "^1.5.14",
-    "react-native-progress": "^3.2.0",
-    "react-native-textinput-effects": "^0.3.0",
-    "react-native-vector-icons": "^4.0.0"
+    "react-native-navigation": "^1.1.159",
+    "react-native-vector-icons": "^4.2.0",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "remote-redux-devtools": "^0.5.12",
+    "remotedev-server": "^0.2.3"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
