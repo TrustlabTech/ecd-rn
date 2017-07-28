@@ -73,3 +73,31 @@
 -dontwarn org.apache.http.message.*
 -dontwarn android.net.http.*
 -dontwarn com.google.android.gms.internal.*
+
+# spongycastle
+
+-keep class org.spongycastle.asn1.** {*;}
+-keep class org.spongycastle.math.ec.** {*;}
+-keep class org.spongycastle.math.field.** {*;}
+-keep class org.spongycastle.crypto.params.** {*;}
+-keep class org.spongycastle.crypto.signers.** {*;}
+-keep class org.spongycastle.crypto.generators.** {*;}
+
+-keep class org.spongycastle.util.encoders.Hex
+-keep class org.spongycastle.util.encoders.Base64
+
+-keep class org.spongycastle.crypto.DSA
+-keep class org.spongycastle.crypto.Mac
+-keep class org.spongycastle.crypto.Digest
+-keep class org.spongycastle.crypto.KeyEncoder
+-keep class org.spongycastle.crypto.CipherParameters
+-keep class org.spongycastle.crypto.DerivationParameters
+-keep class org.spongycastle.crypto.AsymmetricBlockCipher
+-keep class org.spongycastle.crypto.AsymmetricCipherKeyPair
+-keep class org.spongycastle.crypto.KeyGenerationParameters
+-keep class org.spongycastle.crypto.AsymmetricCipherKeyPairGenerator
+
+-keep class org.spongycastle.crypto.digests.SHA3Digest
+-keep class org.spongycastle.crypto.digests.SHA256Digest
+
+-dontwarn javax.naming.**
