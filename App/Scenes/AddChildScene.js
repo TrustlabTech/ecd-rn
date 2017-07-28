@@ -33,7 +33,7 @@ import {
   Button,
   Selector
 } from '../Components'
-import validRSAId from '../validRSAID'
+// import validRSAId from '../validRSAID'
 const dismissKeyboard = require('dismissKeyboard')
 // import MaterialsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Hoshi } from 'react-native-textinput-effects'
@@ -84,7 +84,8 @@ export default class AddChildScene extends IMPComponent {
       setTimeout(() => {
         this.setState({
           classData: data,
-          loaded: true
+          loaded: true,
+          classSelectedId: data[0].id,
         })
       }, Config.sceneTransitionMinumumTime)
     })
@@ -117,12 +118,12 @@ export default class AddChildScene extends IMPComponent {
     // Last Name
     if (!this.state.familyName) {validationErrors.push('Please enter a family name.')}
     // RSA ID
-    if (this.state.idNumber.length !== 13 ||
-       !this.state.idNumber.match(/^[0-9]{13}/) ||
-       !validRSAId(this.state.idNumber)
-    ) {
-      validationErrors.push('Please enter a valid 13 digit RSA ID number.')
-    }
+    // if (this.state.idNumber.length !== 13 ||
+    //    !this.state.idNumber.match(/^[0-9]{13}/) ||
+    //    !validRSAId(this.state.idNumber)
+    // ) {
+    //   validationErrors.push('Please enter a valid 13 digit RSA ID number.')
+    // }
 
     if (validationErrors.length > 0) {
       Alert.alert(

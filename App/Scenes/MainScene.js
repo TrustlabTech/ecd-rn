@@ -47,6 +47,9 @@ export default class MainScene extends IMPComponent {
       drawerOpen: false,
       summaryData: null
     }
+
+    this._goToAssignChildScene = this._goToAssignChildScene.bind(this)
+    this._goToUnassignChildScene = this._goToUnassignChildScene.bind(this)
   }
 
   componentDidFocus() {
@@ -173,6 +176,20 @@ export default class MainScene extends IMPComponent {
     })
   }
 
+  _goToAssignChildScene() {
+    this._closeDrawer()
+    this.navigator.push(Routes.assignChild)
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "AssignChildScene")
+  }
+
+  _goToUnassignChildScene() {
+    this._closeDrawer()
+    this.navigator.push(Routes.unassignChild)
+    // TODO: GA
+    // Sentry.addNavigationBreadcrumb(this._className, "MainScene", "UnassignChildScene")
+  }
+
   /**
    * Log the current user out and return to the login screen.
    */
@@ -256,6 +273,22 @@ export default class MainScene extends IMPComponent {
                 </TouchableNativeFeedback>
               </View>
 
+              <View>
+                <TouchableNativeFeedback onPress={this._goToAssignChildScene}>
+                  <View>
+                    <Text style={ss.menuItemText}><Icon name="account-edit" color={Colours.spierWit} size={26} /> Assign Child</Text>
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+
+              <View>
+                <TouchableNativeFeedback onPress={this._goToUnassignChildScene}>
+                  <View>
+                    <Text style={ss.menuItemText}><Icon name="account-edit" color={Colours.spierWit} size={26} /> Unassign Child</Text>
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+
               <View style={ss.menuItemWrapperView} />
 
               <View>
@@ -305,6 +338,18 @@ export default class MainScene extends IMPComponent {
               <Button
                 text="Add Child"
                 onPress={() => this._goToAddChildScene()}
+                width={280}
+                height={50}
+              />
+              <Button
+                text="Assign Child"
+                onPress={this._goToAssignChildScene}
+                width={280}
+                height={50}
+              />
+              <Button
+                text="Unassign Child"
+                onPress={this._goToUnassignChildScene}
                 width={280}
                 height={50}
               />
