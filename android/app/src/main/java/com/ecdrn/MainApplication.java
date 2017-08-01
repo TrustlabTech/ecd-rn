@@ -1,7 +1,6 @@
 package com.ecdrn;
 
 import android.app.Application;
-import android.support.multidex.MultiDexApplication;
 
 import com.ecdrn.reactnative.ReactNativePackages;
 import com.facebook.react.ReactApplication;
@@ -16,7 +15,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends MultiDexApplication implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
