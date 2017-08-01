@@ -3,13 +3,6 @@ package com.ecdrn;
 import com.facebook.react.ReactActivity;
 import com.joshdholtz.sentry.Sentry;
 import android.os.Bundle;
-import android.content.pm.PackageManager;
-import android.content.pm.ApplicationInfo;
-import android.util.Log;
-
-import android.content.pm.PackageManager.NameNotFoundException;
-import java.lang.NullPointerException;
-import java.util.Set;
 
 public class MainActivity extends ReactActivity {
 
@@ -19,7 +12,7 @@ public class MainActivity extends ReactActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // We're gonna grab this from the manifest soon
-        Sentry.init(this,"<ECD_APP_SENTRY_DSN>",true);
+        Sentry.init(this,"https://8479770f5399479eaeac33c033fd179d:8d704b7b75d84896be7cbc1b398514d6@sentry.io/114660",true);
     }
 
     /**
