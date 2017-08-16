@@ -7,13 +7,11 @@
 
 'use-strict'
 
-/* base libs */
-import { combineReducers } from 'redux'
-/* functions/utils */
-import session from './session'
+// base libs
+import React, { Component } from 'react'
 
-const rootReducer = combineReducers({
-  session,
-})
-
-export default rootReducer
+export default class Placeholder extends Component {
+  render() {
+    return null
+  }
+}

@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
         applicationId "com.ecdrn"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName packageJson.version
@@ -76,7 +76,7 @@ android {
             renderscriptDebuggable false
             zipAlignEnabled true
             signingConfig signingConfigs.release
-            buildConfigField "String", "CODEPUSH_KEY", '"KPs6KpFqvtPaZPGJapQHukwAvS-41cf9f7cc-7c83-4ec7-a338-0af65ec6ceea"'
+            buildConfigField "String", "CODEPUSH_KEY", '"<ECD_APP_CODEPUSH_KEY_RELEASE>"'
         }
 
         staging {
@@ -88,7 +88,7 @@ android {
             renderscriptDebuggable false
             zipAlignEnabled true
             signingConfig signingConfigs.release
-            buildConfigField "String", "CODEPUSH_KEY", '"q812ZzmkHo-K_AH0BxuCvPeOSaky1cf9f7cc-7c83-4ec7-a338-0af65ec6ceea"'
+            buildConfigField "String", "CODEPUSH_KEY", '"<ECD_APP_CODEPUSH_KEY_STAGING>"'
         }
 
         debug {

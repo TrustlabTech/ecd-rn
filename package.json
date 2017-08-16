@@ -1,6 +1,6 @@
 {
   "name": "Ecd",
-  "version": "0.6.4",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -21,14 +21,16 @@
     "moment": "^2.17.1",
     "prop-types": "^15.5.10",
     "react": "^16.0.0-alpha.12",
-    "react-native": "^0.46.4",
-    "react-native-code-push": "^4.1.0-beta",
+    "react-native": "^0.47.1",
+    "react-native-check-box": "^2.0.0",
+    "react-native-code-push": "^5.0.0-beta",
     "react-native-datepicker": "^1.4.3",
-    "react-native-google-analytics-bridge": "^4.0.2",
+    "react-native-google-analytics-bridge": "^5.2.2",
     "react-native-navigation": "^1.1.159",
     "react-native-vector-icons": "^4.2.0",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
+    "redux-persist": "^4.8.3",
     "redux-thunk": "^2.2.0",
     "remote-redux-devtools": "^0.5.12",
     "remotedev-server": "^0.2.3"

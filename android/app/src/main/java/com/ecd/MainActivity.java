@@ -1,3 +1,10 @@
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
+ */
+
 package com.ecd;
 
 import android.graphics.Color;
@@ -44,7 +51,14 @@ public class MainActivity extends SplashActivity {
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        logo.setLayoutParams(layoutParams);
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 192, getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 192, getResources().getDisplayMetrics());
+
+        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height);
+        imageParams.gravity = Gravity.CENTER_HORIZONTAL;
+        imageParams.setMargins(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics()));
+
+        logo.setLayoutParams(imageParams);
         logo.setImageResource(R.drawable.splash);
 
         companyName.setLayoutParams(layoutParams);

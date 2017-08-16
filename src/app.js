@@ -2,7 +2,7 @@
  * Early Childhood Development App
  * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
- * @author Alberto Dallaporta <alberto@novalab.io>
+ * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
  //@flow
@@ -15,8 +15,11 @@ import codePush from 'react-native-code-push'
 import { Navigation } from 'react-native-navigation'
 // func/utils/consts
 import configureStore from './store/config'
+import { COLORS } from './constants'
 import registerScreens, {
-  SID_HOME_ROOT
+  SID_MANAGE,
+  SID_SETTINGS,
+  SID_ATTENDANCE,
 } from './screens'
 
 
@@ -29,38 +32,41 @@ export default (ICONS) => {
   registerScreens(store, Provider)
 
   const tabsStyle = {
+    tabBarButtonColor: COLORS.lightGrey2,
+    tabBarBackgroundColor: COLORS.white,
+    tabBarSelectedButtonColor: COLORS.brandFirst,
   }
-
+  
   const passProps = {
   }
 
   Navigation.startTabBasedApp({
     tabs: [
       {
-        label: 'Home',
-        title: 'Home',
-        screen: SID_HOME_ROOT,
-        icon: ICONS.home24,
-        selectedIcon: ICONS.home24,
+        label: 'Attendance',
+        title: 'Attendance',
+        screen: SID_ATTENDANCE,
+        icon: ICONS.dashboard24,
+        selectedIcon: ICONS.dashboard24,
       },
-      {
+      /*{
         label: 'History',
         title: 'History',
-        screen: SID_HOME_ROOT,
+        screen: SID_NULL,
         icon: ICONS.history24,
         selectedIcon: ICONS.history24,
-      },
+      },*/
       {
         label: 'Manage',
         title: 'Manage',
-        screen: SID_HOME_ROOT,
+        screen: SID_MANAGE,
         icon: ICONS.edit24,
         selectedIcon: ICONS.edit24,
       },
       {
         label: 'Settings',
         title: 'Settings',
-        screen: SID_HOME_ROOT,
+        screen: SID_SETTINGS,
         icon: ICONS.settings24,
         selectedIcon: ICONS.settings24,
       }

@@ -7,13 +7,11 @@
 
 'use-strict'
 
-/* base libs */
-import { combineReducers } from 'redux'
-/* functions/utils */
-import session from './session'
-
-const rootReducer = combineReducers({
-  session,
-})
-
-export default rootReducer
+export const setSession = (token, user, meta) => {
+  return {
+    type: 'LOGIN',
+    cache: false,
+    requireAuth: false,
+    payload: { token, user, meta }
+  }
+}

@@ -5,5 +5,7 @@ else
     cp -R cfg/prod.json cfg/runtime.json
 fi
 
-sed -i "s|<ECD_APP_SENTRY_DSN>|$ECD_APP_SENTRY_DSN|" android/app/src/main/java/com/ecdrn/MainActivity.java
+sed -i "s|<ECD_APP_FABRIC_KEY>|$ECD_APP_FABRIC_KEY|" android/app/src/main/AndroidManifest.xml
+sed -i "s|<ECD_APP_CODEPUSH_KEY_RELEASE>|$ECD_APP_CODEPUSH_KEY_RELEASE|" android/app/build.gradle
+sed -i "s|<ECD_APP_CODEPUSH_KEY_STAGING>|$ECD_APP_CODEPUSH_KEY_STAGING|" android/app/build.gradle
 # EOF

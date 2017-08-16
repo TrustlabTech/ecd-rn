@@ -1,3 +1,10 @@
+/**
+ * Early Childhood Development App
+ * @copyright 2016 Global Consent Ltd
+ * Civvals, 50 Seymour Street, London, England, W1H 7JG
+ * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
+ */
+
 package com.ecd.reactnative;
 
 import com.ecd.reactnative.crypto.ReactNativeEthereumCrypto;
@@ -12,11 +19,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class ReactNativePackages implements ReactPackage {
-    @Override
-    public List<Class<? extends JavaScriptModule>> createJSModules() {
-        return Collections.emptyList();
-    }
-
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();

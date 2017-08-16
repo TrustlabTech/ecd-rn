@@ -7,13 +7,4 @@
 
 'use-strict'
 
-/* base libs */
-import { combineReducers } from 'redux'
-/* functions/utils */
-import session from './session'
-
-const rootReducer = combineReducers({
-  session,
-})
-
-export default rootReducer
+export * from './session'

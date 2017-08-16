@@ -5,6 +5,20 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-import { loadIcons } from './src/constants'
-
-loadIcons().then(require('./src/app').default)
+export default {
+  session: {
+    user: {},
+    meta: {},
+    token: '',
+  },
+  api: {
+    home: {
+    },
+    history: {
+    },
+    manage: {
+    },
+    settings: {
+    }
+  },
+}
