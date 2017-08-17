@@ -100,7 +100,13 @@ class Home extends Component {
   }
 
   async goToLogin() {
-    const username = await AsyncStorage.getItem(AS_USERNAME)
+    let username = null
+    try {
+      username = await AsyncStorage.getItem(AS_USERNAME)
+    } catch (e) {
+      console.log(e)
+    }
+    
     this.props.navigator.showModal({
       title: 'Login',
       screen: SID_LOGIN,

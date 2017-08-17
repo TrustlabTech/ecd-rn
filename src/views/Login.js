@@ -79,7 +79,9 @@ class Login extends Component {
       return
     }
 
-    AsyncStorage.setItem(AS_USERNAME, username)
+    try {
+      AsyncStorage.setItem(AS_USERNAME, username)
+    } catch (e) { /* never mind */ }
 
     const
       { url, options } = API_LOGIN({ username, password }),
@@ -87,7 +89,6 @@ class Login extends Component {
 
     try {
       const response = await request.fetch(url, options)
-      console.log(Object.keys(response))
       this.props.setSession(response._token, response.user, response.meta)
       !this.props.navigator.dismissAllModals() && this.props.onLoginCompleted && this.props.onLoginCompleted()
     } catch (e) {

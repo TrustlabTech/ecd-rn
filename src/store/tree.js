@@ -11,14 +11,4 @@ export default {
     meta: {},
     token: '',
   },
-  api: {
-    home: {
-    },
-    history: {
-    },
-    manage: {
-    },
-    settings: {
-    }
-  },
 }

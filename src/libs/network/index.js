@@ -20,11 +20,10 @@ export class Request {
     this.returnParsedResponse = returnParsedResponse
   }
 
-  fetch = async (url, options) => {
+  async fetch(url, options) {
     console.log(url) // eslint-disable-line no-console
-    options.body && console.log(options.body) // eslint-disable-line no-console
     try {
-      this.response = await fetch(url, options)
+      this.response = await fetch(url, options) // eslint-disable-line no-undef
     } catch (e) {
       this.error = e
       console.log(e) // eslint-disable-line no-console
@@ -51,11 +50,11 @@ export class Request {
     }
   }
 
-  getResponse = () => {
+  getResponse() {
     return this.response
   }
 
-  getError = () => {
+  getError() {
     return this.error
   }
 }

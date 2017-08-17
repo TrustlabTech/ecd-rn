@@ -7,4 +7,4 @@
 
 import { loadIcons } from './src/constants'
 
-loadIcons().then(require('./src/app').default)
+loadIcons().then(require('./src/app').default).catch(console.log)

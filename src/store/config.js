@@ -17,16 +17,16 @@ import { createStore, applyMiddleware, compose } from 'redux'
 
 export default function configureStore(onComplete) {
   const enhancers = __DEV__ // eslint-disable-line no-undef
-  ? compose(applyMiddleware(thunk), devTools({
+  ? compose(applyMiddleware(thunk), autoRehydrate(), devTools({
     name: 'Ecd', realtime: true,
     hostname: 'localhost', port: 8082,
     maxAge: 30,
   }))
-  : compose(applyMiddleware(thunk), autoRehydrate)
+  : compose(applyMiddleware(thunk), autoRehydrate())
   
   const store = createStore(rootReducer, undefined, enhancers)
 
-  persistStore(store, { blacklist: ['api'], storage: AsyncStorage }, onComplete)
+  persistStore(store, { storage: AsyncStorage }, onComplete)
 
   return store
 }
