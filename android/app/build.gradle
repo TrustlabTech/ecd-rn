@@ -1,16 +1,6 @@
-import groovy.json.JsonSlurper
-
-def packageSlurper = new JsonSlurper()
-def packageJson = packageSlurper.parse file('../../package.json')
-def runtimeCfgJson = packageSlurper.parse file('../../cfg/runtime.json')
-
 apply plugin: "com.android.application"
 
 import com.android.build.OutputFile
-
-project.ext.vectoricons = [
-        iconFontNames: [ 'MaterialIcons.ttf', 'MaterialCommunityIcons.ttf' ]
-]
 
 apply plugin: 'io.fabric'
 apply from: "../../node_modules/react-native/react.gradle"
@@ -23,7 +13,7 @@ repositories {
 }
 
 def enableSeparateBuildPerCPUArchitecture = true
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 def enableProguardInDebugBuilds = false
 
 android {
@@ -37,8 +27,8 @@ android {
         applicationId "com.ecdrn"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName packageJson.version
+        versionCode 200
+        versionName "2.0.0"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -68,7 +58,6 @@ android {
     }
     buildTypes {
         release {
-            applicationIdSuffix runtimeCfgJson.UNSTABLE ? ".unstable" : ""
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             debuggable false
@@ -80,7 +69,6 @@ android {
         }
 
         staging {
-            applicationIdSuffix runtimeCfgJson.UNSTABLE ? ".unstable" : ""
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             debuggable false

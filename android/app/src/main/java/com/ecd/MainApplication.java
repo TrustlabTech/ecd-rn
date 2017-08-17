@@ -30,11 +30,11 @@ public class MainApplication extends NavigationApplication {
 
   // multidex support
   // https://developer.android.com/studio/build/multidex.html
-  /*@Override
+  @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     MultiDex.install(this);
-  */
+  }
 
   // code-push
   @Nullable

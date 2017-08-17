@@ -83,8 +83,11 @@ class Home extends Component {
 
   // TODO: put classes in store and pass through props
   async getClasses() {
+    const { session } = this.props
+    if (!session.token || !session.user)
+      return false
+
     const
-      { session } = this.props,
       { url, options } = GET_CLASSES(session.token, session.user.id),
       request = new Request()
     
