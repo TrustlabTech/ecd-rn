@@ -20,7 +20,7 @@ export class Request {
     this.returnParsedResponse = returnParsedResponse
   }
 
-  async fetch(url, options) {
+  async fetch(url, options, parseBody = true) {
     console.log(url) // eslint-disable-line no-console
     try {
       this.response = await fetch(url, options) // eslint-disable-line no-undef
@@ -40,6 +40,9 @@ export class Request {
       else
         throw new Excpetions.ServerErrorException()
     }
+
+    if (!parseBody)
+      return this.response
 
     try {
       this.parsedResponse = await this.response.json()

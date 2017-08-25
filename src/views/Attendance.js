@@ -24,10 +24,10 @@ import List from '../components/List'
 import Button from '../components/Button'
 // libs/functions
 import Crypto from '../libs/Crypto'
-import { Request, UnauthorizedException } from '../libs/network'
+import { Request, UNAUTHORIZED } from '../libs/network'
 // constants
 import { SID_LOGIN, SID_TAKE_ATTENDANCE } from '../screens'
-import { ICONS, COLORS, VERIFY_DID, GET_CLASSES, AS_USERNAME } from '../constants' 
+import { ICONS, COLORS, VERIFY_TOKEN, GET_CLASSES, AS_USERNAME } from '../constants' 
 
 class Home extends Component {
   constructor(props) {
@@ -36,6 +36,7 @@ class Home extends Component {
     this.state = {
       error: '',
       classes: [],
+      isLoggingIn: false,
     }
 
     this.getClasses = this.getClasses.bind(this)
@@ -63,19 +64,21 @@ class Home extends Component {
   async loginIfRequired() {
     const { session } = this.props
     if (!session.token || !session.user) {
+      this.setState({ isLoggingIn: true })
       return this.goToLogin()
     }
     
     // dummy (and cheap) endpoint for verifying token's validity
     // FIXME: use the right endpoint when it gets deployed
     const
-      { url, options } = VERIFY_DID(session.token, '0x8c63ca92b376ffdb7ff302c15abc27baa83af0d5'),
+      { url, options } = VERIFY_TOKEN(session.token),
       request = new Request()
 
     try {
-      return await request.fetch(url, options)
+      return await request.fetch(url, options, false)
     } catch (e) {
-      if (e instanceof UnauthorizedException) {
+      if (e.name === UNAUTHORIZED) {
+        this.setState({ isLoggingIn: true })
         return await this.goToLogin()
       }
     }
@@ -116,7 +119,12 @@ class Home extends Component {
       },
       passProps: {
         username: username || '',
-        onLoginCompleted: this.getClasses
+        onLoginCompleted: () => {
+          if (this.state.isLoggingIn)
+            this.setState({ isLoggingIn: false }, this.getClasses)
+          else
+            this.getClasses()
+        }
       },
       overrideBackPress: true,
     })
@@ -152,8 +160,7 @@ class Home extends Component {
   render() {
     const { session } = this.props
 
-    // login modal is open
-    if (!session.user || !session.token)
+    if (this.state.isLoggingIn)
       return null
 
     return (

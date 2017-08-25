@@ -46,6 +46,6 @@ Selector.defaultProps = {
 Selector.propTypes = {
   items: PropTypes.array,
   onValueChange: PropTypes.func,
-  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]),
   pickerLabelDataAttribute: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
 }

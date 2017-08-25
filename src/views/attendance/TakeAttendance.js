@@ -119,22 +119,10 @@ export default class Attendance extends Component {
     
     try {
       const children = await request.fetch(url, options)
-      this.setState({ children })
+      this.setState({ children: children.map(c => ({ ...c, checked: true })) })
     } catch (e) {
       this.setState({ error: e.message })
     }
-  }
-
-  renderItem({ item, index }) {
-    return (
-      <View style={styles.rowContainer}>
-        <View>
-          <Text style={styles.rowTextTitle}>{item.given_name} {item.family_name}</Text>
-          <Text style={styles.rowTextDesc}>ID: {item.id_number ? item.id_number : 'N/D'}</Text>
-        </View>
-        <CheckBox checkBoxColor={COLORS.darkGrey2} isChecked={!!item.checked} onClick={() => this.toggleChildSelection(item, index)} />
-      </View>
-    )
   }
 
   toggleChildSelection(item, index) {
@@ -143,15 +131,7 @@ export default class Attendance extends Component {
     // flatlist need a new object for being able to re-render
     newState.children = [...this.state.children]
 
-    if (this.state.present[item.id]) {
-      item.checked = false
-      delete newState.present[item.id]
-      newState.children[index].checked = false
-    } else {
-      item.checked = true
-      newState.present[item.id] = item
-      newState.children[index].checked = true
-    }
+    newState.children[index].checked = !this.state.children[index].checked
 
     this.setState(newState)
   }
@@ -159,7 +139,7 @@ export default class Attendance extends Component {
   confirmSubmit() {
     Alert.alert(
       'Confirmation',
-      `Are you sure you want to submit attendance with ${Object.keys(this.state.present).length} of ${this.state.children.length} children present?`,
+      `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
       [
         { text: 'Cancel' },
         { text: 'Proceed', onPress: this.takeAttendance },
@@ -180,7 +160,7 @@ export default class Attendance extends Component {
       return false
     }
 
-    const attendanceData = Object.values(this.state.present).map(d => ({
+    const attendanceData = this.state.children.map(d => ({
       children_id: d.id, // eslint-disable-line camelcase
       latitude: location.coords.latitude.toString(),
       longitude: location.coords.longitude.toString(),
@@ -309,6 +289,18 @@ export default class Attendance extends Component {
     }
   }
 
+  renderItem({ item, index }) {
+    return (
+      <View style={styles.rowContainer}>
+        <View>
+          <Text style={styles.rowTextTitle}>{item.given_name} {item.family_name}</Text>
+          <Text style={styles.rowTextDesc}>ID: {item.id_number ? item.id_number : 'N/D'}</Text>
+        </View>
+        <CheckBox checkBoxColor={COLORS.darkGrey2} isChecked={!!item.checked} onClick={() => this.toggleChildSelection(item, index)} />
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container} collapsable={true}>
@@ -319,7 +311,7 @@ export default class Attendance extends Component {
             <Text style={styles.infoText}>{this.state.children.length} Children</Text>
           </View>
           <View style={styles.infoInnerContainer} collapsable={true}>
-            <Text style={styles.infoText}>{Object.keys(this.state.present).length} Present</Text>
+            <Text style={styles.infoText}>{this.state.children.filter(f => !!f.checked).length} Present</Text>
             <Image source={ICONS.checkBox20} style={[styles.infoIcon, { marginLeft: 5, }]} resizeMode={'contain'} />
           </View>
         </View>
@@ -329,7 +321,6 @@ export default class Attendance extends Component {
           data={this.state.children}
           renderItem={this.renderItem}
           showsVerticalScrollIndicator={false}
-          extraData={this.state.present.length}
           /*ListHeaderComponent={<Text style={styles.headerText}>Children</Text>}*/ />
         
         {

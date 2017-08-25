@@ -18,6 +18,7 @@ import configureStore from './store/config'
 import { COLORS } from './constants'
 import registerScreens, {
   SID_MANAGE,
+  SID_HISTORY,
   SID_SETTINGS,
   SID_ATTENDANCE,
 } from './screens'
@@ -49,13 +50,13 @@ export default (ICONS) => {
         icon: ICONS.dashboard24,
         selectedIcon: ICONS.dashboard24,
       },
-      /*{
+      {
         label: 'History',
         title: 'History',
-        screen: SID_NULL,
+        screen: SID_HISTORY,
         icon: ICONS.history24,
         selectedIcon: ICONS.history24,
-      },*/
+      },
       {
         label: 'Manage',
         title: 'Manage',
