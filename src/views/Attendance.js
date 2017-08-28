@@ -160,7 +160,7 @@ class Home extends Component {
   render() {
     const { session } = this.props
 
-    if (this.state.isLoggingIn)
+    if (this.state.isLoggingIn || !session.token || !session.user)
       return null
 
     return (
