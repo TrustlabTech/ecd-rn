@@ -48,6 +48,10 @@ class Settings extends Component {
       overrideBackPress: true,
     })
     this.props.setSession()
+    
+    setTimeout(() => {
+      this.props.navigator.switchToTab({ tabIndex: 0 })
+    }, 500)
   }
 
   render() {

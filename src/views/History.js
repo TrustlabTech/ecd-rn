@@ -41,12 +41,18 @@ class History extends Component {
   }
 
   componentDidMount() {
-    this.getClasses()
+    this.getClasses(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // needed for triggering a re-render after login
+    if (this.props.session.token !== nextProps.session.token)
+      this.getClasses(nextProps)
   }
 
   // TODO: put classes in store and pass through props
-  async getClasses() {
-    const { session } = this.props
+  async getClasses(props) {
+    const { session } = props
     if (!session.token || !session.user)
       return false
 

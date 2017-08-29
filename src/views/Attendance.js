@@ -27,7 +27,7 @@ import Crypto from '../libs/Crypto'
 import { Request, UNAUTHORIZED } from '../libs/network'
 // constants
 import { SID_LOGIN, SID_TAKE_ATTENDANCE } from '../screens'
-import { ICONS, COLORS, VERIFY_TOKEN, GET_CLASSES, AS_USERNAME } from '../constants' 
+import { ICONS, COLORS, VERIFY_TOKEN, GET_CLASSES, AS_USERNAME } from '../constants'
 
 class Home extends Component {
   constructor(props) {
@@ -36,7 +36,6 @@ class Home extends Component {
     this.state = {
       error: '',
       classes: [],
-      isLoggingIn: false,
     }
 
     this.getClasses = this.getClasses.bind(this)
@@ -47,7 +46,13 @@ class Home extends Component {
   componentDidMount() {
     this.loginIfRequired()
     this.keypairExistOrCreate()
-    this.getClasses()
+    this.getClasses(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // needed for triggering a re-render after login
+    if (this.props.session.token !== nextProps.session.token)
+      this.getClasses(nextProps)
   }
 
   // TODO: dialog for password input
@@ -63,10 +68,8 @@ class Home extends Component {
 
   async loginIfRequired() {
     const { session } = this.props
-    if (!session.token || !session.user) {
-      this.setState({ isLoggingIn: true })
+    if (!session.token || !session.user)
       return this.goToLogin()
-    }
     
     // dummy (and cheap) endpoint for verifying token's validity
     // FIXME: use the right endpoint when it gets deployed
@@ -77,16 +80,14 @@ class Home extends Component {
     try {
       return await request.fetch(url, options, false)
     } catch (e) {
-      if (e.name === UNAUTHORIZED) {
-        this.setState({ isLoggingIn: true })
+      if (e.name === UNAUTHORIZED)
         return await this.goToLogin()
-      }
     }
   }
 
   // TODO: put classes in store and pass through props
-  async getClasses() {
-    const { session } = this.props
+  async getClasses(props) {
+    const { session } = props
     if (!session.token || !session.user)
       return false
 
@@ -119,12 +120,7 @@ class Home extends Component {
       },
       passProps: {
         username: username || '',
-        onLoginCompleted: () => {
-          if (this.state.isLoggingIn)
-            this.setState({ isLoggingIn: false }, this.getClasses)
-          else
-            this.getClasses()
-        }
+        onLoginCompleted: () => false
       },
       overrideBackPress: true,
     })
@@ -160,7 +156,7 @@ class Home extends Component {
   render() {
     const { session } = this.props
 
-    if (this.state.isLoggingIn || !session.token || !session.user)
+    if (!session.token || !session.user)
       return null
 
     return (
