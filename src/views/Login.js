@@ -74,10 +74,10 @@ class Login extends Component {
   async onButtonPress() {
     const { username, password } = this.state
 
-    if (!username.match(/^0[0-9]{9,}$/)) {
-      this.setState({ formError: 'Invalid username format' })
-      return
-    }
+    // if (!username.match(/^0[0-9]{9,}$/)) {
+    //   this.setState({ formError: 'Invalid username format' })
+    //   return
+    // }
 
     try {
       AsyncStorage.setItem(AS_USERNAME, username)
