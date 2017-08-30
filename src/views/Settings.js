@@ -23,7 +23,14 @@ import Button from '../components/Button'
 // redux actions
 import { setSession } from '../actions'
 // constants
-import { ICONS, COLORS, AS_USERNAME } from '../constants' 
+import {
+  ICONS,
+  COLORS,
+  API_HOST,
+  AS_USERNAME,
+  APP_VERSION,
+  BUNDLE_VERSION,
+} from '../constants' 
 import { SID_LOGIN } from '../screens'
 
 class Settings extends Component {
@@ -62,6 +69,10 @@ class Settings extends Component {
           <Text style={styles.buttonTextTitle}>Logout</Text>
           <Image source={ICONS.exitToApp12} style={styles.rowImage} />
         </Button>
+        <View style={styles.appInfoContainer}>
+          <Text style={styles.appInfoText}>{APP_VERSION} ({BUNDLE_VERSION})</Text>
+          <Text style={styles.appInfoText}>{API_HOST}</Text>
+        </View>
       </View>
     )
   }
@@ -95,7 +106,23 @@ const styles = StyleSheet.create({
   rowImage: {
     width: 12,
     height: 12,
-  }
+  },
+  appInfoContainer: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute',
+    flexDirection: 'row',
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    backgroundColor: COLORS.white,
+    justifyContent: 'space-between',
+  },
+  appInfoText: {
+    fontSize: 12,
+    fontWeight: '300',
+    color: COLORS.grey,
+  },
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -10,7 +10,7 @@ const DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 }
 
-const
+export const
   API_SCHEMA = 'http',
   API_HOST = 'api.amply.tech',
   API_ROOT = `${API_SCHEMA}://${API_HOST}`,
