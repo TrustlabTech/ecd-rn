@@ -11,4 +11,7 @@ export default {
     meta: {},
     token: '',
   },
+  offline: {
+    attendences: []
+  },
 }

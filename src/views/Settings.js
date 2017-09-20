@@ -61,6 +61,10 @@ class Settings extends Component {
     }, 500)
   }
 
+  onSyncPress() {
+    // sync the offline data attendeces
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -68,6 +72,10 @@ class Settings extends Component {
         <Button style={styles.button} nativeFeedback={true} onPress={this.onLogoutPress}>
           <Text style={styles.buttonTextTitle}>Logout</Text>
           <Image source={ICONS.exitToApp12} style={styles.rowImage} />
+        </Button>
+        <Button style={styles.button} nativeFeedback={true} onPress={this.onSyncPress}>
+          <Text style={styles.buttonTextTitle}>Sync</Text>
+          <Image source={ICONS.sync12} style={styles.rowImage} />
         </Button>
         <View style={styles.appInfoContainer}>
           <Text style={styles.appInfoText}>{APP_VERSION} ({BUNDLE_VERSION})</Text>

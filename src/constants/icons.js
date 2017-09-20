@@ -25,6 +25,7 @@ export const loadIcons = async () => {
   ICONS.navigateRight12 = await MIcons.getImageSource('chevron-right', 12, COLORS.lightGrey2)
   
   // misc
+  ICONS.sync12 = await MIcons.getImageSource('sync', 12, COLORS.lightGrey2)
   ICONS.home20 = await MIcons.getImageSource('home', 20, COLORS.darkGrey2)
   ICONS.person20 = await MIcons.getImageSource('person', 20, COLORS.darkGrey2)
   ICONS.people20 = await MIcons.getImageSource('people', 20, COLORS.darkGrey2)

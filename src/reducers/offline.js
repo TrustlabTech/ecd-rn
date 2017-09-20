@@ -3,6 +3,7 @@
  * @copyright 2016 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
+ * @author Leonardo Lusoli <leonardo.lusoli@novalab.io>
  */
 
 'use-strict'
@@ -10,17 +11,21 @@
 import tree from '../store/tree'
 import { REHYDRATE } from 'redux-persist/constants'
 
-export default (state = tree.session, action) => {
+export default (state = tree.offline, action) => {
   switch (action.type) {
-    case 'LOGIN': // eslint-disable-line
+    case 'STORE_ATTENDENCE': // eslint-disable-line
+
       return { // eslint-disable-line
       ...state,
-      ...action.payload,
+      attendeces: [
+        ...state.attendences,
+        action.payload.attendance,
+      ]
     }
     case REHYDRATE: { // eslint-disable-line
       return { // eslint-disable-line
       ...state,
-      ...action.payload.session,
+      offline: action.payload.offline,
     }
   }
     default: // eslint-disable-line
