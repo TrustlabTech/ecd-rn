@@ -22,10 +22,10 @@ android {
 
     defaultConfig {
         applicationId "com.ecdrn"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 25
-        versionCode 200
-        versionName "2.0.0"
+        versionCode 201
+        versionName "2.0.1"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -92,7 +92,7 @@ android {
 }
 
 dependencies {
-    //compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.1'
     compile "com.facebook.react:react-native:+"
     compile project(':react-native-code-push')
     compile project(':react-native-navigation')

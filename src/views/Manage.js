@@ -34,8 +34,8 @@ class Manage extends Component {
 
     this.childActions = [
       { id: 0, text: 'Create', desc: 'Create new child', navTitle: 'Create Child', navScreen: SID_CHILD_ADD },
-      { id: 1, text: 'Assign', desc: 'Assign child to a class', navTitle: 'Assign Child', navScreen: SID_CHILD_ASSIGN },
-      { id: 2, text: 'Unassign', desc: 'Unassign child from a class', navTitle: 'Unassing Child', navScreen: SID_CHILD_UNASSIGN }
+      { id: 1, text: 'Assign', desc: 'Assign child to a class', navTitle: 'Assigning Child', navScreen: SID_CHILD_ASSIGN },
+      { id: 2, text: 'Unassign', desc: 'Unassign child from a class', navTitle: 'Unassigning Child', navScreen: SID_CHILD_UNASSIGN }
     ]
   }
 
