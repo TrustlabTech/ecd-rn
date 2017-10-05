@@ -25,6 +25,7 @@ import Button from '../components/Button'
 // libs/functions
 import Crypto from '../libs/Crypto'
 import { Request, UNAUTHORIZED } from '../libs/network'
+import { storeAttendeceLocally } from '../actions'
 // constants
 import { SID_LOGIN, SID_TAKE_ATTENDANCE } from '../screens'
 import { ICONS, COLORS, VERIFY_TOKEN, GET_CLASSES, AS_USERNAME } from '../constants'
@@ -149,6 +150,7 @@ class Home extends Component {
       passProps: {
         classObj: item,
         session: this.props.session,
+        storeAttendeceLocally: this.props.storeAttendeceLocally,
       }
     })
   }
@@ -197,6 +199,7 @@ class Home extends Component {
 Home.propTypes = {
   session: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  storeAttendeceLocally: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -266,10 +269,16 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeAttendeceLocally: (attendence) => dispatch(storeAttendeceLocally(attendence))
+  }
+}
+
 const mapStoreToProps = (store) => {
   return {
     session: store.session,
   }
 }
 
-export default connect(mapStoreToProps)(Home)
+export default connect(mapStoreToProps, mapDispatchToProps)(Home)

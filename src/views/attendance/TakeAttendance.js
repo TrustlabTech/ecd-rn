@@ -18,6 +18,7 @@ import {
   Text,
   Alert,
   Image,
+  NetInfo,
   StyleSheet,
   ToastAndroid,
   ActivityIndicator,
@@ -78,6 +79,7 @@ export default class Attendance extends Component {
       error: '',
       present: {},
       children: [],
+      isConnected: false,
       loadingChildren: false,
       submittingAttendance: false,
     }
@@ -90,6 +92,28 @@ export default class Attendance extends Component {
   componentDidMount() {
     this.getChildren()
     this.verifyLocationPermissions()
+
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      this.handleConnectionInfoChange
+    )
+
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { this.setState({ isConnected }) }
+    )
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectivityChange
+    )
+  }
+
+  handleConnectionInfoChange = (isConnected) => {
+    this.setState({
+      isConnected,
+    })
   }
 
   async verifyLocationPermissions() {
@@ -166,7 +190,7 @@ export default class Attendance extends Component {
       longitude: location.coords.longitude.toString(),
       attended: d.checked || false
     }))
-
+    
     const
       request = new Request(),
       { session, classObj } = this.props,
@@ -175,7 +199,18 @@ export default class Attendance extends Component {
         centre_class_id: classObj.id, // eslint-disable-line camelcase
         centre_id: classObj.centre_id, // eslint-disable-line camelcase
       })
-    
+
+    // check the net status of the app
+    if (!this.state.isConnected) {
+      Alert.alert('Device Offline', 'Please, find a network conncection to send data to our systems.')
+      this.props.storeAttendeceLocally({
+        children: attendanceData,
+        centre_class_id: classObj.id, // eslint-disable-line camelcase
+        centre_id: classObj.centre_id, // eslint-disable-line camelcase
+      })
+      return false
+    }
+  
     try {
       await request.fetch(url, options)
     } catch (e) {
@@ -343,6 +378,7 @@ Attendance.propTypes = {
   session: PropTypes.object.isRequired,
   classObj: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  storeAttendeceLocally: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({

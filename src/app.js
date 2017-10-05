@@ -23,7 +23,6 @@ import registerScreens, {
   SID_ATTENDANCE,
 } from './screens'
 
-
 export default (ICONS) => {
   // enable LayoutAnimation on Android
   // https://facebook.github.io/react-native/docs/layoutanimation.html
