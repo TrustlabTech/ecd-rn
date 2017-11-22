@@ -84,6 +84,8 @@ export default class Attendance extends Component {
       submittingAttendance: false,
     }
 
+    this.abort = false
+
     this.renderItem = this.renderItem.bind(this)
     this.confirmSubmit = this.confirmSubmit.bind(this)
     this.takeAttendance = this.takeAttendance.bind(this)
@@ -99,19 +101,20 @@ export default class Attendance extends Component {
     )
 
     NetInfo.isConnected.fetch().done(
-      (isConnected) => { this.setState({ isConnected }) }
+      (isConnected) => { !this.abort && this.setState({ isConnected }) }
     )
   }
 
   componentWillUnmount() {
+    this.abort = true
     NetInfo.isConnected.removeEventListener(
       'connectionChange',
-      this.handleConnectivityChange
+      this.handleConnectionInfoChange
     )
   }
 
   handleConnectionInfoChange = (isConnected) => {
-    this.setState({
+    !this.abort && this.setState({
       isConnected,
     })
   }
@@ -143,9 +146,9 @@ export default class Attendance extends Component {
     
     try {
       const children = await request.fetch(url, options)
-      this.setState({ children: children.map(c => ({ ...c, checked: true })) })
+      !this.abort && this.setState({ children: children.map(c => ({ ...c, checked: true })) })
     } catch (e) {
-      this.setState({ error: e.message })
+      !this.abort && this.setState({ error: e.message })
     }
   }
 

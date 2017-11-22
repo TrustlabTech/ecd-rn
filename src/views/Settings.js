@@ -84,6 +84,8 @@ class Settings extends Component {
       submittingAttendance: false
     }
 
+    this.abort = false
+
     this.getLocation = this.getLocation.bind(this)
     this.onSyncPress = this.onSyncPress.bind(this)
     this.onLogoutPress = this.onLogoutPress.bind(this)
@@ -100,7 +102,15 @@ class Settings extends Component {
     )
 
     NetInfo.isConnected.fetch().done(
-      (isConnected) => { this.setState({ isConnected }) }
+      (isConnected) => { !this.abort && this.setState({ isConnected }) }
+    )
+  }
+
+  componentWillUnmount() {
+    this.abort = true
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionInfoChange
     )
   }
 
@@ -125,13 +135,6 @@ class Settings extends Component {
     }, 500)
   }
 
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectivityChange
-    )
-  }
-
   handleConnectionInfoChange = (isConnected) => {
     this.setState({
       isConnected,
@@ -141,7 +144,7 @@ class Settings extends Component {
   onSyncPress() {
     Alert.alert(
       'Confirmation',
-      `Are you sure to sync the attendaces data?`,
+      'Are you sure to sync the attendaces data?',
       [
         { text: 'Cancel' },
         { text: 'Proceed', onPress: this.takeAttendances },
