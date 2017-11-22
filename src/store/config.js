@@ -26,7 +26,7 @@ export default function configureStore(onComplete) {
   
   const store = createStore(rootReducer, undefined, enhancers)
 
-  persistStore(store, { storage: AsyncStorage }, onComplete)
+  persistStore(store, { storage: AsyncStorage }, onComplete) // .purge()
 
   return store
 }

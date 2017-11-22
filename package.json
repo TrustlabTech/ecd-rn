@@ -23,7 +23,7 @@
     "react": "16.0.0-alpha.12",
     "react-native": "^0.47.1",
     "react-native-check-box": "^2.0.0",
-    "react-native-code-push": "^5.0.0-beta",
+    "react-native-code-push": "^5.2.0-beta",
     "react-native-datepicker": "^1.4.3",
     "react-native-google-analytics-bridge": "^5.2.2",
     "react-native-navigation": "^1.1.159",

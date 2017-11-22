@@ -11,9 +11,11 @@
 import { combineReducers } from 'redux'
 /* functions/utils */
 import session from './session'
+import offline from './offline'
 
 const rootReducer = combineReducers({
   session,
+  offline,
 })
 
 export default rootReducer

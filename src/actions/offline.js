@@ -8,11 +8,17 @@
 
 'use-strict'
 
-export const storeAttendeceLocally = (attendence) => {
+export const storeAttendanceLocally = (attendance) => {
   return {
-    type: 'STORE_ATTENDENCE',
+    type: 'STORE_ATTENDANCE',
     payload: {
-      attendence
+      attendance
     }
+  }
+}
+
+export const removeAttendancesLocally = () => {
+  return {
+    type: 'REMOVE_ATTENDANCES'
   }
 }

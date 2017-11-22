@@ -8,3 +8,4 @@
 'use-strict'
 
 export * from './session'
+export * from './offline'

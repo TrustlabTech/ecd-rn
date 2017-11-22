@@ -202,8 +202,10 @@ export default class Attendance extends Component {
 
     // check the net status of the app
     if (!this.state.isConnected) {
-      Alert.alert('Device Offline', 'Please, find a network conncection to send data to our systems.')
-      this.props.storeAttendeceLocally({
+      this.setState({ submittingAttendance: false }, () => {
+        Alert.alert('Device Offline', 'Please, find a network conncection to send data to our systems.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+      })
+      this.props.storeAttendanceLocally({
         children: attendanceData,
         centre_class_id: classObj.id, // eslint-disable-line camelcase
         centre_id: classObj.centre_id, // eslint-disable-line camelcase
@@ -309,7 +311,7 @@ export default class Attendance extends Component {
 
     // submit the verifiable claims to api v2
     try {
-      await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
+      const res = await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
 
       this.setState({ submittingAttendance: false }, () => {
         ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
@@ -374,11 +376,12 @@ export default class Attendance extends Component {
     )
   }
 }
+
 Attendance.propTypes = {
   session: PropTypes.object.isRequired,
   classObj: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
-  storeAttendeceLocally: PropTypes.func.isRequired,
+  storeAttendanceLocally: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({

@@ -12,6 +12,6 @@ export default {
     token: '',
   },
   offline: {
-    attendences: []
+    attendances: []
   },
 }

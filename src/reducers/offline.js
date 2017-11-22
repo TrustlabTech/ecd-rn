@@ -13,21 +13,28 @@ import { REHYDRATE } from 'redux-persist/constants'
 
 export default (state = tree.offline, action) => {
   switch (action.type) {
-    case 'STORE_ATTENDENCE': // eslint-disable-line
+    case 'STORE_ATTENDANCE': // eslint-disable-line
 
       return { // eslint-disable-line
-      ...state,
-      attendeces: [
-        ...state.attendences,
-        action.payload.attendance,
-      ]
-    }
+        ...state,
+        attendances: [
+          ...state.attendances,
+          action.payload.attendance,
+        ]
+      }
+
+    case 'REMOVE_ATTENDANCES': // eslint-disable-line
+    
+      return { // eslint-disable-line
+        attendances: []
+      }
+
     case REHYDRATE: { // eslint-disable-line
       return { // eslint-disable-line
-      ...state,
-      offline: action.payload.offline,
+        ...action.payload.offline,
+      }
     }
-  }
+
     default: // eslint-disable-line
       return state || {} // eslint-disable-line
   }
