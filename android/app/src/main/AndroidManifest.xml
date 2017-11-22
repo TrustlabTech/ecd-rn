@@ -25,6 +25,6 @@
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="ed88e951f5392d4ee8b2acda10dcad788e0322fc" />
+            android:value="<AMPLYECD_APP_FABRIC_KEY>" />
     </application>
 </manifest>
