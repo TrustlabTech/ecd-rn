@@ -136,7 +136,7 @@ class Settings extends Component {
   }
 
   handleConnectionInfoChange = (isConnected) => {
-    this.setState({
+    !this.abort && this.setState({
       isConnected,
     })
   }

@@ -18,6 +18,7 @@ import {
   Alert,
   StyleSheet,
   AsyncStorage,
+  TouchableNativeFeedback,
 } from 'react-native'
 // components / views
 import List from '../components/List'
@@ -185,6 +186,15 @@ class Home extends Component {
             <Image source={ICONS.peopleOutline20} style={[styles.infoIcon, { marginLeft: 5 }]} resizeMode={'contain'} />
           </View>
         </View>
+
+        {this.props.offlineAttendances.length !== 0 && (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={styles.attendancesWaiting}>Attendances waiting to be taken. </Text>
+            <TouchableNativeFeedback onPress={() => this.props.navigator.switchToTab({ tabIndex: 3 })}>
+              <Text style={[styles.attendancesWaiting, { textDecorationLine: 'underline' }]}>Go to Setting for sync</Text>
+            </TouchableNativeFeedback>
+          </View>
+        )}
         
         <List
           style={styles.list}
@@ -199,6 +209,7 @@ class Home extends Component {
 Home.propTypes = {
   session: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  offlineAttendances: PropTypes.array.isRequired,
   storeAttendanceLocally: PropTypes.func.isRequired,
 }
 
@@ -234,6 +245,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: COLORS.darkGrey2,
+  },
+  attendancesWaiting: {
+    fontSize: 14,
+    color: 'red',
+    fontWeight: 'bold',
+    paddingVertical: 4,
   },
   list: {
     flex: 1,
@@ -278,6 +295,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStoreToProps = (store) => {
   return {
     session: store.session,
+    offlineAttendances: store.offline.attendances
   }
 }
 
