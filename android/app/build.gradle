@@ -58,13 +58,13 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            buildConfigField "String", "CODEPUSH_KEY", '"<ECD_APP_CODEPUSH_KEY_RELEASE>"'
+            buildConfigField "String", "CODEPUSH_KEY", '"<CODEPUSH_AMPLYECD_PRODUCTION>"'
         }
 
         staging {
             initWith(buildTypes.release)
             applicationIdSuffix ".staging"
-            buildConfigField "String", "CODEPUSH_KEY", '"<ECD_APP_CODEPUSH_KEY_STAGING>"'
+            buildConfigField "String", "CODEPUSH_KEY", '"<CODEPUSH_AMPLYECD_STAGING>"'
         }
 
         debug {
