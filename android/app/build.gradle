@@ -21,7 +21,7 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        applicationId "foundation.ixo.amply.foundation.ixo.amply.ecd.app"
+        applicationId "foundation.ixo.amply.ecd.app"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 201
@@ -33,10 +33,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('ECDRN.keystore')
-            storePassword 'shantaram'
-            keyAlias 'ECDRN_RELEASE'
-            keyPassword 'shantaram'
+            storeFile file(AMPLY_ECD_PRODUCTION_KEYSTORE_FILE)
+            storePassword AMPLY_ECD_PRODUCTION_KEYSTORE_PWD
+            keyAlias AMPLY_ECD_PRODUCTION_KEYALIAS
+            keyPassword AMPLY_ECD_PRODUCTION_KEYPWD
         }
         debug {
             storeFile file('ECDRN.keystore')
