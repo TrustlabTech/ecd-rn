@@ -1,6 +1,6 @@
 {
   "name": "Ecd",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -26,7 +26,7 @@
     "react-native-vector-icons": "^4.4.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-persist": "^5.4.0",
+    "redux-persist": "^4.8.3",
     "redux-thunk": "^2.2.0",
     "remote-redux-devtools": "^0.5.12",
     "remotedev-server": "^0.2.4"

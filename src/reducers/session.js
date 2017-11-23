@@ -12,18 +12,18 @@ import { REHYDRATE } from 'redux-persist/constants'
 
 export default (state = tree.session, action) => {
   switch (action.type) {
-    case 'LOGIN': // eslint-disable-line
-      return { // eslint-disable-line
+    case 'LOGIN':
+      return {
       ...state,
       ...action.payload,
     }
-    case REHYDRATE: { // eslint-disable-line
-      return { // eslint-disable-line
+    case REHYDRATE: {
+      return {
       ...state,
       ...action.payload.session,
     }
   }
-    default: // eslint-disable-line
-      return state || {} // eslint-disable-line
+    default:
+      return state || {}
   }
 }
