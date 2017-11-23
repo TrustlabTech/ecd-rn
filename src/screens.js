@@ -25,20 +25,20 @@ import UnassignChild from './views/manage/UnassignChild'
 import TakeAttendance from './views/attendance/TakeAttendance'
 
 export const
-  SID_NULL = 'com.ecd.null',
+  SID_NULL = 'foundation.ixo.amply.ecd.null',
   // modals
-  SID_LOGIN = 'com.ecd.login',
+  SID_LOGIN = 'foundation.ixo.amply.ecd.login',
   // tabbar roots
-  SID_ATTENDANCE = 'com.ecd.attendance',
-  SID_MANAGE = 'com.ecd.manage',
-  SID_HISTORY = 'com.ecd.history',
-  SID_SETTINGS = 'com.ecd.settings',
+  SID_ATTENDANCE = 'foundation.ixo.amply.ecd.attendance',
+  SID_MANAGE = 'foundation.ixo.amply.ecd.manage',
+  SID_HISTORY = 'foundation.ixo.amply.ecd.history',
+  SID_SETTINGS = 'foundation.ixo.amply.ecd.settings',
   // views
-  SID_TAKE_ATTENDANCE = 'com.ecd.take-attendance',
-  SID_CHILD_ADD = 'com.ecd.child-add',
-  SID_CHILD_ASSIGN = 'com.ecd.child-assign',
-  SID_CHILD_UNASSIGN = 'com.ecd.child-unassign',
-  SID_HISTORY_LIST = 'com.ecd.history-list'
+  SID_TAKE_ATTENDANCE = 'foundation.ixo.amply.ecd.take-attendance',
+  SID_CHILD_ADD = 'foundation.ixo.amply.ecd.child-add',
+  SID_CHILD_ASSIGN = 'foundation.ixo.amply.ecd.child-assign',
+  SID_CHILD_UNASSIGN = 'foundation.ixo.amply.ecd.child-unassign',
+  SID_HISTORY_LIST = 'foundation.ixo.amply.ecd.history-list'
 
 export default (store, Provider) => {
   // modals

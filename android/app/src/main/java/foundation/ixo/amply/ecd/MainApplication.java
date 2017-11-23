@@ -5,13 +5,12 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package com.ecd;
+package foundation.ixo.amply.ecd;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 
-import com.ecd.reactnative.ReactNativePackages;
 import com.facebook.react.ReactPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -21,11 +20,13 @@ import com.reactnativenavigation.NavigationApplication;
 import java.util.Arrays;
 import java.util.List;
 
+import foundation.ixo.amply.ecd.reactnative.ReactNativePackages;
+
 public class MainApplication extends NavigationApplication {
 
   @Override
   public boolean isDebug() {
-    return BuildConfig.DEBUG;
+    return foundation.ixo.amply.ecd.BuildConfig.DEBUG;
   }
 
   // multidex support

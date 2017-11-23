@@ -1,4 +1,4 @@
-package com.ecd.reactnative.crypto.util;
+package foundation.ixo.amply.ecd.reactnative.crypto.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

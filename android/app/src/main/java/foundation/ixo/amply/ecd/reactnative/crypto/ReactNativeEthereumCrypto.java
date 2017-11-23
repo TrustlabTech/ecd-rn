@@ -5,7 +5,7 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package com.ecd.reactnative.crypto;
+package foundation.ixo.amply.ecd.reactnative.crypto;
 
 import android.content.Context;
 import android.content.SharedPreferences;

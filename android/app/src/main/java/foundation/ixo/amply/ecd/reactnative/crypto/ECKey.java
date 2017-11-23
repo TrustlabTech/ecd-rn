@@ -5,7 +5,7 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package com.ecd.reactnative.crypto;
+package foundation.ixo.amply.ecd.reactnative.crypto;
 
 /**
  * Copyright 2011 Google Inc.
@@ -49,7 +49,7 @@ import org.spongycastle.math.ec.ECPoint;
 import org.spongycastle.util.encoders.Base64;
 import org.spongycastle.util.encoders.Hex;
 
-import static com.ecd.reactnative.crypto.util.ByteUtil.bigIntegerToBytes;
+import static foundation.ixo.amply.ecd.reactnative.crypto.util.ByteUtil.bigIntegerToBytes;
 /**
  * <p>Represents an elliptic curve public and (optionally) private key, usable for digital signatures but not encryption.
  * Creating a new ECKey with the empty constructor will generate a new random keypair. Other static methods can be used

@@ -21,7 +21,7 @@ android {
     buildToolsVersion "25.0.3"
 
     defaultConfig {
-        applicationId "com.ecdrn"
+        applicationId "foundation.ixo.amply.foundation.ixo.amply.ecd.app"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 201
@@ -61,7 +61,7 @@ android {
             buildConfigField "String", "CODEPUSH_KEY", '"<CODEPUSH_AMPLYECD_PRODUCTION>"'
         }
 
-        staging {
+        releaseStaging {
             initWith(buildTypes.release)
             applicationIdSuffix ".staging"
             buildConfigField "String", "CODEPUSH_KEY", '"<CODEPUSH_AMPLYECD_STAGING>"'
