@@ -5,12 +5,12 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-'use-strict'
+'use-strict';
 
 // base libs
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -18,61 +18,61 @@ import {
   TextInput,
   StyleSheet,
   BackHandler,
-  AsyncStorage,
-} from 'react-native'
+  AsyncStorage
+} from 'react-native';
 // components/views
-import Button from '../components/Button'
+import Button from '../components/Button';
 // redux actions
-import { setSession } from '../actions'
+import { setSession } from '../actions';
 // libs/functions
-import { Request, ServerErrorException } from '../libs/network'
+import { Request, ServerErrorException } from '../libs/network';
 // constants
-import { ICONS, COLORS, API_LOGIN, AS_USERNAME } from '../constants'
+import { ICONS, COLORS, API_LOGIN, AS_USERNAME } from '../constants';
 
-const backListener = () => true
+const backListener = () => true;
 
 class Login extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       username: '',
       password: '',
-      formError: '',
-    }
+      formError: ''
+    };
 
-    this.nextInput = this.nextInput.bind(this)
-    this.onButtonPress = this.onButtonPress.bind(this)
-    this.onUsernameChange = this.onUsernameChange.bind(this)
-    this.onPasswordChange = this.onPasswordChange.bind(this)
+    this.nextInput = this.nextInput.bind(this);
+    this.onButtonPress = this.onButtonPress.bind(this);
+    this.onUsernameChange = this.onUsernameChange.bind(this);
+    this.onPasswordChange = this.onPasswordChange.bind(this);
   }
 
   componentWillMount() {
-    this.props.username && this.setState({ username: this.props.username })
+    this.props.username && this.setState({ username: this.props.username });
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', backListener)
+    BackHandler.addEventListener('hardwareBackPress', backListener);
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', backListener)
+    BackHandler.removeEventListener('hardwareBackPress', backListener);
   }
 
   nextInput() {
-    this.passwordInput.focus()
+    this.passwordInput.focus();
   }
 
   onUsernameChange(t) {
-    this.setState({ username: t, formError: '' })
+    this.setState({ username: t, formError: '' });
   }
 
   onPasswordChange(t) {
-    this.setState({ password: t, formError: '' })
+    this.setState({ password: t, formError: '' });
   }
 
   async onButtonPress() {
-    const { username, password } = this.state
+    const { username, password } = this.state;
 
     // if (!username.match(/^0[0-9]{9,}$/)) {
     //   this.setState({ formError: 'Invalid username format' })
@@ -80,24 +80,27 @@ class Login extends Component {
     // }
 
     try {
-      AsyncStorage.setItem(AS_USERNAME, username)
-    } catch (e) { /* never mind */ }
+      AsyncStorage.setItem(AS_USERNAME, username);
+    } catch (e) {
+      /* never mind */
+    }
 
-    const
-      { url, options } = API_LOGIN({ username, password }),
-      request = new Request()
+    const { url, options } = API_LOGIN({ username, password }),
+      request = new Request();
 
     try {
-      const response = await request.fetch(url, options)
-      this.props.setSession(response._token, response.user, response.meta)
-      !this.props.navigator.dismissAllModals() && this.props.onLoginCompleted && this.props.onLoginCompleted()
+      const response = await request.fetch(url, options);
+      this.props.setSession(response._token, response.user, response.meta);
+      !this.props.navigator.dismissAllModals() &&
+        this.props.onLoginCompleted &&
+        this.props.onLoginCompleted();
     } catch (e) {
       // FIXME: server replies with 500 status code
       // on failed login
       if (e instanceof ServerErrorException) {
-        this.setState({ formError: 'Invalid username or password' })
+        this.setState({ formError: 'Invalid username or password' });
       } else {
-        this.setState({ formError: e.message })
+        this.setState({ formError: e.message });
       }
     }
   }
@@ -115,35 +118,37 @@ class Login extends Component {
           keyboardType={'numeric'}
           onSubmitEditing={this.nextInput}
           onChangeText={this.onUsernameChange}
-          defaultValue={this.props.username || ''} />
+          defaultValue={this.props.username || ''}
+        />
         <Text style={styles.label}>Password</Text>
         <TextInput
-          ref={(r) => this.passwordInput = r}
+          ref={r => (this.passwordInput = r)}
           style={styles.input}
           returnKeyType={'done'}
           secureTextEntry={true}
-          onChangeText={this.onPasswordChange} />
+          onChangeText={this.onPasswordChange}
+        />
         <Text style={styles.formError}>{this.state.formError}</Text>
         <Button style={styles.button} onPress={this.onButtonPress}>
           <Text style={styles.buttonText}>Login</Text>
         </Button>
       </View>
-    )
+    );
   }
 }
 Login.propTypes = {
   username: PropTypes.string,
   onLoginCompleted: PropTypes.func,
   setSession: PropTypes.func.isRequired,
-  navigator: PropTypes.object.isRequired,
-}
+  navigator: PropTypes.object.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.white
   },
   header: {
     fontSize: 24,
@@ -156,13 +161,15 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 20,
     alignSelf: 'center',
-    color: COLORS.grey,
+    color: COLORS.grey
   },
   logo: {
-    width: 192,
-    height: 192,
     marginBottom: 40,
     alignSelf: 'center',
+    flex: 1,
+    resizeMode: 'center',
+    maxWidth: '80%',
+    maxHeight: 141
   },
   label: {
     fontSize: 14,
@@ -177,7 +184,7 @@ const styles = StyleSheet.create({
   },
   formError: {
     fontSize: 12,
-    color: COLORS.red,
+    color: COLORS.red
   },
   button: {
     marginTop: 20,
@@ -185,19 +192,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingVertical: 8,
     paddingHorizontal: 50,
-    backgroundColor: COLORS.brandFirst,
+    backgroundColor: COLORS.brandFirst
   },
   buttonText: {
     fontSize: 18,
     fontWeight: '600',
-    color: COLORS.white,
-  },
-})
+    color: COLORS.white
+  }
+});
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     setSession: (token, user, meta) => dispatch(setSession(token, user, meta))
-  }
-}
+  };
+};
 
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(null, mapDispatchToProps)(Login);
