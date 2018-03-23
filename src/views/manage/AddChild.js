@@ -25,6 +25,7 @@ import Crypto from '../../libs/Crypto'
 import { Request } from '../../libs/network'
 // constants
 import { COLORS, GET_CLASSES, CREATE_CHILD } from '../../constants'
+import Utils from '../../libs/Utils'
 
 export default class AddChild extends Component {
   constructor(props) {
@@ -45,9 +46,9 @@ export default class AddChild extends Component {
 
     this.createChild = this.createChild.bind(this)
 
-    this.onIdNumberTextChanged = this.onIdNumberTextChanged.bind(this)
     this.onGivenNameTextChanged = this.onGivenNameTextChanged.bind(this)
     this.onFamilyNameTextChanged = this.onFamilyNameTextChanged.bind(this)
+    this.onIdNumberTextChanged = this.onIdNumberTextChanged.bind(this)
 
     this.onCentreSelectorChanged = this.onCentreSelectorChanged.bind(this)
 
@@ -76,7 +77,10 @@ export default class AddChild extends Component {
 
   // given name
   onGivenNameTextChanged(t) {
-    this.setState({ givenName: t, validationErrors: { ...this.state.validationErrors, givenName: '' } })
+    this.setState({ 
+      givenName: t, 
+      validationErrors: { ...this.state.validationErrors, givenName: '' } 
+    })
   }
   onGivenNameEditingSubmitted() {
     this.familyName.focus()
@@ -84,7 +88,10 @@ export default class AddChild extends Component {
 
   // family name
   onFamilyNameTextChanged(t) {
-    this.setState({ familyName: t, validationErrors: { ...this.state.validationErrors, familyName: '' } })
+    this.setState({ 
+      familyName: t, 
+      validationErrors: { ...this.state.validationErrors, familyName: '' } 
+    })
   }
   onFamilyNameEditingSubmitted() {
     this.idNumber.focus()
@@ -92,8 +99,27 @@ export default class AddChild extends Component {
 
   // id number
   onIdNumberTextChanged(t) {
-    this.setState({ idNumber: t, validationErrors: { ...this.state.validationErrors, idNumber: '' } })
+    this.setState({ 
+      idNumber: t
+    })
+    if (t.length <= 0) {
+      this.setState({ 
+        validationErrors: { ...this.state.validationErrors, idNumber: '' } 
+      })
+      return
+    }
+    
+    if (!Utils.validSAIDNumber(t)) {
+      this.setState({ 
+        validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' } 
+      })
+    } else {
+      this.setState({ 
+        validationErrors: { ...this.state.validationErrors, idNumber: '' } 
+      })
+    }
   }
+
 
   onCentreSelectorChanged(classId) {
     this.setState({ classId })
@@ -101,12 +127,15 @@ export default class AddChild extends Component {
 
   async createChild() {
     let validationErrors = {}
-    if (!this.state.givenName)
+    if (!this.state.givenName) {
       validationErrors.givenName = 'Please enter a first name.'
-    if (!this.state.familyName)
+    }
+    if (!this.state.familyName) {
       validationErrors.familyName = 'Please enter a family name.'
-    if (!this.state.idNumber)
-      validationErrors.idNumber = 'Please enter an ID number.'
+    }
+    if (!this.state.idNumber) {
+      validationErrors.idNumber = 'Please enter a valid ID number.'
+    }
 
     if (Object.keys(validationErrors).length > 0) {
       this.setState({ validationErrors: validationErrors })
