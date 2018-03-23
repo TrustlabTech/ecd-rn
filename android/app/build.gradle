@@ -91,12 +91,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-navigation')
+    compile project(':react-native-google-analytics-bridge')
+    compile project(':react-native-code-push')
     compile 'com.android.support:multidex:1.0.1'
     compile "com.facebook.react:react-native:+"
-    compile project(':react-native-code-push')
-    compile project(':react-native-navigation')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-google-analytics-bridge')
     compile "com.android.support:appcompat-v7:25.3.1"
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'

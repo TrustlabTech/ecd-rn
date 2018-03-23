@@ -10,10 +10,8 @@ package foundation.ixo.amply.ecd;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
-
 import com.facebook.react.ReactPackage;
 import com.microsoft.codepush.react.CodePush;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativenavigation.NavigationApplication;
 
@@ -51,7 +49,6 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
             new VectorIconsPackage(),
             new ReactNativePackages(),
-            new GoogleAnalyticsBridgePackage(),
             new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG)
     );
   }
