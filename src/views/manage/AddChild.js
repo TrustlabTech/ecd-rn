@@ -21,11 +21,12 @@ import {
 // components / views
 import Picker from '../../components/Picker'
 import Button from '../../components/Button'
+import DatePicker from 'react-native-datepicker'
 // libs/functions
 import Crypto from '../../libs/Crypto'
 import { Request } from '../../libs/network'
 // constants
-import { COLORS, GET_CLASSES, CREATE_CHILD } from '../../constants'
+import { META, COLORS, GET_CLASSES, CREATE_CHILD } from '../../constants'
 import Utils from '../../libs/Utils'
 
 export default class AddChild extends Component {
@@ -65,6 +66,10 @@ export default class AddChild extends Component {
     this.onIdNumberTextChanged = this.onIdNumberTextChanged.bind(this)
     this.onIdNumberEditingSubmitted = this.onIdNumberEditingSubmitted.bind(this)
 
+    this.onCitizenshipSelectorChanged = this.onCitizenshipSelectorChanged.bind(this)
+    this.onGenderSelectorChanged = this.onGenderSelectorChanged.bind(this)
+    this.onRaceSelectorChanged = this.onRaceSelectorChanged.bind(this)
+    this.onDateChanged = this.onDateChanged.bind(this)
   }
 
   componentDidMount() {
@@ -88,7 +93,7 @@ export default class AddChild extends Component {
   }
 
   getCitizenships() {
-    const citizenships = Utils.getCitizenships()
+    const citizenships = META.getCitizenships()
     try {
       this.setState({ citizenships, citizenshipId: citizenships[0].id })
     } catch (e) {
@@ -103,6 +108,7 @@ export default class AddChild extends Component {
       validationErrors: { ...this.state.validationErrors, givenName: '' }
     })
   }
+
   onGivenNameEditingSubmitted() {
     this.familyName.focus()
   }
@@ -149,6 +155,28 @@ export default class AddChild extends Component {
     this.setState({ classId })
   }
 
+  onCitizenshipSelectorChanged(citizenshipId) {
+    this.setState({ citizenshipId })
+  }
+
+  onGenderSelectorChanged(gender) {
+    this.setState({ gender })
+  }
+
+  onRaceSelectorChanged(race) {
+    this.setState({ race })
+  }
+
+  onDateChanged(dob) {
+    this.setState({ date_of_birth: dob })
+  }
+
+  getLocation() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: false, timeout: 5000, maximumAge: 1000 * 5 }) // eslint-disable-line no-undef
+    })
+  }
+
   async createChild() {
     let validationErrors = {}
     if (!this.state.givenName) {
@@ -163,6 +191,16 @@ export default class AddChild extends Component {
 
     if (Object.keys(validationErrors).length > 0) {
       this.setState({ validationErrors: validationErrors })
+      return false
+    }
+
+    let location = null
+    try {
+      location = await this.getLocation()
+    } catch (e) {
+      this.setState({ submittingAttendance: false }, () => {
+        Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
+      })
       return false
     }
 
@@ -181,8 +219,8 @@ export default class AddChild extends Component {
           gender: this.state.gender, // eslint-disable-line camelcase
           race: this.state.race, // eslint-disable-line camelcase
           date_of_birth: this.state.date_of_birth, // eslint-disable-line camelcase
-          registration_latitude: this.state.registration_latitude, // eslint-disable-line camelcase
-          registration_longitude: this.state.registration_longitude, // eslint-disable-line camelcase
+          registration_latitude: location.coords.latitude.toString(), // eslint-disable-line camelcase
+          registration_longitude: location.coords.longitude.toString(), // eslint-disable-line camelcase
           keypair,
         })
 
@@ -197,7 +235,6 @@ export default class AddChild extends Component {
   _class() {
     return (
       <View>
-        {/* Class */}
         <Text style={styles.label}>Class</Text>
         <Picker
           style={styles.picker}
@@ -211,7 +248,6 @@ export default class AddChild extends Component {
   _givenName() {
     return (
       <View>
-        {/* Given Name */}
         <Text style={styles.label}>First Name</Text>
         <TextInput
           returnKeyType={'next'}
@@ -226,7 +262,6 @@ export default class AddChild extends Component {
   _familyName() {
     return (
       <View>
-        {/* Family Name */}
         <Text style={styles.label}>Family Name</Text>
         <TextInput
           ref={r => this.familyName = r}
@@ -242,7 +277,6 @@ export default class AddChild extends Component {
   _idNumber() {
     return (
       <View>
-        {/* ID Number*/}
         <Text style={styles.label}>ID Number</Text>
         <TextInput
           ref={r => this.idNumber = r}
@@ -258,7 +292,6 @@ export default class AddChild extends Component {
   _citizenship() {
     return (
       <View>
-        {/* Class */}
         <Text style={styles.label}>Citizenship</Text>
         <Picker
           ref={r => this.citizenship = r}
@@ -270,14 +303,64 @@ export default class AddChild extends Component {
     )
   }
 
+  _race() {
+    return (
+      <View>
+        <Text style={styles.label}>Race</Text>
+        <Picker
+          ref={r => this.race = r}
+          style={styles.picker}
+          items={META.races}
+          selectedValue={this.state.race}
+          onValueChange={this.onRaceSelectorChanged} />
+      </View>
+    )
+  }
+
+  _gender() {
+    return (
+      <View style={styles.rowItem}>
+        <Text style={styles.label}>Gender</Text>
+        <Picker
+          ref={r => this.gender = r}
+          style={styles.picker}
+          items={META.genders}
+          selectedValue={this.state.gender}
+          onValueChange={this.onGenderSelectorChanged} />
+      </View>
+    )
+  }
+
+  _dob() {
+    return (
+      <View style={styles.rowItem}>
+        <Text style={styles.label}>Date of Birth</Text>
+        <DatePicker
+          ref={r => this.dob = r}
+          style={styles.picker}
+          mode="date"
+          format="YYYY-MM-DD"
+          date="2010-01-01"
+          minDate="2010-01-01"
+          maxDate="2016-01-01"
+          onDateChange={this.onDateChanged} />
+      </View>
+    )
+  }
+
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps={'handled'} >
+      <ScrollView style={styles.ScrollView} contentContainerStyle={styles.container} keyboardShouldPersistTaps={'handled'} >
         {this._class()}
         {this._givenName()}
         {this._familyName()}
         {this._idNumber()}
         {this._citizenship()}
+        {this._race()}
+        <View style={styles.rowContainer}>
+          {this._gender()}
+          {this._dob()}
+        </View>
 
         <Button style={styles.button} onPress={this.createChild} nativeFeedback={true}>
           <Text style={styles.buttonText}>Create</Text>
@@ -292,15 +375,16 @@ AddChild.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  ScrollView: {
     flex: 1,
+  },
+  container: {
     padding: 20,
     justifyContent: 'center',
     backgroundColor: COLORS.greyWhite,
   },
   label: {
     fontSize: 14,
-    marginTop: 10,
     fontWeight: '200',
     color: COLORS.darkGrey2
   },
@@ -314,7 +398,13 @@ const styles = StyleSheet.create({
     color: COLORS.red,
   },
   picker: {
-    marginTop: 10,
+    marginTop: 0,
+  },
+  rowContainer: {
+    flexDirection: 'row'
+  },
+  rowItem: {
+    flex: 1,
   },
   button: {
     marginTop: 40,
