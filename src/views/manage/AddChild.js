@@ -161,7 +161,7 @@ export default class AddChild extends Component {
     })
     if (t.length <= 0) {
       this.setState({
-        validationErrors: { ...this.state.validationErrors, idNumber: '' }
+        validationErrors: { ...this.state.validationErrors, passport: '' }
       })
       return
     }
