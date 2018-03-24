@@ -40,6 +40,7 @@ export default class AddChild extends Component {
       givenName: '',
       familyName: '',
       idNumber: '',
+      passport: '',
       citizenshipId: -1,
       gender: '',
       race: '',
@@ -65,6 +66,9 @@ export default class AddChild extends Component {
 
     this.onIdNumberTextChanged = this.onIdNumberTextChanged.bind(this)
     this.onIdNumberEditingSubmitted = this.onIdNumberEditingSubmitted.bind(this)
+
+    this.onPassportTextChanged = this.onPassportTextChanged.bind(this)
+    this.onPassportEditingSubmitted = this.onPassportEditingSubmitted.bind(this)
 
     this.onCitizenshipSelectorChanged = this.onCitizenshipSelectorChanged.bind(this)
     this.onGenderSelectorChanged = this.onGenderSelectorChanged.bind(this)
@@ -148,9 +152,25 @@ export default class AddChild extends Component {
   }
 
   onIdNumberEditingSubmitted() {
-    this.citizenship.focus()
+    this.passport.focus()
   }
 
+  onPassportTextChanged(t) {
+    this.setState({
+      passport: t
+    })
+    if (t.length <= 0) {
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: '' }
+      })
+      return
+    }
+
+  }
+
+  onPassportEditingSubmitted() {
+    this.citizenship.focus()
+  }
   onCentreSelectorChanged(classId) {
     this.setState({ classId })
   }
@@ -185,8 +205,9 @@ export default class AddChild extends Component {
     if (!this.state.familyName) {
       validationErrors.familyName = 'Please enter a family name.'
     }
-    if (!this.state.idNumber) {
-      validationErrors.idNumber = 'Please enter a valid ID number.'
+    if (!this.state.idNumber && !this.state.passport) {
+      validationErrors.idNumber = 'Please enter a valid ID number or passport'
+      validationErrors.passport = 'Please enter a valid ID number or passport'
     }
 
     if (Object.keys(validationErrors).length > 0) {
@@ -214,6 +235,7 @@ export default class AddChild extends Component {
           given_name: this.state.givenName, // eslint-disable-line camelcase
           family_name: this.state.familyName, // eslint-disable-line camelcase
           id_number: this.state.idNumber, // eslint-disable-line camelcase
+          passport: this.state.passport, // eslint-disable-line camelcase
           centre_class_id: this.state.classId, // eslint-disable-line camelcase
           citizenship: this.state.citizenship, // eslint-disable-line camelcase
           gender: this.state.gender, // eslint-disable-line camelcase
@@ -289,6 +311,21 @@ export default class AddChild extends Component {
     )
   }
 
+  _passport() {
+    return (
+      <View>
+        <Text style={styles.label}>Passport</Text>
+        <TextInput
+          ref={r => this.passport = r}
+          returnKeyType={'next'}
+          keyboardType={'numeric'}
+          style={styles.textInput}
+          onChangeText={this.onPassportTextChanged} />
+        <Text style={styles.formError}>{this.state.validationErrors.passport}</Text>
+      </View>
+    )
+  }
+
   _citizenship() {
     return (
       <View>
@@ -355,6 +392,7 @@ export default class AddChild extends Component {
         {this._givenName()}
         {this._familyName()}
         {this._idNumber()}
+        {this._passport()}
         {this._citizenship()}
         {this._race()}
         <View style={styles.rowContainer}>
@@ -368,6 +406,7 @@ export default class AddChild extends Component {
       </ScrollView>
     )
   }
+
 }
 AddChild.propTypes = {
   session: PropTypes.object.isRequired,
