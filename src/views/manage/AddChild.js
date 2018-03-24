@@ -16,6 +16,7 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
+  View,
 } from 'react-native'
 // components / views
 import Picker from '../../components/Picker'
@@ -33,10 +34,17 @@ export default class AddChild extends Component {
 
     this.state = {
       classes: [],
-      idNumber: '',
+      citizenships: [],
       classId: -1,
       givenName: '',
       familyName: '',
+      idNumber: '',
+      citizenshipId: -1,
+      gender: '',
+      race: '',
+      date_of_birth: '',
+      registration_latitude: '',
+      registration_longitude: '',
       validationErrors: {
         idNumber: '',
         givenName: '',
@@ -46,18 +54,22 @@ export default class AddChild extends Component {
 
     this.createChild = this.createChild.bind(this)
 
-    this.onGivenNameTextChanged = this.onGivenNameTextChanged.bind(this)
-    this.onFamilyNameTextChanged = this.onFamilyNameTextChanged.bind(this)
-    this.onIdNumberTextChanged = this.onIdNumberTextChanged.bind(this)
-
     this.onCentreSelectorChanged = this.onCentreSelectorChanged.bind(this)
 
+    this.onGivenNameTextChanged = this.onGivenNameTextChanged.bind(this)
     this.onGivenNameEditingSubmitted = this.onGivenNameEditingSubmitted.bind(this)
+
+    this.onFamilyNameTextChanged = this.onFamilyNameTextChanged.bind(this)
     this.onFamilyNameEditingSubmitted = this.onFamilyNameEditingSubmitted.bind(this)
+
+    this.onIdNumberTextChanged = this.onIdNumberTextChanged.bind(this)
+    this.onIdNumberEditingSubmitted = this.onIdNumberEditingSubmitted.bind(this)
+
   }
 
   componentDidMount() {
     this.getClasses()
+    this.getCitizenships()
   }
 
   // TODO: put classes in store and pass through props
@@ -66,7 +78,7 @@ export default class AddChild extends Component {
       { session } = this.props,
       { url, options } = GET_CLASSES(session.token, session.user.id),
       request = new Request()
-    
+
     try {
       const classes = await request.fetch(url, options)
       this.setState({ classes, classId: classes[0].id })
@@ -75,11 +87,20 @@ export default class AddChild extends Component {
     }
   }
 
+  getCitizenships() {
+    const citizenships = Utils.getCitizenships()
+    try {
+      this.setState({ citizenships, citizenshipId: citizenships[0].id })
+    } catch (e) {
+      this.setState({ error: e.message })
+    }
+  }
+
   // given name
   onGivenNameTextChanged(t) {
-    this.setState({ 
-      givenName: t, 
-      validationErrors: { ...this.state.validationErrors, givenName: '' } 
+    this.setState({
+      givenName: t,
+      validationErrors: { ...this.state.validationErrors, givenName: '' }
     })
   }
   onGivenNameEditingSubmitted() {
@@ -88,9 +109,9 @@ export default class AddChild extends Component {
 
   // family name
   onFamilyNameTextChanged(t) {
-    this.setState({ 
-      familyName: t, 
-      validationErrors: { ...this.state.validationErrors, familyName: '' } 
+    this.setState({
+      familyName: t,
+      validationErrors: { ...this.state.validationErrors, familyName: '' }
     })
   }
   onFamilyNameEditingSubmitted() {
@@ -99,27 +120,30 @@ export default class AddChild extends Component {
 
   // id number
   onIdNumberTextChanged(t) {
-    this.setState({ 
+    this.setState({
       idNumber: t
     })
     if (t.length <= 0) {
-      this.setState({ 
-        validationErrors: { ...this.state.validationErrors, idNumber: '' } 
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: '' }
       })
       return
     }
-    
+
     if (!Utils.validSAIDNumber(t)) {
-      this.setState({ 
-        validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' } 
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' }
       })
     } else {
-      this.setState({ 
-        validationErrors: { ...this.state.validationErrors, idNumber: '' } 
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: '' }
       })
     }
   }
 
+  onIdNumberEditingSubmitted() {
+    this.citizenship.focus()
+  }
 
   onCentreSelectorChanged(classId) {
     this.setState({ classId })
@@ -153,6 +177,12 @@ export default class AddChild extends Component {
           family_name: this.state.familyName, // eslint-disable-line camelcase
           id_number: this.state.idNumber, // eslint-disable-line camelcase
           centre_class_id: this.state.classId, // eslint-disable-line camelcase
+          citizenship: this.state.citizenship, // eslint-disable-line camelcase
+          gender: this.state.gender, // eslint-disable-line camelcase
+          race: this.state.race, // eslint-disable-line camelcase
+          date_of_birth: this.state.date_of_birth, // eslint-disable-line camelcase
+          registration_latitude: this.state.registration_latitude, // eslint-disable-line camelcase
+          registration_longitude: this.state.registration_longitude, // eslint-disable-line camelcase
           keypair,
         })
 
@@ -164,9 +194,9 @@ export default class AddChild extends Component {
     }
   }
 
-  render() {
+  _class() {
     return (
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps={'handled'} >
+      <View>
         {/* Class */}
         <Text style={styles.label}>Class</Text>
         <Picker
@@ -174,6 +204,13 @@ export default class AddChild extends Component {
           items={this.state.classes}
           selectedValue={this.state.classId}
           onValueChange={this.onCentreSelectorChanged} />
+      </View>
+    )
+  }
+
+  _givenName() {
+    return (
+      <View>
         {/* Given Name */}
         <Text style={styles.label}>First Name</Text>
         <TextInput
@@ -182,6 +219,13 @@ export default class AddChild extends Component {
           onChangeText={this.onGivenNameTextChanged}
           onSubmitEditing={this.onGivenNameEditingSubmitted} />
         <Text style={styles.formError}>{this.state.validationErrors.givenName}</Text>
+      </View>
+    )
+  }
+
+  _familyName() {
+    return (
+      <View>
         {/* Family Name */}
         <Text style={styles.label}>Family Name</Text>
         <TextInput
@@ -191,15 +235,49 @@ export default class AddChild extends Component {
           onChangeText={this.onFamilyNameTextChanged}
           onSubmitEditing={this.onFamilyNameEditingSubmitted} />
         <Text style={styles.formError}>{this.state.validationErrors.familyName}</Text>
+      </View>
+    )
+  }
+
+  _idNumber() {
+    return (
+      <View>
         {/* ID Number*/}
         <Text style={styles.label}>ID Number</Text>
         <TextInput
           ref={r => this.idNumber = r}
-          returnKeyType={'done'}
+          returnKeyType={'next'}
           keyboardType={'numeric'}
           style={styles.textInput}
           onChangeText={this.onIdNumberTextChanged} />
         <Text style={styles.formError}>{this.state.validationErrors.idNumber}</Text>
+      </View>
+    )
+  }
+
+  _citizenship() {
+    return (
+      <View>
+        {/* Class */}
+        <Text style={styles.label}>Citizenship</Text>
+        <Picker
+          ref={r => this.citizenship = r}
+          style={styles.picker}
+          items={this.state.citizenships}
+          selectedValue={this.state.citizenshipId}
+          onValueChange={this.onCitizenshipSelectorChanged} />
+      </View>
+    )
+  }
+
+  render() {
+    return (
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps={'handled'} >
+        {this._class()}
+        {this._givenName()}
+        {this._familyName()}
+        {this._idNumber()}
+        {this._citizenship()}
 
         <Button style={styles.button} onPress={this.createChild} nativeFeedback={true}>
           <Text style={styles.buttonText}>Create</Text>
