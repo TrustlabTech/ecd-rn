@@ -16,8 +16,8 @@ export const META = {
         { "id": "Foreigner", "name": "Foreigner" },
     ],
     genders: [
-        { "id": "male", "name": "male" },
-        { "id": "female", "name": "female" },
+        { "id": "Male", "name": "Male" },
+        { "id": "Female", "name": "Female" },
     ],
     getCitizenships() {
         let tmp = {
