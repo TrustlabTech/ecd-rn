@@ -9,6 +9,7 @@
 
 // base libs
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import {
   Text,
@@ -26,15 +27,14 @@ import DatePicker from 'react-native-datepicker'
 import Crypto from '../../libs/Crypto'
 import { Request } from '../../libs/network'
 // constants
-import { META, COLORS, GET_CLASSES, CREATE_CHILD } from '../../constants'
+import { META, COLORS, CREATE_CHILD } from '../../constants'
 import Utils from '../../libs/Utils'
 
-export default class AddChild extends Component {
+class AddChild extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      classes: [],
       citizenships: [],
       classId: -1,
       givenName: '',
@@ -77,24 +77,9 @@ export default class AddChild extends Component {
   }
 
   componentDidMount() {
-    this.getClasses()
     this.getCitizenships()
   }
 
-  // TODO: put classes in store and pass through props
-  async getClasses() {
-    const
-      { session } = this.props,
-      { url, options } = GET_CLASSES(session.token, session.user.id),
-      request = new Request()
-
-    try {
-      const classes = await request.fetch(url, options)
-      this.setState({ classes, classId: classes[0].id })
-    } catch (e) {
-      this.setState({ error: e.message })
-    }
-  }
 
   getCitizenships() {
     const citizenships = META.getCitizenships()
@@ -260,7 +245,7 @@ export default class AddChild extends Component {
         <Text style={styles.label}>Class</Text>
         <Picker
           style={styles.picker}
-          items={this.state.classes}
+          items={this.props.classes}
           selectedValue={this.state.classId}
           onValueChange={this.onCentreSelectorChanged} />
       </View>
@@ -411,6 +396,7 @@ export default class AddChild extends Component {
 AddChild.propTypes = {
   session: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  classes: PropTypes.array.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -459,3 +445,18 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   }
 })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+const mapStoreToProps = (store) => {
+  return {
+    session: store.session,
+    pupils: store.pupils,
+    classes: store.classes,
+  }
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(AddChild)

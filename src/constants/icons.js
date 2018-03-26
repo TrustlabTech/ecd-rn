@@ -5,51 +5,51 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-'use-strict';
+'use-strict'
 
-import { COLORS } from './colors';
-import MIcons from 'react-native-vector-icons/MaterialIcons';
+import { COLORS } from './colors'
+import MIcons from 'react-native-vector-icons/MaterialIcons'
 // import MCIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-let ICONS = {};
+let ICONS = {}
 
-export const loadIcons = async() => {
+export const loadIcons = async () => {
   // tabbar icons
-  ICONS.edit24 = await MIcons.getImageSource('mode-edit', 24, 'grey');
-  ICONS.history24 = await MIcons.getImageSource('history', 24, 'grey');
-  ICONS.settings24 = await MIcons.getImageSource('settings', 24, 'grey');
-  ICONS.dashboard24 = await MIcons.getImageSource('dashboard', 24, 'grey');
+  ICONS.edit24 = await MIcons.getImageSource('mode-edit', 24, 'grey')
+  ICONS.history24 = await MIcons.getImageSource('history', 24, 'grey')
+  ICONS.settings24 = await MIcons.getImageSource('settings', 24, 'grey')
+  ICONS.dashboard24 = await MIcons.getImageSource('dashboard', 24, 'grey')
 
   // navigation
   ICONS.exitToApp12 = await MIcons.getImageSource(
     'exit-to-app',
     12,
     COLORS.lightGrey2
-  );
+  )
   ICONS.navigateRight12 = await MIcons.getImageSource(
     'chevron-right',
     12,
     COLORS.lightGrey2
-  );
+  )
 
   // misc
-  ICONS.sync12 = await MIcons.getImageSource('sync', 12, COLORS.lightGrey2);
-  ICONS.home20 = await MIcons.getImageSource('home', 20, COLORS.darkGrey2);
-  ICONS.person20 = await MIcons.getImageSource('person', 20, COLORS.darkGrey2);
-  ICONS.people20 = await MIcons.getImageSource('people', 20, COLORS.darkGrey2);
+  ICONS.sync12 = await MIcons.getImageSource('sync', 12, COLORS.lightGrey2)
+  ICONS.home20 = await MIcons.getImageSource('home', 20, COLORS.darkGrey2)
+  ICONS.person20 = await MIcons.getImageSource('person', 20, COLORS.darkGrey2)
+  ICONS.people20 = await MIcons.getImageSource('people', 20, COLORS.darkGrey2)
   ICONS.checkBox20 = await MIcons.getImageSource(
     'check-box',
     20,
     COLORS.darkGrey2
-  );
+  )
   ICONS.peopleOutline20 = await MIcons.getImageSource(
     'people-outline',
     20,
     COLORS.darkGrey2
-  );
+  )
 
   // branding
-  ICONS.logo = require('Ecd/src/assets/logo_2.png');
+  ICONS.logo = require('Ecd/src/assets/logo_2.png')
   /*
   ICONS.accountCircle24 = await MIcons.getImageSource('account-circle', 24, 'white')
   ICONS.bell24 = await MCIcons.getImageSource('bell', 24, 'white')
@@ -64,7 +64,7 @@ export const loadIcons = async() => {
   ICONS.location18 = await MIcons.getImageSource('location-on', 18, '#0086b3')
   */
 
-  return ICONS;
-};
+  return ICONS
+}
 
-export { ICONS };
+export { ICONS }

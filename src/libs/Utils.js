@@ -7,7 +7,9 @@
 
 'use-strict'
 
-var luhn = require('luhn-alg');
+var luhn = require('luhn-alg')
+import { GET_CLASSES, GET_CHILDREN } from '../constants'
+import { Request } from '../libs/network'
 
 export default class Utils {
 
@@ -16,5 +18,34 @@ export default class Utils {
     return toRet
   }
 
+  static getClasses = async (props) => {
+    const { session } = props
+    if (!session.token || !session.user) {
+      return []
+    }
+
+    const
+      { url, options } = GET_CLASSES(session.token, session.user.id),
+      request = new Request()
+
+    const classes = await request.fetch(url, options)
+    props.storeClasses(classes)
+    return classes
+  }
+
+  static getChildren = async (props) => {
+    const { session } = props
+    if (!session.token || !session.user) {
+      return []
+    }
+
+    const
+      { url, options } = GET_CHILDREN(session.token, session.user.id),
+      request = new Request()
+
+    const pupils = await request.fetch(url, options)
+    props.storePupils(pupils)
+    return pupils
+  }
 
 }

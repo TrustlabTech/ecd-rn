@@ -26,10 +26,11 @@ import Button from '../components/Button'
 // libs/functions
 import Crypto from '../libs/Crypto'
 import { Request, UNAUTHORIZED } from '../libs/network'
-import { storeAttendanceLocally } from '../actions'
+import { storeAttendanceLocally, storeClasses, storePupils } from '../actions'
 // constants
 import { SID_LOGIN, SID_TAKE_ATTENDANCE } from '../screens'
-import { ICONS, COLORS, VERIFY_TOKEN, GET_CLASSES, AS_USERNAME } from '../constants'
+import { ICONS, COLORS, VERIFY_TOKEN, AS_USERNAME } from '../constants'
+import Utils from '../libs/Utils'
 
 class Home extends Component {
   constructor(props) {
@@ -37,7 +38,6 @@ class Home extends Component {
 
     this.state = {
       error: '',
-      classes: [],
     }
 
     this.getClasses = this.getClasses.bind(this)
@@ -49,12 +49,23 @@ class Home extends Component {
     this.loginIfRequired()
     this.keypairExistOrCreate()
     this.getClasses(this.props)
+    Utils.getChildren(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
     // needed for triggering a re-render after login
-    if (this.props.session.token !== nextProps.session.token)
+    if (this.props.session.token !== nextProps.session.token) {
       this.getClasses(nextProps)
+      Utils.getChildren(nextProps)
+    }
+  }
+
+  getClasses(props) {
+    Utils.getClasses(props)
+      .then((classes) => { })
+      .catch((e) => {
+        this.setState({ error: e.message })
+      })
   }
 
   // TODO: dialog for password input
@@ -63,16 +74,18 @@ class Home extends Component {
     if (!await Crypto.hasKey()) {
       // create etherum-compliant ECDSA key
       const keypair = await Crypto.createStaffKeyPair()
-      if (keypair === false)
+      if (keypair === false) {
         Alert.alert('Error', 'Failed to generate ECDSA key, please contact the support.')
+      }
     }
   }
 
   async loginIfRequired() {
     const { session } = this.props
-    if (!session.token || !session.user)
+    if (!session.token || !session.user) {
       return this.goToLogin()
-    
+    }
+
     // dummy (and cheap) endpoint for verifying token's validity
     // FIXME: use the right endpoint when it gets deployed
     const
@@ -87,24 +100,6 @@ class Home extends Component {
     }
   }
 
-  // TODO: put classes in store and pass through props
-  async getClasses(props) {
-    const { session } = props
-    if (!session.token || !session.user)
-      return false
-
-    const
-      { url, options } = GET_CLASSES(session.token, session.user.id),
-      request = new Request()
-    
-    try {
-      const classes = await request.fetch(url, options)
-      this.setState({ classes })
-    } catch (e) {
-      this.setState({ error: e.message })
-    }
-  }
-
   async goToLogin() {
     let username = null
     try {
@@ -112,7 +107,7 @@ class Home extends Component {
     } catch (e) {
       console.log(e)
     }
-    
+
     this.props.navigator.showModal({
       title: 'Login',
       screen: SID_LOGIN,
@@ -151,6 +146,8 @@ class Home extends Component {
       passProps: {
         classObj: item,
         session: this.props.session,
+        pupils: this.props.pupils,
+        classes: this.props.classes,
         storeAttendanceLocally: this.props.storeAttendanceLocally,
       }
     })
@@ -195,10 +192,10 @@ class Home extends Component {
             </TouchableNativeFeedback>
           </View>
         )}
-        
+
         <List
           style={styles.list}
-          data={this.state.classes}
+          data={this.props.classes}
           renderItem={this.renderItem}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<Text style={styles.headerText}>Classes</Text>} />
@@ -211,6 +208,8 @@ Home.propTypes = {
   navigator: PropTypes.object.isRequired,
   offlineAttendances: PropTypes.array.isRequired,
   storeAttendanceLocally: PropTypes.func.isRequired,
+  storeClasses: PropTypes.func.isRequired,
+  storePupils: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -288,14 +287,18 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    storeAttendanceLocally: (attendance) => dispatch(storeAttendanceLocally(attendance))
+    storeAttendanceLocally: (attendance) => dispatch(storeAttendanceLocally(attendance)),
+    storeClasses: (classes) => dispatch(storeClasses(classes)),
+    storePupils: (pupils) => dispatch(storePupils(pupils)),
   }
 }
 
 const mapStoreToProps = (store) => {
   return {
     session: store.session,
-    offlineAttendances: store.offline.attendances
+    offlineAttendances: store.offline.attendances,
+    pupils: store.pupils,
+    classes: store.classes,
   }
 }
 

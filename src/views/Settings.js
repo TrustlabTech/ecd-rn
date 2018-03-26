@@ -26,7 +26,7 @@ import {
 // components/views
 import Button from '../components/Button'
 // redux actions
-import { setSession, removeAttendancesLocally } from '../actions'
+import { setSession, removeAttendancesLocally, storeClasses, storePupils } from '../actions'
 // libs/functions
 import Crypto from '../libs/Crypto'
 import { Request } from '../libs/network'
@@ -40,8 +40,9 @@ import {
   BUNDLE_VERSION,
   SUBMIT_ATTENDANCE,
   SUBMIT_ATTENDANCE_CLAIMS,
-} from '../constants' 
+} from '../constants'
 import { SID_LOGIN } from '../screens'
+import Utils from '../libs/Utils'
 
 const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
 
@@ -91,6 +92,7 @@ class Settings extends Component {
     this.onLogoutPress = this.onLogoutPress.bind(this)
     this.takeAttendance = this.takeAttendance.bind(this)
     this.takeAttendances = this.takeAttendances.bind(this)
+
   }
 
   componentDidMount() {
@@ -129,7 +131,7 @@ class Settings extends Component {
       overrideBackPress: true,
     })
     this.props.setSession()
-    
+
     setTimeout(() => {
       this.props.navigator.switchToTab({ tabIndex: 0 })
     }, 500)
@@ -158,11 +160,15 @@ class Settings extends Component {
     })
   }
 
+
   async takeAttendances() {
+    Utils.getClasses(this.props)
+    Utils.getChildren(this.props)
+
     const promises = this.props.attendances.map(attendance => {
-      return new Promise((resolve, reject) => 
-                    resolve(this.takeAttendance(attendance))
-                    .catch(e => reject(e)))
+      return new Promise((resolve, reject) =>
+        resolve(this.takeAttendance(attendance))
+          .catch(e => reject(e)))
     })
 
     let res = []
@@ -200,7 +206,7 @@ class Settings extends Component {
       longitude: location.coords.longitude.toString(),
       attended: d.checked || false
     }))
-    
+
     const
       request = new Request(),
       { session } = this.props,
@@ -217,7 +223,7 @@ class Settings extends Component {
       })
       return false
     }
-  
+
     try {
       await request.fetch(url, options)
     } catch (e) {
@@ -258,7 +264,7 @@ class Settings extends Component {
         // subject portion
         let attendee = attendeeSample
         attendee.id = childData.id,
-        attendee.date = date
+          attendee.date = date
         attendee.attended = childData.checked || childData.attended || false
         // claim portion
         let claimObject = claimObjectSample
@@ -404,7 +410,10 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch) => ({
   setSession: () => dispatch(setSession()),
-  removeAttendancesLocally: () => dispatch(removeAttendancesLocally())
+  removeAttendancesLocally: () => dispatch(removeAttendancesLocally()),
+  storeClasses: (classes) => dispatch(storeClasses(classes)),
+  storePupils: (pupils) => dispatch(storePupils(pupils)),
+
 })
 
 const mapStoreToProps = (store) => {
@@ -414,4 +423,4 @@ const mapStoreToProps = (store) => {
   }
 }
 
-export default connect (mapStoreToProps, mapDispatchToProps)(Settings)
+export default connect(mapStoreToProps, mapDispatchToProps)(Settings)

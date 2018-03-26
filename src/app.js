@@ -5,7 +5,7 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
- //@flow
+//@flow
 'use-strict'
 
 // base libs
@@ -23,6 +23,8 @@ import registerScreens, {
   SID_ATTENDANCE,
 } from './screens'
 
+console.disableYellowBox = true
+
 export default (ICONS) => {
   // enable LayoutAnimation on Android
   // https://facebook.github.io/react-native/docs/layoutanimation.html
@@ -36,41 +38,42 @@ export default (ICONS) => {
     tabBarBackgroundColor: COLORS.white,
     tabBarSelectedButtonColor: COLORS.brandFirst,
   }
-  
+
   const passProps = {
   }
 
+  const tabs = [
+    {
+      label: 'Attendance',
+      title: 'Attendance',
+      screen: SID_ATTENDANCE,
+      icon: ICONS.dashboard24,
+      selectedIcon: ICONS.dashboard24,
+    },
+    {
+      label: 'History',
+      title: 'History',
+      screen: SID_HISTORY,
+      icon: ICONS.history24,
+      selectedIcon: ICONS.history24,
+    },
+    {
+      label: 'Manage',
+      title: 'Manage',
+      screen: SID_MANAGE,
+      icon: ICONS.edit24,
+      selectedIcon: ICONS.edit24,
+    },
+    {
+      label: 'Settings',
+      title: 'Settings',
+      screen: SID_SETTINGS,
+      icon: ICONS.settings24,
+      selectedIcon: ICONS.settings24,
+    }
+  ]
   Navigation.startTabBasedApp({
-    tabs: [
-      {
-        label: 'Attendance',
-        title: 'Attendance',
-        screen: SID_ATTENDANCE,
-        icon: ICONS.dashboard24,
-        selectedIcon: ICONS.dashboard24,
-      },
-      {
-        label: 'History',
-        title: 'History',
-        screen: SID_HISTORY,
-        icon: ICONS.history24,
-        selectedIcon: ICONS.history24,
-      },
-      {
-        label: 'Manage',
-        title: 'Manage',
-        screen: SID_MANAGE,
-        icon: ICONS.edit24,
-        selectedIcon: ICONS.edit24,
-      },
-      {
-        label: 'Settings',
-        title: 'Settings',
-        screen: SID_SETTINGS,
-        icon: ICONS.settings24,
-        selectedIcon: ICONS.settings24,
-      }
-    ],
+    tabs: tabs,
     appStyle: {
       orientation: 'portrait',
       navBarTitleTextCentered: true,
@@ -81,5 +84,7 @@ export default (ICONS) => {
     animationType: 'fade'
   })
 
-  codePush.sync({ installMode: codePush.InstallMode.ON_NEXT_RESTART })
+  if (!__DEV__) {
+    codePush.sync({ installMode: codePush.InstallMode.ON_NEXT_RESTART })
+  }
 }

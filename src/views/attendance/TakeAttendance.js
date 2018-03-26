@@ -38,7 +38,7 @@ import {
   GET_CHILDREN,
   SUBMIT_ATTENDANCE,
   SUBMIT_ATTENDANCE_CLAIMS,
-} from '../../constants' 
+} from '../../constants'
 
 const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
 
@@ -144,7 +144,7 @@ export default class Attendance extends Component {
       { session, classObj } = this.props,
       { url, options } = GET_CHILDREN(session.token, classObj.id),
       request = new Request()
-    
+
     try {
       const children = await request.fetch(url, options)
       !this.abort && this.setState({ children: children.map(c => ({ ...c, checked: true })) })
@@ -163,7 +163,7 @@ export default class Attendance extends Component {
 
     this.setState(newState)
 
-    
+
   }
   async checkAttendance() {
     const { children } = this.state
@@ -179,7 +179,7 @@ export default class Attendance extends Component {
           }
         }
       }
-    }));
+    }))
     return message
   }
 
@@ -187,7 +187,7 @@ export default class Attendance extends Component {
     this.checkAttendance().then(message => {
       if (message) {
         Alert.alert('Duplicate', message)
-        return;
+        return
       } else {
         Alert.alert(
           'Confirmation',
@@ -207,11 +207,11 @@ export default class Attendance extends Component {
     try {
       children.forEach(async (element) => {
         if (element.checked) {
-          const currentTime = Date.now();
-          await AsyncStorage.setItem(this.childrenKey(element), String(currentTime));
+          const currentTime = Date.now()
+          await AsyncStorage.setItem(this.childrenKey(element), String(currentTime))
         }
-        
-      });
+
+      })
     } catch (error) {
       // Error saving data
     }
@@ -236,8 +236,8 @@ export default class Attendance extends Component {
       longitude: location.coords.longitude.toString(),
       attended: d.checked || false
     }))
-    this.updateAttendanceTime(this.state.children);
-    
+    this.updateAttendanceTime(this.state.children)
+
     const
       request = new Request(),
       { session, classObj } = this.props,
@@ -259,7 +259,7 @@ export default class Attendance extends Component {
       })
       return false
     }
-  
+
     try {
       await request.fetch(url, options)
     } catch (e) {
@@ -300,7 +300,7 @@ export default class Attendance extends Component {
         // subject portion
         let attendee = attendeeSample
         attendee.id = childData.id,
-        attendee.date = date
+          attendee.date = date
         attendee.attended = childData.checked || false
         // claim portion
         let claimObject = claimObjectSample
@@ -406,7 +406,7 @@ export default class Attendance extends Component {
           renderItem={this.renderItem}
           showsVerticalScrollIndicator={false}
           /*ListHeaderComponent={<Text style={styles.headerText}>Children</Text>}*/ />
-        
+
         {
           this.state.submittingAttendance ? (
             <ActivityIndicator
@@ -414,10 +414,10 @@ export default class Attendance extends Component {
               size="large"
               style={styles.activityIndicator} />
           ) : (
-            <Button style={styles.button} nativeFeedback={true} onPress={this.confirmSubmit}>
-              <Text style={styles.buttonText}>Take Attendance</Text>
-            </Button>
-          )
+              <Button style={styles.button} nativeFeedback={true} onPress={this.confirmSubmit}>
+                <Text style={styles.buttonText}>Take Attendance</Text>
+              </Button>
+            )
         }
       </View>
     )
