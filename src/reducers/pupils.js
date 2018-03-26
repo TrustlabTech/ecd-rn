@@ -26,7 +26,28 @@ export default (state = tree.pupils, action) => {
       }
       return pupils
     }
+    case 'UPDATE_ATTENDANCE_TIME': 
+      return updateAttendanceTime(state, action)
     default:
       return state || {}
   }
 }
+function updateAttendanceTime(state, action) {
+  let pupils = action.payload
+  pupils = pupils.map(element => {
+    element.attendanceTime = new Date().getTime()
+    return element
+  })
+  const result = state.concat(pupils).unique()
+  return result
+}
+Array.prototype.unique = function() {
+  const a = this.concat();
+  for (const i = 0; i < a.length; ++i) {
+    for (const j = i + 1; j < a.length; ++j) {
+      if (a[i] === a[j])
+        a.splice(j--, 1);
+    }
+  }
+  return a;
+};

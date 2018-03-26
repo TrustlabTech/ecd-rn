@@ -10,6 +10,7 @@
 // base libs
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CheckBox from 'react-native-check-box'
 import buffer from 'buffer/'
 const Buffer = buffer.Buffer
@@ -23,7 +24,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
   PermissionsAndroid,
-  AsyncStorage
+  
 } from 'react-native'
 // components/views
 import List from '../../components/List'
@@ -39,6 +40,9 @@ import {
   SUBMIT_ATTENDANCE,
   SUBMIT_ATTENDANCE_CLAIMS,
 } from '../../constants'
+
+import { updateAttendanceTime } from '../../actions'
+import Utils from '../../libs/Utils'
 
 const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
 
@@ -72,7 +76,7 @@ const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds)
   })
 }
 
-export default class Attendance extends Component {
+class Attendance extends Component {
   constructor(props) {
     super(props)
 
@@ -162,34 +166,16 @@ export default class Attendance extends Component {
     newState.children[index].checked = !this.state.children[index].checked
 
     this.setState(newState)
-
-
-  }
-  async checkAttendance() {
-    const { children } = this.state
-    let message
-    await Promise.all(children.map(async element => {
-      if (element.checked) {
-        const value = await AsyncStorage.getItem(this.childrenKey(element))
-        if (value !== null) {
-          const date = new Date(parseInt(value))
-          const currentTime = new Date()
-          if (currentTime.toDateString() === date.toDateString()) {
-            message = 'Child already attended this class today'
-          }
-        }
-      }
-    }))
-    return message
   }
 
   confirmSubmit() {
-    this.checkAttendance().then(message => {
-      if (message) {
-        Alert.alert('Duplicate', message)
-        return
-      } else {
-        Alert.alert(
+    const attendanceChildren = this.state.children.filter(e => e.checked)
+    const { pupils } = this.props;
+    const message = Utils.checkChirlrenAttendance(attendanceChildren, pupils);
+    if (message) {
+      Alert.alert('Duplicate', message)
+    } else {
+      Alert.alert(
           'Confirmation',
           `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
           [
@@ -197,23 +183,6 @@ export default class Attendance extends Component {
             { text: 'Proceed', onPress: this.takeAttendance },
           ]
         )
-      }
-    })
-  }
-  childrenKey(child) {
-    return `chirldren_${child.id}`
-  }
-  async updateAttendanceTime(children) {
-    try {
-      children.forEach(async (element) => {
-        if (element.checked) {
-          const currentTime = Date.now()
-          await AsyncStorage.setItem(this.childrenKey(element), String(currentTime))
-        }
-
-      })
-    } catch (error) {
-      // Error saving data
     }
   }
 
@@ -236,7 +205,6 @@ export default class Attendance extends Component {
       longitude: location.coords.longitude.toString(),
       attended: d.checked || false
     }))
-    this.updateAttendanceTime(this.state.children)
 
     const
       request = new Request(),
@@ -363,6 +331,8 @@ export default class Attendance extends Component {
       this.setState({ submittingAttendance: false }, () => {
         ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
         this.props.navigator.pop()
+        const attendanceChildren = this.state.children.filter(e => e.checked)
+        this.props.updateAttendanceTime(attendanceChildren)
       })
 
     } catch (e) {
@@ -514,3 +484,16 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateAttendanceTime: (pupils) => dispatch(updateAttendanceTime(pupils)),
+  }
+}
+
+const mapStoreToProps = (store) => {
+  return {
+    pupils: store.pupils
+  }
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(Attendance)

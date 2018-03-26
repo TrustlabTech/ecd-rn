@@ -13,3 +13,10 @@ export const storePupils = (pupils) => {
     payload: pupils
   }
 }
+
+export const updateAttendanceTime = (pupils) => {
+  return {
+    type: 'UPDATE_ATTENDANCE_TIME',
+    payload: pupils
+  }
+} 
