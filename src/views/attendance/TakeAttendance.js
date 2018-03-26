@@ -23,7 +23,6 @@ import {
   ToastAndroid,
   ActivityIndicator,
   PermissionsAndroid,
-  AsyncStorage
 } from 'react-native'
 // components/views
 import List from '../../components/List'
@@ -162,59 +161,17 @@ export default class Attendance extends Component {
     newState.children[index].checked = !this.state.children[index].checked
 
     this.setState(newState)
-
-    
-  }
-  async checkAttendance() {
-    const { children } = this.state
-    let message
-    await Promise.all(children.map(async element => {
-      if (element.checked) {
-        const value = await AsyncStorage.getItem(this.childrenKey(element))
-        if (value !== null) {
-          const date = new Date(parseInt(value))
-          const currentTime = new Date()
-          if (currentTime.toDateString() === date.toDateString()) {
-            message = 'Child already attended this class today'
-          }
-        }
-      }
-    }));
-    return message
   }
 
   confirmSubmit() {
-    this.checkAttendance().then(message => {
-      if (message) {
-        Alert.alert('Duplicate', message)
-        return;
-      } else {
-        Alert.alert(
-          'Confirmation',
-          `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
-          [
-            { text: 'Cancel' },
-            { text: 'Proceed', onPress: this.takeAttendance },
-          ]
-        )
-      }
-    })
-  }
-  childrenKey(child) {
-    return `chirldren_${child.id}`
-  }
-  async updateAttendanceTime(children) {
-    try {
-      children.forEach(async (element) => {
-        if (element.checked) {
-          const currentTime = Date.now();
-          await AsyncStorage.setItem(this.childrenKey(element), String(currentTime));
-        }
-        
-      });
-    } catch (error) {
-      // Error saving data
-    }
+    Alert.alert(
+      'Confirmation',
+      `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
+      [
+        { text: 'Cancel' },
+        { text: 'Proceed', onPress: this.takeAttendance },
+      ]
+    )
   }
 
   async takeAttendance() {
@@ -236,7 +193,6 @@ export default class Attendance extends Component {
       longitude: location.coords.longitude.toString(),
       attended: d.checked || false
     }))
-    this.updateAttendanceTime(this.state.children);
     
     const
       request = new Request(),
