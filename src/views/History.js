@@ -24,7 +24,8 @@ import Button from '../components/Button'
 import { Request } from '../libs/network'
 // constants
 import { SID_HISTORY_LIST } from '../screens'
-import { ICONS, COLORS, GET_CLASSES } from '../constants'
+import { ICONS, COLORS } from '../constants'
+import Utils from '../libs/Utils'
 
 class History extends Component {
   constructor(props) {
@@ -32,40 +33,10 @@ class History extends Component {
 
     this.state = {
       error: '',
-      classes: [],
     }
 
-    this.getClasses = this.getClasses.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.onRenderItemPress = this.onRenderItemPress.bind(this)
-  }
-
-  componentDidMount() {
-    this.getClasses(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // needed for triggering a re-render after login
-    if (this.props.session.token !== nextProps.session.token)
-      this.getClasses(nextProps)
-  }
-
-  // TODO: put classes in store and pass through props
-  async getClasses(props) {
-    const { session } = props
-    if (!session.token || !session.user)
-      return false
-
-    const
-      { url, options } = GET_CLASSES(session.token, session.user.id),
-      request = new Request()
-    
-    try {
-      const classes = await request.fetch(url, options)
-      this.setState({ classes })
-    } catch (e) {
-      this.setState({ error: e.message })
-    }
   }
 
   renderItem({ item }) {
@@ -97,7 +68,7 @@ class History extends Component {
       <View style={styles.container} collapsable={true}>
         <List
           style={styles.list}
-          data={this.state.classes}
+          data={this.props.classes}
           renderItem={this.renderItem}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<Text style={styles.headerText}>Classes</Text>} />
@@ -152,6 +123,7 @@ const styles = StyleSheet.create({
 const mapStoreToProps = (store) => {
   return {
     session: store.session,
+    classes: store.classes,
   }
 }
 
