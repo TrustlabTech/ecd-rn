@@ -24,7 +24,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
   PermissionsAndroid,
-  
+
 } from 'react-native'
 // components/views
 import List from '../../components/List'
@@ -171,18 +171,18 @@ class Attendance extends Component {
   confirmSubmit() {
     const attendanceChildren = this.state.children.filter(e => e.checked)
     const { pupils } = this.props;
-    const message = Utils.checkChirlrenAttendance(attendanceChildren, pupils);
+    const message = Utils.checkChildrenAttendance(attendanceChildren, pupils);
     if (message) {
       Alert.alert('Duplicate', message)
     } else {
       Alert.alert(
-          'Confirmation',
-          `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
-          [
-            { text: 'Cancel' },
-            { text: 'Proceed', onPress: this.takeAttendance },
-          ]
-        )
+        'Confirmation',
+        `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
+        [
+          { text: 'Cancel' },
+          { text: 'Proceed', onPress: this.takeAttendance },
+        ]
+      )
     }
   }
 

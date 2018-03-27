@@ -47,7 +47,8 @@ export default class Utils {
     props.storePupils(pupils)
     return pupils
   }
-  static checkChirlrenAttendance(attendanceChild, puplis) {
+
+  static checkChildrenAttendance(attendanceChild, puplis) {
     let message;
     attendanceChild.forEach(element => {
       const user = puplis.find(e => e.id === element.id);
@@ -55,8 +56,8 @@ export default class Utils {
         const currentTime = new Date()
         const date = new Date(user.attendanceTime)
         if (currentTime.toDateString() === date.toDateString()) {
-            message = 'Child already attended this class today'
-        } 
+          message = 'Child already attended this class today'
+        }
       }
     });
     return message;
