@@ -20,7 +20,7 @@ export default (state = tree.classes, action) => {
       return classes
     }
     case REHYDRATE: {
-      let classes = action.payload
+      const { classes } = action.payload
       if (!Array.isArray(classes)) {
         classes = []
       }

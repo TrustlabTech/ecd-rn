@@ -23,14 +23,18 @@ export default class Utils {
     if (!session.token || !session.user) {
       return []
     }
-
-    const
+    try {
+      const
       { url, options } = GET_CLASSES(session.token, session.user.id),
       request = new Request()
 
-    const classes = await request.fetch(url, options)
-    props.storeClasses(classes)
-    return classes
+      const classes = await request.fetch(url, options)
+      props.storeClasses(classes)
+      return classes
+    } catch (error) {
+      console.log('getClasses Error:', error)
+      return error
+    }
   }
 
   static getChildren = async (props) => {
