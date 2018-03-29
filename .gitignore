@@ -47,3 +47,4 @@ cfg/runtime.json
 crashlytics-build.properties
 com_crashlytics_export_strings.xml
 *.apk
+amply.properties

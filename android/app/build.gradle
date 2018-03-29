@@ -7,6 +7,10 @@ apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
+File f1 = new File(rootProject.projectDir, "amply.properties")
+Properties props = new Properties()
+props.load(new FileInputStream(f1))
+
 repositories {
     maven { url  "http://jcenter.bintray.com" }
     maven { url 'https://maven.fabric.io/public' }
@@ -33,16 +37,16 @@ android {
     }
     signingConfigs {
         release {
-            //storeFile file(AMPLY_ECD_PRODUCTION_KEYSTORE_FILE)
-            //storePassword AMPLY_ECD_PRODUCTION_KEYSTORE_PWD
-            //keyAlias AMPLY_ECD_PRODUCTION_KEYALIAS
-            //keyPassword AMPLY_ECD_PRODUCTION_KEYPWD
+            storeFile file(props['security.release.file'])
+            keyAlias props['security.release.keyAlias']
+            keyPassword props['security.release.keyPassword']
+            storePassword props['security.release.storePassword']
         }
         debug {
-            storeFile file('ECDRN.keystore')
-            storePassword 'shantaram'
-            keyAlias 'ECDRN_RELEASE'
-            keyPassword 'shantaram'
+            storeFile file(props['security.debug.file'])
+            keyAlias props['security.debug.keyAlias']
+            keyPassword props['security.debug.keyPassword']
+            storePassword props['security.debug.storePassword']
         }
     }
     splits {
@@ -58,13 +62,13 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            buildConfigField "String", "CODEPUSH_KEY", '"<CODEPUSH_AMPLYECD_PRODUCTION>"'
+            buildConfigField "String", "CODEPUSH_KEY", props['codepush.release.key']
         }
 
         releaseStaging {
             initWith(buildTypes.release)
             applicationIdSuffix ".staging"
-            buildConfigField "String", "CODEPUSH_KEY", '"<CODEPUSH_AMPLYECD_STAGING>"'
+            buildConfigField "String", "CODEPUSH_KEY", props['codepush.staging.key']
         }
 
         debug {
