@@ -1,4 +1,4 @@
-package foundation.ixo.amply.ecd.reactnative.crypto.util;
+package com.ecdrn.reactnative.crypto.util;
 
 import java.util.concurrent.ConcurrentHashMap;
 

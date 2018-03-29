@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="foundation.ixo.amply.ecd">
+    package="com.ecdrn">
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -7,13 +7,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-      android:name="foundation.ixo.amply.ecd.MainApplication"
+      android:name="com.ecdrn.MainApplication"
       android:allowBackup="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
       <activity
-        android:name="foundation.ixo.amply.ecd.MainActivity"
+        android:name="com.ecdrn.MainActivity"
         android:label="@string/app_name"
           android:windowSoftInputMode="adjustResize"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize">

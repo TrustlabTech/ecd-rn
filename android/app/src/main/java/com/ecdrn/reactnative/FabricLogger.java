@@ -5,7 +5,7 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package foundation.ixo.amply.ecd.reactnative;
+package com.ecdrn.reactnative;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -14,7 +14,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.common.logging.LoggingDelegate;
-import foundation.ixo.amply.ecd.BuildConfig;
+import com.ecdrn.BuildConfig;
 
 /**
  * Default implementation of {@link LoggingDelegate}.

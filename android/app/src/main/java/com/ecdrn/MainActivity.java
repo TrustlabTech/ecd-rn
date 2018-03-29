@@ -4,7 +4,7 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
-package foundation.ixo.amply.ecd;
+package com.ecdrn;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import com.crashlytics.android.Crashlytics;
 import com.facebook.common.logging.FLog;
 import com.reactnativenavigation.controllers.SplashActivity;
 
-import foundation.ixo.amply.ecd.reactnative.FabricLogger;
+import com.ecdrn.reactnative.FabricLogger;
 import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends SplashActivity {
