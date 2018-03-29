@@ -20,7 +20,7 @@ export default (state = tree.pupils, action) => {
       return pupils
     }
     case REHYDRATE: {
-      let pupils = action.payload
+      let { pupils } = action.payload
       if (!Array.isArray(pupils)) {
         pupils = []
       }
