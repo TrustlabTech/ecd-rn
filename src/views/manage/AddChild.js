@@ -55,6 +55,7 @@ class AddChild extends Component {
     }
 
     this.createChild = this.createChild.bind(this)
+    this._duplicateChild = this._duplicateChild.bind(this)
 
     this.onCentreSelectorChanged = this.onCentreSelectorChanged.bind(this)
 
@@ -134,6 +135,13 @@ class AddChild extends Component {
         validationErrors: { ...this.state.validationErrors, idNumber: '' }
       })
     }
+
+    if (this._duplicateChild(t)) {
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: 'A child with this ID number is already registered' }
+      })
+    }
+
   }
 
   onIdNumberEditingSubmitted() {
@@ -182,6 +190,14 @@ class AddChild extends Component {
     })
   }
 
+  _duplicateChild(idNumber) {
+    let children = this.props.pupils
+    children = children.filter((child) => {
+      return child.id_number == idNumber
+    })
+    return children.length > 0
+  }
+
   async createChild() {
     let validationErrors = {}
     if (!this.state.givenName) {
@@ -193,6 +209,10 @@ class AddChild extends Component {
     if (!this.state.idNumber && !this.state.passport) {
       validationErrors.idNumber = 'Please enter a valid ID number or passport'
       validationErrors.passport = 'Please enter a valid ID number or passport'
+    }
+
+    if (this._duplicateChild(this.state.idNumber)) {
+      validationErrors.idNumber = 'A child with this ID number is already registered'
     }
 
     if (Object.keys(validationErrors).length > 0) {
