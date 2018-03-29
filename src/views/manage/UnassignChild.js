@@ -61,7 +61,7 @@ export default class UnassignChild extends Component {
         loaded: true,
         classSelectedId: classes[classIndex].id,
       })
-      const children = await this.getChildren(classes[classIndex].id)
+      const children = Utils.getChildrenForClass(classes[classIndex].id, this.props)
       if (children !== false) {
         this.setState({
           // children stuff
@@ -90,22 +90,6 @@ export default class UnassignChild extends Component {
     }
   }
 
-  async getChildren(classid) {
-    const
-      { session } = this.props,
-      { url, options } = GET_CHILDREN(session.token, classid),
-      request = new Request()
-
-    try {
-      return await request.fetch(url, options)
-    } catch (e) {
-      this.setState({ loaded: true, classesLoaded: true, classes: [], unassignedChildren: [] }, () => {
-        Alert.alert('Error', 'Failed to get unassigned children, try again later.')
-      })
-      return false
-    }
-  }
-
   onClassSelectorChange(classSelectedId) {
     if (this.state.classSelectedId === classSelectedId)
       return
@@ -119,8 +103,8 @@ export default class UnassignChild extends Component {
   onChildSelectorChange(childSelectedId) {
     if (this.state.childSelectedId === childSelectedId)
       return
-    
-    this.setState({ childSelectedId })    
+
+    this.setState({ childSelectedId })
   }
 
   async updateChildClass(type) {
@@ -132,7 +116,7 @@ export default class UnassignChild extends Component {
         centre_class_id: type === 'unassign' ? session.meta.unassignedClass[0].id : session.meta.graduatedClass[0].id // eslint-disable-line camelcase
       },
       { url, options } = UPDATE_CHILD_CLASS(session.token, childSelectedId, body)
-    
+
     try {
       await request.fetch(url, options)
       ToastAndroid.show('Child class updated successfully', ToastAndroid.SHORT)
@@ -166,11 +150,11 @@ export default class UnassignChild extends Component {
               onValueChange={this.onChildSelectorChange}
               pickerLabelDataAttribute={(object) => `${object.given_name} ${object.family_name}`} />
           ) : (
-            <ActivityIndicator
-              animating
-              size="large"
-              style={styles.activityIndicator} />
-          )
+              <ActivityIndicator
+                animating
+                size="large"
+                style={styles.activityIndicator} />
+            )
         }
 
         <View style={styles.buttonToolbar}>

@@ -40,7 +40,6 @@ class Home extends Component {
       error: '',
     }
 
-    this.getClasses = this.getClasses.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.onRenderItemPress = this.onRenderItemPress.bind(this)
   }
@@ -48,24 +47,16 @@ class Home extends Component {
   componentDidMount() {
     this.loginIfRequired()
     this.keypairExistOrCreate()
-    this.getClasses(this.props)
+    Utils.getClasses(this.props)
     Utils.getChildren(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
     // needed for triggering a re-render after login
     if (this.props.session.token !== nextProps.session.token) {
-      this.getClasses(nextProps)
+      Utils.getClasses(nextProps)
       Utils.getChildren(nextProps)
     }
-  }
-
-  getClasses(props) {
-    Utils.getClasses(props)
-      .then((classes) => { })
-      .catch((e) => {
-        this.setState({ error: e.message })
-      })
   }
 
   // TODO: dialog for password input

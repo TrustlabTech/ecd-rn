@@ -8,7 +8,7 @@
 'use-strict'
 
 var luhn = require('luhn-alg')
-import { GET_CLASSES, GET_CHILDREN } from '../constants'
+import { GET_CLASSES, GET_CHILDREN, GET_CHILDREN_FOR_CENTER } from '../constants'
 import { Request } from '../libs/network'
 
 export default class Utils {
@@ -40,12 +40,20 @@ export default class Utils {
     }
 
     const
-      { url, options } = GET_CHILDREN(session.token, session.user.id),
+      { url, options } = GET_CHILDREN_FOR_CENTER(session.token, session.user.centre_id),
       request = new Request()
 
     const pupils = await request.fetch(url, options)
     props.storePupils(pupils)
     return pupils
+  }
+
+  static getChildrenForClass(classid, props) {
+    let children = props.pupils
+    children = children.filter((child) => {
+      return child.centre_class_id == classid
+    })
+    return children
   }
 
   static checkChildrenAttendance(attendanceChild, puplis) {

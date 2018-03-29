@@ -143,14 +143,10 @@ class Attendance extends Component {
     })
   }
 
-  async getChildren() {
-    const
-      { session, classObj } = this.props,
-      { url, options } = GET_CHILDREN(session.token, classObj.id),
-      request = new Request()
-
+  getChildren() {
+    const { classObj } = this.props
+    const children = Utils.getChildrenForClass(classObj.id, this.props)
     try {
-      const children = await request.fetch(url, options)
       !this.abort && this.setState({ children: children.map(c => ({ ...c, checked: true })) })
     } catch (e) {
       !this.abort && this.setState({ error: e.message })

@@ -33,10 +33,10 @@ android {
     }
     signingConfigs {
         release {
-//            storeFile file(AMPLY_ECD_PRODUCTION_KEYSTORE_FILE)
-//            storePassword AMPLY_ECD_PRODUCTION_KEYSTORE_PWD
-//            keyAlias AMPLY_ECD_PRODUCTION_KEYALIAS
-//            keyPassword AMPLY_ECD_PRODUCTION_KEYPWD
+            //storeFile file(AMPLY_ECD_PRODUCTION_KEYSTORE_FILE)
+            //storePassword AMPLY_ECD_PRODUCTION_KEYSTORE_PWD
+            //keyAlias AMPLY_ECD_PRODUCTION_KEYALIAS
+            //keyPassword AMPLY_ECD_PRODUCTION_KEYPWD
         }
         debug {
             storeFile file('ECDRN.keystore')
