@@ -17,6 +17,15 @@ export default (state = tree.pupils, action) => {
       if (!Array.isArray(pupils)) {
         pupils = []
       }
+      if (state.length > 0) {
+        pupils = pupils.map(pupil => {
+          const _pupil = state.find(e => e.id === pupil.id);
+          if (_pupil && _pupil.attendanceTime) {
+            pupil.attendanceTime = _pupil.attendanceTime
+          }
+          return pupil
+        })
+      }
       return pupils
     }
     case REHYDRATE: {
@@ -33,21 +42,14 @@ export default (state = tree.pupils, action) => {
   }
 }
 function updateAttendanceTime(state, action) {
-  let pupils = action.payload
-  pupils = pupils.map(element => {
-    element.attendanceTime = new Date().getTime()
-    return element
-  })
-  const result = state.concat(pupils).unique()
+  const timeStamp = new Date().getTime()
+  const result = state.map(pupil => {
+    const object = Object.assign({}, pupil);
+    let _pupil = action.payload.find(e => e.id === object.id)
+    if (_pupil) {
+      object.attendanceTime = timeStamp
+    }
+    return object;
+  });
   return result
 }
-Array.prototype.unique = function() {
-  const a = this.concat();
-  for (const i = 0; i < a.length; ++i) {
-    for (const j = i + 1; j < a.length; ++j) {
-      if (a[i] === a[j])
-        a.splice(j--, 1);
-    }
-  }
-  return a;
-};
