@@ -16,25 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.common.logging.FLog;
 import com.reactnativenavigation.controllers.SplashActivity;
-
-import com.ecdrn.reactnative.FabricLogger;
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends SplashActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Fabric.with(this, new Crashlytics());
-
-        FabricLogger logger = new FabricLogger().getInstance();
-        logger.setApplicationTag(getPackageName());
-        logger.setMinimumLoggingLevel(Log.INFO);
-
-        FLog.setLoggingDelegate(logger);
     }
 
     @Override

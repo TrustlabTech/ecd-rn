@@ -19,15 +19,15 @@ def enableProguardInReleaseBuilds = false
 def enableProguardInDebugBuilds = false
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.ecdrn"
         minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 202
-        versionName "2.0.2"
+        targetSdkVersion 27
+        versionCode 203
+        versionName "2.0.3"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -47,6 +47,7 @@ android {
             storePassword props['security.debug.storePassword']
         }
     }
+
     splits {
         abi {
             reset()
@@ -55,6 +56,7 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+
     buildTypes {
         release {
             signingConfig signingConfigs.release
@@ -102,13 +104,9 @@ dependencies {
     compile project(':react-native-code-push')
     compile 'com.android.support:multidex:1.0.3'
     compile "com.facebook.react:react-native:+"
-    compile "com.android.support:appcompat-v7:25.3.1"
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
 }
 configurations.all {
     resolutionStrategy {
