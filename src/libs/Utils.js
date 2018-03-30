@@ -7,16 +7,11 @@
 
 'use-strict'
 
-var luhn = require('luhn-alg')
 import { GET_CLASSES, GET_CHILDREN, GET_CHILDREN_FOR_CENTER } from '../constants'
 import { Request } from '../libs/network'
 
 export default class Utils {
 
-  static validSAIDNumber = (idNumber) => {
-    let toRet = luhn(idNumber)
-    return toRet
-  }
 
   static getClasses = async (props) => {
     const { session } = props
@@ -25,8 +20,8 @@ export default class Utils {
     }
     try {
       const
-      { url, options } = GET_CLASSES(session.token, session.user.id),
-      request = new Request()
+        { url, options } = GET_CLASSES(session.token, session.user.id),
+        request = new Request()
 
       const classes = await request.fetch(url, options)
       props.storeClasses(classes)

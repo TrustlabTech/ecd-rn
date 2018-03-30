@@ -29,6 +29,7 @@ import { Request } from '../../libs/network'
 // constants
 import { META, COLORS, CREATE_CHILD } from '../../constants'
 import Utils from '../../libs/Utils'
+var luhn = require('luhn-alg')
 
 class AddChild extends Component {
   constructor(props) {
@@ -119,17 +120,26 @@ class AddChild extends Component {
     this.setState({
       idNumber: t
     })
-    if (t.length <= 0) {
+
+    if (t.length <= 0 && this.state.citizenshipId !== "ZA") {
       this.setState({
         validationErrors: { ...this.state.validationErrors, idNumber: '' }
       })
       return
     }
 
-    if (!Utils.validSAIDNumber(t)) {
+    if (t.length <= 0 && this.state.citizenshipId === "ZA") {
       this.setState({
         validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' }
       })
+      return
+    }
+
+    if (!luhn(t)) {
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' }
+      })
+      return
     } else {
       this.setState({
         validationErrors: { ...this.state.validationErrors, idNumber: '' }
@@ -152,12 +162,15 @@ class AddChild extends Component {
     this.setState({
       passport: t
     })
-    if (t.length <= 0) {
+    if (t.length <= 0 && this.state.citizenshipId !== "ZA") {
       this.setState({
-        validationErrors: { ...this.state.validationErrors, passport: '' }
+        validationErrors: { ...this.state.validationErrors, passport: 'Please enter a valid passport number.' }
       })
       return
     }
+    this.setState({
+      validationErrors: { ...this.state.validationErrors, passport: '' }
+    })
 
   }
 
@@ -302,6 +315,9 @@ class AddChild extends Component {
   }
 
   _idNumber() {
+    if (this.state.citizenshipId !== "ZA") {
+      return
+    }
     return (
       <View>
         <Text style={styles.label}>ID Number</Text>
@@ -317,6 +333,10 @@ class AddChild extends Component {
   }
 
   _passport() {
+    if (this.state.citizenshipId === "ZA") {
+      return
+    }
+
     return (
       <View>
         <Text style={styles.label}>Passport</Text>
@@ -396,9 +416,9 @@ class AddChild extends Component {
         {this._class()}
         {this._givenName()}
         {this._familyName()}
+        {this._citizenship()}
         {this._idNumber()}
         {this._passport()}
-        {this._citizenship()}
         {this._race()}
         <View style={styles.rowContainer}>
           {this._gender()}
