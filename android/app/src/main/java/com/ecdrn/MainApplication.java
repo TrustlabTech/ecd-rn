@@ -5,7 +5,7 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package foundation.ixo.amply.ecd;
+package com.ecdrn;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -18,13 +18,13 @@ import com.reactnativenavigation.NavigationApplication;
 import java.util.Arrays;
 import java.util.List;
 
-import foundation.ixo.amply.ecd.reactnative.ReactNativePackages;
+import com.ecdrn.reactnative.ReactNativePackages;
 
 public class MainApplication extends NavigationApplication {
 
   @Override
   public boolean isDebug() {
-    return foundation.ixo.amply.ecd.BuildConfig.DEBUG;
+    return com.ecdrn.BuildConfig.DEBUG;
   }
 
   // multidex support

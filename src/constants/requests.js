@@ -70,6 +70,19 @@ export const GET_CHILDREN = (token, classid) => {
   }
 }
 
+export const GET_CHILDREN_FOR_CENTER = (token, centreid) => {
+  return {
+    url: `${API_CHILD_ROOT}/centre/${centreid}`,
+    options: {
+      method: 'GET',
+      headers: {
+        ...DEFAULT_HEADERS,
+        'Authorization': `Bearer ${token}`
+      }
+    }
+  }
+}
+
 export const GET_ATTENDANCE_HISTORY = (token, centreid, year, month) => {
   return {
     url: `${API_ATTENDANCE_ROOT}/${centreid}/history/${year}/${month}`,

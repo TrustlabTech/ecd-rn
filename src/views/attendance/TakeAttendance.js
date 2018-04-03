@@ -10,6 +10,7 @@
 // base libs
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CheckBox from 'react-native-check-box'
 import buffer from 'buffer/'
 const Buffer = buffer.Buffer
@@ -23,6 +24,7 @@ import {
   ToastAndroid,
   ActivityIndicator,
   PermissionsAndroid,
+
 } from 'react-native'
 // components/views
 import List from '../../components/List'
@@ -37,7 +39,10 @@ import {
   GET_CHILDREN,
   SUBMIT_ATTENDANCE,
   SUBMIT_ATTENDANCE_CLAIMS,
-} from '../../constants' 
+} from '../../constants'
+
+import { updateAttendanceTime } from '../../actions'
+import Utils from '../../libs/Utils'
 
 const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
 
@@ -71,7 +76,7 @@ const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds)
   })
 }
 
-export default class Attendance extends Component {
+class Attendance extends Component {
   constructor(props) {
     super(props)
 
@@ -138,14 +143,10 @@ export default class Attendance extends Component {
     })
   }
 
-  async getChildren() {
-    const
-      { session, classObj } = this.props,
-      { url, options } = GET_CHILDREN(session.token, classObj.id),
-      request = new Request()
-    
+  getChildren() {
+    const { classObj } = this.props
+    const children = Utils.getChildrenForClass(classObj.id, this.props)
     try {
-      const children = await request.fetch(url, options)
       !this.abort && this.setState({ children: children.map(c => ({ ...c, checked: true })) })
     } catch (e) {
       !this.abort && this.setState({ error: e.message })
@@ -164,14 +165,21 @@ export default class Attendance extends Component {
   }
 
   confirmSubmit() {
-    Alert.alert(
-      'Confirmation',
-      `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
-      [
-        { text: 'Cancel' },
-        { text: 'Proceed', onPress: this.takeAttendance },
-      ]
-    )
+    const attendanceChildren = this.state.children.filter(e => e.checked)
+    const { pupils } = this.props;
+    const message = Utils.checkChildrenAttendance(attendanceChildren, pupils);
+    if (message) {
+      Alert.alert('Duplicate', message)
+    } else {
+      Alert.alert(
+        'Confirmation',
+        `Are you sure you want to submit attendance with ${this.state.children.filter(f => !!f.checked).length} of ${this.state.children.length} children present?`,
+        [
+          { text: 'Cancel' },
+          { text: 'Proceed', onPress: this.takeAttendance },
+        ]
+      )
+    }
   }
 
   async takeAttendance() {
@@ -193,7 +201,7 @@ export default class Attendance extends Component {
       longitude: location.coords.longitude.toString(),
       attended: d.checked || false
     }))
-    
+
     const
       request = new Request(),
       { session, classObj } = this.props,
@@ -215,7 +223,7 @@ export default class Attendance extends Component {
       })
       return false
     }
-  
+
     try {
       await request.fetch(url, options)
     } catch (e) {
@@ -256,7 +264,7 @@ export default class Attendance extends Component {
         // subject portion
         let attendee = attendeeSample
         attendee.id = childData.id,
-        attendee.date = date
+          attendee.date = date
         attendee.attended = childData.checked || false
         // claim portion
         let claimObject = claimObjectSample
@@ -319,6 +327,8 @@ export default class Attendance extends Component {
       this.setState({ submittingAttendance: false }, () => {
         ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
         this.props.navigator.pop()
+        const attendanceChildren = this.state.children.filter(e => e.checked)
+        this.props.updateAttendanceTime(attendanceChildren)
       })
 
     } catch (e) {
@@ -362,7 +372,7 @@ export default class Attendance extends Component {
           renderItem={this.renderItem}
           showsVerticalScrollIndicator={false}
           /*ListHeaderComponent={<Text style={styles.headerText}>Children</Text>}*/ />
-        
+
         {
           this.state.submittingAttendance ? (
             <ActivityIndicator
@@ -370,10 +380,10 @@ export default class Attendance extends Component {
               size="large"
               style={styles.activityIndicator} />
           ) : (
-            <Button style={styles.button} nativeFeedback={true} onPress={this.confirmSubmit}>
-              <Text style={styles.buttonText}>Take Attendance</Text>
-            </Button>
-          )
+              <Button style={styles.button} nativeFeedback={true} onPress={this.confirmSubmit}>
+                <Text style={styles.buttonText}>Take Attendance</Text>
+              </Button>
+            )
         }
       </View>
     )
@@ -470,3 +480,16 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateAttendanceTime: (pupils) => dispatch(updateAttendanceTime(pupils)),
+  }
+}
+
+const mapStoreToProps = (store) => {
+  return {
+    pupils: store.pupils
+  }
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(Attendance)

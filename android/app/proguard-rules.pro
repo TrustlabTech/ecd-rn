@@ -101,3 +101,8 @@
 -keep class org.spongycastle.crypto.digests.SHA256Digest
 
 -dontwarn javax.naming.**
+
+# MISC
+
+-dontwarn android.text.StaticLayout # https://github.com/facebook/react-native/issues/11891
+-keep class com.reactnativenavigation.screens.FragmentScreen.** { *; }

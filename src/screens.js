@@ -49,8 +49,8 @@ export default (store, Provider) => {
   Navigation.registerComponent(SID_MANAGE, () => Manage, store, Provider)
   Navigation.registerComponent(SID_SETTINGS, () => Settings, store, Provider)
   // views
-  Navigation.registerComponent(SID_TAKE_ATTENDANCE, () => TakeAttendance)
-  Navigation.registerComponent(SID_CHILD_ADD, () => AddChild)
+  Navigation.registerComponent(SID_TAKE_ATTENDANCE, () => TakeAttendance, store, Provider)
+  Navigation.registerComponent(SID_CHILD_ADD, () => AddChild, store, Provider)
   Navigation.registerComponent(SID_CHILD_ASSIGN, () => AssignChild)
   Navigation.registerComponent(SID_CHILD_UNASSIGN, () => UnassignChild)
   Navigation.registerComponent(SID_HISTORY_LIST, () => HistoryList)

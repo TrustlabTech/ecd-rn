@@ -9,3 +9,5 @@
 
 export * from './session'
 export * from './offline'
+export * from './pupils'
+export * from './classes'

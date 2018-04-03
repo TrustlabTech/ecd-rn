@@ -14,4 +14,6 @@ export default {
   offline: {
     attendances: []
   },
+  pupils: [],
+  classes: [],
 }

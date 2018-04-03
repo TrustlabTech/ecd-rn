@@ -5,7 +5,7 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package foundation.ixo.amply.ecd.reactnative.crypto;
+package com.ecdrn.reactnative.crypto;
 
 import static java.util.Arrays.copyOfRange;
 
@@ -13,9 +13,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import foundation.ixo.amply.ecd.reactnative.crypto.util.ByteArrayWrapper;
-import foundation.ixo.amply.ecd.reactnative.crypto.util.Utils;
-import foundation.ixo.amply.ecd.reactnative.crypto.util.LRUMap;
+import com.ecdrn.reactnative.crypto.util.ByteArrayWrapper;
+import com.ecdrn.reactnative.crypto.util.Utils;
+import com.ecdrn.reactnative.crypto.util.LRUMap;
 
 import org.spongycastle.util.encoders.Hex;
 

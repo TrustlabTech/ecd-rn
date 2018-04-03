@@ -9,6 +9,7 @@
 
 // base libs
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import {
   Text,
@@ -26,15 +27,15 @@ import DatePicker from 'react-native-datepicker'
 import Crypto from '../../libs/Crypto'
 import { Request } from '../../libs/network'
 // constants
-import { META, COLORS, GET_CLASSES, CREATE_CHILD } from '../../constants'
+import { META, COLORS, CREATE_CHILD } from '../../constants'
 import Utils from '../../libs/Utils'
+var luhn = require('luhn-alg')
 
-export default class AddChild extends Component {
+class AddChild extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      classes: [],
       citizenships: [],
       classId: -1,
       givenName: '',
@@ -55,6 +56,7 @@ export default class AddChild extends Component {
     }
 
     this.createChild = this.createChild.bind(this)
+    this._duplicateChild = this._duplicateChild.bind(this)
 
     this.onCentreSelectorChanged = this.onCentreSelectorChanged.bind(this)
 
@@ -77,24 +79,9 @@ export default class AddChild extends Component {
   }
 
   componentDidMount() {
-    this.getClasses()
     this.getCitizenships()
   }
 
-  // TODO: put classes in store and pass through props
-  async getClasses() {
-    const
-      { session } = this.props,
-      { url, options } = GET_CLASSES(session.token, session.user.id),
-      request = new Request()
-
-    try {
-      const classes = await request.fetch(url, options)
-      this.setState({ classes, classId: classes[0].id })
-    } catch (e) {
-      this.setState({ error: e.message })
-    }
-  }
 
   getCitizenships() {
     const citizenships = META.getCitizenships()
@@ -133,22 +120,38 @@ export default class AddChild extends Component {
     this.setState({
       idNumber: t
     })
-    if (t.length <= 0) {
+
+    if (t.length <= 0 && this.state.citizenshipId !== "ZA") {
       this.setState({
         validationErrors: { ...this.state.validationErrors, idNumber: '' }
       })
       return
     }
 
-    if (!Utils.validSAIDNumber(t)) {
+    if (t.length <= 0 && this.state.citizenshipId === "ZA") {
       this.setState({
         validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' }
       })
+      return
+    }
+
+    if (!luhn(t)) {
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: 'Please enter a valid ID number.' }
+      })
+      return
     } else {
       this.setState({
         validationErrors: { ...this.state.validationErrors, idNumber: '' }
       })
     }
+
+    if (this._duplicateChild(t)) {
+      this.setState({
+        validationErrors: { ...this.state.validationErrors, idNumber: 'A child with this ID number is already registered' }
+      })
+    }
+
   }
 
   onIdNumberEditingSubmitted() {
@@ -159,12 +162,15 @@ export default class AddChild extends Component {
     this.setState({
       passport: t
     })
-    if (t.length <= 0) {
+    if (t.length <= 0 && this.state.citizenshipId !== "ZA") {
       this.setState({
-        validationErrors: { ...this.state.validationErrors, passport: '' }
+        validationErrors: { ...this.state.validationErrors, passport: 'Please enter a valid passport number.' }
       })
       return
     }
+    this.setState({
+      validationErrors: { ...this.state.validationErrors, passport: '' }
+    })
 
   }
 
@@ -197,6 +203,14 @@ export default class AddChild extends Component {
     })
   }
 
+  _duplicateChild(idNumber) {
+    let children = this.props.pupils
+    children = children.filter((child) => {
+      return child.id_number == idNumber
+    })
+    return children.length > 0
+  }
+
   async createChild() {
     let validationErrors = {}
     if (!this.state.givenName) {
@@ -208,6 +222,10 @@ export default class AddChild extends Component {
     if (!this.state.idNumber && !this.state.passport) {
       validationErrors.idNumber = 'Please enter a valid ID number or passport'
       validationErrors.passport = 'Please enter a valid ID number or passport'
+    }
+
+    if (this._duplicateChild(this.state.idNumber)) {
+      validationErrors.idNumber = 'A child with this ID number is already registered'
     }
 
     if (Object.keys(validationErrors).length > 0) {
@@ -260,7 +278,7 @@ export default class AddChild extends Component {
         <Text style={styles.label}>Class</Text>
         <Picker
           style={styles.picker}
-          items={this.state.classes}
+          items={this.props.classes}
           selectedValue={this.state.classId}
           onValueChange={this.onCentreSelectorChanged} />
       </View>
@@ -297,6 +315,9 @@ export default class AddChild extends Component {
   }
 
   _idNumber() {
+    if (this.state.citizenshipId !== "ZA") {
+      return
+    }
     return (
       <View>
         <Text style={styles.label}>ID Number</Text>
@@ -312,6 +333,10 @@ export default class AddChild extends Component {
   }
 
   _passport() {
+    if (this.state.citizenshipId === "ZA") {
+      return
+    }
+
     return (
       <View>
         <Text style={styles.label}>Passport</Text>
@@ -391,9 +416,9 @@ export default class AddChild extends Component {
         {this._class()}
         {this._givenName()}
         {this._familyName()}
+        {this._citizenship()}
         {this._idNumber()}
         {this._passport()}
-        {this._citizenship()}
         {this._race()}
         <View style={styles.rowContainer}>
           {this._gender()}
@@ -411,6 +436,7 @@ export default class AddChild extends Component {
 AddChild.propTypes = {
   session: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  classes: PropTypes.array.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -459,3 +485,18 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   }
 })
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+const mapStoreToProps = (store) => {
+  return {
+    session: store.session,
+    pupils: store.pupils,
+    classes: store.classes,
+  }
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(AddChild)

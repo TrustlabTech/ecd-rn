@@ -21,7 +21,7 @@ import {
 import List from '../components/List'
 import Button from '../components/Button'
 // constants
-import { ICONS, COLORS } from '../constants' 
+import { ICONS, COLORS } from '../constants'
 import {
   SID_CHILD_ADD,
   SID_CHILD_ASSIGN,
@@ -55,6 +55,8 @@ class Manage extends Component {
       screen: item.navScreen,
       passProps: {
         session: this.props.session,
+        pupils: this.props.pupils,
+        classes: this.props.classes,
       }
     }
 
@@ -77,6 +79,8 @@ class Manage extends Component {
 Manage.propTypes = {
   session: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  pupils: PropTypes.object,
+  classes: PropTypes.object,
 }
 
 const styles = StyleSheet.create({
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: COLORS.darkGrey2,
-    
+
   },
   button: {
     padding: 10,
@@ -128,6 +132,8 @@ const styles = StyleSheet.create({
 const mapStoreToProps = (store) => {
   return {
     session: store.session,
+    pupils: store.pupils,
+    classes: store.classes,
   }
 }
 

@@ -5,9 +5,9 @@
  * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
  */
 
-package foundation.ixo.amply.ecd.reactnative;
+package com.ecdrn.reactnative;
 
-import foundation.ixo.amply.ecd.reactnative.crypto.ReactNativeEthereumCrypto;
+import com.ecdrn.reactnative.crypto.ReactNativeEthereumCrypto;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
