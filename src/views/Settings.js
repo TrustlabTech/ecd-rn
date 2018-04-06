@@ -86,8 +86,7 @@ class Settings extends Component {
     }
 
     this.abort = false
-
-    this.getLocation = this.getLocation.bind(this)
+    
     this.onSyncPress = this.onSyncPress.bind(this)
     this.onLogoutPress = this.onLogoutPress.bind(this)
     this.takeAttendance = this.takeAttendance.bind(this)
@@ -154,13 +153,6 @@ class Settings extends Component {
     )
   }
 
-  getLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: false, timeout: 5000, maximumAge: 1000 * 5 }) // eslint-disable-line no-undef
-    })
-  }
-
-
   async takeAttendances() {
     Utils.getClasses(this.props)
     Utils.getChildren(this.props)
@@ -192,10 +184,10 @@ class Settings extends Component {
   async takeAttendance(attendance) {
     let location = null
     try {
-      location = await this.getLocation()
+      location = await Utils.getCurrentPosition()
     } catch (e) {
       this.setState({ submittingAttendance: false }, () => {
-        Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
+        // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
       })
       return false
     }

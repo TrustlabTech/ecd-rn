@@ -197,12 +197,6 @@ class AddChild extends Component {
     this.setState({ date_of_birth: dob })
   }
 
-  getLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: false, timeout: 5000, maximumAge: 1000 * 5 }) // eslint-disable-line no-undef
-    })
-  }
-
   _duplicateChild(idNumber) {
     let children = this.props.pupils
     children = children.filter((child) => {
@@ -235,10 +229,10 @@ class AddChild extends Component {
 
     let location = null
     try {
-      location = await this.getLocation()
+      location = await Utils.getCurrentPosition()
     } catch (e) {
       this.setState({ submittingAttendance: false }, () => {
-        Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
+        // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
       })
       return false
     }
