@@ -8,6 +8,7 @@
 'use-strict'
 
 // base libs
+import codePush from 'react-native-code-push'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -89,6 +90,7 @@ class Settings extends Component {
 
     this.onSyncPress = this.onSyncPress.bind(this)
     this.onLogoutPress = this.onLogoutPress.bind(this)
+    this.onUpdatePress = this.onUpdatePress.bind(this)
     this.takeAttendance = this.takeAttendance.bind(this)
     this.takeAttendances = this.takeAttendances.bind(this)
 
@@ -151,6 +153,13 @@ class Settings extends Component {
         { text: 'Proceed', onPress: this.takeAttendances },
       ]
     )
+  }
+
+  onUpdatePress() {
+      codePush.sync({
+          updateDialog: true,
+          installMode: codePush.InstallMode.IMMEDIATE
+      });
   }
 
   async takeAttendances() {
@@ -340,6 +349,10 @@ class Settings extends Component {
           <Text style={styles.buttonTextTitle}>Sync</Text>
           <Image source={ICONS.sync12} style={styles.rowImage} />
         </Button>
+          <Button style={styles.button} nativeFeedback={true} onPress={this.onUpdatePress}>
+              <Text style={styles.buttonTextTitle}>Check for updates</Text>
+              <Image source={ICONS.sync12} style={styles.rowImage} />
+          </Button>
         <View style={styles.appInfoContainer}>
           <Text style={styles.appInfoText}>{APP_VERSION} ({BUNDLE_VERSION})</Text>
           <Text style={styles.appInfoText}>{API_HOST}</Text>

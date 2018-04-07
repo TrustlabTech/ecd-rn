@@ -26,8 +26,8 @@ android {
         applicationId "com.ecdrn"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 204
-        versionName "2.0.4"
+        versionCode 205
+        versionName "2.0.5"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -74,7 +74,7 @@ android {
         debug {
             debuggable true
             minifyEnabled enableProguardInDebugBuilds
-            buildConfigField "String", "CODEPUSH_KEY", '""'
+            buildConfigField "String", "CODEPUSH_KEY", props['codepush.release.key']
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }

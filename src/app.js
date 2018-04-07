@@ -84,7 +84,8 @@ export default (ICONS) => {
     animationType: 'fade'
   })
 
-  if (!__DEV__) {
-    codePush.sync({ installMode: codePush.InstallMode.ON_NEXT_RESTART })
-  }
+  codePush.sync({
+      updateDialog: true,
+      installMode: codePush.InstallMode.IMMEDIATE
+  });
 }
