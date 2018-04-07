@@ -48,3 +48,4 @@ crashlytics-build.properties
 com_crashlytics_export_strings.xml
 *.apk
 amply.properties
+yarn-error.log
