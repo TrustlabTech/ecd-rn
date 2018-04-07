@@ -49,6 +49,9 @@ class Home extends Component {
     this.keypairExistOrCreate()
     Utils.getClasses(this.props)
     Utils.getChildren(this.props)
+
+    //prewarm location cache
+    Utils.getCurrentPosition()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,21 +76,8 @@ class Home extends Component {
 
   async loginIfRequired() {
     const { session } = this.props
-    if (!session.token || !session.user) {
+    if (!session.token || !session.user || Utils.hasTokenExpired(session.token)) {
       return this.goToLogin()
-    }
-
-    // dummy (and cheap) endpoint for verifying token's validity
-    // FIXME: use the right endpoint when it gets deployed
-    const
-      { url, options } = VERIFY_TOKEN(session.token),
-      request = new Request()
-
-    try {
-      return await request.fetch(url, options, false)
-    } catch (e) {
-      if (e.name === UNAUTHORIZED)
-        return await this.goToLogin()
     }
   }
 

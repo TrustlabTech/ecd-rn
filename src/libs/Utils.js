@@ -7,9 +7,9 @@
 
 'use-strict'
 import { PermissionsAndroid, ToastAndroid, Alert } from 'react-native';
-
 import { GET_CLASSES, GET_CHILDREN, GET_CHILDREN_FOR_CENTER } from '../constants'
 import { Request } from '../libs/network'
+var jwtDecode = require('jwt-decode');
 
 export default class Utils {
 
@@ -70,11 +70,12 @@ export default class Utils {
     });
     return message;
   }
+
   static async getCurrentPosition() {
-    const options = { 
-      enableHighAccuracy: false, 
-      timeout: 1000 * 10, 
-      maximumAge: 1000 * 10 
+    const options = {
+      enableHighAccuracy: false,
+      timeout: 1000 * 10, //wait 10s to get location
+      maximumAge: 1000 * 60 * 10 //10 minutes old 
     }
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject, options)
@@ -83,16 +84,15 @@ export default class Utils {
       return resp
     }).catch(error => {
       console.log('getCurrentPosition error', error)
-      Alert.alert('Location unavailable', error.message||'Your location could not be determined,\nplease ensure location is enabled.')
+      Alert.alert('Location unavailable', error.message || 'Your location could not be determined,\nplease ensure location is enabled.')
       return Promise.reject(error)
     })
   }
-  // static async requestLocationPermissions() {
-  //   const permissionsLocation = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
-  //   if (permissionsLocation) {
-  //     return PermissionsAndroid.RESULTS.GRANTED
-  //   }
-  //   const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
-  //   return granted
-  // }
+
+  static hasTokenExpired = (token) => {
+    let decoded = jwtDecode(token)
+    let { exp } = decoded
+    let d = new Date().getTime() / 1000
+    return d > exp
+  }
 }

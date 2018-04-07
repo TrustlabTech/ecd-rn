@@ -18,6 +18,7 @@
     "appcenter-analytics": "^1.4.0",
     "appcenter-crashes": "^1.4.0",
     "buffer": "^5.0.8",
+    "jwt-decode": "^2.2.0",
     "luhn-alg": "^1.0.1",
     "prop-types": "^15.6.0",
     "react": "^16.3.0-alpha.1",

@@ -86,7 +86,7 @@ class Settings extends Component {
     }
 
     this.abort = false
-    
+
     this.onSyncPress = this.onSyncPress.bind(this)
     this.onLogoutPress = this.onLogoutPress.bind(this)
     this.takeAttendance = this.takeAttendance.bind(this)
@@ -186,9 +186,7 @@ class Settings extends Component {
     try {
       location = await Utils.getCurrentPosition()
     } catch (e) {
-      this.setState({ submittingAttendance: false }, () => {
-        // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
-      })
+      this.setState({ submittingAttendance: false })
       return false
     }
 
