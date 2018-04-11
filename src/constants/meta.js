@@ -246,7 +246,7 @@ export const META = {
             'ZW': 'Zimbabwe'
         }
         let toRet = []
-        for (var key in tmp) {
+        for (let key in tmp) {
             let el = {}
             el.id = key
             el.name = tmp[key]

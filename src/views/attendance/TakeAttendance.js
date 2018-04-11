@@ -137,12 +137,6 @@ class Attendance extends Component {
     }
   }
 
-  getLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: false, timeout: 5000, maximumAge: 1000 * 5 }) // eslint-disable-line no-undef
-    })
-  }
-
   getChildren() {
     const { classObj } = this.props
     const children = Utils.getChildrenForClass(classObj.id, this.props)
@@ -187,10 +181,10 @@ class Attendance extends Component {
 
     let location = null
     try {
-      location = await this.getLocation()
+      location = await Utils.getCurrentPosition()
     } catch (e) {
       this.setState({ submittingAttendance: false }, () => {
-        Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
+        // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
       })
       return false
     }

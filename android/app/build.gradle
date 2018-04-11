@@ -26,8 +26,8 @@ android {
         applicationId "com.ecdrn"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 204
-        versionName "2.0.4"
+        versionCode 210
+        versionName "2.1.0"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -74,7 +74,7 @@ android {
         debug {
             debuggable true
             minifyEnabled enableProguardInDebugBuilds
-            buildConfigField "String", "CODEPUSH_KEY", '""'
+            buildConfigField "String", "CODEPUSH_KEY", props['codepush.release.key']
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
@@ -107,6 +107,7 @@ dependencies {
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile fileTree(dir: "libs", include: ["*.jar"])
+
 }
 configurations.all {
     resolutionStrategy {
