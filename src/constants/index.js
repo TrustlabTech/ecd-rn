@@ -11,7 +11,7 @@ export * from './layout'
 export * from './requests'
 export * from './meta'
 
-export const APP_VERSION = '2.0.4' // Native App Version
+export const APP_VERSION = '2.1.0' // Native App Version
 export const BUNDLE_VERSION = 2 // JS Bundle Version - internal usage only (code-push)
 export const DATA_VERSION = 1 // (Redux) Persistent State Data Version - internal usage only (migrations)
 

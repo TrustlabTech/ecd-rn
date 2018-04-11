@@ -156,10 +156,7 @@ class Settings extends Component {
   }
 
   onUpdatePress() {
-      codePush.sync({
-          updateDialog: true,
-          installMode: codePush.InstallMode.IMMEDIATE
-      });
+      Utils.checkForUpdate()
   }
 
   async takeAttendances() {

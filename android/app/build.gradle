@@ -26,8 +26,8 @@ android {
         applicationId "com.ecdrn"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 206
-        versionName "2.0.6"
+        versionCode 210
+        versionName "2.1.0"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -107,6 +107,7 @@ dependencies {
     compile 'com.madgag.spongycastle:core:1.54.0.0'
     compile 'com.madgag.spongycastle:prov:1.54.0.0'
     compile fileTree(dir: "libs", include: ["*.jar"])
+
 }
 configurations.all {
     resolutionStrategy {

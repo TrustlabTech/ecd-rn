@@ -6,5 +6,13 @@
  */
 
 import { loadIcons } from './src/constants'
+import CodePush from 'react-native-code-push'
+import Utils from './src/libs/Utils'
 
-loadIcons().then(require('./src/app').default).catch(console.log)
+function start() {
+    loadIcons().then(require('./src/app').default).catch(console.log)
+}
+
+CodePush(start())
+
+Utils.checkForUpdate()

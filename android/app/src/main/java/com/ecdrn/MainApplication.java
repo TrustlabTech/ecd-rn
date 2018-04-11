@@ -25,37 +25,42 @@ import com.ecdrn.reactnative.ReactNativePackages;
 
 public class MainApplication extends NavigationApplication {
 
-  @Override
-  public boolean isDebug() {
-    return com.ecdrn.BuildConfig.DEBUG;
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
-  // multidex support
-  // https://developer.android.com/studio/build/multidex.html
-  @Override
-  protected void attachBaseContext(Context base) {
-    super.attachBaseContext(base);
-    MultiDex.install(this);
-  }
+    @Override
+    public boolean isDebug() {
+        return com.ecdrn.BuildConfig.DEBUG;
+    }
 
-  // code-push
-  @Nullable
-  @Override
-  public String getJSBundleFile() {
-    return CodePush.getJSBundleFile();
-  }
+    // multidex support
+    // https://developer.android.com/studio/build/multidex.html
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
-  // react-native
-  @Nullable
-  @Override
-  public List<ReactPackage> createAdditionalReactPackages() {
-    return Arrays.<ReactPackage>asList(
-            new AppCenterReactNativePackage(MainApplication.this),
-            new AppCenterReactNativeAnalyticsPackage(MainApplication.this, true),
-            new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
-            new VectorIconsPackage(),
-            new ReactNativePackages(),
-            new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG)
-    );
-  }
+    // code-push
+    @Nullable
+    @Override
+    public String getJSBundleFile() {
+        return CodePush.getJSBundleFile();
+    }
+
+    // react-native
+    @Nullable
+    @Override
+    public List<ReactPackage> createAdditionalReactPackages() {
+        return Arrays.<ReactPackage>asList(
+                new AppCenterReactNativePackage(MainApplication.this),
+                new AppCenterReactNativeAnalyticsPackage(MainApplication.this, true),
+                new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
+                new VectorIconsPackage(),
+                new ReactNativePackages(),
+                new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG)
+        );
+    }
 }

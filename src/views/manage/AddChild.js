@@ -45,9 +45,9 @@ class AddChild extends Component {
       citizenshipId: -1,
       gender: '',
       race: '',
-      date_of_birth: '',
-      registration_latitude: '',
-      registration_longitude: '',
+      date_of_birth: '', // eslint-disable-line camelcase
+      registration_latitude: '', // eslint-disable-line camelcase
+      registration_longitude: '', // eslint-disable-line camelcase
       validationErrors: {
         idNumber: '',
         givenName: '',
@@ -82,7 +82,6 @@ class AddChild extends Component {
     this.getCitizenships()
   }
 
-
   getCitizenships() {
     const citizenships = META.getCitizenships()
     try {
@@ -111,6 +110,7 @@ class AddChild extends Component {
       validationErrors: { ...this.state.validationErrors, familyName: '' }
     })
   }
+
   onFamilyNameEditingSubmitted() {
     this.idNumber.focus()
   }
@@ -177,6 +177,7 @@ class AddChild extends Component {
   onPassportEditingSubmitted() {
     this.citizenship.focus()
   }
+
   onCentreSelectorChanged(classId) {
     this.setState({ classId })
   }
@@ -227,36 +228,64 @@ class AddChild extends Component {
       return false
     }
 
+    if (this.state.classId === -1) {
+      this.state.classId = this.class.props.items[0].id
+    }
+
+    if (this.state.citizenshipId === -1) {
+      this.state.citizenshipId = this.citizenship.props.items[0].id
+    }
+    if (this.state.race === '') {
+      this.state.race = this.race.props.items[0].id
+    }
+
+    if (this.state.gender === '') {
+      this.state.gender = this.gender.props.items[0].id
+    }
+
+    if (this.state.date_of_birth === ''){
+      this.state.date_of_birth = this.dob.getDateStr() // eslint-disable-line camelcase
+    }
+
+
     let location = null
     try {
       location = await Utils.getCurrentPosition()
     } catch (e) {
       this.setState({ submittingAttendance: false }, () => {
-        // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
+          // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
       })
       return false
     }
+    const keypair = await Crypto.createECKeypair()
+    let body = {
+      given_name: this.state.givenName, // eslint-disable-line camelcase
+      family_name: this.state.familyName, // eslint-disable-line camelcase
+      centre_class_id: this.state.classId, // eslint-disable-line camelcase
+      citizenship: this.state.citizenshipId, // eslint-disable-line camelcase
+      gender: this.state.gender, // eslint-disable-line camelcase
+      race: this.state.race, // eslint-disable-line camelcase
+      date_of_birth: this.state.date_of_birth, // eslint-disable-line camelcase
+      registration_latitude: location.coords.latitude.toString(), // eslint-disable-line camelcase
+      registration_longitude: location.coords.longitude.toString(), // eslint-disable-line camelcase
+      keypair,
+    }
+
+    if (this.state.idNumber !== '') {
+      body.id_number = this.state.idNumber // eslint-disable-line camelcase
+    }
+    if (this.state.passport !== '') {
+      body.passport = this.state.passport
+    }
+
+
 
     const request = new Request()
 
     try {
       const
-        keypair = await Crypto.createECKeypair(),
         { session } = this.props,
-        { url, options } = CREATE_CHILD(session.token, {
-          given_name: this.state.givenName, // eslint-disable-line camelcase
-          family_name: this.state.familyName, // eslint-disable-line camelcase
-          id_number: this.state.idNumber, // eslint-disable-line camelcase
-          passport: this.state.passport, // eslint-disable-line camelcase
-          centre_class_id: this.state.classId, // eslint-disable-line camelcase
-          citizenship: this.state.citizenship, // eslint-disable-line camelcase
-          gender: this.state.gender, // eslint-disable-line camelcase
-          race: this.state.race, // eslint-disable-line camelcase
-          date_of_birth: this.state.date_of_birth, // eslint-disable-line camelcase
-          registration_latitude: location.coords.latitude.toString(), // eslint-disable-line camelcase
-          registration_longitude: location.coords.longitude.toString(), // eslint-disable-line camelcase
-          keypair,
-        })
+        { url, options } = CREATE_CHILD(session.token, body)
 
       await request.fetch(url, options)
       this.props.navigator.pop()
@@ -271,10 +300,11 @@ class AddChild extends Component {
       <View>
         <Text style={styles.label}>Class</Text>
         <Picker
-          style={styles.picker}
-          items={this.props.classes}
-          selectedValue={this.state.classId}
-          onValueChange={this.onCentreSelectorChanged} />
+            ref={r => this.class = r}
+            style={styles.picker}
+            items={this.props.classes}
+            selectedValue={this.state.classId}
+            onValueChange={this.onCentreSelectorChanged} />
       </View>
     )
   }
