@@ -52,6 +52,7 @@ class Home extends Component {
 
     //prewarm location cache
     Utils.getCurrentPosition()
+    Utils.timerNotifyAttendence()
   }
 
   componentWillReceiveProps(nextProps) {
