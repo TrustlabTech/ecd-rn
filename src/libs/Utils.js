@@ -110,7 +110,7 @@ export default class Utils {
         let d = new Date().getTime() / 1000
         return d > exp
     }
-    
+
     static getDateNotification(day) {
         const time = {
             hours: 10,
