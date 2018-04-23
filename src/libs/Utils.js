@@ -6,11 +6,14 @@
  */
 
 'use-strict'
-import { Alert } from 'react-native';
+import { Alert } from 'react-native'
 import { GET_CLASSES, GET_CHILDREN, GET_CHILDREN_FOR_CENTER } from '../constants'
 import { Request } from '../libs/network'
 import CodePush from 'react-native-code-push'
-let jwtDecode = require('jwt-decode');
+import PushNotification from 'react-native-push-notification'
+let jwtDecode = require('jwt-decode')
+
+const KEY_NOTIFICATION_ATTENDENCE = '0'
 
 export default class Utils {
 
@@ -69,9 +72,9 @@ export default class Utils {
     }
 
     static checkChildrenAttendance(attendanceChild, puplis) {
-        let message;
+        let message
         attendanceChild.forEach(element => {
-            const user = puplis.find(e => e.id === element.id);
+            const user = puplis.find(e => e.id === element.id)
             if (user && user.attendanceTime) {
                 const currentTime = new Date()
                 const date = new Date(user.attendanceTime)
@@ -79,8 +82,8 @@ export default class Utils {
                     message = 'Child already attended this class today'
                 }
             }
-        });
-        return message;
+        })
+        return message
     }
 
     static async getCurrentPosition() {
@@ -106,5 +109,40 @@ export default class Utils {
         let { exp } = decoded
         let d = new Date().getTime() / 1000
         return d > exp
+    }
+    
+    static getDateNotification(day) {
+        const time = {
+            hours: 10,
+            minutes: 30,
+            seconds: 0
+        }
+        let dtAlarm = new Date()
+        dtAlarm.setHours(time.hours)
+        dtAlarm.setMinutes(time.minutes)
+        dtAlarm.setSeconds(time.seconds)
+        if (day > 0) {
+            dtAlarm.setDate(dtAlarm.getDate() + day)
+        }
+        return dtAlarm
+    }
+
+    static timerNotifyAttendence = (day = 0) => {
+        let dtAlarm = Utils.getDateNotification(day)
+        let dtNow = new Date()
+
+        if (dtAlarm - dtNow > 0) {
+            PushNotification.localNotificationSchedule({
+                id: KEY_NOTIFICATION_ATTENDENCE,
+                autoCancel: false,
+                message: 'My Notification Message',
+                date: dtAlarm,
+                repeatType: 'day'
+            });
+        }
+    }
+    static cancelNotifyAttendence = () => {
+        PushNotification.cancelLocalNotifications({id: KEY_NOTIFICATION_ATTENDENCE})
+        Utils.timerNotifyAttendence(1)
     }
 }
