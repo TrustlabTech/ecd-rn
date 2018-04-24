@@ -323,7 +323,7 @@ class Attendance extends Component {
         this.props.navigator.pop()
         const attendanceChildren = this.state.children.filter(e => e.checked)
         this.props.updateAttendanceTime(attendanceChildren)
-        Utils.cancelNotifyAttendence()
+        Utils.cancelNotifyAttendance()
       })
 
     } catch (e) {

@@ -26,11 +26,10 @@ import List from '../components/List'
 import Button from '../components/Button'
 // libs/functions
 import Crypto from '../libs/Crypto'
-import { Request, UNAUTHORIZED } from '../libs/network'
-import { storeAttendanceLocally, storeClasses, storePupils } from '../actions'
+import { storeAttendanceLocally, storeClasses, storePupils, storeNotifications } from '../actions'
 // constants
 import { SID_LOGIN, SID_TAKE_ATTENDANCE } from '../screens'
-import { ICONS, COLORS, VERIFY_TOKEN, AS_USERNAME } from '../constants'
+import { ICONS, COLORS, AS_USERNAME } from '../constants'
 import Utils from '../libs/Utils'
 
 class Home extends Component {
@@ -53,7 +52,8 @@ class Home extends Component {
 
         //prewarm location cache
         Utils.getCurrentPosition()
-        Utils.timerNotifyAttendence()
+        Utils.timerNotifyAttendance()
+        Utils.timerNotifySync(this.props)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -272,20 +272,24 @@ const styles = StyleSheet.create({
 })
 
 const mapDispatchToProps = (dispatch) => {
-    return {
+    let toRet = {
         storeAttendanceLocally: (attendance) => dispatch(storeAttendanceLocally(attendance)),
         storeClasses: (classes) => dispatch(storeClasses(classes)),
         storePupils: (pupils) => dispatch(storePupils(pupils)),
+        storeNotifications: (notifications) => dispatch(storeNotifications(notifications)),
     }
+    return toRet
 }
 
 const mapStoreToProps = (store) => {
-    return {
+    let toRet =  {
         session: store.session,
         offlineAttendances: store.offline.attendances,
         pupils: store.pupils,
         classes: store.classes,
+        notifications: store.notifications,
     }
+    return toRet
 }
 
 export default connect(mapStoreToProps, mapDispatchToProps)(Home)

@@ -4,19 +4,20 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Zayin Krige <zkrige@gmail.com>
  */
+
 'use-strict'
 
-export const storeAttendanceLocally = (attendance) => {
+export const storeNotifications = (notifications) => {
   return {
-    type: 'STORE_ATTENDANCE',
+    type: 'STORE_NOTIFICATIONS',
     payload: {
-      attendance
+        notifications: notifications
     }
   }
 }
 
-export const removeAttendancesLocally = () => {
-  return {
-    type: 'REMOVE_ATTENDANCES'
-  }
+export const removeNotifications = () => {
+    return {
+        type: 'REMOVE_NOTIFICATIONS'
+    }
 }

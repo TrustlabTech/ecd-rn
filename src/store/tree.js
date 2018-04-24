@@ -6,14 +6,15 @@
  */
 
 export default {
-  session: {
-    user: {},
-    meta: {},
-    token: '',
-  },
-  offline: {
-    attendances: []
-  },
-  pupils: [],
-  classes: [],
+    session: {
+        user: {},
+        meta: {},
+        token: '',
+    },
+    offline: {
+        attendances: []
+    },
+    pupils: [],
+    classes: [],
+    notifications: [],
 }

@@ -15,12 +15,14 @@ import session from './session'
 import offline from './offline'
 import pupils from './pupils'
 import classes from './classes'
+import notifications from './notifications'
 
 const rootReducer = combineReducers({
-  session,
-  offline,
-  pupils,
-  classes,
+    session,
+    offline,
+    pupils,
+    classes,
+    notifications
 })
 
 export default rootReducer

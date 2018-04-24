@@ -71,10 +71,10 @@ export default class Utils {
         return children
     }
 
-    static checkChildrenAttendance(attendanceChild, puplis) {
+    static checkChildrenAttendance(attendanceChild, pupils) {
         let message
         attendanceChild.forEach(element => {
-            const user = puplis.find(e => e.id === element.id)
+            const user = pupils.find(e => e.id === element.id)
             if (user && user.attendanceTime) {
                 const currentTime = new Date()
                 const date = new Date(user.attendanceTime)
@@ -127,7 +127,7 @@ export default class Utils {
         return dtAlarm
     }
 
-    static timerNotifyAttendence = (day = 0) => {
+    static timerNotifyAttendance = (day = 0) => {
         let dtAlarm = Utils.getDateNotification(day)
         let dtNow = new Date()
 
@@ -135,14 +135,47 @@ export default class Utils {
             PushNotification.localNotificationSchedule({
                 id: KEY_NOTIFICATION_ATTENDENCE,
                 autoCancel: false,
-                message: 'My Notification Message',
+                message: 'Please take attendance',
                 date: dtAlarm,
                 repeatType: 'day'
             });
         }
     }
-    static cancelNotifyAttendence = () => {
+
+    static cancelNotifyAttendance = () => {
         PushNotification.cancelLocalNotifications({id: KEY_NOTIFICATION_ATTENDENCE})
         Utils.timerNotifyAttendence(1)
+    }
+
+    static timerNotifySync = (props) => {
+        const notifications = props.notifications
+        const syncNotification = notifications.syncNotification
+        if (syncNotification !== undefined) {
+            return
+        }
+
+        //remove any existing notification
+        this.removeSyncNotification(props)
+
+        //setup new sync notification
+        let date = new Date(Date.now())
+        date.setDate(date.getDate() + 2)
+
+        const details = {
+            id: "123",
+            title: "Sync",
+            message: "Please remember to sync your data",
+            playSound: true,
+            soundName: 'default',
+            date : date
+        }
+        PushNotification.localNotificationSchedule(details)
+        props.storeNotifications({syncNotification:true})
+    }
+
+    static removeSyncNotification = (props) => {
+        PushNotification.cancelLocalNotifications({id: '123'})
+        props.removeNotifications()
+
     }
 }
