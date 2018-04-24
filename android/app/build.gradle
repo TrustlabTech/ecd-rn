@@ -15,7 +15,7 @@ repositories {
 }
 
 def enableSeparateBuildPerCPUArchitecture = true
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 def enableProguardInDebugBuilds = false
 
 android {
@@ -26,8 +26,8 @@ android {
         applicationId "com.ecdrn"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 210
-        versionName "2.1.0"
+        versionCode 211
+        versionName "2.1.1"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -95,6 +95,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-push-notification')
     compile project(':appcenter-crashes')
     compile project(':appcenter-analytics')
     compile project(':appcenter')

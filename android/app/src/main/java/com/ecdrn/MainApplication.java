@@ -17,6 +17,7 @@ import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPa
 import com.microsoft.codepush.react.CodePush;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativenavigation.NavigationApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +61,8 @@ public class MainApplication extends NavigationApplication {
                 new AppCenterReactNativeCrashesPackage(MainApplication.this, "ALWAYS"),
                 new VectorIconsPackage(),
                 new ReactNativePackages(),
-                new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG)
+                new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG),
+                new ReactNativePushNotificationPackage()
         );
     }
 }

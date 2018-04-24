@@ -1,9 +1,8 @@
 /**
  * Early Childhood Development App
- * @copyright 2016 Global Consent Ltd
+ * @copyright 2018 Global Consent Ltd
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
- * @author Alberto Dallaporta <alberto.dallaporta@novalab.io>
- * @author Leonardo Lusoli <leonardo.lusoli@novalab.io>
+ * @author Zayin Krige <zkrige@gmail.com>
  */
 
 'use-strict'
@@ -11,24 +10,23 @@
 import tree from '../store/tree'
 import { REHYDRATE } from 'redux-persist/constants'
 
-export default (state = tree.offline, action) => {
+export default (state = tree.notifications, action) => {
     switch (action.type) {
-        case 'STORE_ATTENDANCE':
+        case 'STORE_NOTIFICATIONS':
             return {
                 ...state,
-                attendances: [
-                    ...state.attendances,
-                    action.payload.attendance,
+                notifications: [
+                    action.payload.notifications,
                 ]
             }
-        case 'REMOVE_ATTENDANCES':
+        case 'REMOVE_NOTIFICATIONS':
             return {
-                attendances: []
+                notifications: []
             }
         case REHYDRATE: {
             return {
                 ...state,
-                ...action.payload.offline,
+                ...action.payload.notifications,
             }
         }
         default:
