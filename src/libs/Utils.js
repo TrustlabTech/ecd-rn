@@ -4,20 +4,23 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Zayin Krige <zayin@krige.org>
  */
-
 'use-strict'
+
+import Crypto from "./Crypto";
 import { Alert } from 'react-native'
-import { GET_CLASSES, GET_CHILDREN, GET_CHILDREN_FOR_CENTER } from '../constants'
+import { GET_CLASSES, GET_CHILDREN_FOR_CENTER } from '../constants'
 import { Request } from '../libs/network'
 import CodePush from 'react-native-code-push'
 import PushNotification from 'react-native-push-notification'
 let jwtDecode = require('jwt-decode')
+import buffer from 'buffer/'
+const Buffer = buffer.Buffer
 
-const KEY_NOTIFICATION_ATTENDENCE = '0'
+const KEY_NOTIFICATION_ATTENDANCE = '0'
 
 export default class Utils {
 
-    static async checkForUpdate() {
+    static checkForUpdate(){
         CodePush.sync({
             updateDialog: true,
             installMode: CodePush.InstallMode.ON_NEXT_RESTART
@@ -26,10 +29,9 @@ export default class Utils {
                 Alert.alert('Success', 'Update installed, please restart app')
             }
         })
-
     }
 
-    static getClasses = async (props) => {
+    static async getClasses(props) {
         const { session } = props
         if (!session.token || !session.user) {
             return []
@@ -48,7 +50,7 @@ export default class Utils {
         }
     }
 
-    static getChildren = async (props) => {
+    static async getChildren(props) {
         const { session } = props
         if (!session.token || !session.user) {
             return []
@@ -66,7 +68,7 @@ export default class Utils {
     static getChildrenForClass(classid, props) {
         let children = props.pupils
         children = children.filter((child) => {
-            return child.centre_class_id == classid
+            return child.centre_class_id === classid
         })
         return children
     }
@@ -86,14 +88,14 @@ export default class Utils {
         return message
     }
 
-    static async getCurrentPosition() {
+    static async getCurrentPosition(geolocation) {
         const options = {
             enableHighAccuracy: false,
             timeout: 1000 * 10, //wait 10s to get location
             maximumAge: 1000 * 60 * 10 //10 minutes old
         }
         return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, options)
+            geolocation.getCurrentPosition(resolve, reject, options)
         }).then(resp => {
             console.log('getCurrentPosition', resp)
             return resp
@@ -104,7 +106,7 @@ export default class Utils {
         })
     }
 
-    static hasTokenExpired = (token) => {
+    static hasTokenExpired(token) {
         let decoded = jwtDecode(token)
         let { exp } = decoded
         let d = new Date().getTime() / 1000
@@ -127,13 +129,13 @@ export default class Utils {
         return dtAlarm
     }
 
-    static timerNotifyAttendance = (day = 0) => {
+    static timerNotifyAttendance(day = 0) {
         let dtAlarm = Utils.getDateNotification(day)
         let dtNow = new Date()
 
         if (dtAlarm - dtNow > 0) {
             PushNotification.localNotificationSchedule({
-                id: KEY_NOTIFICATION_ATTENDENCE,
+                id: KEY_NOTIFICATION_ATTENDANCE,
                 autoCancel: false,
                 message: 'Please take attendance',
                 date: dtAlarm,
@@ -142,12 +144,12 @@ export default class Utils {
         }
     }
 
-    static cancelNotifyAttendance = () => {
-        PushNotification.cancelLocalNotifications({id: KEY_NOTIFICATION_ATTENDENCE})
+    static cancelNotifyAttendance() {
+        PushNotification.cancelLocalNotifications({ id: KEY_NOTIFICATION_ATTENDANCE })
         Utils.timerNotifyAttendence(1)
     }
 
-    static timerNotifySync = (props) => {
+    static timerNotifySync(props) {
         const notifications = props.notifications
         const syncNotification = notifications.syncNotification
         if (syncNotification !== undefined) {
@@ -170,12 +172,48 @@ export default class Utils {
             date : date
         }
         PushNotification.localNotificationSchedule(details)
-        props.storeNotifications({syncNotification:true})
+        props.storeNotifications({ syncNotification:true })
     }
 
-    static removeSyncNotification = (props) => {
-        PushNotification.cancelLocalNotifications({id: '123'})
+    static removeSyncNotification(props) {
+        PushNotification.cancelLocalNotifications({ id: '123' })
         props.removeNotifications()
 
+    }
+
+    static createAttendanceClaim(childData, digitalIds, template, location) {
+        const date = new Date().toISOString()
+        return new Promise((resolve, reject) => {
+            // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
+            const
+                attendee = JSON.parse(JSON.stringify(template.claim.deliveredService.attendees)),
+                claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
+                verifiableClaimSample = JSON.parse(JSON.stringify(template))
+            // subject portion
+            attendee.id = childData.id
+            attendee.date = date
+            attendee.attended = childData.checked || false
+            // claim portion
+            let claimObject = claimObjectSample
+            claimObject.id = digitalIds.practitioner
+            claimObject.deliveredService.practitioner = digitalIds.practitioner
+            claimObject.deliveredService.geo.latitude = location.coords.latitude
+            claimObject.deliveredService.geo.longitude = location.coords.longitude
+            claimObject.deliveredService.attendees[0] = attendee
+
+            Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
+                // verifiable claim portion
+                let verifiableClaim = verifiableClaimSample
+                verifiableClaim.issuer = digitalIds.centre
+                verifiableClaim.issued = date
+                verifiableClaim.claim = claimObject
+                verifiableClaim.signature.created = date
+                verifiableClaim.signature.signatureValue = signature
+
+                resolve(verifiableClaim)
+            }).catch(e => {
+                reject(e)
+            })
+        })
     }
 }

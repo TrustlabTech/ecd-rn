@@ -250,7 +250,7 @@ class AddChild extends Component {
 
     let location = null
     try {
-      location = await Utils.getCurrentPosition()
+      location = await Utils.getCurrentPosition(navigator.geolocation)
     } catch (e) {
       this.setState({ submittingAttendance: false }, () => {
           // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')

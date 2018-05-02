@@ -11,15 +11,15 @@ import { NativeModules } from 'react-native'
 
 export default class Crypto {
 
-  static hasKey = async (alias = 'staff') => {
+  static async hasKey(alias = 'staff') {
     return await NativeModules.EthereumCrypto.hasKey(alias)
   }
 
-  static createStaffKeyPair = async (password) => {
+  static async createStaffKeyPair(password) {
     return await Crypto.createECKeypair(true, 'staff')
   }
 
-  static createECKeypair = async (store = false, alias = '') => {
+  static async createECKeypair(store = false, alias = '') {
     try {
       return await NativeModules.EthereumCrypto.createECKeypair(store, alias)
     } catch (e) {
@@ -29,7 +29,7 @@ export default class Crypto {
     }
   }
 
-  static sign = async (message: Buffer, alias = 'staff') => {
+  static async sign(message, alias = 'staff') {
     try {
       return await NativeModules.EthereumCrypto.sign(message.toString('base64'), alias)
     } catch (e) {

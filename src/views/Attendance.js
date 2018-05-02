@@ -26,7 +26,7 @@ import List from '../components/List'
 import Button from '../components/Button'
 // libs/functions
 import Crypto from '../libs/Crypto'
-import { storeAttendanceLocally, storeClasses, storePupils, storeNotifications } from '../actions'
+import { storeAttendanceLocally, storeClasses, storePupils, storeNotifications, removeNotifications } from '../actions'
 // constants
 import { SID_LOGIN, SID_TAKE_ATTENDANCE } from '../screens'
 import { ICONS, COLORS, AS_USERNAME } from '../constants'
@@ -51,7 +51,7 @@ class Home extends Component {
         Utils.getChildren(this.props)
 
         //prewarm location cache
-        Utils.getCurrentPosition()
+        Utils.getCurrentPosition(navigator.geolocation)
         Utils.timerNotifyAttendance()
         Utils.timerNotifySync(this.props)
     }
@@ -277,6 +277,7 @@ const mapDispatchToProps = (dispatch) => {
         storeClasses: (classes) => dispatch(storeClasses(classes)),
         storePupils: (pupils) => dispatch(storePupils(pupils)),
         storeNotifications: (notifications) => dispatch(storeNotifications(notifications)),
+        removeNotifications: () => dispatch(removeNotifications()),
     }
     return toRet
 }

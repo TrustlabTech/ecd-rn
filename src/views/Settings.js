@@ -186,13 +186,13 @@ class Settings extends Component {
 
         check && this.props.removeAttendancesLocally()
 
-        Utils.removeSyncNotification()
+        Utils.removeSyncNotification(this.props)
     }
 
     async takeAttendance(attendance) {
         let location = null
         try {
-            location = await Utils.getCurrentPosition()
+            location = await Utils.getCurrentPosition(navigator.geolocation)
         } catch (e) {
             this.setState({ submittingAttendance: false })
             return false
