@@ -147,7 +147,7 @@ class Settings extends Component {
     onSyncPress() {
         Alert.alert(
             'Confirmation',
-            'Are you sure to sync the attendaces data?',
+            'Are you sure to sync the attendances data?',
             [
                 { text: 'Cancel' },
                 { text: 'Proceed', onPress: this.takeAttendances },
@@ -176,7 +176,7 @@ class Settings extends Component {
             console.log(e)
         }
 
-        // check if a takeAttendence is dead
+        // check if a takeAttendance is unsuccessful
         let check = true
         res.forEach(v => {
             if (!v) {
@@ -187,6 +187,8 @@ class Settings extends Component {
         check && this.props.removeAttendancesLocally()
 
         Utils.removeSyncNotification(this.props)
+        Alert.alert('Success', 'Attendances successfully synced with server', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+
     }
 
     async takeAttendance(attendance) {

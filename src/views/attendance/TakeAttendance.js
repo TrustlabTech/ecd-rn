@@ -196,19 +196,6 @@ class Attendance extends Component {
             attended: d.checked || false
         }))
 
-        // check the net status of the app
-        if (!this.state.isConnected) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Device Offline', 'Please, find a network conncection to send data to our systems.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            this.props.storeAttendanceLocally({
-                children: attendanceData,
-                centre_class_id: classObj.id, // eslint-disable-line camelcase
-                centre_id: classObj.centre_id, // eslint-disable-line camelcase
-            })
-            return false
-        }
-
         const
             request = new Request(),
             { session, classObj } = this.props,
@@ -218,11 +205,29 @@ class Attendance extends Component {
                 centre_id: classObj.centre_id, // eslint-disable-line camelcase
             })
 
+        // check the net status of the app
+        if (!this.state.isConnected) {
+            this.setState({ submittingAttendance: false }, () => {
+                Alert.alert('Unable to sync', 'your data will be stored and sent to servers when you sync manually via settings', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            })
+            this.props.storeAttendanceLocally({
+                children: attendanceData,
+                centre_class_id: classObj.id, // eslint-disable-line camelcase
+                centre_id: classObj.centre_id, // eslint-disable-line camelcase
+            })
+            return false
+        }
+
         try {
             await request.fetch(url, options)
         } catch (e) {
             this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to submit attendace, try again later.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+                Alert.alert('Unable to sync', 'your data will be stored and sent to servers when you sync manually via settings', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            })
+            this.props.storeAttendanceLocally({
+                children: attendanceData,
+                centre_class_id: classObj.id, // eslint-disable-line camelcase
+                centre_id: classObj.centre_id, // eslint-disable-line camelcase
             })
             return false
         }
