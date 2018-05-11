@@ -36,45 +36,10 @@ import { Request } from '../../libs/network'
 import {
     ICONS,
     COLORS,
-    GET_CHILDREN,
-    SUBMIT_ATTENDANCE,
-    SUBMIT_ATTENDANCE_CLAIMS,
 } from '../../constants'
 
 import { updateAttendanceTime } from '../../actions'
 import Utils from '../../libs/Utils'
-
-const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
-
-const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds) => {
-    return new Promise((resolve, reject) => {
-        const date = new Date().toISOString()
-        // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
-        const
-            claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
-            verifiableClaimSample = JSON.parse(JSON.stringify(template))
-
-        let claimObject = claimObjectSample
-        claimObject.id = digitalIds.practitioner
-        claimObject.deliveredService.practitioner = digitalIds.practitioner
-        claimObject.deliveredService.geo.latitude = location.coords.latitude
-        claimObject.deliveredService.geo.longitude = location.coords.longitude
-        claimObject.deliveredService.attendees = singleClaims
-
-        Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
-            let verifiableClaim = verifiableClaimSample
-            verifiableClaim.issuer = digitalIds.centre
-            verifiableClaim.issued = date
-            verifiableClaim.claim = claimObject
-            verifiableClaim.signature.created = date
-            verifiableClaim.signature.signatureValue = signature
-
-            resolve(verifiableClaim)
-        }).catch(e => {
-            reject(e)
-        })
-    })
-}
 
 class Attendance extends Component {
     constructor(props) {
@@ -177,6 +142,9 @@ class Attendance extends Component {
     }
 
     async takeAttendance() {
+        console.log("props session", this.props)
+        const { session, classObj } = this.props;
+
         this.setState({ submittingAttendance: true })
 
         let location = null
@@ -196,17 +164,8 @@ class Attendance extends Component {
             attended: d.checked || false
         }))
 
-        const
-            request = new Request(),
-            { session, classObj } = this.props,
-            { url, options } = SUBMIT_ATTENDANCE(session.token, {
-                children: attendanceData,
-                centre_class_id: classObj.id, // eslint-disable-line camelcase
-                centre_id: classObj.centre_id, // eslint-disable-line camelcase
-            })
-
-        // check the net status of the app
-        if (!this.state.isConnected) {
+         // check the net status of the app
+         if (!this.state.isConnected) {
             this.setState({ submittingAttendance: false }, () => {
                 Alert.alert('Unable to sync', 'your data will be stored and sent to servers when you sync manually via settings', [{ text: 'Ok', onPress: this.props.navigator.pop }])
             })
@@ -219,75 +178,9 @@ class Attendance extends Component {
         }
 
         try {
-            await request.fetch(url, options)
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Unable to sync', 'your data will be stored and sent to servers when you sync manually via settings', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            this.props.storeAttendanceLocally({
-                children: attendanceData,
-                centre_class_id: classObj.id, // eslint-disable-line camelcase
-                centre_id: classObj.centre_id, // eslint-disable-line camelcase
-            })
-            return false
-        }
 
-        // get template from IPD
-        let template = {}
-        try {
-            const templateResponse = await fetch(templateUrl) // eslint-disable-line no-undef
-            template = await templateResponse.json()
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to get Verifiable Claim template, try again later.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
 
-        // digital IDs of the involved entities from api v2 response
-        const digitalIds = {
-            practitioner: session.user.did,
-            centre: session.user.centre.did,
-        }
-
-        // create all single verifiable claims
-        const promises = attendanceData.map(childData => {
-            return Utils.createAttendanceClaim(childData, digitalIds, template, location)
-        })
-
-        // group all signed verifiable claims for creating the bulk claim
-        let singleClaims = []
-        try {
-            singleClaims = await Promise.all(promises)
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to create children Verifiable Claims.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
-
-        // create bulk attendence verifiable claim
-        let bulkAttendanceClaim = {}
-        try {
-            bulkAttendanceClaim = await createBulkAttendanceClaim(template, singleClaims, location, digitalIds)
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to create bulk Verifiable Claim.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
-
-        const
-            claimsRequest = new Request(),
-            claimsRequestParams = SUBMIT_ATTENDANCE_CLAIMS(session.token, {
-                centreId: classObj.centre_id,
-                bulkClaim: bulkAttendanceClaim,
-                singleClaims
-            })
-
-        // submit the verifiable claims to api v2
-        try {
-            const res = await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
+            await Utils.takeAttendence(session, classObj, attendanceData, location)
 
             this.setState({ submittingAttendance: false }, () => {
                 ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
@@ -297,9 +190,16 @@ class Attendance extends Component {
                 Utils.cancelNotifyAttendance()
             })
 
-        } catch (e) {
+        } catch(e) {
             this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to submit Verifiable Claims.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+                Alert.alert(e.name, e.message, [{ text: 'Ok', onPress: this.props.navigator.pop }])
+                if(e.name === "Unable to sync"){
+                    this.props.storeAttendanceLocally({
+                        children: attendanceData,
+                        centre_class_id: classObj.id, // eslint-disable-line camelcase
+                        centre_id: classObj.centre_id, // eslint-disable-line camelcase
+                    })
+                }
             })
             return false
         }
