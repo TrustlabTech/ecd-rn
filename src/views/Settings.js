@@ -138,9 +138,6 @@ class Settings extends Component {
             })
             return false
         }
-        
-        Utils.getClasses(this.props)
-        Utils.getChildren(this.props)
 
         const promises = this.props.attendances.map(attendance => {
             return new Promise((resolve, reject) =>
@@ -153,6 +150,7 @@ class Settings extends Component {
             res = await Promise.all(promises)
         } catch (e) {
             console.log(e)
+            return
         }
 
         // check if a takeAttendance is unsuccessful
@@ -163,10 +161,18 @@ class Settings extends Component {
             }
         })
 
-        check && this.props.removeAttendancesLocally()
+        if (check) {
 
-        Utils.removeSyncNotification(this.props)
-        Alert.alert('Success', 'Attendances successfully synced with server', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            this.props.removeAttendancesLocally()
+            Utils.removeSyncNotification(this.props)
+            Utils.cancelNotifyAttendance()
+            this.setState({ submittingAttendance: false }, () => {
+                Alert.alert('Success', 'Attendances successfully synced with server', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            })
+        }
+
+        Utils.getClasses(this.props)
+        Utils.getChildren(this.props)
 
     }
 
@@ -182,23 +188,12 @@ class Settings extends Component {
         try {
             const { session } = this.props;
 
-            await Utils.takeAttendence(session, null, attendance, location, true)
-
-            this.setState({ submittingAttendance: false }, () => {
-                ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
-                // this.props.navigator.pop()
-                // const attendanceChildren = this.state.children.filter(e => e.checked)
-
-                // console.log('attendanceChildren', attendanceChildren)                
-                // this.props.updateAttendanceTime(attendanceChildren)
-                Utils.cancelNotifyAttendance()
-            })
-            
+            await Utils.takeAttendance(session, null, attendance, location, true)
 
         } catch(e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', e.message, [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
+            Alert.alert('Error', e.message, [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            this.setState({ submittingAttendance: false })
+            return false
         }
 
         return true

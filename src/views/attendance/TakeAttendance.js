@@ -172,7 +172,6 @@ class Attendance extends Component {
             this.props.storeAttendanceLocally({
                 children: attendanceData,
                 centre_class_id: classObj.id, // eslint-disable-line camelcase
-                centre_id: classObj.centre_id, // eslint-disable-line camelcase
             })
             return false
         }
@@ -180,7 +179,7 @@ class Attendance extends Component {
         try {
 
 
-            await Utils.takeAttendence(session, classObj, attendanceData, location)
+            await Utils.takeAttendance(session, classObj, attendanceData, location)
 
             this.setState({ submittingAttendance: false }, () => {
                 ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)

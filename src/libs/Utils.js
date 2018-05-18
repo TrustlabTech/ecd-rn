@@ -251,32 +251,23 @@ export default class Utils {
 
     
 
-    static async takeAttendence(session, classObj, attendance, location, isSync = false) {
+    static async takeAttendance(session, classObj, attendance, location, isSync = false) {
 
-        const centre_class_id = isSync ? attendance.centre_class_id : classObj.id
-        const centre_id = isSync ? attendance.centre_id : classObj.centre_id
+        const centreId = isSync ? attendance.centre_id : classObj.centre_id
         console.log("session", session)
+        const
+            request = new Request(),
+            { url, options } = SUBMIT_ATTENDANCE(session.token, attendance)
         try {
-            const
-                request = new Request(),
-                { url, options } = SUBMIT_ATTENDANCE(session.token, {
-                    children: attendance,
-                    centre_class_id: centre_class_id, // eslint-disable-line camelcase
-                    centre_id: centre_id, // eslint-disable-line camelcase
-                })
             await request.fetch(url, options)
         } catch (e) {
             console.log("request error: ", e);
-            let error
-            if(isSync){
-                error =  new Error("Error",'Failed to submit attendace, try again later.');
+            if (isSync){
+                throw new Error('Failed to submit attendance, try again later.')
             } else {
-                error = new Error()
-                error.name = "Unable to sync"
-                error.message = 'your data will be stored and sent to servers when you sync manually via settings'   
+                throw new Error('your data will be stored and sent to servers when you sync manually via settings')
             }
 
-            throw error
         }
 
         // get template from IPD
@@ -285,7 +276,8 @@ export default class Utils {
             const templateResponse = await fetch(templateUrl) // eslint-disable-line no-undef
             template = await templateResponse.json()
         } catch (e) {
-            throw new Error('Error','Failed to get Verifiable Claim template, try again later.')
+            console.log("error: ", e);
+            throw new Error('Failed to get Verifiable Claim template, try again later.')
         }
 
         // digital IDs of the involved entities from api v2 response
@@ -296,7 +288,7 @@ export default class Utils {
         
         // create all single verifiable claims
         
-        if(isSync){
+        if (isSync){
             attendance = attendance.children
         }
         const promises = attendance.map(childData => {
@@ -309,21 +301,21 @@ export default class Utils {
         try {
             singleClaims = await Promise.all(promises)
         } catch (e) {
-            throw new Error('Error','Failed to create children Verifiable Claims.')
+            throw new Error('Failed to create children Verifiable Claims.')
         }
 
-        // create bulk attendence verifiable claim
+        // create bulk attendance verifiable claim
         let bulkAttendanceClaim = {}
         try {
             bulkAttendanceClaim = await createBulkAttendanceClaim(template, singleClaims, location, digitalIds)
         } catch (e) {
-            throw new Error('Error', 'Failed to create bulk Verifiable Claim.')
+            throw new Error('Failed to create bulk Verifiable Claim.')
         }
 
         const
             claimsRequest = new Request(),
             claimsRequestParams = SUBMIT_ATTENDANCE_CLAIMS(session.token, {
-                centreId: centre_id,
+                centreId: centreId,
                 bulkClaim: bulkAttendanceClaim,
                 singleClaims
             })
@@ -332,7 +324,7 @@ export default class Utils {
         try {
             const res = await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
         } catch (e) {
-            throw new Error('Error', 'Failed to submit Verifiable Claims.')
+            throw new Error('Failed to submit Verifiable Claims.')
         }   
 
         return true
