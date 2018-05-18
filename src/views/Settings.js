@@ -22,7 +22,7 @@ import {
     NetInfo,
     StyleSheet,
     AsyncStorage,
-    ToastAndroid,
+    ActivityIndicator,
 } from 'react-native'
 // components/views
 import Button from '../components/Button'
@@ -130,7 +130,7 @@ class Settings extends Component {
     }
 
     async takeAttendances() {
-
+        this.setState({ submittingAttendance: true })
         // check the net status of the app
         if (!this.state.isConnected) {
             this.setState({ submittingAttendance: false }, () => {
@@ -188,11 +188,10 @@ class Settings extends Component {
         try {
             const { session } = this.props;
 
-            await Utils.takeAttendance(session, null, attendance, location, true)
+            await Utils.takeAttendance(session, session.user.centre_id, attendance, location, true)
 
         } catch(e) {
             Alert.alert('Error', e.message, [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            this.setState({ submittingAttendance: false })
             return false
         }
 
@@ -207,10 +206,19 @@ class Settings extends Component {
                     <Text style={styles.buttonTextTitle}>Logout</Text>
                     <Image source={ICONS.exitToApp12} style={styles.rowImage} />
                 </Button>
-                <Button style={styles.button} nativeFeedback={true} onPress={this.onSyncPress}>
-                    <Text style={styles.buttonTextTitle}>Sync</Text>
-                    <Image source={ICONS.sync12} style={styles.rowImage} />
-                </Button>
+                {
+                    this.state.submittingAttendance ? (
+                        <ActivityIndicator
+                            animating
+                            size="large"
+                            style={styles.activityIndicator} />
+                    ) : (
+                        <Button style={styles.button} nativeFeedback={true} onPress={this.onSyncPress}>
+                            <Text style={styles.buttonTextTitle}>Sync</Text>
+                            <Image source={ICONS.sync12} style={styles.rowImage} />
+                        </Button>
+                    )
+                }
                 <Button style={styles.button} nativeFeedback={true} onPress={this.onUpdatePress}>
                     <Text style={styles.buttonTextTitle}>Check for updates</Text>
                     <Image source={ICONS.sync12} style={styles.rowImage} />
@@ -246,6 +254,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         justifyContent: 'space-between',
         borderBottomColor: COLORS.lightGrey,
+    },
+    activityIndicator: {
+        height: 60,
+        alignSelf: 'center',
     },
     buttonTextTitle: {
         fontSize: 18,

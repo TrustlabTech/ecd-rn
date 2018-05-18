@@ -249,11 +249,8 @@ export default class Utils {
         })
     }
 
-    
+    static async takeAttendance(session, centreId, attendance, location, isSync = false) {
 
-    static async takeAttendance(session, classObj, attendance, location, isSync = false) {
-
-        const centreId = isSync ? attendance.centre_id : classObj.centre_id
         console.log("session", session)
         const
             request = new Request(),
@@ -324,6 +321,7 @@ export default class Utils {
         try {
             const res = await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
         } catch (e) {
+            console.error(e.message)
             throw new Error('Failed to submit Verifiable Claims.')
         }   
 

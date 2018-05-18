@@ -179,7 +179,7 @@ class Attendance extends Component {
         try {
 
 
-            await Utils.takeAttendance(session, classObj, attendanceData, location)
+            await Utils.takeAttendance(session, session.user.centre_id, attendanceData, location)
 
             this.setState({ submittingAttendance: false }, () => {
                 ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
