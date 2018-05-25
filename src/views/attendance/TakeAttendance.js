@@ -164,22 +164,24 @@ class Attendance extends Component {
             attended: d.checked || false
         }))
 
+        let attendances = {
+            children: attendanceData,
+            centre_class_id: classObj.id, // eslint-disable-line camelcase
+        }
+
          // check the net status of the app
          if (!this.state.isConnected) {
             this.setState({ submittingAttendance: false }, () => {
                 Alert.alert('Unable to sync', 'your data will be stored and sent to servers when you sync manually via settings', [{ text: 'Ok', onPress: this.props.navigator.pop }])
             })
-            this.props.storeAttendanceLocally({
-                children: attendanceData,
-                centre_class_id: classObj.id, // eslint-disable-line camelcase
-            })
+            this.props.storeAttendanceLocally(attendances)
             return false
         }
 
         try {
 
 
-            await Utils.takeAttendance(session, session.user.centre_id, attendanceData, location)
+            await Utils.takeAttendance(session, session.user.centre_id, attendances, location)
 
             this.setState({ submittingAttendance: false }, () => {
                 ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)

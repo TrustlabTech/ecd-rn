@@ -65,7 +65,6 @@ class Settings extends Component {
     }
 
     componentDidMount() {
-        // this.verifyLocationPermissions()
 
         NetInfo.isConnected.addEventListener(
             'connectionChange',
@@ -177,13 +176,17 @@ class Settings extends Component {
     }
 
     async takeAttendance(attendance) {
+
         let location = null
         try {
             location = await Utils.getCurrentPosition(navigator.geolocation)
         } catch (e) {
-            this.setState({ submittingAttendance: false })
+            this.setState({ submittingAttendance: false }, () => {
+                // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
+            })
             return false
         }
+
 
         try {
             const { session } = this.props;

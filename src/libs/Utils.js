@@ -24,10 +24,9 @@ const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds)
         const date = new Date().toISOString()
         // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
         const
-            claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
+            claimObject = JSON.parse(JSON.stringify(template.claim)),
             verifiableClaimSample = JSON.parse(JSON.stringify(template))
 
-        let claimObject = claimObjectSample
         claimObject.id = digitalIds.practitioner
         claimObject.deliveredService.practitioner = digitalIds.practitioner
         claimObject.deliveredService.geo.latitude = location.coords.latitude
@@ -213,7 +212,7 @@ export default class Utils {
 
     }
 
-    static createAttendanceClaim(childData, digitalIds, template, location) {
+    static createAttendanceClaim(childData, digitalIds, template) {
         const date = new Date().toISOString()
         return new Promise((resolve, reject) => {
             // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
@@ -222,15 +221,15 @@ export default class Utils {
                 claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
                 verifiableClaimSample = JSON.parse(JSON.stringify(template))
             // subject portion
-            attendee.id = childData.id
+            attendee.id = childData.children_id
             attendee.date = date
-            attendee.attended = childData.checked || false
+            attendee.attended = childData.attended || false
             // claim portion
             let claimObject = claimObjectSample
             claimObject.id = digitalIds.practitioner
             claimObject.deliveredService.practitioner = digitalIds.practitioner
-            claimObject.deliveredService.geo.latitude = location.coords.latitude
-            claimObject.deliveredService.geo.longitude = location.coords.longitude
+            claimObject.deliveredService.geo.latitude = childData.latitude
+            claimObject.deliveredService.geo.longitude = childData.longitude
             claimObject.deliveredService.attendees[0] = attendee
 
             Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
@@ -285,11 +284,9 @@ export default class Utils {
         
         // create all single verifiable claims
         
-        if (isSync){
-            attendance = attendance.children
-        }
+        attendance = attendance.children
         const promises = attendance.map(childData => {
-            return this.createAttendanceClaim(childData, digitalIds, template, location)
+            return this.createAttendanceClaim(childData, digitalIds, template)
         })
 
         // group all signed verifiable claims for creating the bulk claim
