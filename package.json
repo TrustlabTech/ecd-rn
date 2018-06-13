@@ -10,7 +10,7 @@
     "remotedev": "remotedev --hostname=localhost --port=8082",
     "android-dev": "adb reverse tcp:8081 tcp:8081",
     "bundle": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-    "codepush": "appcenter codepush release-react -d Production --mandatory",
+    "codepush": "appcenter codepush release-react -d Production --mandatory --app Amply/Amply-ECD",
     "build": "cd android && ./gradlew assembleRelease && cd ..",
     "install-apk": "adb install android/app/build/outputs/apk/app-armeabi-v7a-release.apk"
   },
