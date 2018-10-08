@@ -22,7 +22,7 @@ import {
     NetInfo,
     StyleSheet,
     AsyncStorage,
-    ToastAndroid,
+    ActivityIndicator,
 } from 'react-native'
 // components/views
 import Button from '../components/Button'
@@ -45,38 +45,6 @@ import {
 import { SID_LOGIN } from '../screens'
 import Utils from '../libs/Utils'
 
-const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
-
-const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds) => {
-    return new Promise((resolve, reject) => {
-        const date = new Date().toISOString()
-        // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
-        const
-            claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
-            verifiableClaimSample = JSON.parse(JSON.stringify(template))
-
-        let claimObject = claimObjectSample
-        claimObject.id = digitalIds.practitioner
-        claimObject.deliveredService.practitioner = digitalIds.practitioner
-        claimObject.deliveredService.geo.latitude = location.coords.latitude
-        claimObject.deliveredService.geo.longitude = location.coords.longitude
-        claimObject.deliveredService.attendees = singleClaims
-
-        Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
-            let verifiableClaim = verifiableClaimSample
-            verifiableClaim.issuer = digitalIds.centre
-            verifiableClaim.issued = date
-            verifiableClaim.claim = claimObject
-            verifiableClaim.signature.created = date
-            verifiableClaim.signature.signatureValue = signature
-
-            resolve(verifiableClaim)
-        }).catch(e => {
-            reject(e)
-        })
-    })
-}
-
 class Settings extends Component {
     constructor(props) {
         super(props)
@@ -97,7 +65,6 @@ class Settings extends Component {
     }
 
     componentDidMount() {
-        // this.verifyLocationPermissions()
 
         NetInfo.isConnected.addEventListener(
             'connectionChange',
@@ -107,6 +74,7 @@ class Settings extends Component {
         NetInfo.isConnected.fetch().done(
             (isConnected) => { !this.abort && this.setState({ isConnected }) }
         )
+
     }
 
     componentWillUnmount() {
@@ -115,6 +83,7 @@ class Settings extends Component {
             'connectionChange',
             this.handleConnectionInfoChange
         )
+
     }
 
     async onLogoutPress() {
@@ -147,7 +116,7 @@ class Settings extends Component {
     onSyncPress() {
         Alert.alert(
             'Confirmation',
-            'Are you sure to sync the attendaces data?',
+            'Are you sure to sync the attendances data?',
             [
                 { text: 'Cancel' },
                 { text: 'Proceed', onPress: this.takeAttendances },
@@ -160,8 +129,14 @@ class Settings extends Component {
     }
 
     async takeAttendances() {
-        Utils.getClasses(this.props)
-        Utils.getChildren(this.props)
+        this.setState({ submittingAttendance: true })
+        // check the net status of the app
+        if (!this.state.isConnected) {
+            this.setState({ submittingAttendance: false }, () => {
+                Alert.alert('Device Offline', 'Please, find a network conncection to send data to our systems.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            })
+            return false
+        }
 
         const promises = this.props.attendances.map(attendance => {
             return new Promise((resolve, reject) =>
@@ -174,9 +149,10 @@ class Settings extends Component {
             res = await Promise.all(promises)
         } catch (e) {
             console.log(e)
+            return
         }
 
-        // check if a takeAttendence is dead
+        // check if a takeAttendance is unsuccessful
         let check = true
         res.forEach(v => {
             if (!v) {
@@ -184,155 +160,44 @@ class Settings extends Component {
             }
         })
 
-        check && this.props.removeAttendancesLocally()
+        if (check) {
 
-        Utils.removeSyncNotification()
+            this.props.removeAttendancesLocally()
+            Utils.removeSyncNotification(this.props)
+            Utils.cancelNotifyAttendance()
+            this.setState({ submittingAttendance: false }, () => {
+                Alert.alert('Success', 'Attendances successfully synced with server', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+            })
+        }
+
+        Utils.getClasses(this.props)
+        Utils.getChildren(this.props)
+
     }
 
     async takeAttendance(attendance) {
+
         let location = null
         try {
-            location = await Utils.getCurrentPosition()
+            location = await Utils.getCurrentPosition(navigator.geolocation)
         } catch (e) {
-            this.setState({ submittingAttendance: false })
-            return false
-        }
-
-        const attendanceData = attendance.children.map(d => ({
-            children_id: d.id, // eslint-disable-line camelcase
-            latitude: location.coords.latitude.toString(),
-            longitude: location.coords.longitude.toString(),
-            attended: d.checked || false
-        }))
-
-        const
-            request = new Request(),
-            { session } = this.props,
-            { url, options } = SUBMIT_ATTENDANCE(session.token, {
-                children: attendanceData,
-                centre_class_id: attendance.centre_class_id, // eslint-disable-line camelcase
-                centre_id: attendance.centre_id, // eslint-disable-line camelcase
-            })
-
-        // check the net status of the app
-        if (!this.state.isConnected) {
             this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Device Offline', 'Please, find a network conncection to send data to our systems.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
+                // Alert.alert('Location unavailable', 'Your location could not be determined,\nplease ensure location is enabled.')
             })
             return false
         }
+
 
         try {
-            await request.fetch(url, options)
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to submit attendace, try again later.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
+            const { session } = this.props;
+
+            await Utils.takeAttendance(session, session.user.centre_id, attendance, location, true)
+
+        } catch(e) {
+            Alert.alert('Error', e.message, [{ text: 'Ok', onPress: this.props.navigator.pop }])
             return false
         }
 
-        // get template from IPD
-        let template = {}
-        try {
-            const templateResponse = await fetch(templateUrl) // eslint-disable-line no-undef
-            template = await templateResponse.json()
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to get Verifiable Claim template, try again later.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
-
-        // digital IDs of the involved entities from api v2 response
-        const digitalIds = {
-            practitioner: session.user.did,
-            centre: session.user.centre.did,
-        }
-
-        const date = new Date().toISOString()
-
-        // create all single verifiable claims
-        const promises = attendanceData.map(childData => {
-            return new Promise((resolve, reject) => {
-                // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
-                const
-                    attendeeSample = JSON.parse(JSON.stringify(template.claim.deliveredService.attendees)),
-                    claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
-                    verifiableClaimSample = JSON.parse(JSON.stringify(template))
-                // subject portion
-                let attendee = attendeeSample
-                attendee.id = childData.id,
-                    attendee.date = date
-                attendee.attended = childData.checked || childData.attended || false
-                // claim portion
-                let claimObject = claimObjectSample
-                claimObject.id = digitalIds.practitioner
-                claimObject.deliveredService.practitioner = digitalIds.practitioner
-                claimObject.deliveredService.geo.latitude = location.coords.latitude
-                claimObject.deliveredService.geo.longitude = location.coords.longitude
-                claimObject.deliveredService.attendees[0] = attendee
-
-                Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
-                    // verifiable claim portion
-                    let verifiableClaim = verifiableClaimSample
-                    verifiableClaim.issuer = digitalIds.centre
-                    verifiableClaim.issued = date
-                    verifiableClaim.claim = claimObject
-                    verifiableClaim.signature.created = date
-                    verifiableClaim.signature.signatureValue = signature
-
-                    resolve(verifiableClaim)
-                }).catch(e => {
-                    reject(e)
-                })
-            })
-        })
-
-        // group all signed verifiable claims for creating the bulk claim
-        let singleClaims = []
-        try {
-            singleClaims = await Promise.all(promises)
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to create children Verifiable Claims.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
-
-        // create bulk attendence verifiable claim
-        let bulkAttendanceClaim = {}
-        try {
-            bulkAttendanceClaim = await createBulkAttendanceClaim(template, singleClaims, location, digitalIds)
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to create bulk Verifiable Claim.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
-
-        const
-            claimsRequest = new Request(),
-            claimsRequestParams = SUBMIT_ATTENDANCE_CLAIMS(session.token, {
-                centreId: attendance.centre_id,
-                bulkClaim: bulkAttendanceClaim,
-                singleClaims
-            })
-
-        // submit the verifiable claims to api v2
-        try {
-            await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
-
-            this.setState({ submittingAttendance: false }, () => {
-                ToastAndroid.show('All verifiable claims have been uploaded', ToastAndroid.LONG)
-                this.props.navigator.pop()
-            })
-
-        } catch (e) {
-            this.setState({ submittingAttendance: false }, () => {
-                Alert.alert('Error', 'Failed to submit Verifiable Claims.', [{ text: 'Ok', onPress: this.props.navigator.pop }])
-            })
-            return false
-        }
         return true
     }
 
@@ -344,10 +209,19 @@ class Settings extends Component {
                     <Text style={styles.buttonTextTitle}>Logout</Text>
                     <Image source={ICONS.exitToApp12} style={styles.rowImage} />
                 </Button>
-                <Button style={styles.button} nativeFeedback={true} onPress={this.onSyncPress}>
-                    <Text style={styles.buttonTextTitle}>Sync</Text>
-                    <Image source={ICONS.sync12} style={styles.rowImage} />
-                </Button>
+                {
+                    this.state.submittingAttendance ? (
+                        <ActivityIndicator
+                            animating
+                            size="large"
+                            style={styles.activityIndicator} />
+                    ) : (
+                        <Button style={styles.button} nativeFeedback={true} onPress={this.onSyncPress}>
+                            <Text style={styles.buttonTextTitle}>Sync</Text>
+                            <Image source={ICONS.sync12} style={styles.rowImage} />
+                        </Button>
+                    )
+                }
                 <Button style={styles.button} nativeFeedback={true} onPress={this.onUpdatePress}>
                     <Text style={styles.buttonTextTitle}>Check for updates</Text>
                     <Image source={ICONS.sync12} style={styles.rowImage} />
@@ -383,6 +257,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.white,
         justifyContent: 'space-between',
         borderBottomColor: COLORS.lightGrey,
+    },
+    activityIndicator: {
+        height: 60,
+        alignSelf: 'center',
     },
     buttonTextTitle: {
         fontSize: 18,

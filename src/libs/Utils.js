@@ -4,32 +4,65 @@
  * Civvals, 50 Seymour Street, London, England, W1H 7JG
  * @author Zayin Krige <zayin@krige.org>
  */
-
 'use-strict'
+
+import Crypto from "./Crypto";
 import { Alert } from 'react-native'
-import { GET_CLASSES, GET_CHILDREN, GET_CHILDREN_FOR_CENTER } from '../constants'
+import { GET_CLASSES, GET_CHILDREN_FOR_CENTER, SUBMIT_ATTENDANCE, SUBMIT_ATTENDANCE_CLAIMS, GET_CHILDREN } from '../constants'
 import { Request } from '../libs/network'
 import CodePush from 'react-native-code-push'
 import PushNotification from 'react-native-push-notification'
 let jwtDecode = require('jwt-decode')
+import buffer from 'buffer/'
+const Buffer = buffer.Buffer
 
-const KEY_NOTIFICATION_ATTENDENCE = '0'
+const KEY_NOTIFICATION_ATTENDANCE = '0'
+
+const templateUrl = 'https://raw.githubusercontent.com/TrustlabTech/amply_schemas/3a656ea/org_ecd_draft.json'
+const createBulkAttendanceClaim = (template, singleClaims, location, digitalIds) => {
+    return new Promise((resolve, reject) => {
+        const date = new Date().toISOString()
+        // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
+        const
+            claimObject = JSON.parse(JSON.stringify(template.claim)),
+            verifiableClaimSample = JSON.parse(JSON.stringify(template))
+
+        claimObject.id = digitalIds.practitioner
+        claimObject.deliveredService.practitioner = digitalIds.practitioner
+        claimObject.deliveredService.geo.latitude = location.coords.latitude
+        claimObject.deliveredService.geo.longitude = location.coords.longitude
+        claimObject.deliveredService.attendees = singleClaims
+
+        Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
+            let verifiableClaim = verifiableClaimSample
+            verifiableClaim.issuer = digitalIds.centre
+            verifiableClaim.issued = date
+            verifiableClaim.claim = claimObject
+            verifiableClaim.signature.created = date
+            verifiableClaim.signature.signatureValue = signature
+
+            resolve(verifiableClaim)
+        }).catch(e => {
+            reject(e)
+        })
+    })
+}
+
 
 export default class Utils {
 
-    static async checkForUpdate() {
+    static checkForUpdate() {
         CodePush.sync({
             updateDialog: true,
             installMode: CodePush.InstallMode.ON_NEXT_RESTART
-        },(status) => {
+        }, (status) => {
             if (status === CodePush.SyncStatus.UPDATE_INSTALLED) {
                 Alert.alert('Success', 'Update installed, please restart app')
             }
         })
-
     }
 
-    static getClasses = async (props) => {
+    static async getClasses(props) {
         const { session } = props
         if (!session.token || !session.user) {
             return []
@@ -48,7 +81,7 @@ export default class Utils {
         }
     }
 
-    static getChildren = async (props) => {
+    static async getChildren(props) {
         const { session } = props
         if (!session.token || !session.user) {
             return []
@@ -66,7 +99,7 @@ export default class Utils {
     static getChildrenForClass(classid, props) {
         let children = props.pupils
         children = children.filter((child) => {
-            return child.centre_class_id == classid
+            return child.centre_class_id === classid
         })
         return children
     }
@@ -86,14 +119,14 @@ export default class Utils {
         return message
     }
 
-    static async getCurrentPosition() {
+    static async getCurrentPosition(geolocation) {
         const options = {
             enableHighAccuracy: false,
             timeout: 1000 * 10, //wait 10s to get location
             maximumAge: 1000 * 60 * 10 //10 minutes old
         }
         return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, options)
+            geolocation.getCurrentPosition(resolve, reject, options)
         }).then(resp => {
             console.log('getCurrentPosition', resp)
             return resp
@@ -104,7 +137,7 @@ export default class Utils {
         })
     }
 
-    static hasTokenExpired = (token) => {
+    static hasTokenExpired(token) {
         let decoded = jwtDecode(token)
         let { exp } = decoded
         let d = new Date().getTime() / 1000
@@ -127,13 +160,13 @@ export default class Utils {
         return dtAlarm
     }
 
-    static timerNotifyAttendance = (day = 0) => {
+    static timerNotifyAttendance(day = 0) {
         let dtAlarm = Utils.getDateNotification(day)
         let dtNow = new Date()
 
         if (dtAlarm - dtNow > 0) {
             PushNotification.localNotificationSchedule({
-                id: KEY_NOTIFICATION_ATTENDENCE,
+                id: KEY_NOTIFICATION_ATTENDANCE,
                 autoCancel: false,
                 message: 'Please take attendance',
                 date: dtAlarm,
@@ -142,12 +175,12 @@ export default class Utils {
         }
     }
 
-    static cancelNotifyAttendance = () => {
-        PushNotification.cancelLocalNotifications({id: KEY_NOTIFICATION_ATTENDENCE})
-        Utils.timerNotifyAttendence(1)
+    static cancelNotifyAttendance() {
+        PushNotification.cancelLocalNotifications({ id: KEY_NOTIFICATION_ATTENDANCE })
+        Utils.timerNotifyAttendance(1)
     }
 
-    static timerNotifySync = (props) => {
+    static timerNotifySync(props) {
         const notifications = props.notifications
         const syncNotification = notifications.syncNotification
         if (syncNotification !== undefined) {
@@ -167,15 +200,128 @@ export default class Utils {
             message: "Please remember to sync your data",
             playSound: true,
             soundName: 'default',
-            date : date
+            date: date
         }
         PushNotification.localNotificationSchedule(details)
-        props.storeNotifications({syncNotification:true})
+        props.storeNotifications({ syncNotification: true })
     }
 
-    static removeSyncNotification = (props) => {
-        PushNotification.cancelLocalNotifications({id: '123'})
+    static removeSyncNotification(props) {
+        PushNotification.cancelLocalNotifications({ id: '123' })
         props.removeNotifications()
 
+    }
+
+    static createAttendanceClaim(childData, digitalIds, template) {
+        const date = new Date().toISOString()
+        return new Promise((resolve, reject) => {
+            // JSON.parse(JSON.stringify()) is a tmp workaround for a tedious object reference issue
+            const
+                attendee = JSON.parse(JSON.stringify(template.claim.deliveredService.attendees)),
+                claimObjectSample = JSON.parse(JSON.stringify(template.claim)),
+                verifiableClaimSample = JSON.parse(JSON.stringify(template))
+            // subject portion
+            attendee.id = childData.children_id
+            attendee.date = date
+            attendee.attended = childData.attended || false
+            // claim portion
+            let claimObject = claimObjectSample
+            claimObject.id = digitalIds.practitioner
+            claimObject.deliveredService.practitioner = digitalIds.practitioner
+            claimObject.deliveredService.geo.latitude = childData.latitude
+            claimObject.deliveredService.geo.longitude = childData.longitude
+            claimObject.deliveredService.attendees[0] = attendee
+
+            Crypto.sign(new Buffer(JSON.stringify(claimObject))).then(signature => {
+                // verifiable claim portion
+                let verifiableClaim = verifiableClaimSample
+                verifiableClaim.issuer = digitalIds.centre
+                verifiableClaim.issued = date
+                verifiableClaim.claim = claimObject
+                verifiableClaim.signature.created = date
+                verifiableClaim.signature.signatureValue = signature
+
+                resolve(verifiableClaim)
+            }).catch(e => {
+                reject(e)
+            })
+        })
+    }
+
+    static async takeAttendance(session, centreId, attendance, location, isSync = false) {
+
+        console.log("session", session)
+        const
+            request = new Request(),
+            { url, options } = SUBMIT_ATTENDANCE(session.token, attendance)
+        try {
+            await request.fetch(url, options)
+        } catch (e) {
+            console.log("request error: ", e);
+            if (isSync){
+                throw new Error('Failed to submit attendance, try again later.')
+            } else {
+                throw new Error('your data will be stored and sent to servers when you sync manually via settings')
+            }
+
+        }
+
+        // get template from IPD
+        let template = {}
+        try {
+            const templateResponse = await fetch(templateUrl) // eslint-disable-line no-undef
+            template = await templateResponse.json()
+        } catch (e) {
+            console.log("error: ", e);
+            throw new Error('Failed to get Verifiable Claim template, try again later.')
+        }
+
+        // digital IDs of the involved entities from api v2 response
+        const digitalIds = {
+            practitioner: session.user.did,
+            centre: session.user.centre.did,
+        } 
+        
+        // create all single verifiable claims
+        
+        attendance = attendance.children
+        const promises = attendance.map(childData => {
+            return this.createAttendanceClaim(childData, digitalIds, template)
+        })
+
+        // group all signed verifiable claims for creating the bulk claim
+        let singleClaims = []
+
+        try {
+            singleClaims = await Promise.all(promises)
+        } catch (e) {
+            throw new Error('Failed to create children Verifiable Claims.')
+        }
+
+        // create bulk attendance verifiable claim
+        let bulkAttendanceClaim = {}
+        try {
+            bulkAttendanceClaim = await createBulkAttendanceClaim(template, singleClaims, location, digitalIds)
+        } catch (e) {
+            throw new Error('Failed to create bulk Verifiable Claim.')
+        }
+
+        const
+            claimsRequest = new Request(),
+            claimsRequestParams = SUBMIT_ATTENDANCE_CLAIMS(session.token, {
+                centreId: centreId,
+                bulkClaim: bulkAttendanceClaim,
+                singleClaims
+            })
+
+         // submit the verifiable claims to api v2
+        try {
+            const res = await claimsRequest.fetch(claimsRequestParams.url, claimsRequestParams.options)
+        } catch (e) {
+            console.error(e.message)
+            throw new Error('Failed to submit Verifiable Claims.')
+        }   
+
+        return true
     }
 }
